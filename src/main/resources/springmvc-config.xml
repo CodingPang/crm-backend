@@ -31,7 +31,7 @@
     depends-on="lifecycleBeanPostProcessor"/>-->
 
   <!--    静态资源的映射-->
-  <!--    项目页面的静态资源-->
+
   <!--    swagger的静态资源-->
   <mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
 <!--       <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>-->

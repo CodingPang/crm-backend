@@ -8,20 +8,73 @@
         <result column="customer_name" property="customerName" />
         <result column="province" property="province" />
         <result column="city" property="city" />
-        <result column="scale_id" property="scaleId" />
-        <result column="type_id" property="typeId" />
-        <result column="source_id" property="sourceId" />
-        <result column="industry_id" property="industryId" />
-        <result column="belong_id" property="belongId" />
         <result column="is_customer" property="isCustomer" />
         <result column="create_time" property="createTime" />
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
+
+        <association property="scale" javaType="com.greatgump.crm.entity.Scale">
+            <id column="scid" property="id"></id>
+            <result column="scope" property="scope"></result>
+        </association>
+
+        <association property="type" javaType="com.greatgump.crm.entity.Type">
+            <id column="tid" property="id"></id>
+            <result column="tname" property="name"></result>
+        </association>
+
+        <association property="source" javaType="com.greatgump.crm.entity.Source">
+            <id column="soid" property="id"></id>
+            <result column="soname" property="name"></result>
+        </association>
+
+        <association property="industry" javaType="com.greatgump.crm.entity.Industry">
+            <id column="inid" property="id"></id>
+            <result column="iname" property="name"></result>
+        </association>
+
+        <association property="belong" javaType="com.greatgump.crm.entity.User">
+            <id column="uid" property="id"></id>
+            <result column="username" property="username"></result>
+        </association>
+
+        <collection property="contacts" ofType="com.greatgump.crm.entity.Contact">
+            <id column="ctid" property="id"></id>
+            <result column="contactname" property="contactName"></result>
+            <result column="mail" property="mail"></result>
+            <result column="phone" property="phone"></result>
+            <result column="qq" property="qq"></result>
+            <result column="department" property="department"></result>
+            <result column="wechat" property="wechat"></result>
+            <result column="def" property="isDefault"></result>
+        </collection>
+
     </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, customer_name, province, city, scale_id, type_id, source_id, industry_id, belong_id, is_customer, create_time, remark, is_delete
-    </sql>
+    <select id="queryAllCustomer" resultMap="BaseResultMap">
+        SELECT tcs.*,
+               tc.id ctid,tc.contact_name contactname,tc.mail,tc.phone,tc.qq,tc.department,tc.wechat,tc.is_default def,
+               ti.id inid,ti.name iname,
+               tsc.id scid,tsc.scope,
+               tso.id soid,tso.name soname,
+               tt.id tid,tt.name tname,
+               u.id uid,u.username
+        FROM t_customer tcs,t_contact tc,t_industry ti,t_scale tsc,t_source tso,t_type tt,t_user u
+        WHERE tcs.scale_id = tsc.id AND tcs.type_id = tt.id AND tcs.source_id = tso.id AND tcs.industry_id = ti.id
+          AND tcs.id = tc.customer_id AND u.id=tcs.belong_id AND tcs.is_customer = 1
+    </select>
+    <select id="queryAllSeas" resultMap="BaseResultMap">
+        SELECT tcs.*,
+               tc.id ctid,tc.contact_name contactname,tc.mail,tc.phone,tc.qq,tc.department,tc.wechat,tc.is_default def,
+               ti.id inid,ti.name iname,
+               tsc.id scid,tsc.scope,
+               tso.id soid,tso.name soname,
+               tt.id tid,tt.name tname,
+               u.id uid,u.username
+        FROM t_customer tcs,t_contact tc,t_industry ti,t_scale tsc,t_source tso,t_type tt,t_user u
+        WHERE tcs.scale_id = tsc.id AND tcs.type_id = tt.id AND tcs.source_id = tso.id AND tcs.industry_id = ti.id
+          AND tcs.id = tc.customer_id AND u.id=tcs.belong_id AND tcs.is_customer = 0
+    </select>
+
 
 </mapper>

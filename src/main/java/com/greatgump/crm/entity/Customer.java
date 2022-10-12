@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -45,25 +47,25 @@ public class Customer implements Serializable {
     @TableField("city")
     private String city;
 
-    @ApiModelProperty("企业规模id")
-    @TableField("scale_id")
-    private Long scaleId;
+    @ApiModelProperty("企业规模对象")
+    @TableField(exist = false)
+    private Scale scale;
 
-    @ApiModelProperty("客户类别id")
-    @TableField("type_id")
-    private Long typeId;
+    @ApiModelProperty("客户类别对象")
+    @TableField(exist = false)
+    private Type type;
 
-    @ApiModelProperty("客户来源id")
-    @TableField("source_id")
-    private Long sourceId;
+    @ApiModelProperty("客户来源对象")
+    @TableField(exist = false)
+    private Source source;
 
-    @ApiModelProperty("客户行业id")
-    @TableField("industry_id")
-    private Long industryId;
+    @ApiModelProperty("客户行业对象")
+    @TableField(exist = false)
+    private Industry industry;
 
-    @ApiModelProperty("客户归属人员id")
-    @TableField("belong_id")
-    private Long belongId;
+    @ApiModelProperty("客户归属")
+    @TableField(exist = false)
+    private User belong;
 
     @ApiModelProperty("1是客户，0是公海")
     @TableField("is_customer")
@@ -81,5 +83,8 @@ public class Customer implements Serializable {
     @TableField("is_delete")
     private Integer isDelete;
 
+    @ApiModelProperty("联系人集合")
+    @TableField(exist = false)
+    private List<Contact> contacts;
 
 }

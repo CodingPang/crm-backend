@@ -4,6 +4,8 @@ import com.greatgump.crm.entity.Customer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 顾客表 Mapper 接口
@@ -14,5 +16,10 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface CustomerMapper extends BaseMapper<Customer> {
+
+    List<Customer> queryAllCustomer();
+    List<Customer> queryAllSeas();
+
+
 
 }
