@@ -14,5 +14,6 @@ import java.util.List;
  * @since 2022-10-12 10:31:27
  */
 public interface CustomerService extends IService<Customer> {
-    List<Customer> queryAll();
+    List<Customer> queryAllCustomer();
+    List<Customer> queryAllSeas();
 }

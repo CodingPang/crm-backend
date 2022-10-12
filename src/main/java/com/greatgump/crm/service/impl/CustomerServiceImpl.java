@@ -22,7 +22,12 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
     @Autowired
     private CustomerMapper customerMapper;
     @Override
-    public List<Customer> queryAll() {
-        return customerMapper.queryALl();
+    public List<Customer> queryAllCustomer() {
+        return customerMapper.queryAllCustomer();
+    }
+
+    @Override
+    public List<Customer> queryAllSeas() {
+        return customerMapper.queryAllSeas();
     }
 }
