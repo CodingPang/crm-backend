@@ -4,7 +4,10 @@ import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.mapper.CustomerMapper;
 import com.greatgump.crm.service.CustomerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,5 +19,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> implements CustomerService {
-
+    @Autowired
+    private CustomerMapper customerMapper;
+    @Override
+    public List<Customer> queryAll() {
+        return customerMapper.queryALl();
+    }
 }
