@@ -1,5 +1,6 @@
 package com.greatgump.crm.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.entity.Customer;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -14,6 +15,6 @@ import java.util.List;
  * @since 2022-10-12 10:31:27
  */
 public interface CustomerService extends IService<Customer> {
-    List<Customer> queryAllCustomer();
-    List<Customer> queryAllSeas();
+    Page<Customer> queryAllCustomer(Page page);
+    Page<Customer> queryAllSeas(Page page);
 }
