@@ -40,7 +40,16 @@ public class CustomerController {
 
         return R.ok().put("pageInfo",pageInfo);
     }
-    @ApiOperation("获取所有海员")
+    @ApiOperation("获取我的客户")
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
+    @GetMapping("/customers/{uid}/{current}/{size}")
+    public R getCustomerByUid(@PathVariable("uid") int uid,@PathVariable("current") int current, @PathVariable("size") int size){
+        Page<Customer> customerPage = new Page<>(current,size);
+        Page<Customer> pageInfo = customerService.queryCustomerByUid(uid,customerPage);
+
+        return R.ok().put("pageInfo",pageInfo);
+    }
+    @ApiOperation("获取所有公海")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/seas/{current}/{size}")
     public R getAllSeas(@PathVariable("current") int current, @PathVariable("size") int size){
