@@ -3,18 +3,22 @@
 <configuration>
 
     <!--设置日志输出语句,显示相应操作的sql语名-->
+<<<<<<< HEAD
+    <settings>
+      <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+=======
 <!--    <settings>
 &lt;!&ndash;        使用mybatis本身实现的日志组件&ndash;&gt;
 &lt;!&ndash;        <setting name="logImpl" value="STDOUT_LOGGING"/>&ndash;&gt;
 &lt;!&ndash;        使用第三方的日志组件：logback &ndash;&gt;
 &lt;!&ndash;        <setting name="logImpl" value="LOGBACK"/>&ndash;&gt;
     </settings>-->
+>>>>>>> 44f153a886489358d95ba1fb4e2c8e93277ce10c
     <!--设置别名-->
     <typeAliases>
         <package name="com.greatgump.crm.entity"></package>
     </typeAliases>
-
-
 
 
 </configuration>
