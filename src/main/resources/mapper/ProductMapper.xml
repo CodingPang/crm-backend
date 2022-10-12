@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.ProductMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Product">
+        <id column="id" property="id" />
+        <result column="product_code" property="productCode" />
+        <result column="classification" property="classification" />
+        <result column="product_name" property="productName" />
+        <result column="unit" property="unit" />
+        <result column="assort_id" property="assortId" />
+        <result column="creation_date" property="creationDate" />
+        <result column="remark" property="remark" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, product_code, classification, product_name, unit, assort_id, creation_date, remark, is_delete
+    </sql>
+
+</mapper>

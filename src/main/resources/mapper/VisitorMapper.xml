@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.VisitorMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Visitor">
+        <id column="id" property="id" />
+        <result column="start_time" property="startTime" />
+        <result column="plan_title" property="planTitle" />
+        <result column="customer_name" property="customerName" />
+        <result column="person_charge" property="personCharge" />
+        <result column="planned_progress" property="plannedProgress" />
+        <result column="Importance" property="importance" />
+        <result column="remark" property="remark" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, start_time, plan_title, customer_name, person_charge, planned_progress, Importance, remark, is_delete
+    </sql>
+
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.WorkorderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Workorder">
+        <id column="id" property="id" />
+        <result column="work_order_number" property="workOrderNumber" />
+        <result column="repair_order_title" property="repairOrderTitle" />
+        <result column="start_time" property="startTime" />
+        <result column="initiator" property="initiator" />
+        <result column="handler" property="handler" />
+        <result column="work_order_status" property="workOrderStatus" />
+        <result column="emergency_degree" property="emergencyDegree" />
+        <result column="customer_name" property="customerName" />
+        <result column="work_order_details" property="workOrderDetails" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, work_order_number, repair_order_title, start_time, initiator, handler, work_order_status, emergency_degree, customer_name, work_order_details
+    </sql>
+
+</mapper>

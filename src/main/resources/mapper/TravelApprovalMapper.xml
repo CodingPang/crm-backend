@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.TravelApprovalMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.TravelApproval">
+        <id column="id" property="id" />
+        <result column="travel_reason" property="travelReason" />
+        <result column="travel_days" property="travelDays" />
+        <result column="approval_status" property="approvalStatus" />
+        <result column="submit_personnel" property="submitPersonnel" />
+        <result column="submission_time" property="submissionTime" />
+        <result column="remark" property="remark" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, travel_reason, travel_days, approval_status, submit_personnel, submission_time, remark, is_delete
+    </sql>
+
+</mapper>

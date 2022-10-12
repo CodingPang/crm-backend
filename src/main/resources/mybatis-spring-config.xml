@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           https://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/aop
+           https://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+  <bean id="placeholderConfigurer"
+    class="com.greatgump.crm.utils.DBPropertyPlaceholderConfigurer">
+    <property name="locations" value="classpath:jdbc.properties" />
+    <property name="encryptedProperties">
+      <array>
+        <value>jdbc.username</value>
+        <value>jdbc.password</value>
+      </array>
+    </property>
+  </bean>
+
+  <context:property-placeholder location="classpath:jdbc.properties" ignore-resource-not-found="true"/>
+
+  <!--    准备dataSource，将数据库配置文件的信息放入数据源执行-->
+  <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+    <property name="driverClassName" value="${jdbc.driver}"></property>
+    <property name="url" value="${jdbc.url}"></property>
+    <property name="username" value="${jdbc.username}"></property>
+    <property name="password" value="${jdbc.password}"></property>
+  </bean>
+  <!--    将sqlSessionFactory交给spring管理-->
+  <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+    <!--        配置数据源-->
+    <property name="dataSource" ref="dataSource"></property>
+    <!--        加载mybatis总配置文件(可用可不用)-->
+<!--    <property name="configLocation" value="classpath:mybatis-config.xml"></property>-->
+    <!--        加载所有的mapper映射文件-->
+    <property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+    <!--设置分页插件 -->
+    <property name="plugins" ref="interceptor"/>
+  </bean>
+
+  <!-- 插件对象-->
+  <bean class="com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor"
+    id="interceptor">
+    <property name="interceptors" ref="interceptor2"/>
+  </bean>
+
+  <!--指定数据库类型 -->
+  <bean class="com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor"
+    id="interceptor2">
+    <property name="dbType" value="MYSQL"/><!--这里是mysql数据库 -->
+  </bean>
+
+
+  <!--    将mapper接口 交给spring管理-->
+  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="com.greatgump.crm.mapper"></property>
+  </bean>
+
+  <!--   将service交给spring管理 -->
+  <context:component-scan
+    base-package="com.greatgump.crm.service"></context:component-scan>
+
+  <!--    事务管理-->
+  <!--添加事务管理器-->
+  <bean id="transactionManager"
+    class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <!--切记切记:配置数据源-->
+    <property name="dataSource" ref="dataSource"></property>
+  </bean>
+
+  <!--配置事务切面-->
+  <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    <tx:attributes>
+      <tx:method name="*select*" read-only="true"/>
+      <tx:method name="*find*" read-only="true"/>
+      <tx:method name="*search*" read-only="true"/>
+      <tx:method name="*get*" read-only="true"/>
+      <tx:method name="*insert*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+      <tx:method name="*add*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+      <tx:method name="*save*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+      <tx:method name="*set*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+      <tx:method name="*update*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+      <tx:method name="*change*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+      <tx:method name="*modify*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+      <tx:method name="*delete*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+      <tx:method name="*drop*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+      <tx:method name="*remove*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+      <tx:method name="*clear*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+      <tx:method name="*" propagation="SUPPORTS"/>
+    </tx:attributes>
+  </tx:advice>
+
+  <!--配置切入点+绑定-->
+  <aop:config>
+    <aop:pointcut id="mycut" expression="execution(* com.greatgump.crm.service.impl.*.*(..))"/>
+    <aop:advisor advice-ref="txAdvice" pointcut-ref="mycut"></aop:advisor>
+  </aop:config>
+
+
+</beans>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.LoanMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Loan">
+        <id column="id" property="id" />
+        <result column="associated_business" property="associatedBusiness" />
+        <result column="loan_amount" property="loanAmount" />
+        <result column="cause" property="cause" />
+        <result column="approval_status" property="approvalStatus" />
+        <result column="appplication_time" property="appplicationTime" />
+        <result column="applicant" property="applicant" />
+        <result column="remark" property="remark" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, associated_business, loan_amount, cause, approval_status, appplication_time, applicant, remark, is_delete
+    </sql>
+
+</mapper>

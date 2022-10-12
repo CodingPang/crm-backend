@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.LeaveApprovalMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.LeaveApproval">
+        <id column="id" property="id" />
+        <result column="leave_type" property="leaveType" />
+        <result column="submit_personnel" property="submitPersonnel" />
+        <result column="leave_reason" property="leaveReason" />
+        <result column="leave_Days" property="leaveDays" />
+        <result column="approval_status" property="approvalStatus" />
+        <result column="submission_time" property="submissionTime" />
+        <result column="remark" property="remark" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, leave_type, submit_personnel, leave_reason, leave_Days, approval_status, submission_time, remark, is_delete
+    </sql>
+
+</mapper>

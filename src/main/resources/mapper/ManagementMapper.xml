@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.ManagementMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Management">
+        <id column="id" property="id" />
+        <id column="customer_name" property="customerName" />
+        <result column="follow_content" property="followContent" />
+        <result column="follow_time" property="followTime" />
+        <result column="person_charge" property="personCharge" />
+        <result column="follow_type" property="followType" />
+        <result column="follow_method" property="followMethod" />
+        <result column="contact_personnel" property="contactPersonnel" />
+        <result column="contact_number" property="contactNumber" />
+        <result column="creation_time" property="creationTime" />
+        <result column="remark" property="remark" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, follow_content, follow_time, customer_name, person_charge, follow_type, follow_method, contact_personnel, contact_number, creation_time, remark, is_delete
+    </sql>
+
+</mapper>

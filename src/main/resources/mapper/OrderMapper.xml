@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.OrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Order">
+        <id column="id" property="id" />
+        <result column="customer_name" property="customerName" />
+        <result column="order_title" property="orderTitle" />
+        <result column="oder_status" property="oderStatus" />
+        <result column="oder_total" property="oderTotal" />
+        <result column="total_res" property="totalRes" />
+        <result column="total_ticket" property="totalTicket" />
+        <result column="remark" property="remark" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, customer_name, order_title, oder_status, oder_total, total_res, total_ticket, remark, is_delete
+    </sql>
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.OfferMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Offer">
+        <id column="id" property="id" />
+        <result column="odd_num" property="oddNum" />
+        <result column="creation_date" property="creationDate" />
+        <result column="customer" property="customer" />
+        <result column="saler" property="saler" />
+        <result column="contacts" property="contacts" />
+        <result column="price" property="price" />
+        <result column="discount_tate" property="discountTate" />
+        <result column="offer" property="offer" />
+        <result column="remake" property="remake" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, odd_num, creation_date, customer, saler, contacts, price, discount_tate, offer, remake, is_delete
+    </sql>
+
+</mapper>

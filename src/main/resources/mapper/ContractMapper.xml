@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.ContractMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Contract">
+        <id column="id" property="id" />
+        <result column="contract_num" property="contractNum" />
+        <result column="signing_date" property="signingDate" />
+        <result column="contract_name" property="contractName" />
+        <result column="customer_name" property="customerName" />
+        <result column="our_signatory" property="ourSignatory" />
+        <result column="your_signatory" property="yourSignatory" />
+        <result column="contract_amount" property="contractAmount" />
+        <result column="saler" property="saler" />
+        <result column="contacts" property="contacts" />
+        <result column="contrac_url" property="contracUrl" />
+        <result column="contacts_phone" property="contactsPhone" />
+        <result column="pay_method" property="payMethod" />
+        <result column="pay_date" property="payDate" />
+        <result column="remake" property="remake" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, contract_num, signing_date, contract_name, customer_name, our_signatory, your_signatory, contract_amount, saler, contacts, contrac_url, contacts_phone, pay_method, pay_date, remake, is_delete
+    </sql>
+
+</mapper>
