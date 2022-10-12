@@ -2,7 +2,7 @@ package com.greatgump.crm.service.impl;
 
 import com.greatgump.crm.entity.BackMoneyApproval;
 import com.greatgump.crm.mapper.BackMoneyApprovalMapper;
-import com.greatgump.crm.service.CollectionService;
+import com.greatgump.crm.service.BackMoneyApprovalService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
  * @since 2022-10-12 10:31:27
  */
 @Service
-public class CollectionServiceImpl extends ServiceImpl<BackMoneyApprovalMapper, BackMoneyApproval> implements CollectionService {
+public class BackMoneyApprovalServiceImpl extends ServiceImpl<BackMoneyApprovalMapper, BackMoneyApproval> implements
+    BackMoneyApprovalService {
 
 }

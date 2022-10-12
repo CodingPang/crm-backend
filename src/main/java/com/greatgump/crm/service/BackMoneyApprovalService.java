@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author team6
  * @since 2022-10-12 10:31:27
  */
-public interface CollectionService extends IService<BackMoneyApproval> {
+public interface BackMoneyApprovalService extends IService<BackMoneyApproval> {
 
 }
