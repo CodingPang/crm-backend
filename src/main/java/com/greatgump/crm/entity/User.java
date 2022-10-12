@@ -44,7 +44,7 @@ public class User implements Serializable {
     @TableField("salt")
     private String salt;
 
-//    @ApiModelProperty("逻辑删除(0表示未删，1表示删除)")
+    @ApiModelProperty("逻辑删除(0表示未删，1表示删除)")
     @TableField("is_delete")
     private String isDelete;
 
