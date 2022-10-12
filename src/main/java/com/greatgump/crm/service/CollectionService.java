@@ -1,6 +1,6 @@
 package com.greatgump.crm.service;
 
-import com.greatgump.crm.entity.Collection;
+import com.greatgump.crm.entity.BackMoneyApproval;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author team6
  * @since 2022-10-12 10:31:27
  */
-public interface CollectionService extends IService<Collection> {
+public interface CollectionService extends IService<BackMoneyApproval> {
 
 }

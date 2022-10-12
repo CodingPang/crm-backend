@@ -26,7 +26,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("t_collection")
 @ApiModel(value = "Collection对象", description = "回款审批")
-public class Collection implements Serializable {
+public class BackMoneyApproval implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

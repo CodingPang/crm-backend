@@ -1,6 +1,6 @@
 package com.greatgump.crm.mapper;
 
-import com.greatgump.crm.entity.Collection;
+import com.greatgump.crm.entity.BackMoneyApproval;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,6 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2022-10-12 10:31:27
  */
 @Mapper
-public interface CollectionMapper extends BaseMapper<Collection> {
+public interface BackMoneyApprovalMapper extends BaseMapper<BackMoneyApproval> {
 
 }
