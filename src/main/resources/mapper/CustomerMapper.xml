@@ -75,6 +75,18 @@
         WHERE tcs.scale_id = tsc.id AND tcs.type_id = tt.id AND tcs.source_id = tso.id AND tcs.industry_id = ti.id
           AND tcs.id = tc.customer_id AND u.id=tcs.belong_id AND tcs.is_customer = 0
     </select>
+    <select id="queryCustomerByUid" resultMap="BaseResultMap" parameterType="int">
+        SELECT tcs.*,
+               tc.id ctid,tc.contact_name contactname,tc.mail,tc.phone,tc.qq,tc.department,tc.wechat,tc.is_default def,
+               ti.id inid,ti.name iname,
+               tsc.id scid,tsc.scope,
+               tso.id soid,tso.name soname,
+               tt.id tid,tt.name tname,
+               u.id uid,u.username
+        FROM t_customer tcs,t_contact tc,t_industry ti,t_scale tsc,t_source tso,t_type tt,t_user u
+        WHERE tcs.scale_id = tsc.id AND tcs.type_id = tt.id AND tcs.source_id = tso.id AND tcs.industry_id = ti.id
+          AND tcs.id = tc.customer_id AND u.id=tcs.belong_id AND tcs.is_customer = 0 AND tcs.belong_id = #{uid}
+    </select>
 
 
 </mapper>

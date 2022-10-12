@@ -31,4 +31,9 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
     public Page<Customer> queryAllSeas(Page page) {
         return customerMapper.queryAllSeas(page);
     }
+
+    @Override
+    public Page<Customer> queryCustomerByUid(Integer uid, Page page) {
+        return customerMapper.queryCustomerByUid(uid, page);
+    }
 }
