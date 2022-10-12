@@ -1,5 +1,6 @@
 package com.greatgump.crm.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.entity.Customer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,8 +18,8 @@ import java.util.List;
 @Mapper
 public interface CustomerMapper extends BaseMapper<Customer> {
 
-    List<Customer> queryAllCustomer();
-    List<Customer> queryAllSeas();
+    Page<Customer> queryAllCustomer(Page page);
+    Page<Customer> queryAllSeas(Page page);
 
 
 

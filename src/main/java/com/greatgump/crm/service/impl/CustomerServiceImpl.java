@@ -1,5 +1,6 @@
 package com.greatgump.crm.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.mapper.CustomerMapper;
 import com.greatgump.crm.service.CustomerService;
@@ -22,12 +23,12 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
     @Autowired
     private CustomerMapper customerMapper;
     @Override
-    public List<Customer> queryAllCustomer() {
-        return customerMapper.queryAllCustomer();
+    public Page<Customer> queryAllCustomer(Page page) {
+        return customerMapper.queryAllCustomer(page);
     }
 
     @Override
-    public List<Customer> queryAllSeas() {
-        return customerMapper.queryAllSeas();
+    public Page<Customer> queryAllSeas(Page page) {
+        return customerMapper.queryAllSeas(page);
     }
 }
