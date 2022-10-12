@@ -20,14 +20,20 @@ import java.util.List;
  * @since 2022-10-12 10:31:27
  */
 @RestController
-@RequestMapping("/crm/customer")
+@RequestMapping("/crm")
 public class CustomerController {
     @Autowired
     private CustomerService  customerService;
 
-    @GetMapping("/all")
-    public R getAll(){
-        List<Customer> customers = customerService.queryAll();
+    @GetMapping("/customer")
+    public R getAllCustomer(){
+        List<Customer> customers = customerService.queryAllCustomer();
+
+        return R.ok().put("coutomers",customers);
+    }
+    @GetMapping("/seas")
+    public R getAllSeas(){
+        List<Customer> customers = customerService.queryAllSeas();
 
         return R.ok().put("coutomers",customers);
     }
