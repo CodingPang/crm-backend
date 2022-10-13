@@ -5,7 +5,6 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Loan">
         <id column="id" property="id" />
-        <result column="associated_business" property="associatedBusiness" />
         <result column="loan_amount" property="loanAmount" />
         <result column="cause" property="cause" />
         <result column="approval_status" property="approvalStatus" />
@@ -13,6 +12,10 @@
         <result column="applicant" property="applicant" />
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
+        <association javaType="com.greatgump.crm.entity.Customer" property="associatedBusiness" >
+            <id column="id" property="id"/>
+            <result column="customer_name" property="customerName"/>
+        </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->

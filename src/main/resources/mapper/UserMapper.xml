@@ -8,12 +8,15 @@
         <result column="username" property="username" />
         <result column="password" property="password" />
         <result column="salt" property="salt" />
+        <result column="parent_id" property="parentId" />
+        <result column="dept_no" property="deptNo" />
+        <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, password, salt, is_delete
+        id, username, password, salt, parent_id, dept_no, remark, is_delete
     </sql>
 
 </mapper>

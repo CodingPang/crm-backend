@@ -3,6 +3,7 @@ package com.greatgump.crm.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
@@ -23,11 +24,10 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @TableName("t_user")
-@ApiModel(value = "User对象", description = "用户实体类")
+@ApiModel(value = "User对象", description = "用户")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @ApiModelProperty("主键，自增")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
@@ -40,13 +40,25 @@ public class User implements Serializable {
     @TableField("password")
     private String password;
 
-//    @ApiModelProperty("盐值")
+    @ApiModelProperty("盐值")
     @TableField("salt")
     private String salt;
 
+    @ApiModelProperty("上级")
+    @TableField("parent_id")
+    private Long parentId;
+
+    @ApiModelProperty("部门编号(外键)")
+    @TableField("dept_no")
+    private Long deptNo;
+
+    @ApiModelProperty("备注")
+    @TableField("remark")
+    private String remark;
+
     @ApiModelProperty("逻辑删除(0表示未删，1表示删除)")
     @TableField("is_delete")
+    @TableLogic
     private String isDelete;
-
 
 }

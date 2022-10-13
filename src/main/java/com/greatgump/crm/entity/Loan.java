@@ -36,7 +36,7 @@ public class Loan implements Serializable {
 
     @ApiModelProperty("关联业务")
     @TableField("associated_business")
-    private String associatedBusiness;
+    private Customer associatedBusiness;
 
     @ApiModelProperty("借款金额")
     @TableField("loan_amount")
@@ -48,7 +48,7 @@ public class Loan implements Serializable {
 
     @ApiModelProperty("审批状态（1表示已通过，2表示待审批，0表示已驳回）")
     @TableField("approval_status")
-    private String approvalStatus;
+    private Integer approvalStatus;
 
     @ApiModelProperty("申请时间")
     @TableField("appplication_time")
