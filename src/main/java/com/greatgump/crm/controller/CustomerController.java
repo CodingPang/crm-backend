@@ -64,7 +64,7 @@ public class CustomerController {
     @PutMapping("/customer")
     public Result saveCustomer(@RequestBody Customer customer){
         boolean b = customerService.saveCustomer(customer);
-       return Result.judge(b);
+        return Result.judge(b);
     }
     @ApiOperation("修改客户")
     @PostMapping("/customer")
