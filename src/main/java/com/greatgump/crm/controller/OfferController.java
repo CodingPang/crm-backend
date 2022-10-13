@@ -68,7 +68,7 @@ public class OfferController {
         return Result.judge(flag);
     }
 
-    @ApiOperation("报价管理页面修改按钮")
+    @ApiOperation("管理页面修改按钮")
     @GetMapping("/crm/offer/pre_update")
     private Result<Offer> preUpdate(Long id){
         return Result.success(offerService.getById(id));
