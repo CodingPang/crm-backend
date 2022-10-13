@@ -5,6 +5,7 @@ import com.greatgump.crm.common.R;
 import com.greatgump.crm.entity.Contact;
 import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.service.ContactService;
+import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -31,43 +32,43 @@ public class ContactController {
     @ApiOperation("获取所有联系人")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/contacts/{current}/{size}")
-    public R getAllContact(@PathVariable("current") int current, @PathVariable("size") int size){
+    public Result<List<Contact>> getAllContact(@PathVariable("current") int current, @PathVariable("size") int size){
         Page<Contact> contactPage = new Page<>(current,size);
         Page<Contact> pageInfo = contactService.queryAllContact(contactPage);
 
-        return R.ok().put("pageInfo",pageInfo);
+        return Result.success(pageInfo.getRecords(),pageInfo.getTotal());
     }
 
     @ApiOperation("添加联系人")
     @PutMapping("/contacts")
-    public R saveContact(@RequestBody Contact contact){
+    public Result saveContact(@RequestBody Contact contact){
 
         int s = contactService.saveContact(contact);
-        return s>0?R.ok():R.error();
+        return s>0?Result.success():Result.failed();
     }
 
     @ApiOperation("编辑首位联系人")
     @PostMapping("/contacts")
-    public R editContact(@RequestBody Contact contact){
+    public Result editContact(@RequestBody Contact contact){
         boolean b = contactService.updateById(contact);
-        return b?R.ok():R.error();
+        return Result.judge(b);
     }
 
     @ApiOperation("单个删除联系人")
     @DeleteMapping("/contacts/{id}")
-    public R deleteById(@PathVariable Integer id){
+    public Result deleteById(@PathVariable Integer id){
         boolean b = contactService.removeById(id);
-        return b?R.ok():R.error();
+        return Result.judge(b);
     }
 
     @ApiOperation("批量删除联系人")
     @DeleteMapping("/contacts")
-    public R batchDelete(@RequestBody List<Contact> contacts){
+    public Result batchDelete(@RequestBody List<Contact> contacts){
         boolean b = false;
         for (Contact contact : contacts) {
             b = contactService.removeById(contact.getId());
         }
 
-        return b?R.ok():R.error();
+        return Result.judge(b);
     }
 }
