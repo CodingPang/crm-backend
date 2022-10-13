@@ -1,6 +1,8 @@
 package com.greatgump.crm.dto;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.greatgump.crm.entity.Dept;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,6 +22,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class UserDto {
+  private static final long serialVersionUID = 1L;
+  @ApiModelProperty("主键，自增")
+  @TableId(value = "id", type = IdType.AUTO)
+  private Long id;
+
   @ApiModelProperty("用户名")
   @TableField("username")
   private String username;
