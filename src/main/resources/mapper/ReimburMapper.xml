@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.ReimburMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Reimbur">
+        <id column="id" property="id" />
+        <result column="reimbur_no" property="reimburNo" />
+        <result column="reimbur_dept" property="reimburDept" />
+        <result column="reimbur_money" property="reimburMoney" />
+        <result column="submit_time" property="submitTime" />
+        <result column="reimburer" property="reimburer" />
+        <result column="check_status" property="checkStatus" />
+        <result column="check_time" property="checkTime" />
+        <result column="checker" property="checker" />
+        <result column="pay_method" property="payMethod" />
+        <result column="pay_status" property="payStatus" />
+        <result column="remark" property="remark" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, reimbur_no, reimbur_dept, reimbur_money, submit_time, reimburer, check_status, check_time, checker, pay_method, pay_status, remark, is_delete
+    </sql>
+
+</mapper>

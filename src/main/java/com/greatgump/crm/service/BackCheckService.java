@@ -1,7 +1,7 @@
 package com.greatgump.crm.service;
 
-import com.greatgump.crm.entity.BackMoneyApproval;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.greatgump.crm.entity.BackCheck;
 
 /**
  * <p>
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author team6
- * @since 2022-10-12 10:31:27
+ * @since 2022-10-14 01:52:00
  */
-public interface BackMoneyApprovalService extends IService<BackMoneyApproval> {
+public interface BackCheckService extends IService<BackCheck> {
 
 }

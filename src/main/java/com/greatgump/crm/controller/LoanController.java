@@ -7,7 +7,6 @@ import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.entity.Loan;
 import com.greatgump.crm.entity.Order;
 import com.greatgump.crm.service.LoanService;
-import com.sun.xml.internal.bind.v2.TODO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -67,10 +66,10 @@ public class LoanController {
 
     Business business01 = new Business();
     business01.setId(1L);
-    business01.setOpportunityTitle("商机标题1");
+    business01.setBussinessTitle("商机标题1");
     Business business02 = new Business();
     business02.setId(1L);
-    business02.setOpportunityTitle("商机标题2");
+    business02.setBussinessTitle("商机标题2");
     List<Business> businessList = new ArrayList<>();
     businessList.add(business01);
     businessList.add(business02);
