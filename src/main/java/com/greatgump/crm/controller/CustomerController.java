@@ -3,6 +3,7 @@ package com.greatgump.crm.controller;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.common.R;
+import com.greatgump.crm.dto.BoxDto;
 import com.greatgump.crm.dto.CustomerDto;
 import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.service.ContactService;
@@ -32,6 +33,14 @@ public class CustomerController {
     @Autowired
     private CustomerService  customerService;
 
+    @ApiOperation("获取客户相关下拉框")
+    @GetMapping("/box")
+    public Result<BoxDto> queryAllBox(){
+
+        BoxDto boxDto = customerService.queryAllBox();
+        return Result.success(boxDto);
+    }
+
     @ApiOperation("获取所有客户")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/customers/{current}/{size}")
@@ -42,7 +51,7 @@ public class CustomerController {
         return Result.success(pageInfo.getRecords(),pageInfo.getTotal());
     }
     @ApiOperation("获取我的客户")
-    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "uid",value ="用户的ID",required = true),@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/customers/{uid}/{current}/{size}")
     public Result<List<Customer>> getCustomerByUid(@PathVariable("uid") int uid,@PathVariable("current") int current, @PathVariable("size") int size){
         Page<Customer> customerPage = new Page(current,size);
@@ -60,20 +69,20 @@ public class CustomerController {
         return Result.success(pageInfo.getRecords(),pageInfo.getTotal());
     }
 
-    @ApiOperation("添加客户")
+    @ApiOperation("新增客户")
     @PutMapping("/customer")
     public Result saveCustomer(@RequestBody Customer customer){
         boolean b = customerService.saveCustomer(customer);
         return Result.judge(b);
     }
-    @ApiOperation("修改客户")
+    @ApiOperation("修改客户或者公海")
     @PostMapping("/customer")
     public Result editCustomer(@RequestBody Customer customer){
         boolean b = customerService.updateById(customer);
         return Result.judge(b);
     }
     @ApiOperation("删除单个客户或者公海")
-    @ApiImplicitParams(value = {@ApiImplicitParam(name = "id",value ="客户的id",required = true)})
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "id",value ="客户或者公海的id",required = true)})
     @DeleteMapping("/customer/{id}")
     public Result deleteById(@PathVariable("id") Integer id){
         boolean b = customerService.removeById(id);
@@ -90,6 +99,7 @@ public class CustomerController {
         return Result.judge(b);
     }
     @ApiOperation("转移客户")
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "uid",value ="转移的用户ID",required = true)})
     @PostMapping("/customer/transfer/{uid}")
     public Result transferCustomer(@RequestBody List<CustomerDto> customerDtos,@PathVariable("uid")Integer uid){
         boolean b = false;
@@ -109,6 +119,20 @@ public class CustomerController {
             UpdateWrapper<Customer> wrapper = new UpdateWrapper();
             wrapper.eq("id", customerDto.getId());
             wrapper.set("is_customer", 0);
+            b = customerService.update(wrapper);
+        }
+        return Result.judge(b);
+    }
+
+    @ApiOperation("领取客户")
+    @PostMapping("/customer/receive/{uid}")
+    public Result receiveCustomer(@PathVariable("uid")Integer uid,@RequestBody List<CustomerDto> customerDtos){
+        boolean b = false;
+        for (CustomerDto customerDto : customerDtos) {
+            UpdateWrapper<Customer> wrapper = new UpdateWrapper();
+            wrapper.eq("id", customerDto.getId());
+            wrapper.set("is_customer", 1);
+            wrapper.set("user_id", uid);
             b = customerService.update(wrapper);
         }
         return Result.judge(b);
