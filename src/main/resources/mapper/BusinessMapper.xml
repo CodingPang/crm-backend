@@ -5,7 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Business">
         <id column="id" property="id" />
-        <result column="username" property="username" />
+        <result column="customer_id" property="customerId" />
         <result column="opportunity_title" property="opportunityTitle" />
         <result column="opportunity_stage" property="opportunityStage" />
         <result column="price_records" property="priceRecords" />
@@ -17,7 +17,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, opportunity_title, opportunity_stage, price_records, last_follow, not_follow_days, remark, is_delete
+        id, customer_id, opportunity_title, opportunity_stage, price_records, last_follow, not_follow_days, remark, is_delete
     </sql>
 
 </mapper>
