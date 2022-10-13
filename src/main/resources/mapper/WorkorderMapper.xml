@@ -16,9 +16,7 @@
         <result column="work_order_details" property="workOrderDetails" />
     </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, work_order_number, repair_order_title, start_time, initiator, handler, work_order_status, emergency_degree, customer_name, work_order_details
-    </sql>
-
+    <insert id="add" parameterType="com.greatgump.crm.entity.Workorder">
+        INSERT INTO t_workorder(customer_name,work_order_number,repair_order_title,emergency_degree,work_order_details)VALUES(#{customerName},#{workOrderNumber},#{repairOrderTitle},#{emergencyDegree},#{workOrderDetails})
+    </insert>
 </mapper>

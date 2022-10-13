@@ -4,6 +4,7 @@ import com.greatgump.crm.entity.Workorder;
 import com.greatgump.crm.mapper.WorkorderMapper;
 import com.greatgump.crm.service.WorkorderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +17,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class WorkorderServiceImpl extends ServiceImpl<WorkorderMapper, Workorder> implements WorkorderService {
+    @Autowired
+    private WorkorderMapper workorderMapper;
 
+    public int add(Workorder workorder) {
+        workorderMapper.add(workorder);
+
+        return 0;
+    }
 }

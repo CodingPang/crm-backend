@@ -69,5 +69,9 @@ public class Workorder implements Serializable {
     @TableField("work_order_details")
     private String workOrderDetails;
 
+    @ApiModelProperty("联系人")
+    @TableField("linkman")
+    private String linkman;
+
 
 }

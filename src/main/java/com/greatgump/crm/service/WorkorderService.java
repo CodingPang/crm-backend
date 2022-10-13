@@ -12,5 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-10-12 10:31:27
  */
 public interface WorkorderService extends IService<Workorder> {
+    int add(Workorder workorder);
 
 }

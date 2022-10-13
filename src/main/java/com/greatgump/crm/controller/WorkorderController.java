@@ -1,7 +1,12 @@
 package com.greatgump.crm.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.greatgump.crm.entity.Workorder;
+import com.greatgump.crm.service.WorkorderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/crm/workorder")
 public class WorkorderController {
+    @Autowired
+    private WorkorderService workorderService;
+    //新增工单
+    @PostMapping("/addOrder ")
+    @ResponseBody
+    public int addOrder(@RequestBody Workorder workorder) {
+        int i = workorderService.add(workorder);
+        String customerName = workorder.getCustomerName(); // 测试
+        return  i;
 
-}
+    }
+
+    }
+
+
