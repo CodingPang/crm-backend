@@ -6,11 +6,13 @@
     <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.DictionaryType">
         <id column="id" property="id" />
         <result column="dictionary_type" property="dictionaryType" />
+        <result column="remark" property="remark" />
+        <result column="is_delete" property="isDelete" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, dictionary_type
+        id, dictionary_type, remark, is_delete
     </sql>
 
 </mapper>

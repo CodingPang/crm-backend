@@ -7,11 +7,13 @@
         <id column="id" property="id" />
         <result column="dictionary_name" property="dictionaryName" />
         <result column="dictionary_type_id" property="dictionaryTypeId" />
+        <result column="remark" property="remark" />
+        <result column="is_delete" property="isDelete" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, dictionary_name, dictionary_type_id
+        id, dictionary_name, dictionary_type_id, remark, is_delete
     </sql>
 
 </mapper>
