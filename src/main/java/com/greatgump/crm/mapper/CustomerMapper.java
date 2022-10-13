@@ -22,6 +22,8 @@ public interface CustomerMapper extends BaseMapper<Customer> {
     Page<Customer> queryAllSeas(Page page);
     Page<Customer> queryCustomerByUid(Integer uid,Page page);
 
+    int insertCustomer(Customer customer);
+
 
 
 

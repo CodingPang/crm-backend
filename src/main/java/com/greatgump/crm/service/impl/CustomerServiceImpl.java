@@ -1,13 +1,18 @@
 package com.greatgump.crm.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.entity.Contact;
 import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.mapper.CustomerMapper;
+import com.greatgump.crm.service.ContactService;
 import com.greatgump.crm.service.CustomerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +27,8 @@ import java.util.List;
 public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> implements CustomerService {
     @Autowired
     private CustomerMapper customerMapper;
+    @Autowired
+    private ContactService contactService;
     @Override
     public Page<Customer> queryAllCustomer(Page page) {
         return customerMapper.queryAllCustomer(page);
@@ -32,8 +39,20 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         return customerMapper.queryAllSeas(page);
     }
 
+
     @Override
     public Page<Customer> queryCustomerByUid(Integer uid, Page page) {
         return customerMapper.queryCustomerByUid(uid, page);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public boolean saveCustomer(Customer customer) {
+        customer.setCreateTime(new Date());
+        customerMapper.insertCustomer(customer);
+        Contact contact = customer.getContact();
+        contact.setCustomerId(customer.getId());
+        boolean b = contactService.save(contact);
+        return b;
     }
 }

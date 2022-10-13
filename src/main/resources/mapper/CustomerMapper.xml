@@ -2,42 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.greatgump.crm.mapper.CustomerMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Customer">
+    <resultMap id="customerDtoMap" type="com.greatgump.crm.dto.CustomerDto">
         <id column="id" property="id" />
         <result column="customer_name" property="customerName" />
         <result column="province" property="province" />
-        <result column="city" property="city" />
-        <result column="is_customer" property="isCustomer" />
+        <result column="city" property="cityName" />
+        <result column="username" property="userName" />
+        <result column="industryName" property="industryName" />
+        <result column="typename" property="typeName" />
         <result column="create_time" property="createTime" />
-        <result column="remark" property="remark" />
-        <result column="is_delete" property="isDelete" />
-
-        <association property="scale" javaType="com.greatgump.crm.entity.Scale">
-            <id column="scid" property="id"></id>
-            <result column="scope" property="scope"></result>
-        </association>
-
-        <association property="type" javaType="com.greatgump.crm.entity.Type">
-            <id column="tid" property="id"></id>
-            <result column="tname" property="name"></result>
-        </association>
-
-        <association property="source" javaType="com.greatgump.crm.entity.Source">
-            <id column="soid" property="id"></id>
-            <result column="soname" property="name"></result>
-        </association>
-
-        <association property="industry" javaType="com.greatgump.crm.entity.Industry">
-            <id column="inid" property="id"></id>
-            <result column="iname" property="name"></result>
-        </association>
-
-        <association property="belong" javaType="com.greatgump.crm.entity.User">
-            <id column="uid" property="id"></id>
-            <result column="username" property="username"></result>
-        </association>
-
+        <result column="scope" property="scope" />
+        <result column="sourceName" property="sourceName" />
         <collection property="contacts" ofType="com.greatgump.crm.entity.Contact">
             <id column="ctid" property="id"></id>
             <result column="contactname" property="contactName"></result>
@@ -46,46 +21,33 @@
             <result column="qq" property="qq"></result>
             <result column="department" property="department"></result>
             <result column="wechat" property="wechat"></result>
-            <result column="def" property="isDefault"></result>
         </collection>
-
     </resultMap>
+    <insert id="insertCustomer" useGeneratedKeys="true" keyProperty="id">
+        insert into t_customer(customer_name,province,city,scale_id,type_id,source_id,industry_id,user_id,create_time)
+               values(#{customerName},#{province},#{city},#{scaleId},#{typeId},#{sourceId},#{industryId},#{userId},#{createTime})
+    </insert>
 
-    <select id="queryAllCustomer" resultMap="BaseResultMap">
-        SELECT tcs.*,
-               tc.id ctid,tc.contact_name contactname,tc.mail,tc.phone,tc.qq,tc.department,tc.wechat,tc.is_default def,
-               ti.id inid,ti.name iname,
-               tsc.id scid,tsc.scope,
-               tso.id soid,tso.name soname,
-               tt.id tid,tt.name tname,
-               u.id uid,u.username
+    <select id="queryAllCustomer" resultMap="customerDtoMap">
+        SELECT tcs.id,tcs.customer_name,tcs.province,tcs.city,tcs.create_time,u.username,ti.name industryName,tt.name typeName,tsc.scope,tso.name sourceName,
+               tc.id ctid,tc.contact_name contactname,tc.mail,tc.phone,tc.qq,tc.department,tc.wechat
         FROM t_customer tcs,t_contact tc,t_industry ti,t_scale tsc,t_source tso,t_type tt,t_user u
         WHERE tcs.scale_id = tsc.id AND tcs.type_id = tt.id AND tcs.source_id = tso.id AND tcs.industry_id = ti.id
-          AND tcs.id = tc.customer_id AND u.id=tcs.belong_id AND tcs.is_customer = 1
+              AND tcs.id = tc.customer_id AND u.id=tcs.user_id AND tcs.is_delete=0 AND tcs.is_customer = 1 AND tc.is_default = 1
     </select>
-    <select id="queryAllSeas" resultMap="BaseResultMap">
-        SELECT tcs.*,
-               tc.id ctid,tc.contact_name contactname,tc.mail,tc.phone,tc.qq,tc.department,tc.wechat,tc.is_default def,
-               ti.id inid,ti.name iname,
-               tsc.id scid,tsc.scope,
-               tso.id soid,tso.name soname,
-               tt.id tid,tt.name tname,
-               u.id uid,u.username
+    <select id="queryAllSeas" resultMap="customerDtoMap">
+        SELECT tcs.id,tcs.customer_name,tcs.province,tcs.city,tcs.create_time,u.username,ti.name industryName,tt.name typeName,tsc.scope,tso.name sourceName,
+               tc.id ctid,tc.contact_name contactname,tc.mail,tc.phone,tc.qq,tc.department,tc.wechat
         FROM t_customer tcs,t_contact tc,t_industry ti,t_scale tsc,t_source tso,t_type tt,t_user u
         WHERE tcs.scale_id = tsc.id AND tcs.type_id = tt.id AND tcs.source_id = tso.id AND tcs.industry_id = ti.id
-          AND tcs.id = tc.customer_id AND u.id=tcs.belong_id AND tcs.is_customer = 0
+          AND tcs.id = tc.customer_id AND u.id=tcs.user_id AND tcs.is_delete=0 AND tcs.is_customer = 0 AND tc.is_default = 1
     </select>
-    <select id="queryCustomerByUid" resultMap="BaseResultMap" parameterType="int">
-        SELECT tcs.*,
-               tc.id ctid,tc.contact_name contactname,tc.mail,tc.phone,tc.qq,tc.department,tc.wechat,tc.is_default def,
-               ti.id inid,ti.name iname,
-               tsc.id scid,tsc.scope,
-               tso.id soid,tso.name soname,
-               tt.id tid,tt.name tname,
-               u.id uid,u.username
+    <select id="queryCustomerByUid" resultMap="customerDtoMap" parameterType="int">
+        SELECT tcs.id,tcs.customer_name,tcs.province,tcs.city,tcs.create_time,u.username,ti.name industryName,tt.name typeName,tsc.scope,tso.name sourceName,
+               tc.id ctid,tc.contact_name contactname,tc.mail,tc.phone,tc.qq,tc.department,tc.wechat,tc.is_default def
         FROM t_customer tcs,t_contact tc,t_industry ti,t_scale tsc,t_source tso,t_type tt,t_user u
         WHERE tcs.scale_id = tsc.id AND tcs.type_id = tt.id AND tcs.source_id = tso.id AND tcs.industry_id = ti.id
-          AND tcs.id = tc.customer_id AND u.id=tcs.belong_id AND tcs.is_customer = 0 AND tcs.belong_id = #{uid}
+          AND tcs.id = tc.customer_id AND u.id=tcs.user_id  AND  tcs.is_delete=0 AND tcs.is_customer = 1 AND tcs.user_id = #{arg0}
     </select>
 
 
