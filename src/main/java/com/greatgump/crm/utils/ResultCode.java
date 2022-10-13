@@ -9,7 +9,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public enum ResultCode implements IResultCode, Serializable {
 
-    SUCCESS("00000", "一切ok"),
+    SUCCESS("200", "success"),
 
     USER_ERROR("A0001", "用户端错误"),
 
