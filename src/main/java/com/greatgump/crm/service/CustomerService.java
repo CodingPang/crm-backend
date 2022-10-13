@@ -19,4 +19,6 @@ public interface CustomerService extends IService<Customer> {
     Page<Customer> queryAllSeas(Page page);
 
     Page<Customer> queryCustomerByUid(Integer uid,Page page);
+
+    boolean saveCustomer(Customer customer);
 }
