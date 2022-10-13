@@ -1,12 +1,11 @@
 package com.greatgump.crm.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -19,8 +18,7 @@ import lombok.experimental.Accessors;
  * @author team6
  * @since 2022-10-12 10:31:27
  */
-@Getter
-@Setter
+@Data
 @Accessors(chain = true)
 @TableName("t_contact")
 @ApiModel(value = "Contact对象", description = "企业联系人表")
@@ -57,7 +55,8 @@ public class Contact implements Serializable {
 
     @ApiModelProperty("默认联系方式 (1是，0否)")
     @TableField("is_default")
-    private Long isDefault;
+    @TableLogic
+    private Integer isDefault;
 
     @ApiModelProperty("顾客的id")
     @TableField("customer_id")
@@ -69,7 +68,7 @@ public class Contact implements Serializable {
 
     @ApiModelProperty("删除（0未删，1删除）")
     @TableField("is_delete")
-    private String isDelete;
+    private Integer isDelete;
 
 
 }

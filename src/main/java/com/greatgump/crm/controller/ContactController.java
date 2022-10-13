@@ -38,10 +38,10 @@ public class ContactController {
         return R.ok().put("pageInfo",pageInfo);
     }
 
-    @ApiOperation("添加首位联系人")
+    @ApiOperation("添加联系人")
     @PutMapping("/contacts")
     public R saveContact(@RequestBody Contact contact){
-        contact.setIsDefault(1L);
+
         int s = contactService.saveContact(contact);
         return s>0?R.ok():R.error();
     }
