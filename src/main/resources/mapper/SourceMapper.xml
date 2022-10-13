@@ -14,5 +14,8 @@
     <sql id="Base_Column_List">
         id, name, remark, is_delete
     </sql>
+    <select id="queryAllSource" resultType="com.greatgump.crm.entity.Source">
+        select id, name from t_source
+    </select>
 
 </mapper>
