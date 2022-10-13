@@ -73,5 +73,13 @@ public class Workorder implements Serializable {
     @TableField("linkman")
     private String linkman;
 
+    @ApiModelProperty("备注")
+    @TableField("remark")
+    private String remark;
+
+    @ApiModelProperty("删除（0未删，1删除")
+    @TableField("is_delete")
+    private String isDelete;
+
 
 }

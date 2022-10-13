@@ -1,7 +1,13 @@
 package com.greatgump.crm.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.common.R;
+import com.greatgump.crm.entity.Contact;
 import com.greatgump.crm.entity.Workorder;
 import com.greatgump.crm.service.WorkorderService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,20 +23,22 @@ import java.util.List;
  * @since 2022-10-12 10:31:27
  */
 @RestController
-@RequestMapping("/crm/workorder")
 public class WorkorderController {
     @Autowired
     private WorkorderService workorderService;
     //新增工单
-    @PostMapping("/addOrder ")
-    @ResponseBody
-    public int addOrder(@RequestBody Workorder workorder) {
-        int i = workorderService.add(workorder);
-        String customerName = workorder.getCustomerName(); // 测试
-        return  i;
-
+    @ApiOperation("获取所有工单")
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
+    @GetMapping("/workorder/{current}/{size}")
+    public R getAllWorkorder(@PathVariable("current") int current, @PathVariable("size") int size){
+        Page<Workorder> workorderPage = new Page<>(current,size);
+        Page<Workorder> pageInfo = workorderService.queryAllWorkorder(workorderPage);
+        return R.ok().put("pageInfo",pageInfo);
     }
 
-    }
+
+}
+
+
 
 

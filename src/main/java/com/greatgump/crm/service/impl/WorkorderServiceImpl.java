@@ -1,5 +1,6 @@
 package com.greatgump.crm.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.entity.Workorder;
 import com.greatgump.crm.mapper.WorkorderMapper;
 import com.greatgump.crm.service.WorkorderService;
@@ -21,8 +22,10 @@ public class WorkorderServiceImpl extends ServiceImpl<WorkorderMapper, Workorder
     private WorkorderMapper workorderMapper;
 
     public int add(Workorder workorder) {
-        workorderMapper.add(workorder);
-
-        return 0;
+        return workorderMapper.add(workorder);
+    }
+    @Override
+    public Page<Workorder> queryAllWorkorder(Page page) {
+        return workorderMapper.queryAllWorkorder(page);
     }
 }
