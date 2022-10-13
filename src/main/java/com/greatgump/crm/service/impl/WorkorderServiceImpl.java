@@ -5,6 +5,7 @@ import com.greatgump.crm.entity.Workorder;
 import com.greatgump.crm.mapper.WorkorderMapper;
 import com.greatgump.crm.service.WorkorderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,15 @@ public class WorkorderServiceImpl extends ServiceImpl<WorkorderMapper, Workorder
     @Override
     public Page<Workorder> queryAllWorkorder(Page page) {
         return workorderMapper.queryAllWorkorder(page);
+    }
+
+    @Override
+    public int addWororder(Workorder workorder) {
+        return workorderMapper.addWorkorder(workorder);
+    }
+
+    @Override
+    public Boolean deleteByWorkorder(Integer id) {
+        return workorderMapper.deleteByWorkorder(id);
     }
 }

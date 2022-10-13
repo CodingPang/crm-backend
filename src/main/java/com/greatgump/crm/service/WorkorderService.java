@@ -16,4 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface WorkorderService extends IService<Workorder> {
     Page<Workorder> queryAllWorkorder(Page page);
 
+    int addWororder(Workorder workorder);
+
+    Boolean  deleteByWorkorder(Integer id);
 }

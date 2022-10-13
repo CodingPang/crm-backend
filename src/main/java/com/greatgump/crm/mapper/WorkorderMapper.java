@@ -18,4 +18,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface WorkorderMapper extends BaseMapper<Workorder> {
     Page<Workorder> queryAllWorkorder(Page page);
 
+    int addWorkorder(Workorder workorder);
+
+    Boolean deleteByWorkorder(Integer id);
 }

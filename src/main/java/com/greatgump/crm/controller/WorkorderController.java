@@ -35,6 +35,18 @@ public class WorkorderController {
         Page<Workorder> pageInfo = workorderService.queryAllWorkorder(workorderPage);
         return R.ok().put("pageInfo",pageInfo);
     }
+    @ApiOperation("新建工单")
+    @PutMapping("/addWorkorder")
+    public R addWorkorder(@RequestBody Workorder workorder){
+        int i = workorderService.addWororder(workorder);
+         return i>0?R.ok():R.error();
+    }
+    @ApiOperation("删除一个工单")
+    @DeleteMapping("/deleteWorkorder")
+    public R deleteByWorkorder(@PathVariable Integer id){
+        boolean b = workorderService.removeById(id);
+        return b?R.ok():R.error();
+    }
 
 
 }
