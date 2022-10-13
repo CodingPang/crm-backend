@@ -13,4 +13,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface OfferDetailsService extends IService<OfferDetails> {
 
+
+    int countNumber();
+
+    double totalMoney();
 }

@@ -15,9 +15,13 @@
         <result column="is_delete" property="isDelete" />
     </resultMap>
 
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, product_code, classification, product_name, unit, assort_id, creation_date, remark, is_delete
     </sql>
+    <select id="listIneed" resultType="com.greatgump.crm.dto.LuoDto1" >
+        select * from t_product limit #{current},#{size}
+    </select>
 
 </mapper>

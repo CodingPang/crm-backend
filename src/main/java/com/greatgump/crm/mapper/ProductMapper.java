@@ -1,8 +1,12 @@
 package com.greatgump.crm.mapper;
 
+import com.greatgump.crm.dto.LuoDto1;
 import com.greatgump.crm.entity.Product;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +19,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ProductMapper extends BaseMapper<Product> {
 
+    List<LuoDto1> listIneed();
+
+    List<LuoDto1> listIneed(@Param("current")int current, @Param("size")int size);
 }

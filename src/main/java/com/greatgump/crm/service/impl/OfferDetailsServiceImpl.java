@@ -4,6 +4,7 @@ import com.greatgump.crm.entity.OfferDetails;
 import com.greatgump.crm.mapper.OfferDetailsMapper;
 import com.greatgump.crm.service.OfferDetailsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +17,17 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class OfferDetailsServiceImpl extends ServiceImpl<OfferDetailsMapper, OfferDetails> implements OfferDetailsService {
+    @Autowired
+    private OfferDetailsMapper offerDetailsMapper;
 
+    @Override
+    public int countNumber() {
+
+        return offerDetailsMapper.countNumber();
+    }
+
+    @Override
+    public double totalMoney() {
+        return offerDetailsMapper.totalMoney();
+    }
 }

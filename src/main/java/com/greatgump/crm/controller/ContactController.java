@@ -33,7 +33,7 @@ public class ContactController {
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/contacts/{current}/{size}")
     public Result<List<Contact>> getAllContact(@PathVariable("current") int current, @PathVariable("size") int size){
-        Page<Contact> contactPage = new Page<>(current,size);
+        Page<Contact> contactPage = new Page(current,size);
         Page<Contact> pageInfo = contactService.queryAllContact(contactPage);
 
         return Result.success(pageInfo.getRecords(),pageInfo.getTotal());

@@ -36,7 +36,7 @@ public class CustomerController {
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/customers/{current}/{size}")
     public Result<List<Customer>> getAllCustomer(@PathVariable("current") int current, @PathVariable("size") int size){
-        Page<Customer> customerPage = new Page<>(current,size);
+        Page<Customer> customerPage = new Page(current,size);
         Page<Customer> pageInfo = customerService.queryAllCustomer(customerPage);
 
         return Result.success(pageInfo.getRecords(),pageInfo.getTotal());
@@ -45,7 +45,7 @@ public class CustomerController {
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/customers/{uid}/{current}/{size}")
     public Result<List<Customer>> getCustomerByUid(@PathVariable("uid") int uid,@PathVariable("current") int current, @PathVariable("size") int size){
-        Page<Customer> customerPage = new Page<>(current,size);
+        Page<Customer> customerPage = new Page(current,size);
         Page<Customer> pageInfo = customerService.queryCustomerByUid(uid,customerPage);
 
         return Result.success(pageInfo.getRecords(),pageInfo.getTotal());

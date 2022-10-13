@@ -17,9 +17,17 @@
         <result column="is_delete" property="isDelete" />
     </resultMap>
 
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, product, product_id, product_size, price, number, discount, real_price, company, remake, is_delete
     </sql>
+    <select id="countNumber" resultType="int">
+        SELECT SUM(number) FROM t_offer_details
+    </select>
+    <select id="totalMoney" resultType="java.lang.Double">
+        SELECT SUM(price) from t_offer_details
+    </select>
+
 
 </mapper>

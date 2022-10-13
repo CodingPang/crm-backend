@@ -15,4 +15,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OfferDetailsMapper extends BaseMapper<OfferDetails> {
 
+
+    int countNumber();
+
+    double totalMoney();
 }

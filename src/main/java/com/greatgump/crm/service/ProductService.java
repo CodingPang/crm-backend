@@ -1,7 +1,10 @@
 package com.greatgump.crm.service;
 
+import com.greatgump.crm.dto.LuoDto1;
 import com.greatgump.crm.entity.Product;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ProductService extends IService<Product> {
 
+    List<LuoDto1> listIneed();
+
+    List<LuoDto1> listIneed(int current, int size);
 }
