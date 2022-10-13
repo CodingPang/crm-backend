@@ -7,8 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
@@ -19,8 +18,9 @@ import lombok.experimental.Accessors;
  * @author team6
  * @since 2022-10-12 10:31:27
  */
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Accessors(chain = true)
 @TableName("t_scale")
 @ApiModel(value = "Scale对象", description = "企业规模表")
