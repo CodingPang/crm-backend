@@ -21,9 +21,6 @@ public class WorkorderServiceImpl extends ServiceImpl<WorkorderMapper, Workorder
     @Autowired
     private WorkorderMapper workorderMapper;
 
-    public int add(Workorder workorder) {
-        return workorderMapper.add(workorder);
-    }
     @Override
     public Page<Workorder> queryAllWorkorder(Page page) {
         return workorderMapper.queryAllWorkorder(page);

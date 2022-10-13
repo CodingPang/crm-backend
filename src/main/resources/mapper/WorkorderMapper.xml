@@ -18,9 +18,9 @@
         <result column="is_delete" property="isDelete" />
     </resultMap>
 
-    <insert id="add" >
-        INSERT INTO t_workorder(customer_name,work_order_number,repair_order_title,emergency_degree,work_order_details)VALUES(#{customerName},#{workOrderNumber},#{repairOrderTitle},#{emergencyDegree},#{workOrderDetails})
-    </insert>
+    <!--<insert id="add" >-->
+        <!--INSERT INTO t_workorder(customer_name,work_order_number,repair_order_title,emergency_degree,work_order_details)VALUES(#{customerName},#{workOrderNumber},#{repairOrderTitle},#{emergencyDegree},#{workOrderDetails})-->
+    <!--</insert>-->
     <select id="queryAllWorkorder" resultType="com.greatgump.crm.entity.Workorder">
         SELECT id,work_order_number,repair_order_title,start_time,initiator,handler,work_order_status,emergency_degree,customer_name,work_order_details,remark,is_delete
         from t_workorder

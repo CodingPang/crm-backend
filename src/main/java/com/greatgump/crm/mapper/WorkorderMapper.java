@@ -17,6 +17,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface WorkorderMapper extends BaseMapper<Workorder> {
     Page<Workorder> queryAllWorkorder(Page page);
-    public int add(Workorder workorder);
+
 
 }
