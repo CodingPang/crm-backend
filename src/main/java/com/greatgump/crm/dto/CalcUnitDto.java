@@ -18,7 +18,7 @@ public class CalcUnitDto {
 
     @ApiModelProperty("主键,自增")
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty("单位名称")
     @TableField("unit_name")
@@ -35,4 +35,5 @@ public class CalcUnitDto {
     @ApiModelProperty("假删(0表示未删,1表示删除)")
     @TableField("is_delete")
     private Integer isDelete;
+
 }

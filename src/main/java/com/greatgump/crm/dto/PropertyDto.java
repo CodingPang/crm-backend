@@ -14,11 +14,11 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 public class PropertyDto {
-//    private static final long serialVersionUID = 1L;
-//
-//    @ApiModelProperty("主键,自增")
-//    @TableId(value = "id", type = IdType.AUTO)
-//    private Long id;
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty("主键,自增")
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
 
     @ApiModelProperty("属性名称")
     @TableField("property_name")

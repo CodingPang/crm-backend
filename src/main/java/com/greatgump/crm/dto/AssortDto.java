@@ -3,6 +3,7 @@ package com.greatgump.crm.dto;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.greatgump.crm.entity.Assort;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class AssortDto {
 
     @ApiModelProperty("产品分类")
     @TableField("assort_name")
-    private String assortName;
+    private Assort assort;
 
     @ApiModelProperty("父级分类的id")
     @TableField("parent_id")

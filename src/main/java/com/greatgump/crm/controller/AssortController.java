@@ -1,13 +1,23 @@
 package com.greatgump.crm.controller;
 
-import com.greatgump.crm.common.R;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.AssortDto;
+import com.greatgump.crm.dto.CalcUnitDto;
+import com.greatgump.crm.dto.ProductDto;
 import com.greatgump.crm.entity.Assort;
 import com.greatgump.crm.entity.CalcUnit;
+import com.greatgump.crm.entity.Customer;
+import com.greatgump.crm.entity.Property;
 import com.greatgump.crm.service.AssortService;
-import com.greatgump.crm.service.CalcUnitService;
+import com.greatgump.crm.utils.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
 
 /**
  * <p>
@@ -17,44 +27,77 @@ import org.springframework.web.bind.annotation.*;
  * @author team6
  * @since 2022-10-12 10:31:27
  */
+@Api(tags = "产品分类功能说明")
 @RestController
-//@RequestMapping("/crm/assort")
+@RequestMapping("/crm/assort")
 public class AssortController {
 
     @Autowired
     private AssortService assortService;
 
-    @ApiOperation("产品分类主界面列表")
-    @GetMapping("/crm/assort/list")
-    public R list(){
-        return R.ok().put("assortlist",assortService.list());
+    @ApiOperation("获取所有产品分类")
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "page",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
+    @GetMapping("/queryAllLoans/{page}/{size}")
+    public Result<Map<String,Object>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
+        AssortDto assortDto =new AssortDto();
+
+        Assort assort = new Assort();
+        assort.setId(1L);
+        assort.setAssortName("服装");
+
+        Assort assort1 = new Assort();
+        assort1.setId(2L);
+        assort1.setAssortName("软件");
+
+        List<Assort> assortList = new ArrayList<>();
+        assortList.add(assort);
+        assortList.add(assort1);
+        Map<String,Object> map = new HashMap<>();
+        map.put("assort",assortList);
+        return Result.success(map,4L);
+
     }
 
-    @ApiOperation("产品分类页面增加")
-    @PostMapping("/crm/assort/add")
-    public R add(Assort assort){
+    @ApiOperation("产品分类增加")
+    @PostMapping("/add")
+    public Result<Map<String ,Object>> preAdd(){
 
-        assortService.save(assort);
-        return R.ok().put("assortadd",assort);
+        return Result.success();
     }
 
-    @ApiOperation("计量单位页面修改")
-    @PutMapping("/crm/assort/update")
-    private R update(Assort assort){
+    @ApiOperation("产品分类编辑")
+    @PutMapping("/update/{id}")
+    public Result<AssortDto> update(@PathVariable("id")Long id){
 
-        assortService.updateById(assort);
-        return R.ok().put("assortupdate",assort);
+        Assort assort = new Assort();
+        assort.setId(1L);
+        assort.setAssortName("服装");
+
+        AssortDto assortDto =new AssortDto();
+        assortDto.setAssort(assort);
+
+        return Result.success(assortDto);
+
+
     }
 
-    @ApiOperation("计量单位页面删除")
-    @DeleteMapping("/crm/assort/delete")
-    public R delete(Long id){
+
+    @ApiOperation("产品分类信息删除")
+    @DeleteMapping("/delete/{id}")
+    public Result delete(@PathVariable("id")Long id){
         assortService.removeById(id);
-        return R.ok().put("assortdelete",id);
+
+        return Result.success();
     }
 
+    @ApiOperation("产品分类信息批量删除")
+    @DeleteMapping("/deletion")
+    public Result deletion(@RequestBody List<AssortDto> assortDtos){
+        for (AssortDto assortDto : assortDtos) {
+            assortService.removeById(assortDto.getId());
+        }
 
-
-
+        return Result.success();
+    }
 
 }
