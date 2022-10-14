@@ -32,8 +32,8 @@ public class LoanDto {
   @ApiModelProperty("主键，自增")
   private Long id;
 
-    @ApiModelProperty("所有的用户")
-   private Customer customer;
+  @ApiModelProperty("所有的用户")
+  private Customer customer;
 
   @ApiModelProperty("所有订单")
   private Order Order;

@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileOutputStream;
@@ -82,12 +80,9 @@ public class ContractController {
     }
 
 
-    @ApiOperation("测试上传")
-    @PostMapping("/crm/contract/upload")
+
     public void upload(HttpServletRequest request) throws IOException{
-//        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
-        MultipartResolver resolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-        MultipartHttpServletRequest multipartHttpServletRequest = resolver.resolveMultipart(request);
+        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
         MultipartFile multipartFile = multipartHttpServletRequest.getFile("file");
         String path = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
         String filename = multipartFile.getOriginalFilename();

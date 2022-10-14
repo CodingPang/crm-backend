@@ -1,7 +1,6 @@
 package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.entity.BackPlan;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,9 +15,4 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface BackPlanMapper extends BaseMapper<BackPlan> {
 
-  /**
-   * 查询除所有的BackPlan
-   * @return
-   */
-  Page<BackPlan> queryAllBackPlan(Page page);
 }

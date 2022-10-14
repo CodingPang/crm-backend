@@ -5,23 +5,19 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Order">
         <id column="id" property="id" />
+        <result column="customer_name" property="customerName" />
         <result column="order_title" property="orderTitle" />
         <result column="oder_status" property="oderStatus" />
         <result column="oder_total" property="oderTotal" />
-        <result column="order_date" property="orderDate" />
         <result column="total_res" property="totalRes" />
         <result column="total_ticket" property="totalTicket" />
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
-        <association  property="customer"  javaType="com.greatgump.crm.entity.Customer">
-            <id column="id" property="id"/>
-            <result column="customer_name" property="customerName"/>
-        </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, customer_id, order_title, oder_status, oder_total, order_date, total_res, total_ticket, remark, is_delete
+        id, customer_name, order_title, oder_status, oder_total, total_res, total_ticket, remark, is_delete
     </sql>
 
 </mapper>

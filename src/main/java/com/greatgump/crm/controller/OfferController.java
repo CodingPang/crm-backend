@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +43,7 @@ public class OfferController {
     @ApiOperation("报价管理页面增加")
     @PostMapping("/crm/offer/add")
     public Result add(Offer offer){
-        String danhao = "QU20220512"+ RandomStringUtils.randomAlphabetic(5);
+        String danhao = "QU20220512"+offer.getId();
         offer.setOddNum(danhao);
         Date date= new Date();
         offer.setCreationDate(date);

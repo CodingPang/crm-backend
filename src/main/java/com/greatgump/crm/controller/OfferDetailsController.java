@@ -1,22 +1,28 @@
 package com.greatgump.crm.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.base.Equivalence;
+import com.greatgump.crm.common.R;
 import com.greatgump.crm.dto.LuoDto1;
 import com.greatgump.crm.dto.LuoDto2;
-import com.greatgump.crm.dto.UserDto;
-import com.greatgump.crm.entity.*;
+import com.greatgump.crm.entity.Contact;
+import com.greatgump.crm.entity.Offer;
+import com.greatgump.crm.entity.OfferDetails;
+import com.greatgump.crm.entity.Product;
 import com.greatgump.crm.service.CustomerService;
 import com.greatgump.crm.service.OfferDetailsService;
 import com.greatgump.crm.service.ProductService;
-import com.greatgump.crm.service.UserService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Array;
 import java.util.List;
 
 /**
@@ -36,8 +42,6 @@ public class OfferDetailsController {
     private ProductService productService;
     @Autowired
     private CustomerService customerService;
-    @Autowired
-    private UserService userService;
 
     @ApiOperation("这是关联客户下拉框，会返回客户名称及id")
     @GetMapping("/crm/offer_details/listcustmoer")
@@ -47,24 +51,17 @@ public class OfferDetailsController {
 
     @ApiOperation("联系人的下拉框，需提供客户id")
     @GetMapping("/crm/offer_details/phone")
-    public Result<List<String>> listPhone(){
+    public Result<List<String>> listPhoe(){
         return Result.success(customerService.queryPhone());
     }
-
-    @ApiOperation("报价人的下拉框")
-    @GetMapping("/crm/offer_details/getusers")
-    public Result<List<UserDto>> listUser(){
-        return  Result.success(userService.queryUsername());
+    @ApiOperation("修改报价页面列表，需提供页面参数")
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
+    @GetMapping("/crm/offer_details/list/{current}/{size}")
+    public Result<List<OfferDetails>> list(@PathVariable("current")int current,@PathVariable("size")int size){
+        Page<OfferDetails> offerPage = new Page(current,size);
+        Page<OfferDetails> offerInfo = offerDetailsService.page(offerPage);
+        return Result.success(offerPage.getRecords(),offerInfo.getTotal());
     }
-
-//    @ApiOperation("修改报价页面列表，需提供页面参数")
-//    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
-//    @GetMapping("/crm/offer_details/list/{current}/{size}")
-//    public Result<List<OfferDetails>> list(@PathVariable("current")int current,@PathVariable("size")int size){
-//        Page<OfferDetails> offerPage = new Page(current,size);
-//        Page<OfferDetails> offerInfo = offerDetailsService.page(offerPage);
-//        return Result.success(offerPage.getRecords(),offerInfo.getTotal());
-//    }
 
     @ApiOperation("修改报价页面删除")
     @DeleteMapping("/crm/offer_details/delete")
