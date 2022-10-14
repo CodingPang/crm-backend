@@ -1,9 +1,14 @@
 package com.greatgump.crm.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.WorkorderDto;
+import com.greatgump.crm.dto.WorkorderDto2;
 import com.greatgump.crm.entity.Contact;
 import com.greatgump.crm.entity.Workorder;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,7 +21,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface WorkorderService extends IService<Workorder> {
     Page<Workorder> queryAllWorkorder(Page page);
 
-    int addWororder(Workorder workorder);
+    int addWororder(WorkorderDto2 workorderDto2);
 
-    Boolean  deleteByWorkorder(Integer id);
+    Page<Workorder>  queryByWorkorder(Page page,String repairOrderTitle,Integer workOrderStatus,Integer emergencyDegree);
 }
+

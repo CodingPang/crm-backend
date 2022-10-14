@@ -59,7 +59,7 @@ public class Workorder implements Serializable {
 
     @ApiModelProperty("紧急程度")
     @TableField("emergency_degree")
-    private String emergencyDegree;
+        private Integer emergencyDegree;
 
     @ApiModelProperty("关联客户")
     @TableField("customer_name")

@@ -25,5 +25,18 @@
         SELECT id,work_order_number,repair_order_title,start_time,initiator,handler,work_order_status,emergency_degree,customer_name,work_order_details,remark,is_delete
         from t_workorder
     </select>
-    <delete id="deleteByWorkorder"></delete>
+    <select id="queryByWorkorder" resultType="com.greatgump.crm.entity.Workorder">
+        SELECT * from t_workorder
+        <where>
+            <if test="repairOrderTitle !=null and repairOrderTitle !=''">
+                and repair_order_title = #{repairOrderTitle}
+            </if>
+            <if test="workOrderStatus !=null and workOrderStatus !=''">
+                and work_order_status = #{workOrderStatus}
+            </if>
+            <if test="emergencyDegree !=null and emergencyDegree !=''">
+                and emergency_degree = #{emergencyDegree}
+            </if>
+        </where>
+    </select>
 </mapper>

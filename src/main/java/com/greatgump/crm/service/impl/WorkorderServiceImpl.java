@@ -1,6 +1,8 @@
 package com.greatgump.crm.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.WorkorderDto;
+import com.greatgump.crm.dto.WorkorderDto2;
 import com.greatgump.crm.entity.Workorder;
 import com.greatgump.crm.mapper.WorkorderMapper;
 import com.greatgump.crm.service.WorkorderService;
@@ -8,6 +10,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -28,12 +32,14 @@ public class WorkorderServiceImpl extends ServiceImpl<WorkorderMapper, Workorder
     }
 
     @Override
-    public int addWororder(Workorder workorder) {
-        return workorderMapper.addWorkorder(workorder);
+    public int addWororder(WorkorderDto2 workorderDto2) {
+        return workorderMapper.addWorkorder(workorderDto2);
     }
 
     @Override
-    public Boolean deleteByWorkorder(Integer id) {
-        return workorderMapper.deleteByWorkorder(id);
+    public Page<Workorder> queryByWorkorder(Page page,String repairOrderTitle, Integer workOrderStatus, Integer emergencyDegree) {
+        return workorderMapper.queryByWorkorder(page,repairOrderTitle,workOrderStatus,emergencyDegree);
     }
+
+
 }
