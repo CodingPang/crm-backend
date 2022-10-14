@@ -55,7 +55,7 @@ public class Travel implements Serializable {
 
     @ApiModelProperty("审批状态（1表示已通过，2表示待审批，0表示已驳回)")
     @TableField("approval_status")
-    private String approvalStatus;
+    private Integer approvalStatus;
 
     @ApiModelProperty("备注")
     @TableField("remark")

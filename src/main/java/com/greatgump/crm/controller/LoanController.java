@@ -1,20 +1,17 @@
 package com.greatgump.crm.controller;
 
-import com.greatgump.crm.common.R;
+import com.greatgump.crm.dto.DetailDto;
 import com.greatgump.crm.dto.LoanDto;
-import com.greatgump.crm.entity.Business;
-import com.greatgump.crm.entity.Customer;
-import com.greatgump.crm.entity.Loan;
-import com.greatgump.crm.entity.Order;
+import com.greatgump.crm.entity.*;
 import com.greatgump.crm.service.LoanService;
+import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,11 +33,10 @@ public class LoanController {
 
   @ApiOperation("获取所有的借款信息")
   @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
-  @GetMapping("/queryAllLoans")
-  public R queryAllLoans(){
+  @GetMapping("/queryAllLoans/{current}/{size}")
+  public Result<Map<String,Object>> queryAllLoans(@PathVariable("current") Integer current,@PathVariable("size") Integer size){
     LoanDto loanDto = new LoanDto();
 
-    // TODO 直接使用对应实体类封装成LoanDto成员变量
     // 1、所有用户
     Customer customer01 = new Customer();
     customer01.setId(1L);
@@ -95,21 +91,73 @@ public class LoanController {
     loan02.setApprovalStatus(2);
     loan02.setAppplicationTime(new Date(System.currentTimeMillis())); // 利用时间戳写时间
 
-
-
-
     // 加入list
     List<Loan> loanList = new ArrayList<>();
     loanList.add(loan01);
     loanList.add(loan02);
-
-    return R.ok(2,loanList);
+     Map<String,Object> map = new HashMap<>();
+     map.put("loanb",loanList);
+    return Result.success(map,4L);
   }
+     @ApiOperation("新增借款信息")
+     @GetMapping("/pre")
+     public Result<Map<String ,Object>> preAdd(){
+       LoanDto loanDto = new LoanDto();//回显数据
+
+       List<Customer> customerList = new ArrayList<>();//给loanDto中customerList准备数据
+       Customer customer = new Customer();//给customerList准备数据
+       customer.setId(1L);
+       customer.setCustomerName("lss");
+       customerList.add(customer);//把数据添加到customerList中
+
+       List<Order> orderList = new ArrayList<>();//给loanListDto中orderList准备数据
+       Order order = new Order();//给orderList准备数据
+       order.setId(1L);
+       order.setOrderTitle("订单标题5");
+       orderList.add(order);//把数据添加到orderList中
+
+       List<Business> businessList = new ArrayList<>();//给loanListDto中businessList准备数据
+       Business business = new Business();//给businessList准备数据
+       business.setId(1L);
+       business.setBussinessTitle("商机标题5");
+       businessList.add(business);//把数据添加到businessList中
+
+
+
+       loanDto.setCustomerList(customerList);
+       loanDto.setOrderList(orderList);
+       loanDto.setBusinessList(businessList);
+
+       Map<String, Object> map = new HashMap<>();
+       map.put("loanbox",loanDto);
+       return Result.success(map);
+
+     }
+  @ApiOperation("获取详情")
+  @GetMapping("/queryAllDetail/{id}")
+  public Result<Map<String,Object>> queryAllLoans(@PathVariable("id")Long id) {
+    DetailDto detailDto = new DetailDto();
+    detailDto.setLoanAmount(BigDecimal.valueOf(2000));
+    detailDto.setSubmitted("ls");
+    detailDto.setDepartment("销售二部");
+    detailDto.setCustomer("上海随便集团");
+    detailDto.setCause("借款原因");
+    detailDto.setRelevant("附件名称.pdf");
+    detailDto.setApproval_time(new Date(System.currentTimeMillis()));
+    detailDto.setApprovalStatus(1);
+    detailDto.setApprover("zs");
+    detailDto.setSubmission_time(new Date(System.currentTimeMillis()));
+
+    Map<String, Object> map = new HashMap<>();
+    map.put("detail",detailDto);
+   return Result.success(map);
+  }
+
   @ApiOperation("借款页面删除")
-  @DeleteMapping("/crm/offer/delete")
-  public R delete(Long id){
+  @DeleteMapping("/delete/{id}")
+  public Result delete(@PathVariable("id")Long id){
 
     loanService.removeById(id);
-    return R.ok().put("loandelete",id);
+    return Result.success();
   }
 }
