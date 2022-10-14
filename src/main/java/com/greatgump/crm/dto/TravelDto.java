@@ -17,10 +17,10 @@ import java.util.List;
 public class TravelDto {
 
     @ApiModelProperty("所有的用户")
-    private List<Customer> customerList;
+    private Customer customer;
 
     @ApiModelProperty("所有订单")
-    private List<Order> OrderList;
+    private Order Order;
 
     @ApiModelProperty("申请人员")
     @TableField("applicant")

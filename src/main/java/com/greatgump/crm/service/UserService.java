@@ -1,7 +1,10 @@
 package com.greatgump.crm.service;
 
+import com.greatgump.crm.dto.UserDto;
 import com.greatgump.crm.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
 
+
+    List<UserDto> queryUsername();
 }

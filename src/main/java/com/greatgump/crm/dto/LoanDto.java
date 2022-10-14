@@ -33,13 +33,13 @@ public class LoanDto {
   private Long id;
 
     @ApiModelProperty("所有的用户")
-   private List<Customer> customerList;
+   private Customer customer;
 
   @ApiModelProperty("所有订单")
-  private List<Order> OrderList;
+  private Order Order;
 
   @ApiModelProperty("所有商机")
-  private List<Business> BusinessList;
+  private Business Business;
 
   @ApiModelProperty("借款金额")
   private BigDecimal loanAmount;

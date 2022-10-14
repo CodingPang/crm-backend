@@ -1,5 +1,6 @@
 package com.greatgump.crm.controller;
 
+import com.greatgump.crm.dto.TravelBoxDto;
 import com.greatgump.crm.dto.TravelDetailDto;
 import com.greatgump.crm.dto.TravelDto;
 import com.greatgump.crm.entity.Customer;
@@ -7,10 +8,8 @@ import com.greatgump.crm.entity.Order;
 import com.greatgump.crm.entity.Travel;
 import com.greatgump.crm.service.TravelService;
 import com.greatgump.crm.utils.Result;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -82,10 +81,10 @@ public class TravelController {
         return Result.success(map, 4L);
     }
 
-        @ApiOperation("新增出差信息")
-        @GetMapping("/pre")
+        @ApiOperation("出差下拉框")
+        @PutMapping("/pre")
         public Result<Map<String ,Object>> preAdd(){
-        TravelDto travelDto = new TravelDto();
+            TravelBoxDto travelBoxDto = new TravelBoxDto();
 
             List<Customer> customerList = new ArrayList<>();//给loanDto中customerList准备数据
             Customer customer = new Customer();//给customerList准备数据
@@ -99,11 +98,11 @@ public class TravelController {
             order.setOrderTitle("订单标题3");
             orderList.add(order);//把数据添加到orderList中
 
-            travelDto.setCustomerList(customerList);
-            travelDto.setOrderList(orderList);
+            travelBoxDto.setCustomerList(customerList);
+            travelBoxDto.setOrderList(orderList);
 
             Map<String, Object> map = new HashMap<>();
-            map.put("travelb",travelDto);
+            map.put("travelb",travelBoxDto);
             return Result.success(map);
 
 
@@ -128,6 +127,28 @@ public class TravelController {
          map.put("travelDetail",travelDetailDto);
          return Result.success(map);
     }
+        @ApiOperation("出差页面修改")
+        @PostMapping("/update/{id}")
+        public Result<TravelDto> update(@PathVariable("id")Long id){
+            Customer customer = new Customer();
+            customer.setId(1L);
+            customer.setCustomerName("xx集团");
+
+            Order order = new Order();
+            order.setId(1L);
+            order.setOrderTitle("订单标题1");
+
+            String cause = "出差原因";
+
+            TravelDto travelDto = new TravelDto();
+            travelDto.setCustomer(customer);
+            travelDto.setOrder(order);
+            travelDto.setCause(cause);
+
+            return Result.success(travelDto);
+
+        }
+
     @ApiOperation("出差页面删除")
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable("id")Long id){
