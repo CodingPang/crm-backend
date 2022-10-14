@@ -23,5 +23,5 @@
     <select id="queryUserById" resultType="com.greatgump.crm.entity.User">
         select id, username from t_user where is_delete = 0 and id = #{id}
     </select>
-
+<!---->
 </mapper>
