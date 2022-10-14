@@ -92,11 +92,21 @@ public class TravelController {
             customer.setCustomerName("zss");
             customerList.add(customer);//把数据添加到customerList中
 
+             Customer customer1 = new Customer();//给customerList准备数据
+            customer1.setId(2L);
+            customer1.setCustomerName("dff");
+            customerList.add(customer1);//把数据添加到customerList中
+
             List<Order> orderList = new ArrayList<>();//给loanListDto中orderList准备数据
             Order order = new Order();//给orderList准备数据
             order.setId(1L);
             order.setOrderTitle("订单标题3");
             orderList.add(order);//把数据添加到orderList中
+
+                Order order1 = new Order();//给orderList准备数据
+            order1.setId(2L);
+            order1.setOrderTitle("订单标题4");
+            orderList.add(order1);//把数据添加到orderList中
 
             travelBoxDto.setCustomerList(customerList);
             travelBoxDto.setOrderList(orderList);
@@ -154,6 +164,16 @@ public class TravelController {
     public Result delete(@PathVariable("id")Long id){
 
         travelService.removeById(id);
+        return Result.success();
+    }
+    @ApiOperation("出差页面批量删除")
+    @DeleteMapping("/deletion")
+    public Result deletion(@RequestBody List<TravelDto> travelDtos){
+//        System.out.println("-------->"+travelDtos);
+        for (TravelDto travelDto : travelDtos) {
+            travelService.removeById(travelDto.getId());
+        }
+
         return Result.success();
     }
 }

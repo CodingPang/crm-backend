@@ -3,6 +3,7 @@ package com.greatgump.crm.controller;
 import com.greatgump.crm.dto.DetailDto;
 import com.greatgump.crm.dto.LoanBoxDto;
 import com.greatgump.crm.dto.LoanDto;
+import com.greatgump.crm.dto.LoanQueryDto;
 import com.greatgump.crm.entity.*;
 import com.greatgump.crm.service.LoanService;
 import com.greatgump.crm.utils.Result;
@@ -143,6 +144,11 @@ public class LoanController {
 
        Map<String, Object> map = new HashMap<>();
        map.put("loanbox",loanBoxDto);
+
+
+
+
+
        return Result.success(map);
 
      }
@@ -160,6 +166,10 @@ public class LoanController {
     detailDto.setApprovalStatus(1);
     detailDto.setApprover("zs");
     detailDto.setSubmission_time(new Date(System.currentTimeMillis()));
+
+
+
+
 
     Map<String, Object> map = new HashMap<>();
     map.put("detail",detailDto);
@@ -195,14 +205,40 @@ public class LoanController {
 
     return Result.success(loanDto);
 
-
    }
+//    @ApiOperation("借款页面关键词查询")
+//    @GetMapping("/queryAllkeys")
+//   public Result queryAllkeys(@RequestBody List<LoanQueryDto>  loanQueryDto){
+//
+//      LoanDto loanDto = new LoanDto();
+//      loanDto.setId(1L);
+//      loanDto.setCustomer(new Customer().setCustomerName("上海大华科技有限公司"));
+//      loanDto.setLoanAmount(BigDecimal.valueOf(2000));
+//      loanDto.setCause("借款原因");
+//      loanDto.setApprovalStatus("1");
+//      loanDto.setAppplicationTime(new Date(System.currentTimeMillis()));
+//      loanDto.setApplicant(new User().setUsername("zs"));
+//
+//        return Result.success(loanDto);
+//   }
 
   @ApiOperation("借款页面删除")
   @DeleteMapping("/delete/{id}")
   public Result delete(@PathVariable("id")Long id){
 
     loanService.removeById(id);
+    return Result.success();
+
+
+  }
+  @ApiOperation("借款页面批量删除")
+  @DeleteMapping("/deletion")
+  public Result deletion(@RequestBody List<LoanDto> loanDtos){
+//        System.out.println("--------------->"+loanDtos);
+        for (LoanDto loanDto : loanDtos) {
+            loanService.removeById(loanDto.getId());
+        }
+
     return Result.success();
   }
 }

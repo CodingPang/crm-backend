@@ -1,5 +1,6 @@
 package com.greatgump.crm.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.entity.Loan;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,5 +15,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface LoanMapper extends BaseMapper<Loan> {
-
+      Page<Loan> queryAllloans(Page page);
 }

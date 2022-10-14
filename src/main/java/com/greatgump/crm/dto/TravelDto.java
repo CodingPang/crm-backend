@@ -16,6 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 public class TravelDto {
 
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty("主键，自增")
+    private Long id;
+
     @ApiModelProperty("所有的用户")
     private Customer customer;
 

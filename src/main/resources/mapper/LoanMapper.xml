@@ -17,10 +17,9 @@
             <result column="customer_name" property="customerName"/>
         </association>
     </resultMap>
+    <select id="queryAllloans" resultType="com.greatgump.crm.entity.Loan">
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, associated_business, loan_amount, cause, approval_status, appplication_time, applicant, remark, is_delete
-    </sql>
+    </select>
+
 
 </mapper>
