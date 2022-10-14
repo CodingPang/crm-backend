@@ -34,8 +34,8 @@ public class BusinessController {
     private BusinessService businessService;
 
     @ApiOperation("获取所有商机信息")
-    @GetMapping("/businesss")
-    public Result<BusinessDto> getAllCustomer(@PathVariable("wps") int current,
+    @GetMapping("/businesss/{current}/{size}")
+    public Result<BusinessDto> getAllCustomer(@PathVariable("current") int current,
                                               @PathVariable("size") int size) {
         Page<Customer> customerPage = new Page<>(current, size);
 
@@ -64,6 +64,8 @@ public class BusinessController {
         userDtoList.add(userDto02);
 
 //        TODO 商机来源、商机阶段、关联的客户
+
+
 
         Map<String, Object> map = new HashMap<>();
         map.put("商机归属人", userDtoList);

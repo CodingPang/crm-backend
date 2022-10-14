@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -20,11 +21,11 @@ import lombok.experimental.Accessors;
  * @author team6
  * @since 2022-10-12 10:31:27
  */
-@Getter
-@Setter
+
+@Data
 @Accessors(chain = true)
 @TableName("t_order")
-@ApiModel(value = "Order对象", description = "")
+@ApiModel(value = "Order对象", description = "订单")
 public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,9 +34,9 @@ public class Order implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty("关联名称")
-    @TableField("customer_name")
-    private String customerName;
+    @ApiModelProperty("关联名称(外键，客户表id)")
+    @TableField("customer_id")
+    private Customer customer;
 
     @ApiModelProperty("订单标题")
     @TableField("order_title")
@@ -48,6 +49,10 @@ public class Order implements Serializable {
     @ApiModelProperty("订单总额")
     @TableField("oder_total")
     private BigDecimal oderTotal;
+
+    @ApiModelProperty("签单日期")
+    @TableField("order_date")
+    private String orderDate;
 
     @ApiModelProperty("已回款金额")
     @TableField("total_res")
