@@ -1,6 +1,7 @@
 package com.greatgump.crm.controller;
 
 import com.greatgump.crm.dto.DetailDto;
+import com.greatgump.crm.dto.LoanBoxDto;
 import com.greatgump.crm.dto.LoanDto;
 import com.greatgump.crm.entity.*;
 import com.greatgump.crm.service.LoanService;
@@ -99,37 +100,49 @@ public class LoanController {
      map.put("loanb",loanList);
     return Result.success(map,4L);
   }
-     @ApiOperation("新增借款信息")
-     @GetMapping("/pre")
+     @ApiOperation("借款下拉框")
+     @PutMapping("/pre")
      public Result<Map<String ,Object>> preAdd(){
-       LoanDto loanDto = new LoanDto();//回显数据
+       LoanBoxDto loanBoxDto = new LoanBoxDto();//回显数据
 
        List<Customer> customerList = new ArrayList<>();//给loanDto中customerList准备数据
        Customer customer = new Customer();//给customerList准备数据
        customer.setId(1L);
        customer.setCustomerName("lss");
        customerList.add(customer);//把数据添加到customerList中
+          Customer customer1 = new Customer();//给customerList准备数据
+       customer1.setId(2L);
+       customer1.setCustomerName("www");
+       customerList.add(customer1);//把数据添加到customerList中
 
        List<Order> orderList = new ArrayList<>();//给loanListDto中orderList准备数据
        Order order = new Order();//给orderList准备数据
        order.setId(1L);
        order.setOrderTitle("订单标题5");
        orderList.add(order);//把数据添加到orderList中
+         Order order1 = new Order();//给orderList准备数据
+       order1.setId(2L);
+       order1.setOrderTitle("订单标题6");
+       orderList.add(order1);//把数据添加到orderList中
 
        List<Business> businessList = new ArrayList<>();//给loanListDto中businessList准备数据
        Business business = new Business();//给businessList准备数据
        business.setId(1L);
        business.setBussinessTitle("商机标题5");
        businessList.add(business);//把数据添加到businessList中
+         Business business1 = new Business();//给businessList准备数据
+       business1.setId(2L);
+       business1.setBussinessTitle("商机标题6");
+       businessList.add(business1);//把数据添加到businessList中
 
 
 
-       loanDto.setCustomerList(customerList);
-       loanDto.setOrderList(orderList);
-       loanDto.setBusinessList(businessList);
+       loanBoxDto.setCustomerList(customerList);
+       loanBoxDto.setOrderList(orderList);
+       loanBoxDto.setBusinessList(businessList);
 
        Map<String, Object> map = new HashMap<>();
-       map.put("loanbox",loanDto);
+       map.put("loanbox",loanBoxDto);
        return Result.success(map);
 
      }
@@ -152,6 +165,38 @@ public class LoanController {
     map.put("detail",detailDto);
    return Result.success(map);
   }
+  @ApiOperation("借款页面修改")
+  @PostMapping("/update/{id}")
+   public Result<LoanDto> update(@PathVariable("id")Long id){
+
+
+
+    Customer customer = new Customer();
+    customer.setId(1L);
+    customer.setCustomerName("xx集团");
+
+    Order order = new Order();
+    order.setId(1L);
+    order.setOrderTitle("订单标题1");
+
+    Business business = new Business();
+    business.setId(1L);
+    business.setBussinessTitle("商机标题1");
+
+    String cause = "借款原因";
+    BigDecimal loanAmount = BigDecimal.valueOf(2000);
+
+    LoanDto loanDto = new LoanDto();
+    loanDto.setCustomer(customer);
+    loanDto.setOrder(order);
+    loanDto.setBusiness(business);
+    loanDto.setCause(cause);
+    loanDto.setLoanAmount(loanAmount);
+
+    return Result.success(loanDto);
+
+
+   }
 
   @ApiOperation("借款页面删除")
   @DeleteMapping("/delete/{id}")
