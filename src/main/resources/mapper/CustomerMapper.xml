@@ -49,6 +49,12 @@
         WHERE tcs.scale_id = tsc.id AND tcs.type_id = tt.id AND tcs.source_id = tso.id AND tcs.industry_id = ti.id
           AND tcs.id = tc.customer_id AND u.id=tcs.user_id  AND  tcs.is_delete=0 AND tcs.is_customer = 1 AND tcs.user_id = #{arg0}
     </select>
+    <select id="queryName" resultType="com.greatgump.crm.dto.LuoDto2">
+        SELECT customer_name, id from t_customer
+    </select>
+    <select id="queryPhone" resultType="java.lang.String">
+        SELECT contact_name from t_contact
+    </select>
 
 
 </mapper>

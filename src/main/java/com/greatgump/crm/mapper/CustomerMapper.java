@@ -2,6 +2,7 @@ package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.BoxDto;
+import com.greatgump.crm.dto.LuoDto2;
 import com.greatgump.crm.entity.Customer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -26,7 +27,7 @@ public interface CustomerMapper extends BaseMapper<Customer> {
     int insertCustomer(Customer customer);
 
 
+    List<LuoDto2> queryName();
 
-
-
+    List<String> queryPhone();
 }

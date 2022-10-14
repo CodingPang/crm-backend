@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.Equivalence;
 import com.greatgump.crm.common.R;
 import com.greatgump.crm.dto.LuoDto1;
+import com.greatgump.crm.dto.LuoDto2;
 import com.greatgump.crm.entity.Contact;
 import com.greatgump.crm.entity.Offer;
 import com.greatgump.crm.entity.OfferDetails;
 import com.greatgump.crm.entity.Product;
+import com.greatgump.crm.service.CustomerService;
 import com.greatgump.crm.service.OfferDetailsService;
 import com.greatgump.crm.service.ProductService;
 import com.greatgump.crm.utils.Result;
@@ -38,6 +40,20 @@ public class OfferDetailsController {
     private OfferDetailsService offerDetailsService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private CustomerService customerService;
+
+    @ApiOperation("这是关联客户下拉框，会返回客户名称及id")
+    @GetMapping("/crm/offer_details/listcustmoer")
+    public Result<List<LuoDto2>> listCustomer(){
+       return Result.success(customerService.queryName());
+    }
+
+    @ApiOperation("联系人的下拉框，需提供客户id")
+    @GetMapping("/crm/offer_details/phone")
+    public Result<List<String>> listPhoe(){
+        return Result.success(customerService.queryPhone());
+    }
     @ApiOperation("修改报价页面列表，需提供页面参数")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/crm/offer_details/list/{current}/{size}")

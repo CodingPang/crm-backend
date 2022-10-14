@@ -2,6 +2,7 @@ package com.greatgump.crm.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.BoxDto;
+import com.greatgump.crm.dto.LuoDto2;
 import com.greatgump.crm.entity.Customer;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -25,4 +26,8 @@ public interface CustomerService extends IService<Customer> {
     boolean saveCustomer(Customer customer);
 
     BoxDto queryAllBox();
+
+    List<LuoDto2> queryName();
+
+    List<String> queryPhone();
 }

@@ -1,13 +1,22 @@
 package com.greatgump.crm.controller;
 
 import com.greatgump.crm.common.R;
+import com.greatgump.crm.dto.LuoDto2;
 import com.greatgump.crm.entity.Contract;
 import com.greatgump.crm.service.ContractService;
+import com.greatgump.crm.service.CustomerService;
+import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -23,6 +32,8 @@ import java.util.List;
 public class ContractController {
     @Autowired
     private ContractService contractService;
+    @Autowired
+    private CustomerService customerService;
 
     @ApiOperation("展示表格")
     @GetMapping("/crm/contract/list")
@@ -56,5 +67,32 @@ public class ContractController {
         contractService.updateById(contract);
         return R.ok().put("修改成功",contract);
     }
+    @ApiOperation("这是关联客户下拉框，会返回客户名称及id")
+    @GetMapping("/crm/contract/listcustmoer")
+    public Result<List<LuoDto2>> listCustomer(){
+        return Result.success(customerService.queryName());
+    }
 
+    @ApiOperation("联系人的下拉框，需提供客户id")
+    @GetMapping("/crm/contract/phone")
+    public Result<List<String>> listPhone(){
+        return Result.success(customerService.queryPhone());
+    }
+
+
+
+    public void upload(HttpServletRequest request) throws IOException{
+        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
+        MultipartFile multipartFile = multipartHttpServletRequest.getFile("file");
+        String path = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
+        String filename = multipartFile.getOriginalFilename();
+        InputStream inputStream = multipartFile.getInputStream();
+        byte[] b =new byte[1048576];
+        int length = inputStream.read(b);
+        path +="//"+filename;
+        FileOutputStream outputStream = new FileOutputStream(path);
+        outputStream.write(b,0,length);
+        inputStream.close();
+        outputStream.close();
+    }
 }
