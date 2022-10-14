@@ -102,7 +102,7 @@ public class LoanController {
     return Result.success(map,4L);
   }
      @ApiOperation("借款下拉框")
-     @PutMapping("/pre")
+     @PostMapping("/pre")
      public Result<Map<String ,Object>> preAdd(){
        LoanBoxDto loanBoxDto = new LoanBoxDto();//回显数据
 
@@ -168,15 +168,12 @@ public class LoanController {
     detailDto.setSubmission_time(new Date(System.currentTimeMillis()));
 
 
-
-
-
     Map<String, Object> map = new HashMap<>();
     map.put("detail",detailDto);
    return Result.success(map);
   }
   @ApiOperation("借款页面修改")
-  @PostMapping("/update/{id}")
+  @PutMapping("/update/{id}")
    public Result<LoanDto> update(@PathVariable("id")Long id){
 
 

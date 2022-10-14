@@ -82,7 +82,7 @@ public class TravelController {
     }
 
         @ApiOperation("出差下拉框")
-        @PutMapping("/pre")
+        @PostMapping("/pre")
         public Result<Map<String ,Object>> preAdd(){
             TravelBoxDto travelBoxDto = new TravelBoxDto();
 
@@ -138,7 +138,7 @@ public class TravelController {
          return Result.success(map);
     }
         @ApiOperation("出差页面修改")
-        @PostMapping("/update/{id}")
+        @PutMapping("/update/{id}")
         public Result<TravelDto> update(@PathVariable("id")Long id){
             Customer customer = new Customer();
             customer.setId(1L);
