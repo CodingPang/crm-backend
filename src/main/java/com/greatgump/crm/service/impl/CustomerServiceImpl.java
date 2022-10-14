@@ -2,7 +2,9 @@ package com.greatgump.crm.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.BoxDto;
-import com.greatgump.crm.dto.LuoDto2;
+import com.greatgump.crm.dto.CustomerBaseDto;
+import com.greatgump.crm.dto.CustomerDto;
+import com.greatgump.crm.dto.CustomerQueryDto;
 import com.greatgump.crm.entity.*;
 import com.greatgump.crm.mapper.*;
 import com.greatgump.crm.service.ContactService;
@@ -31,7 +33,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
     @Autowired
     private CustomerMapper customerMapper;
     @Autowired
-    private ContactService contactService;
+    private ContactMapper contactMapper;
     @Autowired
     private ScaleMapper scaleMapper;
     @Autowired
@@ -52,31 +54,44 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         BoxDto boxDto = new BoxDto(scales,types,sources,industries,users);
         return boxDto;
     }
-
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public List<LuoDto2> queryName() {
-          return  customerMapper.queryName();
+    public CustomerBaseDto queryCustomerById(Integer cid) {
+        Customer customer = customerMapper.selectById(cid);
+        Scale scale = scaleMapper.selectById(customer.getScaleId());
+        Type type = typeMapper.selectById(customer.getTypeId());
+        Source source = sourceMapper.selectById(customer.getSourceId());
+        Industry industry = industryMapper.selectById(customer.getIndustryId());
+        User user = userMapper.queryUserById((int) customer.getUserId());
+        Contact contact = contactMapper.queryDefByCustomerIdContact(cid);
+        CustomerBaseDto customerBaseDto = new CustomerBaseDto(scale,type,source,industry,user,contact);
+        return customerBaseDto;
     }
 
     @Override
-    public List<String> queryPhone() {
-        return customerMapper.queryPhone();
-    }
-
-    @Override
-    public Page<Customer> queryAllCustomer(Page page) {
+    public Page<CustomerDto> queryAllCustomer(Page page) {
         return customerMapper.queryAllCustomer(page);
     }
 
     @Override
-    public Page<Customer> queryAllSeas(Page page) {
+    public Page<CustomerDto> queryAllSeas(Page page) {
         return customerMapper.queryAllSeas(page);
     }
 
 
     @Override
-    public Page<Customer> queryCustomerByUid(Integer uid, Page page) {
+    public Page<CustomerDto> queryCustomerByUid(Integer uid, Page page) {
         return customerMapper.queryCustomerByUid(uid, page);
+    }
+
+    @Override
+    public List<CustomerDto> queryCustomerDynamic(CustomerQueryDto customerQueryDto) {
+        return customerMapper.queryCustomerDynamic(customerQueryDto);
+    }
+
+    @Override
+    public List<CustomerDto> querySeasDynamic(CustomerQueryDto customerQueryDto) {
+        return querySeasDynamic(customerQueryDto);/**/
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -86,8 +101,8 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         customerMapper.insertCustomer(customer);
         Contact contact = customer.getContact();
         contact.setCustomerId(customer.getId());
-        boolean b = contactService.save(contact);
-        return b;
+        int i = contactMapper.insert(contact);
+        return i>0?true:false;
     }
 
 

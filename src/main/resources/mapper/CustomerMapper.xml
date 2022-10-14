@@ -35,6 +35,7 @@
         WHERE tcs.scale_id = tsc.id AND tcs.type_id = tt.id AND tcs.source_id = tso.id AND tcs.industry_id = ti.id
               AND tcs.id = tc.customer_id AND u.id=tcs.user_id AND tcs.is_delete=0 AND tcs.is_customer = 1 AND tc.is_default = 1
     </select>
+
     <select id="queryAllSeas" resultMap="customerDtoMap">
         SELECT tcs.id,tcs.customer_name,tcs.province,tcs.city,tcs.create_time,u.username,ti.name industryName,tt.name typeName,tsc.scope,tso.name sourceName,
                tc.id ctid,tc.contact_name contactname,tc.mail,tc.phone,tc.qq,tc.department,tc.wechat
@@ -49,12 +50,50 @@
         WHERE tcs.scale_id = tsc.id AND tcs.type_id = tt.id AND tcs.source_id = tso.id AND tcs.industry_id = ti.id
           AND tcs.id = tc.customer_id AND u.id=tcs.user_id  AND  tcs.is_delete=0 AND tcs.is_customer = 1 AND tcs.user_id = #{arg0}
     </select>
-    <select id="queryName" resultType="com.greatgump.crm.dto.LuoDto2">
-        SELECT customer_name, id from t_customer
+    <select id="queryCustomerDynamic" resultMap="customerDtoMap" parameterType="com.greatgump.crm.dto.CustomerQueryDto">
+        SELECT tcs.id,tcs.customer_name,tcs.province,tcs.city,tcs.create_time,u.username,ti.name industryName,tt.name typeName,tsc.scope,tso.name sourceName,
+               tc.id ctid,tc.contact_name contactname,tc.mail,tc.phone,tc.qq,tc.department,tc.wechat
+        FROM t_customer tcs,t_contact tc,t_industry ti,t_scale tsc,t_source tso,t_type tt,t_user u
+        WHERE tcs.scale_id = tsc.id AND tcs.type_id = tt.id AND tcs.source_id = tso.id AND tcs.industry_id = ti.id
+          AND tcs.id = tc.customer_id AND u.id=tcs.user_id AND tcs.is_delete=0 AND tcs.is_customer = 1 AND tc.is_default = 1
+        <if test="keywords != null and keywords != ''">
+            AND tcs.customer_name = #{keywords} || u.username = #{keywords}
+        </if>
+        <if test="typeId != 0">
+            AND tcs.type_id = #{typeId}
+        </if>
+        <if test="industryId != 0">
+            AND tcs.industry_id = #{industryId}
+        </if>
+        <if test="startTime != null ">
+            AND tcs.create_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null ">
+            AND tcs.create_time &lt;= #{endTime}
+        </if>
     </select>
-    <select id="queryPhone" resultType="java.lang.String">
-        SELECT contact_name from t_contact
+    <select id="querySeasDynamic" resultType="com.greatgump.crm.dto.CustomerDto">
+        SELECT tcs.id,tcs.customer_name,tcs.province,tcs.city,tcs.create_time,u.username,ti.name industryName,tt.name typeName,tsc.scope,tso.name sourceName,
+        tc.id ctid,tc.contact_name contactname,tc.mail,tc.phone,tc.qq,tc.department,tc.wechat
+        FROM t_customer tcs,t_contact tc,t_industry ti,t_scale tsc,t_source tso,t_type tt,t_user u
+        WHERE tcs.scale_id = tsc.id AND tcs.type_id = tt.id AND tcs.source_id = tso.id AND tcs.industry_id = ti.id
+        AND tcs.id = tc.customer_id AND u.id=tcs.user_id AND tcs.is_delete=0 AND tcs.is_customer = 0 AND tc.is_default = 1
+        <if test="keywords != null and keywords != ''">
+            AND tcs.customer_name = #{keywords} || u.username = #{keywords}
+        </if>
+        <if test="typeId != 0">
+            AND tcs.type_id = #{typeId}
+        </if>
+        <if test="industryId != 0">
+            AND tcs.industry_id = #{industryId}
+        </if>
+        <if test="startTime != null ">
+            AND tcs.create_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null ">
+            AND tcs.create_time &lt;= #{endTime}
+        </if>
     </select>
-
+    /**/
 
 </mapper>

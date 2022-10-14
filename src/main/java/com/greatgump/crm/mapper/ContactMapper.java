@@ -18,5 +18,7 @@ public interface ContactMapper extends BaseMapper<Contact> {
     Page<Contact> queryAllContact(Page page);
     int saveContact(Contact contact);
 
+    Contact queryDefByCustomerIdContact(Integer cid);
+
 
 }

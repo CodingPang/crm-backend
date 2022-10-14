@@ -8,7 +8,6 @@
         <result column="username" property="username" />
         <result column="password" property="password" />
         <result column="salt" property="salt" />
-        <result column="parent_id" property="parentId" />
         <result column="dept_no" property="deptNo" />
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
@@ -19,7 +18,10 @@
         id, username, password, salt, parent_id, dept_no, remark, is_delete
     </sql>
     <select id="queryAllUserName" resultType="com.greatgump.crm.entity.User">
-        select id, username from t_user
+        select id, username from t_user where is_delete = 0
     </select>
-
+    <select id="queryUserById" resultType="com.greatgump.crm.entity.User">
+        select id, username from t_user where is_delete = 0 and id = #{id}
+    </select>
+<!---->
 </mapper>

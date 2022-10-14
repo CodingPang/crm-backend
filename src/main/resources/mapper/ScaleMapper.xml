@@ -15,7 +15,8 @@
         id, scope, remark, is_delete
     </sql>
     <select id="queryAllScale" resultType="com.greatgump.crm.entity.Scale">
-        select id, scope from t_scale
+        select id, scope from t_scale where is_delete = 0
     </select>
+
 
 </mapper>
