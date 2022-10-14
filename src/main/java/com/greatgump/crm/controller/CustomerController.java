@@ -45,7 +45,7 @@ public class CustomerController {
         return Result.success(customerDtos1);
 
     }
-
+/**/
     @ApiOperation("公海查询条件查询")
     @PostMapping("/sea/dynamic")
     public Result<List<CustomerDto>> querySeasDynamic(@RequestBody CustomerQueryDto customerQueryDto){
