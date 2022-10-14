@@ -44,10 +44,6 @@ public class User implements Serializable {
     @TableField("salt")
     private String salt;
 
-    @ApiModelProperty("上级")
-    @TableField("parent_id")
-    private Long parentId;
-
     @ApiModelProperty("部门编号(外键)")
     @TableField("dept_no")
     private Long deptNo;

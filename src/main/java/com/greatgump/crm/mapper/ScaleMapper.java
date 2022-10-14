@@ -17,4 +17,5 @@ import java.util.List;
 @Mapper
 public interface ScaleMapper extends BaseMapper<Scale> {
         List<Scale> queryAllScale();
+
 }

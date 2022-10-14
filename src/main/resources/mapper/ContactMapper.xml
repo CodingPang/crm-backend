@@ -16,15 +16,30 @@
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
     </resultMap>
+    <resultMap id="contactDto" type="com.greatgump.crm.dto.ContactDto">
+        <id column="id" property="id" />
+        <result column="customerName" property="contactName" />
+        <result column="contact_name" property="contactName" />
+        <result column="mail" property="mail" />
+        <result column="phone" property="phone" />
+        <result column="qq" property="qq" />
+        <result column="department" property="department" />
+        <result column="wechat" property="wechat" />
+
+    </resultMap>
     <insert id="saveContact">
         insert into t_contact( contact_name, mail, phone, qq, department, wechat, customer_id,is_default, is_delete)
         values(#{contactName},#{mail},#{phone},#{qq},#{department},#{wechat},#{customerId},#{isDefault},0)
     </insert>
 
 
-    <select id="queryAllContact" resultMap="BaseResultMap">
-        select id, contact_name, mail, phone, qq, department, wechat, is_default, customer_id, remark, is_delete
-        from t_contact
+    <select id="queryAllContact" resultMap="contactDto">
+        SELECT tc.id, tc.contact_name, tc.mail, tc.phone, tc.qq, tc.department, tc.wechat,tcs.customer_name
+        FROM t_contact tc,t_customer tcs WHERE tc.is_delete = 0 AND tc.is_default = 1 AND tc.customer_id = tcs.id
+    </select>
+    <select id="queryDefByCustomerIdContact" resultType="com.greatgump.crm.entity.Contact">
+        select id, contact_name, mail, phone, qq, department, wechat
+        from t_contact where is_delete = 0 and is_default = 1 and customer_id = #{cid}
     </select>
 
 </mapper>

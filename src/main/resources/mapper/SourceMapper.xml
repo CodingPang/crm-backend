@@ -15,7 +15,7 @@
         id, name, remark, is_delete
     </sql>
     <select id="queryAllSource" resultType="com.greatgump.crm.entity.Source">
-        select id, name from t_source
+        select id, name from t_source where is_delete = 0
     </select>
 
 </mapper>

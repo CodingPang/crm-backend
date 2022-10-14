@@ -61,7 +61,7 @@ public class Customer implements Serializable {
     private long industryId;
 
     @ApiModelProperty("客户归属")
-    @TableField("belong_id")
+    @TableField("user_id")
     private long userId;
 
     @ApiModelProperty("1是客户，0是公海")

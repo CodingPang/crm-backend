@@ -40,7 +40,7 @@ public class ContactController {
     }
 
     @ApiOperation("添加联系人")
-    @PutMapping("/contacts")
+    @PostMapping("/contacts")
     public Result saveContact(@RequestBody Contact contact){
 
         int s = contactService.saveContact(contact);
@@ -48,7 +48,7 @@ public class ContactController {
     }
 
     @ApiOperation("编辑首位联系人")
-    @PostMapping("/contacts")
+    @PutMapping("/contacts")
     public Result editContact(@RequestBody Contact contact){
         boolean b = contactService.updateById(contact);
         return Result.judge(b);

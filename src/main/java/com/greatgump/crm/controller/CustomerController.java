@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.common.R;
 import com.greatgump.crm.dto.BoxDto;
+import com.greatgump.crm.dto.CustomerBaseDto;
 import com.greatgump.crm.dto.CustomerDto;
-import com.greatgump.crm.entity.Customer;
+import com.greatgump.crm.dto.CustomerQueryDto;
+import com.greatgump.crm.entity.*;
 import com.greatgump.crm.service.ContactService;
 import com.greatgump.crm.service.CustomerService;
 import com.greatgump.crm.utils.Result;
@@ -16,7 +18,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -33,6 +37,26 @@ public class CustomerController {
     @Autowired
     private CustomerService  customerService;
 
+    @ApiOperation("客户查询条件查询")
+    @PostMapping("/dynamic")
+    public Result<List<CustomerDto>> queryCustomerDynamic(@RequestBody CustomerQueryDto customerQueryDto){
+        List<CustomerDto> customerDtos1 = customerService.queryCustomerDynamic(customerQueryDto);
+
+        return Result.success(customerDtos1);
+
+    }
+
+    @ApiOperation("公海查询条件查询")
+    @PostMapping("/sea/dynamic")
+    public Result<List<CustomerDto>> querySeasDynamic(@RequestBody CustomerQueryDto customerQueryDto){
+
+
+        List<CustomerDto> customerDtos1 = customerService.queryCustomerDynamic(customerQueryDto);
+
+        return Result.success(customerDtos1);
+
+    }
+
     @ApiOperation("获取客户相关下拉框")
     @GetMapping("/box")
     public Result<BoxDto> queryAllBox(){
@@ -44,39 +68,48 @@ public class CustomerController {
     @ApiOperation("获取所有客户")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/customers/{current}/{size}")
-    public Result<List<Customer>> getAllCustomer(@PathVariable("current") int current, @PathVariable("size") int size){
-        Page<Customer> customerPage = new Page<>(current,size);
-        Page<Customer> pageInfo = customerService.queryAllCustomer(customerPage);
+    public Result<List<CustomerDto>> getAllCustomer(@PathVariable("current") int current, @PathVariable("size") int size){
+        Page<CustomerDto> customerPage = new Page<>(current,size);
+        Page<CustomerDto> pageInfo = customerService.queryAllCustomer(customerPage);
 
         return Result.success(pageInfo.getRecords(),pageInfo.getTotal());
     }
     @ApiOperation("获取我的客户")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "uid",value ="用户的ID",required = true),@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/customers/{uid}/{current}/{size}")
-    public Result<List<Customer>> getCustomerByUid(@PathVariable("uid") int uid,@PathVariable("current") int current, @PathVariable("size") int size){
-        Page<Customer> customerPage = new Page<>(current,size);
-        Page<Customer> pageInfo = customerService.queryCustomerByUid(uid,customerPage);
+    public Result<List<CustomerDto>> getCustomerByUid(@PathVariable("uid") int uid,@PathVariable("current") int current, @PathVariable("size") int size){
+        Page<CustomerDto> customerPage = new Page<>(current,size);
+        Page<CustomerDto> pageInfo = customerService.queryCustomerByUid(uid,customerPage);
 
         return Result.success(pageInfo.getRecords(),pageInfo.getTotal());
     }
     @ApiOperation("获取所有公海")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/seas/{current}/{size}")
-    public Result<List<Customer>> getAllSeas(@PathVariable("current") int current, @PathVariable("size") int size){
-        Page<Customer> customerPage = new Page(current, size);
-        Page<Customer> pageInfo = customerService.queryAllSeas(customerPage);
+    public Result<List<CustomerDto>> getAllSeas(@PathVariable("current") int current, @PathVariable("size") int size){
+        Page<CustomerDto> customerPage = new Page(current, size);
+        Page<CustomerDto> pageInfo = customerService.queryAllSeas(customerPage);
 
         return Result.success(pageInfo.getRecords(),pageInfo.getTotal());
     }
 
     @ApiOperation("新增客户")
-    @PutMapping("/customer")
+    @PostMapping("/customer")
     public Result saveCustomer(@RequestBody Customer customer){
         boolean b = customerService.saveCustomer(customer);
         return Result.judge(b);
     }
-    @ApiOperation("修改客户或者公海")
-    @PostMapping("/customer")
+
+    @ApiOperation("修改客户或者公海--点击编辑 AND 客户名称点击进入的去的--概况信息")
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "cid",value ="当前用户id",required = true)})
+    @PutMapping("/customer/{cid}")
+    public Result<CustomerBaseDto> preEditCustomer(@PathVariable("cid")Integer cid){
+        CustomerBaseDto customerBaseDto = customerService.queryCustomerById(cid);
+        return Result.success(customerBaseDto);
+    }
+
+    @ApiOperation("修改客户或者公海--点击保存")
+    @PutMapping("/customer")
     public Result editCustomer(@RequestBody Customer customer){
         boolean b = customerService.updateById(customer);
         return Result.judge(b);
@@ -100,7 +133,7 @@ public class CustomerController {
     }
     @ApiOperation("转移客户")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "uid",value ="转移的用户ID",required = true)})
-    @PostMapping("/customer/transfer/{uid}")
+    @PutMapping("/customer/transfer/{uid}")
     public Result transferCustomer(@RequestBody List<CustomerDto> customerDtos,@PathVariable("uid")Integer uid){
         boolean b = false;
         for (CustomerDto customerDto : customerDtos) {
@@ -112,7 +145,7 @@ public class CustomerController {
         return Result.judge(b);
     }
     @ApiOperation("移入公海")
-    @PostMapping("/customer/seas")
+    @PutMapping("/customer/seas")
     public Result moveSeas(@RequestBody List<CustomerDto> customerDtos){
         boolean b = false;
         for (CustomerDto customerDto : customerDtos) {
@@ -125,7 +158,7 @@ public class CustomerController {
     }
 
     @ApiOperation("领取客户")
-    @PostMapping("/customer/receive/{uid}")
+    @PutMapping("/customer/receive/{uid}")
     public Result receiveCustomer(@PathVariable("uid")Integer uid,@RequestBody List<CustomerDto> customerDtos){
         boolean b = false;
         for (CustomerDto customerDto : customerDtos) {

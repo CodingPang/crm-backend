@@ -15,7 +15,7 @@
         id, name, remark, is_delete
     </sql>
     <select id="queryAllType" resultType="com.greatgump.crm.entity.Type">
-        select id, name from t_type
+        select id, name from t_type where is_delete = 0
     </select>
 
 </mapper>
