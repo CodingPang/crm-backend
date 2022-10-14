@@ -91,7 +91,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
 
     @Override
     public List<CustomerDto> querySeasDynamic(CustomerQueryDto customerQueryDto) {
-        return querySeasDynamic(customerQueryDto);
+        return querySeasDynamic(customerQueryDto);/**/
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

@@ -27,7 +27,7 @@ public interface CustomerMapper extends BaseMapper<Customer> {
     Page<CustomerDto> queryCustomerByUid(Integer uid,Page page);
     List<CustomerDto> queryCustomerDynamic( CustomerQueryDto customerQueryDto);
     List<CustomerDto> querySeasDynamic( CustomerQueryDto customerQueryDto);
-
+/**/
     int insertCustomer(Customer customer);
 
 
