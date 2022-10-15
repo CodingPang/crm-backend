@@ -1,6 +1,8 @@
 package com.greatgump.crm.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.greatgump.crm.dto.BackCheckDto;
 import com.greatgump.crm.entity.BackCheck;
 
 /**
@@ -13,4 +15,10 @@ import com.greatgump.crm.entity.BackCheck;
  */
 public interface BackCheckService extends IService<BackCheck> {
 
+  /**
+   * 查询所有的回款审批对象
+   * @param backCheckDtoPage
+   * @return
+   */
+  Page<BackCheckDto> queryAllBackCheck(Page<BackCheckDto> backCheckDtoPage);
 }
