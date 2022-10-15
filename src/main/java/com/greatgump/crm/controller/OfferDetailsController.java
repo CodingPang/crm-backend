@@ -3,7 +3,6 @@ package com.greatgump.crm.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.Equivalence;
-import com.greatgump.crm.common.R;
 import com.greatgump.crm.dto.LuoDto1;
 import com.greatgump.crm.dto.LuoDto2;
 import com.greatgump.crm.entity.Contact;

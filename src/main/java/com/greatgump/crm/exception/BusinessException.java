@@ -1,31 +1,39 @@
 package com.greatgump.crm.exception;
 
-import com.greatgump.crm.common.ErrorCode;
+import com.greatgump.crm.utils.IResultCode;
+import com.greatgump.crm.utils.ResultCode;
+
 /**
  * 自定义异常类
  *
  * @author yupi
  */
-public class BusinessException extends RuntimeException {
+public class BusinessException extends RuntimeException implements IResultCode {
 
-    private final int code;
+    private final String code;
 
-    public BusinessException(int code, String message) {
+    public BusinessException(String code, String message) {
         super(message);
         this.code = code;
     }
 
-    public BusinessException(ErrorCode errorCode) {
-        super(errorCode.getMessage());
-        this.code = errorCode.getCode();
+    public BusinessException(ResultCode resultCode) {
+        super(resultCode.getMsg());
+        this.code = resultCode.getCode();
     }
 
-    public BusinessException(ErrorCode errorCode, String message) {
+    public BusinessException(ResultCode errorCode, String message) {
         super(message);
         this.code = errorCode.getCode();
     }
 
-    public int getCode() {
+    @Override
+    public String getCode() {
         return code;
+    }
+
+    @Override
+    public String getMsg() {
+        return this.getMessage();
     }
 }

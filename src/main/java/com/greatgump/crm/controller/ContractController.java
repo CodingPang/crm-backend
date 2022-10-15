@@ -1,6 +1,5 @@
 package com.greatgump.crm.controller;
 
-import com.greatgump.crm.common.R;
 import com.greatgump.crm.dto.LuoDto2;
 import com.greatgump.crm.entity.Contract;
 import com.greatgump.crm.service.ContractService;
@@ -37,35 +36,36 @@ public class ContractController {
 
     @ApiOperation("展示表格")
     @GetMapping("/crm/contract/list")
-    public R list(){
-        return R.ok().put("合同管理列表",contractService.list());
+    public Result list(){
+//        return R.ok().put("合同管理列表",contractService.list());
+        return Result.success(contractService.list(),1L);
     }
 
 
     @ApiOperation("合同管理列表增加")
     @PostMapping("/crm/contract/add")
-    public R add(Contract contract){
+    public Result add(Contract contract){
         contractService.save(contract);
-        return R.ok().put("添加成功",contract);
+        return Result.success(contract);
     }
     @ApiOperation("合同管理列表单个删除")
     @DeleteMapping("/crm/contract/delete")
-    public R delete(Contract contract){
+    public Result delete(Contract contract){
         contractService.removeById(contract);
-        return R.ok().put("删除成功",contract);
+        return Result.success(contract);
     }
     @ApiOperation("合同管理系统批量删除")
     @DeleteMapping("/crm/contract/deletes")
-    public R deletes(List<Contract> contracts){
+    public Result deletes(List<Contract> contracts){
         contractService.removeBatchByIds(contracts);
-        return R.ok().put("删除成功",contracts);
+        return Result.success(contracts);
     }
 
     @ApiOperation("合同管理系统修改")
     @PostMapping("/crm/contract/update")
-    public R update(Contract contract){
+    public Result update(Contract contract){
         contractService.updateById(contract);
-        return R.ok().put("修改成功",contract);
+        return Result.success();
     }
     @ApiOperation("这是关联客户下拉框，会返回客户名称及id")
     @GetMapping("/crm/contract/listcustmoer")

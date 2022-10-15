@@ -1,8 +1,9 @@
 package com.greatgump.crm.exception;
 
-import com.greatgump.crm.common.ErrorCode;
-import com.greatgump.crm.common.R;
+import com.greatgump.crm.utils.Result;
+import com.greatgump.crm.utils.ResultCode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -16,14 +17,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
-    public R businessExceptionHandler(BusinessException e) {
+    public Result<T> businessExceptionHandler(BusinessException e) {
         log.error("businessException: " + e.getMessage(), e);
-        return R.error(e.getCode(), e.getMessage());
+        return Result.failed(e.getCode(), e.getMessage());
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public R runtimeExceptionHandler(RuntimeException e) {
+    public Result<T>runtimeExceptionHandler(RuntimeException e) {
         log.error("runtimeException", e);
-        return R.error(ErrorCode.SYSTEM_ERROR, e.getMessage());
+        return Result.failed(ResultCode.SYSTEM_EXECUTION_ERROR, e.getMessage());
     }
 }

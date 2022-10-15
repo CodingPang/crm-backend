@@ -2,7 +2,6 @@ package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.common.R;
 import com.greatgump.crm.dto.BoxDto;
 import com.greatgump.crm.dto.CustomerBaseDto;
 import com.greatgump.crm.dto.CustomerDto;

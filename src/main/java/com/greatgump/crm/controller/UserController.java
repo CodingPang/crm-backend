@@ -1,6 +1,5 @@
 package com.greatgump.crm.controller;
 
-import com.greatgump.crm.common.R;
 import com.greatgump.crm.dto.UserDto;
 import com.greatgump.crm.entity.Dept;
 import com.greatgump.crm.entity.User;

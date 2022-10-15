@@ -1,7 +1,6 @@
 package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.common.R;
 import com.greatgump.crm.entity.Contact;
 import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.service.ContactService;
