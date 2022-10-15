@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.ChasingRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.ChasingRecord">
+        <id column="id" property="id" />
+        <result column="contact_id" property="contactId" />
+        <result column="follow_through" property="followThrough" />
+        <result column="user_id" property="userId" />
+        <result column="progressive_time" property="progressiveTime" />
+        <result column="catch_content" property="catchContent" />
+        <result column="t_follow_form_id" property="tFollowFormId" />
+        <result column="remark" property="remark" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, contact_id, follow_through, user_id, progressive_time, catch_content, t_follow_form_id, remark, is_delete
+    </sql>
+
+</mapper>

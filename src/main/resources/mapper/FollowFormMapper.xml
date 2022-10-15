@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.FollowFormMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.FollowForm">
+        <id column="id" property="id" />
+        <result column="contactss" property="contactss" />
+        <result column="e_mail" property="eMail" />
+        <result column="phone" property="phone" />
+        <result column="qq" property="qq" />
+        <result column="dept_id" property="deptId" />
+        <result column="wechat" property="wechat" />
+        <result column="customer_needs" property="customerNeeds" />
+        <result column="status" property="status" />
+        <result column="follow_type" property="followType" />
+        <result column="follow_source" property="followSource" />
+        <result column="user_id" property="userId" />
+        <result column="customer_id" property="customerId" />
+        <result column="current_time" property="currentTime" />
+        <result column="business_name" property="businessName" />
+        <result column="business_stage" property="businessStage" />
+        <result column="estimated_income" property="estimatedIncome" />
+        <result column="remark" property="remark" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, contactss, e_mail, phone, qq, dept_id, wechat, customer_needs, status, follow_type, follow_source, user_id, customer_id, current_time, business_name, business_stage, estimated_income, remark, is_delete
+    </sql>
+
+</mapper>
