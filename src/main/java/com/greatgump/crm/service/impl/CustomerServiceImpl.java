@@ -5,6 +5,7 @@ import com.greatgump.crm.dto.BoxDto;
 import com.greatgump.crm.dto.CustomerBaseDto;
 import com.greatgump.crm.dto.CustomerDto;
 import com.greatgump.crm.dto.CustomerQueryDto;
+import com.greatgump.crm.dto.LuoDto2;
 import com.greatgump.crm.entity.*;
 import com.greatgump.crm.mapper.*;
 import com.greatgump.crm.service.ContactService;
@@ -105,5 +106,15 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         return i>0?true:false;
     }
 
+
+    @Override
+    public List<LuoDto2> queryName() {
+        return  customerMapper.queryName();
+    }
+
+    @Override
+    public List<String> queryPhone() {
+        return customerMapper.queryPhone();
+    }
 
 }

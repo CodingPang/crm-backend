@@ -94,6 +94,11 @@
             AND tcs.create_time &lt;= #{endTime}
         </if>
     </select>
-    /**/
+    <select id="queryName" resultType="com.greatgump.crm.dto.LuoDto2">
+        SELECT customer_name, id from t_customer
+    </select>
+    <select id="queryPhone" resultType="java.lang.String">
+        SELECT contact_name from t_contact
+    </select>
 
 </mapper>

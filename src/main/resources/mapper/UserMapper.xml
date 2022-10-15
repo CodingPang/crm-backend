@@ -15,7 +15,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, password, salt, parent_id, dept_no, remark, is_delete
+        id, username, password, salt, role_id, remark, is_delete
     </sql>
     <select id="queryAllUserName" resultType="com.greatgump.crm.entity.User">
         select id, username from t_user where is_delete = 0
