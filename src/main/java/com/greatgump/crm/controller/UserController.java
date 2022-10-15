@@ -5,6 +5,7 @@ import com.greatgump.crm.dto.UserDto;
 import com.greatgump.crm.entity.Dept;
 import com.greatgump.crm.entity.User;
 import com.greatgump.crm.utils.Result;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author team6
  * @since 2022-10-12 10:31:27
  */
+@Api(tags = "")
 @RestController
 @RequestMapping("/crm/user")
 public class UserController {
@@ -31,11 +33,11 @@ public class UserController {
     return  ;
   }*/
 
-  @GetMapping("/users")
+/*  @GetMapping("/users")
   public Result<UserDto> queryAllUsers(){
     UserDto userDto = new UserDto();
     userDto.setDept(new Dept());
 
     return Result.success(userDto,2L);
-  }
+  }*/
 }

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.entity.Order;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
  * @since 1.0
  */
 
-public class BackPlanDto {
+public class BackPlanDto implements Serializable {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty("主键，自增")
     @TableId(value = "id", type = IdType.AUTO)

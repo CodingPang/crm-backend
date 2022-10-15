@@ -6,19 +6,46 @@
     <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Clue">
         <id column="id" property="id" />
         <result column="username" property="username" />
+        <result column="needs" property="needs" />
         <result column="personnel" property="personnel" />
         <result column="contacts" property="contacts" />
         <result column="phone" property="phone" />
         <result column="last_follow" property="lastFollow" />
         <result column="not_follow_days" property="notFollowDays" />
-        <result column="clue_status" property="clueStatus" />
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
+
+
+        <association property="username" javaType="com.greatgump.crm.entity.Scale">
+            <id column="wpsid" property="id"></id>
+            <result column="scope" property="scope"></result>
+        </association>
+
+        <association property="type" javaType="com.greatgump.crm.entity.Type">
+            <id column="tid" property="id"></id>
+            <result column="tname" property="name"></result>
+        </association>
+
+        <association property="source" javaType="com.greatgump.crm.entity.Source">
+            <id column="soid" property="id"></id>
+            <result column="soname" property="name"></result>
+        </association>
+
+        <association property="industry" javaType="com.greatgump.crm.entity.Industry">
+            <id column="inid" property="id"></id>
+            <result column="iname" property="name"></result>
+        </association>
+
+        <association property="belong" javaType="com.greatgump.crm.entity.User">
+            <id column="uid" property="id"></id>
+            <result column="username" property="username"></result>
+        </association>
+
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, personnel, contacts, phone, last_follow, not_follow_days, clue_status, remark, is_delete
+        id, username, needs, personnel, contacts, phone, last_follow, not_follow_days, clue_status, remark, is_delete
     </sql>
 
 </mapper>

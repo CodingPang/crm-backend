@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.greatgump.crm.entity.Dept;
+import com.greatgump.crm.entity.Role;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,13 +33,8 @@ public class UserDto {
   private String username;
 
 
-  @ApiModelProperty("上级")
-  @TableField("parent_id")
-  private UserDto parentId;
-
-  @ApiModelProperty("部门")
-  @TableField("dept")
-  private Dept dept;
+  @ApiModelProperty("角色")
+  private Role role;
 
   @ApiModelProperty("备注")
   @TableField("remark")
@@ -48,4 +44,9 @@ public class UserDto {
   @TableField("is_delete")
   @TableLogic
   private String isDelete;
+
+  public UserDto(Long id, String username) {
+    this.id = id;
+    this.username = username;
+  }
 }

@@ -8,6 +8,7 @@ import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.entity.Order;
 import com.greatgump.crm.entity.User;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +27,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class LoanDto {
+public class LoanDto implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @ApiModelProperty("主键，自增")

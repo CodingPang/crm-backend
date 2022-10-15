@@ -1,35 +1,31 @@
-package com.greatgump.crm.entity;
+package com.greatgump.crm.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
+import com.greatgump.crm.entity.BackPeriod;
+import com.greatgump.crm.entity.BackPlan;
+import com.greatgump.crm.entity.TransferType;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 /**
- * <p>
- *
- * </p>
- *
- * @author team6
- * @since 2022-10-14 01:52:00
+ * @author CodingPang
+ * @version V1.0
+ * @description 回款记录 数据传输层
+ * @date 2022/10/14 15:23
+ * @since 1.0
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Accessors(chain = true)
-@TableName("t_back_record")
-@ApiModel(value = "BackRecord对象", description = "回款记录")
-public class BackRecord implements Serializable {
-
+public class BackRecordDto implements Serializable {
   private static final long serialVersionUID = 1L;
   @ApiModelProperty("主键，自增")
   @TableId(value = "id", type = IdType.AUTO)
@@ -41,15 +37,15 @@ public class BackRecord implements Serializable {
 
   @ApiModelProperty("回款计划id(外键)")
   @TableField("back_id")
-  private Long backId;
+  private List<BackPlanDto> backPlan;
 
   @ApiModelProperty("关联客户(外键)")
   @TableField("customer_id")
-  private Long customerId;
+  private List<CustomerDto> customerId;
 
   @ApiModelProperty("关联订单(外键)")
   @TableField("order_id")
-  private Long orderId;
+  private List<OrderDto> orderId;
 
   @ApiModelProperty("回款日期")
   @TableField("back_date")
@@ -61,15 +57,15 @@ public class BackRecord implements Serializable {
 
   @ApiModelProperty("回款期次(外键)")
   @TableField("back_plan_id")
-  private Long backPlanId;
+  private List<BackPeriod> backPlanId;
 
-  @ApiModelProperty("付款方式")
+  @ApiModelProperty("付款方式(外键)")
   @TableField("transfer_id")
-  private Long transferId;
+  private List<TransferType> transferId;
 
   @ApiModelProperty("收款人员(外键)")
   @TableField("user_id")
-  private Long userId;
+  private List<UserDto> userId;
 
   @ApiModelProperty("逾期天数")
   @TableField("overdue_days")
@@ -84,4 +80,24 @@ public class BackRecord implements Serializable {
   @TableLogic
   private Integer isDelete;
 
+  public BackRecordDto(List<CustomerDto> customerId,
+      List<OrderDto> orderId, List<BackPeriod> backPlanId, List<TransferType> transferId,
+      List<UserDto> userId) {
+    this.customerId = customerId;
+    this.orderId = orderId;
+    this.backPlanId = backPlanId;
+    this.transferId = transferId;
+    this.userId = userId;
+  }
+
+  public BackRecordDto(List<BackPlanDto> backPlan, List<CustomerDto> customerId,
+      List<OrderDto> orderId, List<BackPeriod> backPlanId, List<TransferType> transferId,
+      List<UserDto> userId) {
+    this.backPlan = backPlan;
+    this.customerId = customerId;
+    this.orderId = orderId;
+    this.backPlanId = backPlanId;
+    this.transferId = transferId;
+    this.userId = userId;
+  }
 }

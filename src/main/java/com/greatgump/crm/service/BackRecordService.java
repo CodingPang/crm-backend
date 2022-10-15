@@ -1,5 +1,6 @@
 package com.greatgump.crm.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.greatgump.crm.entity.BackRecord;
 
@@ -13,4 +14,10 @@ import com.greatgump.crm.entity.BackRecord;
  */
 public interface BackRecordService extends IService<BackRecord> {
 
+  /**
+   * 获取所有的回款记录
+   * @param backRecordPage
+   * @return
+   */
+  Page<BackRecord> queryAllBackRecord(Page<BackRecord> backRecordPage);
 }

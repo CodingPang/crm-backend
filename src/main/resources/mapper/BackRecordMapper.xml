@@ -23,5 +23,9 @@
     <sql id="Base_Column_List">
         id, back_record_no, back_id, customer_id, order_id, back_date, back_money, back_plan_id, transfer_id, user_id, overdue_days, remark, is_delete
     </sql>
+  <select id="queryAllBackRecord" resultType="com.greatgump.crm.entity.BackRecord">
+      SELECT <include refid="Base_Column_List"></include>
+          FROM t_back_record
+  </select>
 
 </mapper>
