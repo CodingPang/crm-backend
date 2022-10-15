@@ -27,6 +27,9 @@
         insert into t_customer(customer_name,province,city,scale_id,type_id,source_id,industry_id,user_id,create_time)
                values(#{customerName},#{province},#{city},#{scaleId},#{typeId},#{sourceId},#{industryId},#{userId},#{createTime})
     </insert>
+    <update id="transferCustomer">
+        update t_customer set user_id =#{to} where id = #{cid}
+    </update>
 
     <select id="queryAllCustomer" resultMap="customerDtoMap">
         SELECT tcs.id,tcs.customer_name,tcs.province,tcs.city,tcs.create_time,u.username,ti.name industryName,tt.name typeName,tsc.scope,tso.name sourceName,

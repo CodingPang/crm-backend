@@ -8,6 +8,7 @@ import com.greatgump.crm.dto.CustomerQueryDto;
 import com.greatgump.crm.dto.LuoDto2;
 import com.greatgump.crm.entity.Customer;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 import javax.swing.*;
 import java.util.List;
@@ -30,6 +31,8 @@ public interface CustomerService extends IService<Customer> {
 
     List<CustomerDto> querySeasDynamic( CustomerQueryDto customerQueryDto);/**/
     boolean saveCustomer(Customer customer);
+
+    boolean updateTransfer(Integer cid, Integer from,  Integer to);
 
     BoxDto queryAllBox();
 

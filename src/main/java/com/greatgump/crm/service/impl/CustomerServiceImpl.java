@@ -1,5 +1,6 @@
 package com.greatgump.crm.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.BoxDto;
 import com.greatgump.crm.dto.CustomerBaseDto;
@@ -13,6 +14,7 @@ import com.greatgump.crm.service.CustomerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.greatgump.crm.utils.Result;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -45,6 +47,9 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
     private IndustryMapper industryMapper;
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private CustomertrfMapper customertrfMapper;
     @Override
     public BoxDto queryAllBox() {
         List<Scale> scales = scaleMapper.queryAllScale();
@@ -55,7 +60,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         BoxDto boxDto = new BoxDto(scales,types,sources,industries,users);
         return boxDto;
     }
-    @Transactional(propagation = Propagation.REQUIRED)
+
     @Override
     public CustomerBaseDto queryCustomerById(Integer cid) {
         Customer customer = customerMapper.selectById(cid);
@@ -104,6 +109,13 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         contact.setCustomerId(customer.getId());
         int i = contactMapper.insert(contact);
         return i>0?true:false;
+    }
+
+    @Override
+    public boolean updateTransfer(Integer cid, Integer from, Integer to) {
+        boolean u = customerMapper.transferCustomer(cid, to);
+        boolean i = customertrfMapper.insertRecording(from, to);
+        return false;
     }
 
 

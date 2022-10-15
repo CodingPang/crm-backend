@@ -17,9 +17,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 /**
  * <p>
@@ -131,15 +130,16 @@ public class CustomerController {
         return Result.judge(b);
     }
     @ApiOperation("转移客户")
-    @ApiImplicitParams(value = {@ApiImplicitParam(name = "uid",value ="转移的用户ID",required = true)})
-    @PutMapping("/customer/transfer/{uid}")
-    public Result transferCustomer(@RequestBody List<CustomerDto> customerDtos,@PathVariable("uid")Integer uid){
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "from",value ="转出的用户(当前登录的用户)id",required = true),
+                                @ApiImplicitParam(name = "to",value ="接受的用户id",required = true)
+                            })
+    @PutMapping("/customer/transfer/{cid}/{from}/{to}")
+    public Result transferCustomer(@RequestBody List<CustomerDto> customerDtos,
+                                   @PathVariable("from")Integer from,
+                                   @PathVariable("to")Integer to){
         boolean b = false;
         for (CustomerDto customerDto : customerDtos) {
-            UpdateWrapper<Customer> wrapper = new UpdateWrapper();
-            wrapper.eq("id", customerDto.getId());
-            wrapper.set("user_id", uid);
-            b = customerService.update(wrapper);
+           customerService.updateTransfer((int) customerDto.getId(), from, to);
         }
         return Result.judge(b);
     }
