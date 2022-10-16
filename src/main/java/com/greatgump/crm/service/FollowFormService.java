@@ -13,4 +13,5 @@ import com.greatgump.crm.entity.FollowForm;
  */
 public interface FollowFormService extends IService<FollowForm> {
 
+
 }

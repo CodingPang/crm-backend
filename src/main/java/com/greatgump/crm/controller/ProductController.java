@@ -31,7 +31,7 @@ public class ProductController {
 
 @ApiOperation("获取所有产品信息")
 @ApiImplicitParams(value = {@ApiImplicitParam(name = "page",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
-@GetMapping("/queryAllLoans/{page}/{size}")
+@GetMapping("/queryAllProducts/{page}/{size}")
 public Result<Map<String,Object>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
     ProductDto productDto =new ProductDto();
 
