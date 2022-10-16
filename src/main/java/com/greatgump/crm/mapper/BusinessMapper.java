@@ -1,8 +1,11 @@
 package com.greatgump.crm.mapper;
 
+import com.greatgump.crm.dto.BusinessDto;
 import com.greatgump.crm.entity.Business;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +18,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface BusinessMapper extends BaseMapper<Business> {
 
+    List<BusinessDto> listBase(int current, int size);
 }

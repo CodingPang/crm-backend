@@ -32,8 +32,8 @@ public class ManagementController {
         Page<Customer> customerPage = new Page<>(current, size);
 
 
-        BusinessDto businessDto = new BusinessDto("2020-03-23", "与客户沟通报价事宜", "上海大华有限公司", "李洪", new Date(), 0);
-        return Result.success(businessDto, 5L);
+//        BusinessDto businessDto = new BusinessDto("2020-03-23", "与客户沟通报价事宜", "上海大华有限公司", "李洪", new Date(), 0);
+        return Result.success(null, 5L);
     }
 
 

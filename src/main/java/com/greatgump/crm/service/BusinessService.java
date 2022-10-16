@@ -1,7 +1,10 @@
 package com.greatgump.crm.service;
 
+import com.greatgump.crm.dto.BusinessDto;
 import com.greatgump.crm.entity.Business;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface BusinessService extends IService<Business> {
 
+
+    List<BusinessDto> listBase(int current, int size);
 }
