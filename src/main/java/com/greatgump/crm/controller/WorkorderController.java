@@ -106,17 +106,18 @@ public class WorkorderController {
     @ApiOperation("根据id删除工单")
     @DeleteMapping("/deleteOrder/{id}")
     public Result deleteOrder(@PathVariable("id") Integer id) {
-
+        boolean b =   workorderService.removeById(id);
         return Result.success();
     }
         @ApiOperation("工单信息批量删除")
         @DeleteMapping("/deletes")
         public Result deletes(@RequestBody List<Workorder> workorders){
             for (Workorder workorder : workorders) {
-                workorderService.removeById(workorder.getId());
-            }
 
-            return Result.success();
+             boolean b =  workorderService.removeById(workorder.getId());
+
+            }
+           return  Result.success();
 
 
     }
