@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,41 +42,45 @@ public class BackRecord implements Serializable {
 
   @ApiModelProperty("回款计划id(外键)")
   @TableField("back_id")
-  private Long backId;
+  private BackPlan backplan;
 
   @ApiModelProperty("关联客户(外键)")
   @TableField("customer_id")
-  private Long customerId;
+  private Customer customer;
 
   @ApiModelProperty("关联订单(外键)")
   @TableField("order_id")
-  private Long orderId;
+  private Order order;
 
-  @ApiModelProperty("回款日期")
+  @ApiModelProperty("实际回款日期")
   @TableField("back_date")
   private String backDate;
 
-  @ApiModelProperty("回款金额")
+  @ApiModelProperty("实际回款金额")
   @TableField("back_money")
   private BigDecimal backMoney;
 
-  @ApiModelProperty("回款期次(外键)")
-  @TableField("back_plan_id")
-  private Long backPlanId;
+  @ApiModelProperty("回款期次(外键,来自于回款计划明细表)")
+  @TableField("back_pland_id")
+  private BackPlanDetail backPlanDetail;
 
-  @ApiModelProperty("付款方式")
-  @TableField("transfer_id")
-  private Long transferId;
+  @ApiModelProperty("付款方式(0代表对公转账，1代表现金，2代表支票，")
+  @TableField("pay_method")
+  private Integer payMethod;
 
   @ApiModelProperty("收款人员(外键)")
   @TableField("user_id")
-  private Long userId;
+  private User user;
+
+  @ApiModelProperty("审批状态(0表示待审批，1表示已通过，2表示已驳回)")
+  @TableField("check_status")
+  private Integer checkStatus;
 
   @ApiModelProperty("逾期天数")
   @TableField("overdue_days")
   private Integer overdueDays;
 
-  @ApiModelProperty("备注")
+  @ApiModelProperty("备注被驳回的原因")
   @TableField("remark")
   private String remark;
 
@@ -83,5 +88,4 @@ public class BackRecord implements Serializable {
   @TableField("is_delete")
   @TableLogic
   private Integer isDelete;
-
 }

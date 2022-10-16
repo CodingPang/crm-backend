@@ -33,21 +33,25 @@ public class Order implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty("关联名称")
-    @TableField("customer_name")
-    private String customerName;
+    @ApiModelProperty("订单编号")
+    @TableField("order_no")
+    private String orderNo;
 
     @ApiModelProperty("订单标题")
     @TableField("order_title")
     private String orderTitle;
 
-    @ApiModelProperty("审批状态(0代表是已驳回，1代表已通过，2代表待审批)")
-    @TableField("oder_status")
-    private String oderStatus;
+    @ApiModelProperty("关联客户")
+    @TableField("customer_name")
+    private Customer customer;
 
     @ApiModelProperty("订单总额")
     @TableField("oder_total")
     private BigDecimal oderTotal;
+
+    @ApiModelProperty("审批状态(0代表是已驳回，1代表已通过，2代表待审批)")
+    @TableField("oder_status")
+    private String oderStatus;
 
     @ApiModelProperty("已回款金额")
     @TableField("total_res")

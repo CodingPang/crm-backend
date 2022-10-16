@@ -1,47 +1,39 @@
-package com.greatgump.crm.entity;
+package com.greatgump.crm.dto.finance.invoice;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
+import com.greatgump.crm.dto.CustomerDto;
+import com.greatgump.crm.dto.OrderDto;
+import com.greatgump.crm.entity.Customer;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 /**
- * <p>
- * 发票
- * </p>
- *
- * @author team6
- * @since 2022-10-14 01:52:00
+ * @author CodingPang
+ * @version V1.0
+ * @description
+ * @date 2022/10/17 1:19
+ * @since 1.0
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Accessors(chain = true)
-@TableName("t_invoice")
-@ApiModel(value = "Invoice对象", description = "发票")
-public class Invoice implements Serializable {
-
-  private static final long serialVersionUID = 1L;
+public class InvoiceDto {
   @ApiModelProperty("主键，自增")
   @TableId(value = "id", type = IdType.AUTO)
   private Long id;
 
   @ApiModelProperty("关联订单(外键)")
   @TableField("order_id")
-  private Long orderId;
+  private OrderDto orderId;
 
   @ApiModelProperty("关联客户(外键)")
   @TableField("customer_id")
-  private Long customerId;
+  private CustomerDto customer;
 
   @ApiModelProperty("开票日期")
   @TableField("invoice_date")
@@ -59,9 +51,9 @@ public class Invoice implements Serializable {
   @TableField("invoice_money")
   private BigDecimal invoiceMoney;
 
-  @ApiModelProperty("开票科目")
+  @ApiModelProperty("开票科目(0表示*现代服务*信息技术咨询服务费)")
   @TableField("invoice_subject")
-  private String invoiceSubject;
+  private Integer invoiceSubject;
 
   @ApiModelProperty("开票人(外键，会计)")
   @TableField("invoicer")
@@ -79,9 +71,14 @@ public class Invoice implements Serializable {
   @TableField("remark")
   private String remark;
 
-  @ApiModelProperty("假删(0代表未删，1代表删除)")
-  @TableField("is_delete")
-  @TableLogic
-  private Integer isDelete;
-
+  // 费用管理使用的构造器
+  public InvoiceDto(Long id, CustomerDto customer, String invoiceDate, Integer invoiceNo,
+      BigDecimal invoiceMoney, Integer invoiceSubject) {
+    this.id = id;
+    this.customer = customer;
+    this.invoiceDate = invoiceDate;
+    this.invoiceNo = invoiceNo;
+    this.invoiceMoney = invoiceMoney;
+    this.invoiceSubject = invoiceSubject;
+  }
 }

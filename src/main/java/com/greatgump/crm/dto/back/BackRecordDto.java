@@ -1,11 +1,13 @@
-package com.greatgump.crm.dto;
+package com.greatgump.crm.dto.back;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.greatgump.crm.dto.CustomerDto;
+import com.greatgump.crm.dto.OrderDto;
+import com.greatgump.crm.dto.power.UserDto;
 import com.greatgump.crm.entity.BackPeriod;
-import com.greatgump.crm.entity.BackPlan;
 import com.greatgump.crm.entity.TransferType;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -99,5 +101,11 @@ public class BackRecordDto implements Serializable {
     this.backPlanId = backPlanId;
     this.transferId = transferId;
     this.userId = userId;
+  }
+
+
+  // 实际回款金额
+  public BackRecordDto(BigDecimal backMoney) {
+    this.backMoney = backMoney;
   }
 }

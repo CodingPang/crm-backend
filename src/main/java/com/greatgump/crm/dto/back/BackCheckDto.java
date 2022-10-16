@@ -1,4 +1,4 @@
-package com.greatgump.crm.dto;
+package com.greatgump.crm.dto.back;
 
 /**
  * @author CodingPang

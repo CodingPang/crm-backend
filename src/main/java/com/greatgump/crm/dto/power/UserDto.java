@@ -1,4 +1,4 @@
-package com.greatgump.crm.dto;
+package com.greatgump.crm.dto.power;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

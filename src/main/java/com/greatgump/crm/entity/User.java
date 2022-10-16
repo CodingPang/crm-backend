@@ -61,4 +61,5 @@ public class User implements Serializable {
     @TableLogic
     private String isDelete;
 
+
 }

@@ -32,7 +32,7 @@ public class OrderDto implements Serializable {
 
     @ApiModelProperty("关联名称(外键，客户表id)")
     @TableField("customer_id")
-    private Customer customer;
+    private CustomerDto customer;
 
     @ApiModelProperty("订单标题")
     @TableField("order_title")
@@ -67,6 +67,15 @@ public class OrderDto implements Serializable {
     private Integer isDelete;
 
     // 回款计划使用
+    public OrderDto(Long id, CustomerDto customer, String orderTitle, BigDecimal oderTotal,
+        String orderDate) {
+        this.id = id;
+        this.customer = customer;
+        this.orderTitle = orderTitle;
+        this.oderTotal = oderTotal;
+        this.orderDate = orderDate;
+    }
+
     public OrderDto(Long id, String orderTitle) {
         this.id = id;
         this.orderTitle = orderTitle;

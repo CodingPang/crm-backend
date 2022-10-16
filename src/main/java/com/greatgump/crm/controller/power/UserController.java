@@ -1,13 +1,6 @@
-package com.greatgump.crm.controller;
+package com.greatgump.crm.controller.power;
 
-import com.greatgump.crm.dto.UserDto;
-import com.greatgump.crm.entity.Dept;
-import com.greatgump.crm.entity.User;
-import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

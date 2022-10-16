@@ -1,36 +1,30 @@
-package com.greatgump.crm.entity;
+package com.greatgump.crm.dto.finance.cost;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
+import com.greatgump.crm.entity.Business;
+import com.greatgump.crm.entity.Customer;
+import com.greatgump.crm.entity.Order;
+import com.greatgump.crm.entity.User;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 /**
- * <p>
- *
- * </p>
- *
- * @author team6
- * @since 2022-10-14 01:52:00
+ * @author CodingPang
+ * @version V1.0
+ * @description 费用 查询专用 数据传输层
+ * @date 2022/10/16 21:30
+ * @since 1.0
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Accessors(chain = true)
-@TableName("t_cost")
-@ApiModel(value = "Cost对象", description = "费用")
-public class Cost implements Serializable {
-
-  private static final long serialVersionUID = 1L;
+public class CostDto {
   @ApiModelProperty("主键，自增")
   @TableId(value = "id", type = IdType.AUTO)
   private Long id;
@@ -71,10 +65,6 @@ public class Cost implements Serializable {
   @TableField("business_id")
   private Business business;
 
-  @ApiModelProperty("关联发票(外键)")
-  @TableField("invoice_id")
-  private Invoice invoice;
-
   @ApiModelProperty("费用金额")
   @TableField("cost_money")
   private BigDecimal costMoney;
@@ -96,4 +86,21 @@ public class Cost implements Serializable {
   @TableLogic
   private Integer isDelete;
 
+  public CostDto(Long id, String costNo, String costName, Integer costType, Customer customer,
+      User user, Order order, Business business, BigDecimal costMoney, String happenedTime,
+      Integer expenseStatus, String remark, Integer isDelete) {
+    this.id = id;
+    this.costNo = costNo;
+    this.costName = costName;
+    this.costType = costType;
+    this.customer = customer;
+    this.user = user;
+    this.order = order;
+    this.business = business;
+    this.costMoney = costMoney;
+    this.happenedTime = happenedTime;
+    this.expenseStatus = expenseStatus;
+    this.remark = remark;
+    this.isDelete = isDelete;
+  }
 }

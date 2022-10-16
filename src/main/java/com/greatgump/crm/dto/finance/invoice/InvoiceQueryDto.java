@@ -1,47 +1,34 @@
-package com.greatgump.crm.entity;
+package com.greatgump.crm.dto.finance.invoice;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
+import com.greatgump.crm.dto.CustomerDto;
+import com.greatgump.crm.dto.OrderDto;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 /**
- * <p>
- * 发票
- * </p>
- *
- * @author team6
- * @since 2022-10-14 01:52:00
+ * @author CodingPang
+ * @version V1.0
+ * @description 发票查询专用 数据传输层
+ * @date 2022/10/17 1:19
+ * @since 1.0
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Accessors(chain = true)
-@TableName("t_invoice")
-@ApiModel(value = "Invoice对象", description = "发票")
-public class Invoice implements Serializable {
-
-  private static final long serialVersionUID = 1L;
+public class InvoiceQueryDto {
   @ApiModelProperty("主键，自增")
   @TableId(value = "id", type = IdType.AUTO)
   private Long id;
 
-  @ApiModelProperty("关联订单(外键)")
+  @ApiModelProperty("关联订单")
   @TableField("order_id")
-  private Long orderId;
-
-  @ApiModelProperty("关联客户(外键)")
-  @TableField("customer_id")
-  private Long customerId;
+  private OrderDto order;
 
   @ApiModelProperty("开票日期")
   @TableField("invoice_date")
@@ -63,6 +50,11 @@ public class Invoice implements Serializable {
   @TableField("invoice_subject")
   private String invoiceSubject;
 
+  @ApiModelProperty("关联客户")
+  @TableField("customer_id")
+  private CustomerDto customer;
+
+
   @ApiModelProperty("开票人(外键，会计)")
   @TableField("invoicer")
   private String invoicer;
@@ -79,9 +71,26 @@ public class Invoice implements Serializable {
   @TableField("remark")
   private String remark;
 
-  @ApiModelProperty("假删(0代表未删，1代表删除)")
-  @TableField("is_delete")
-  @TableLogic
-  private Integer isDelete;
+  // 费用管理使用的构造器
+  public InvoiceQueryDto(Long id, CustomerDto customer, String invoiceDate, Integer invoiceNo,
+      BigDecimal invoiceMoney, String invoiceSubject) {
+    this.id = id;
+    this.customer = customer;
+    this.invoiceDate = invoiceDate;
+    this.invoiceNo = invoiceNo;
+    this.invoiceMoney = invoiceMoney;
+    this.invoiceSubject = invoiceSubject;
+  }
 
+  // 发票管理使用的有参构造
+  public InvoiceQueryDto(Long id, OrderDto order, String invoiceDate, Integer invoiceType,
+      Integer invoiceNo, BigDecimal invoiceMoney, String invoiceSubject) {
+    this.id = id;
+    this.order = order;
+    this.invoiceDate = invoiceDate;
+    this.invoiceType = invoiceType;
+    this.invoiceNo = invoiceNo;
+    this.invoiceMoney = invoiceMoney;
+    this.invoiceSubject = invoiceSubject;
+  }
 }

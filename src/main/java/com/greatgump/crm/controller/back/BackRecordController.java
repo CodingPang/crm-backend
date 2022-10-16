@@ -1,16 +1,14 @@
-package com.greatgump.crm.controller;
+package com.greatgump.crm.controller.back;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.BackPlanDto;
-import com.greatgump.crm.dto.BackRecordDto;
+import com.greatgump.crm.dto.back.BackPlanDto;
+import com.greatgump.crm.dto.back.BackRecordDto;
 import com.greatgump.crm.dto.CustomerDto;
 import com.greatgump.crm.dto.OrderDto;
-import com.greatgump.crm.dto.UserDto;
+import com.greatgump.crm.dto.power.UserDto;
 import com.greatgump.crm.entity.BackPeriod;
-import com.greatgump.crm.entity.BackPlan;
 import com.greatgump.crm.entity.BackRecord;
 import com.greatgump.crm.entity.TransferType;
-import com.greatgump.crm.service.BackPlanService;
 import com.greatgump.crm.service.BackRecordService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
