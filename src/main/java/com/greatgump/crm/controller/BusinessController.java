@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,20 +46,20 @@ public class BusinessController {
         return Result.judge(flag);
     }
     @ApiOperation("主页面的单个删除")
-    @PostMapping("/crm/business/add")
+    @DeleteMapping("/crm/business/delete")
     public Result delete(Follow follow){
         boolean flag = followService.removeById(follow);
         return Result.judge(flag);
     }
 
     @ApiOperation("主页面批量删除")
-    @PostMapping("/crm/business/deletes")
+    @DeleteMapping("/crm/business/deletes")
     public Result deletes(List<Follow> follows){
         boolean flag = followService.removeBatchByIds(follows);
         return Result.judge(flag);
     }
     @ApiOperation("主页面修改")
-    @PostMapping("/crm/business/update")
+    @PutMapping("/crm/business/update")
     public Result update(FollowForm followForm){
         boolean flag = followFormService.updateById(followForm);
         return Result.judge(flag);
