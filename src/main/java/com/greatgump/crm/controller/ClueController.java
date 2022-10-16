@@ -1,7 +1,7 @@
 package com.greatgump.crm.controller;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
 import com.greatgump.crm.dto.*;
 import com.greatgump.crm.entity.*;
 import com.greatgump.crm.service.ClueService;
@@ -115,58 +115,64 @@ public class ClueController {
 
  }
 
+
  @ApiOperation("线索信息预增加操作")
  @GetMapping("/preAdd")
  public Result<Map<String, Object>> preAdd() {
+
+    ClueBoxDto clueBoxDto = new ClueBoxDto();
   // 1、线索归属
-  UserDto user01 = new UserDto();
-  user01.setId(1L);
-  user01.setUsername("张三");
-
-  UserDto user02 = new UserDto();
-  user02.setId(2L);
-  user02.setUsername("李四");
-
-  List<UserDto> userList = new ArrayList<>();
-  userList.add(user01);
-  userList.add(user02);
+    List<Clue> clueList = new ArrayList<>();
+      Clue clue = new Clue();
+      clue.setId(1L);
+      clue.setPersonnel("zs");
+      clueList.add(clue);
+        Clue clue1 = new Clue();
+      clue1.setId(2L);
+      clue1.setPersonnel("ls");
+      clueList.add(clue1);
 
   // 2、线索来源
-  Source source01 = new Source();
-  source01.setId(1L);
-  source01.setName("主动来电");
+    List<FollowForm> sourceList = new ArrayList<>();
+    FollowForm followForm = new FollowForm();
+    followForm.setId(1L);
+    followForm.setFollowSource("主动来电");
+     sourceList.add(followForm);
+    FollowForm followForm1 = new FollowForm();
+    followForm1.setId(2L);
+    followForm1.setFollowSource("客户介绍");
+     sourceList.add(followForm1);
 
-  Source source02 = new Source();
-  source02.setId(2L);
-  source02.setName("客户介绍");
+    // 3、线索状态
+     List<FollowForm> statusList = new ArrayList<>();
+     FollowForm followForm01 = new FollowForm();
+      followForm01.setId(1L);
+      followForm01.setFollowType("1");
+      statusList.add(followForm01);
+      FollowForm followForm02 = new FollowForm();
+      followForm02.setId(1L);
+      followForm02.setFollowType("2");
+      statusList.add(followForm02);
 
-  List<Source> sourceList = new ArrayList<>();
-  sourceList.add(source01);
-  sourceList.add(source02);
 
-  // 3、线索状态
-  Clue clue01 = new Clue();
-  clue01.setId(1L);
-  clue01.setUsername("初步意向");
 
-  Clue clue02 = new Clue();
-  clue02.setId(2L);
-  clue02.setUsername("下次邀约");
+      clueBoxDto.setSourceList(sourceList);
+      clueBoxDto.setClueList(clueList);
+      clueBoxDto.setStatusList(statusList);
 
-  Clue clue03 = new Clue();
-  clue03.setId(3L);
-  clue03.setUsername("已转客户");
+     Map<String, Object> map = new HashMap<>();
+     map.put("cluebox",clueBoxDto);
 
-  List<Clue> clueList = new ArrayList<>();
-  clueList.add(clue01);
-  clueList.add(clue02);
-  clueList.add(clue03);
+
+     return Result.success(map);
+
+
 
 /*  List<Business> businessList = new ArrayList<>();
   Business business01 = new Business();
   business01.setId(1L);
   business01.setBussinessStage(1L);
-  Business business02 = new Business();
+  Business business02 = new 1();
   business02.setId(2L);
   business02.setBussinessStage(2L);
   Business business03 = new Business();
@@ -186,13 +192,6 @@ public class ClueController {
   customer03.setId(3L);
   customer03.setCustomerName("赵柳");*/
 
-
-  ClueBoxDto clueBoxDto = new ClueBoxDto(userList, sourceList, clueList);
-  Map<String, Object> map = new HashMap<>();
-  map.put("cluebox", clueBoxDto);
-  // 返回封装的结果
-  return Result.success(map,3L);
-
  }
 
 
@@ -201,14 +200,111 @@ public class ClueController {
  public Result saveClue(@RequestBody ){
 
  }*/
+// @ApiOperation("联系信息")
+// @GetMapping("/contactAdd")
+// public Result<Map<String, Object>> contactAdd() {
+//  // 1、联系人
+//  Foll user01 = new UserDto();
 
 
 
 
 
+     @ApiOperation("线索联系信息预增加操作")
+     @GetMapping("/preAddcontact")
+     public Result<Map<String, Object>> preAddcontact() {
+         FollowFormDto followFormDto = new FollowFormDto();
+         followFormDto.setContactss("zz");
+         followFormDto.setPhone("123323432");
+         followFormDto.setQq("54546566");
+         followFormDto.setId(1L);
+         followFormDto.setWechat("324342343");
+         followFormDto.setEMail("123@126.com");
+         followFormDto.setDeptId("1");
+
+         Map<String, Object> map = new HashMap<>();
+         map.put("followFormDto",followFormDto);
+         return Result.success(map);
+
+
+
+     }
+    @ApiOperation("线索管理页面修改")
+    @PutMapping("/modify/{id}")
+    public Result<ClueDto> update(@PathVariable("id")Long id){
+
+
+
+        Clue clue = new Clue();
+        clue.setId(1L);
+        clue.setPersonnel("zs");
+
+        FollowForm followForm = new FollowForm();
+        followForm.setId(1L);
+        followForm.setFollowSource("客户介绍");
+
+        FollowForm followForm1 = new FollowForm();
+        followForm1.setId(1L);
+        followForm1.setStatus("1");
+
+         String username = "zs";
+         String  customerNeeds = "客户需求";
+
+         ClueDto clueDto = new ClueDto();
+         clueDto.setClue(clue);
+         clueDto.setSource(followForm);
+         clueDto.setStatus(followForm1);
+         clueDto.setUsername(username);
+         clueDto.setCustomerNeeds(customerNeeds);
+
+         return Result.success(clueDto);
+
+
+
+        }
+        @ApiOperation("线索联系信息修改")
+        @PutMapping("/ contact/{id}")
+        public Result<FollowFormDto> updateContact(@PathVariable("id")Long id){
+            FollowFormDto followFormDto = new FollowFormDto();
+
+            String contactss = "ls";
+            String eMail = "123421@126.com";
+            String phone = "323423432424";
+            String qq ="3242442343";
+            String deptId = "2";
+            String wechat = "343543fdsf";
+
+            followFormDto.setDeptId(deptId);
+            followFormDto.setContactss(contactss);
+            followFormDto.setQq(qq);
+            followFormDto.setWechat(wechat);
+            followFormDto.setId(1L);
+            followFormDto.setEMail(eMail);
+            followFormDto.setPhone(phone);
+
+            return Result.success(followFormDto);
 
 
 
 
+        }
+    @ApiOperation("线索页面删除")
+    @DeleteMapping("/delete/{id}")
+    public Result delete(@PathVariable("id")Long id){
+
+        clueService.removeById(id);
+        return Result.success();
+
+
+    }
+    @ApiOperation("线索页面批量删除")
+    @DeleteMapping("/deletion")
+    public Result deletion(@RequestBody List<ClueDto> clueDtos){
+        for (ClueDto clueDto : clueDtos) {
+            clueService.removeById(clueDto.getId());
+        }
+
+        return Result.success();
+    }
 
 }

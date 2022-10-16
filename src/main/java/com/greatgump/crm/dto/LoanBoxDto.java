@@ -22,4 +22,5 @@ public class LoanBoxDto {
 
     @ApiModelProperty("所有商机")
     private List<Business> BusinessList;
+
 }

@@ -5,12 +5,18 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.greatgump.crm.entity.Clue;
+import com.greatgump.crm.entity.Customer;
+import com.greatgump.crm.entity.FollowForm;
+import com.greatgump.crm.entity.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -18,18 +24,29 @@ public class ClueDto {
     @ApiModelProperty("自增")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
+    @ApiModelProperty("线索归属")
+    private Clue clue;
+
+    @ApiModelProperty("线索来源")
+    private FollowForm source;
+
+    @ApiModelProperty("线索状态")
+    private FollowForm status;
+
+    @ApiModelProperty("客户需求")
+    private String customerNeeds;
 
     @ApiModelProperty("客户名称")
     @TableField("username")
-    private CustomerDto username;
+    private String username;
 
     @ApiModelProperty("归属人员")
     @TableField("personnel")
-    private UserDto personnel;
+    private User personnel;
 
     @ApiModelProperty("联系人")
     @TableField("contacts")
-    private UserDto contacts;
+    private User contacts;
 
     @ApiModelProperty("号码")
     @TableField("phone")

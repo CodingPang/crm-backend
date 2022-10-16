@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "回款计划说明")
 @RestController
 @RequestMapping("/crm/backplan")
-public class BackPlanController {
+public class  BackPlanController {
 
   @Autowired
   private BackPlanService backPlanService;
