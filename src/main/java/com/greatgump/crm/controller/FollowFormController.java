@@ -4,6 +4,7 @@ import com.greatgump.crm.dto.*;
 import com.greatgump.crm.entity.*;
 import com.greatgump.crm.service.FollowFormService;
 import com.greatgump.crm.utils.Result;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -21,6 +22,7 @@ import java.util.*;
  * @author team6
  * @since 2022-10-15 04:12:20
  */
+@Api(tags = "跟进管理功能说明")
 @RestController
 @RequestMapping("/crm/follow-form")
 public class FollowFormController {
