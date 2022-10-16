@@ -1,9 +1,9 @@
 package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.WorkorderDto;
-import com.greatgump.crm.dto.WorkorderDto2;
+import com.greatgump.crm.dto.*;
 
+import com.greatgump.crm.entity.Assort;
 import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.entity.Order;
 import com.greatgump.crm.entity.Workorder;
@@ -16,10 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -34,71 +31,113 @@ import java.util.Map;
 public class WorkorderController {
     @Autowired
     private WorkorderService workorderService;
+
     //新增工单
     @ApiOperation("获取所有工单")
-    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current", value = "当前页数", required = true), @ApiImplicitParam(name = "size", value = "每页的条数", required = true)})
     @GetMapping("/workorder/{current}/{size}")
-    public Result<List<Workorder>> getAllWorkorder(@PathVariable("current") int current, @PathVariable("size") int size){
-        Page<Workorder> workorderPage = new Page<>(current,size);
+    public Result<List<Workorder>> getAllWorkorder(@PathVariable("current") int current, @PathVariable("size") int size) {
+        Page<Workorder> workorderPage = new Page<>(current, size);
         Page<Workorder> pageInfo = workorderService.queryAllWorkorder(workorderPage);
-        WorkorderDto workorderDto = new WorkorderDto(23333,"工单标题1",new Date(System.currentTimeMillis()),"张三三","李四四",0,"非常紧急");
+        WorkorderDto workorderDto = new WorkorderDto(23333, "工单标题1", new Date(System.currentTimeMillis()), "张三三", "李四四", 0, 0);
         return Result.success(
                 pageInfo.getRecords(), // 通过mybatis封装好的所有的工单，是一个Workorder类型的List集合
                 pageInfo.getTotal() // mybatisplus统计的总数
-                );
+        );
     }
+
     @ApiOperation("预新增工单信息")
     @GetMapping("/preorder")
-    public Result<Map<String,Object>> preorder(){
-        WorkorderDto2 workorderDto01 = new WorkorderDto2();
+    public Result<Map<String,Object>> preorder() {
+        //封装关联客户列表
         Customer customer01 = new Customer();
-        customer01.setId(1);
+        customer01.setId(1L);
         customer01.setCustomerName("上海大华科技有限公司");
-        workorderDto01.setCustomerName(customer01);
-        Order order01 = new Order();
-        order01.setId(1L);
-        order01.setOrderTitle("客户购买CRM系统");
-        workorderDto01.setRepairOrderTitle("客户退款");
-        workorderDto01.setEmergencyDegree(0);
-        workorderDto01.setWorkOrderDetails("客户使用的系统出现了问题，请技术修复");
-        WorkorderDto2 workorderDto02 = new WorkorderDto2();
+
         Customer customer02 = new Customer();
         customer02.setId(2L);
         customer02.setCustomerName("苏州智慧科技有限公司");
-        workorderDto01.setCustomerName(customer02);
-        Order order02 = new Order();
-        order02.setId(3L);
-        order02.setOrderTitle("客户反馈系统问题");
-        workorderDto01.setRepairOrderTitle("维护问题");
+
+        List<Customer> customers = new ArrayList<>();
+        customers.add(customer01);
+        customers.add(customer02);
+        //封装关联订单列表
+        OrderDto orderDto01 = new OrderDto(1L,"订单标题一");
+        OrderDto orderDto02 = new OrderDto(2L,"订单标题二");
+        List<OrderDto> orderDtos = new ArrayList<>();
+        orderDtos.add(orderDto01);
+        orderDtos.add(orderDto02);
+        //紧急状态封装
+        WorkorderDto workorderDto01 = new WorkorderDto();
         workorderDto01.setEmergencyDegree(0);
-        workorderDto01.setWorkOrderDetails("客户使用的系统崩溃了，请通知技术人员");
+        WorkorderDto workorderDto02 = new WorkorderDto();
+        workorderDto02.setEmergencyDegree(1);
+        List<WorkorderDto> workorderDtos = new ArrayList<>();
+        workorderDtos.add(workorderDto01);
+        workorderDtos.add(workorderDto02);
 
         Map<String,Object> map = new HashMap<>();
-        map.put("preorder",workorderDto01);
-        map.put("preorder2",workorderDto02);
-        return Result.success(map);
+        map.put("order",customers);
+        map.put("order1",orderDtos);
+        map.put("order2",workorderDtos);
+
+        return Result.success(map,2l);
+
+
     }
-//    @ApiOperation("新建工单")
+
+    //    @ApiOperation("新建工单")
 //    @PutMapping("/addWorkorder")
 //    public Result addWorkorder(@RequestBody WorkorderDto2 workorderDto2){
 //        int i = workorderService.addWororder(workorderDto2);
 //         return Result.success();}
     @ApiOperation("根据条件查询工单")
-    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current", value = "当前页数", required = true), @ApiImplicitParam(name = "size", value = "每页的条数", required = true)})
     @PostMapping("/queryByWorkorder/{current}/{size}")
-    public Result<List<Workorder>>  queryByWorkorder(@PathVariable("current") int current, @PathVariable("size") int size,String repairOrderTitle, Integer workOrderStatus, Integer emergencyDegree){
-        Page<Workorder> workorderPage = new Page<>(current,size);
-        Page<Workorder> pageInfo = workorderService.queryByWorkorder(workorderPage,repairOrderTitle,workOrderStatus,emergencyDegree);
+    public Result<List<Workorder>> queryByWorkorder(@PathVariable("current") int current, @PathVariable("size") int size, String repairOrderTitle, Integer workOrderStatus, Integer emergencyDegree) {
+        Page<Workorder> workorderPage = new Page<>(current, size);
+        Page<Workorder> pageInfo = workorderService.queryByWorkorder(workorderPage, repairOrderTitle, workOrderStatus, emergencyDegree);
 
-        return  Result.success(
+        return Result.success(
                 pageInfo.getRecords(), // 通过mybatis封装好的所有的工单，是一个Workorder类型的List集合
                 pageInfo.getTotal());// mybatisplus统计的总数
     }
 
+    @ApiOperation("根据id删除工单")
+    @DeleteMapping("/deleteOrder/{id}")
+    public Result deleteOrder(@PathVariable("id") Integer id) {
 
+        return Result.success();
+    }
+        @ApiOperation("工单信息批量删除")
+        @DeleteMapping("/deletes")
+        public Result deletes(@RequestBody List<Workorder> workorders){
+            for (Workorder workorder : workorders) {
+                workorderService.removeById(workorder.getId());
+            }
+
+            return Result.success();
 
 
     }
+    @ApiOperation("工单详情")
+    @PutMapping("/updateorder/{id}")
+    public Result<WorkOderDetailsDto> update(@PathVariable("id")Long id){
+
+       Workorder workorder = new Workorder();
+        workorder.setId(1L);
+        workorder.setCustomerName("上海大华科技有限公司");
+        workorder.setHandler("张三");
+        workorder.setLinkman("应南飞");
+
+        WorkOderDetailsDto workOderDetailsDto = new WorkOderDetailsDto();
+        workOderDetailsDto.setWorkorder(workorder);
+
+        return Result.success(workOderDetailsDto);
+
+
+    }
+}
 
 
 

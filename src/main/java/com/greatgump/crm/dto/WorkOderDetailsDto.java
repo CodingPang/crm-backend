@@ -3,6 +3,7 @@ package com.greatgump.crm.dto;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.greatgump.crm.entity.Workorder;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +13,12 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class WorkorderDto {
+public class WorkOderDetailsDto {
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty("主键，自动递增，非空")
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
 
     @ApiModelProperty("工单编号")
     @TableField("work_order_number")
@@ -21,6 +27,10 @@ public class WorkorderDto {
     @ApiModelProperty("工单标题")
     @TableField("repair_order_title")
     private String repairOrderTitle;
+
+    @ApiModelProperty("关联客户")
+    @TableField("customer_name")
+    private String customerName;
 
     @ApiModelProperty("发起时间")
     @TableField("start_time")
@@ -38,17 +48,12 @@ public class WorkorderDto {
     @TableField("work_order_status")
     private Integer workOrderStatus;
 
-    @ApiModelProperty("紧急程度")
-    @TableField("emergency_degree")
-    private Integer emergencyDegree;
+    @ApiModelProperty("联系人")
+    @TableField("linkman")
+    private String linkman;
 
-
-//    @ApiModelProperty("备注")
-//    @TableField("remark")
-//    private String remark;
-//
-//    @ApiModelProperty("删除（0未删，1删除")
-//    @TableField("is_delete")
-//    private String isDelete;
+    @ApiModelProperty("工单详情")
+    @TableField("work_oder_detailsDto")
+    private Workorder workorder;
 
 }

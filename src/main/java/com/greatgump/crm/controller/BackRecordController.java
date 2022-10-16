@@ -73,11 +73,11 @@ public class BackRecordController {
     customerDtos.add(customerDto02);
 
     // 2、封装关联订单列表
-    OrderDto orderDto01 = new OrderDto(1L,"订单标题一");
-    OrderDto orderDto02 = new OrderDto(2L,"订单标题二");
-    List<OrderDto> orderDtos = new ArrayList<>();
-    orderDtos.add(orderDto01);
-    orderDtos.add(orderDto02);
+      OrderDto orderDto01 = new OrderDto(1L,"订单标题一");
+      OrderDto orderDto02 = new OrderDto(2L,"订单标题二");
+      List<OrderDto> orderDtos = new ArrayList<>();
+      orderDtos.add(orderDto01);
+      orderDtos.add(orderDto02);
 
     // 3、付款方式列表封装
     TransferType type01 = new TransferType(1L,"现金");

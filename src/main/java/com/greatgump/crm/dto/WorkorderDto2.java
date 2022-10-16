@@ -1,6 +1,8 @@
 package com.greatgump.crm.dto;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.entity.Order;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,10 +10,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class WorkorderDto2 {
+    @ApiModelProperty("自增主建")
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
+
     @ApiModelProperty("关联客户")
     @TableField("customer_name")
     private Customer customerName;
@@ -32,4 +40,7 @@ public class WorkorderDto2 {
     @TableField("work_order_details")
     private String workOrderDetails;
 
+
+    public WorkorderDto2(List<Customer> customers, List<OrderDto> orderDtos, List<WorkorderDto> workorderDtos) {
+    }
 }
