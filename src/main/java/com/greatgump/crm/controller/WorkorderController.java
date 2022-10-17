@@ -3,9 +3,7 @@ package com.greatgump.crm.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.*;
 
-import com.greatgump.crm.entity.Assort;
 import com.greatgump.crm.entity.Customer;
-import com.greatgump.crm.entity.Order;
 import com.greatgump.crm.entity.Workorder;
 import com.greatgump.crm.service.WorkorderService;
 import com.greatgump.crm.utils.Result;
@@ -36,18 +34,19 @@ public class WorkorderController {
     @ApiOperation("获取所有工单")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current", value = "当前页数", required = true), @ApiImplicitParam(name = "size", value = "每页的条数", required = true)})
     @GetMapping("/workorder/{current}/{size}")
-    public Result<List<Workorder>> getAllWorkorder(@PathVariable("current") int current, @PathVariable("size") int size) {
+    public Result<List<WorkorderDto>> getAllWorkorder(@PathVariable("current") int current, @PathVariable("size") int size) {
         Page<Workorder> workorderPage = new Page<>(current, size);
         Page<Workorder> pageInfo = workorderService.queryAllWorkorder(workorderPage);
         WorkorderDto workorderDto = new WorkorderDto(23333, "工单标题1", new Date(System.currentTimeMillis()), "张三三", "李四四", 0, 0);
-        return Result.success(
-                pageInfo.getRecords(), // 通过mybatis封装好的所有的工单，是一个Workorder类型的List集合
-                pageInfo.getTotal() // mybatisplus统计的总数
-        );
+        WorkorderDto workorderDto01 = new WorkorderDto(231453, "工单标题2", new Date(System.currentTimeMillis()), "周芷若", "张天", 1, 2);
+        List<WorkorderDto> list = new ArrayList<>();
+        list.add(workorderDto);
+        list.add(workorderDto01);
+        return Result.success(list);
     }
 
     @ApiOperation("预新增工单信息")
-    @GetMapping("/preorder")
+    @PostMapping("/preorder")
     public Result<Map<String,Object>> preorder() {
         //封装关联客户列表
         Customer customer01 = new Customer();
@@ -93,14 +92,18 @@ public class WorkorderController {
 //         return Result.success();}
     @ApiOperation("根据条件查询工单")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current", value = "当前页数", required = true), @ApiImplicitParam(name = "size", value = "每页的条数", required = true)})
-    @PostMapping("/queryByWorkorder/{current}/{size}")
-    public Result<List<Workorder>> queryByWorkorder(@PathVariable("current") int current, @PathVariable("size") int size, String repairOrderTitle, Integer workOrderStatus, Integer emergencyDegree) {
+    @GetMapping("/queryByWorkorder/{current}/{size}")
+    public Result<List<WorkorderDto>> queryByWorkorder(@PathVariable("current") int current, @PathVariable("size") int size, String repairOrderTitle, Integer workOrderStatus, Integer emergencyDegree) {
         Page<Workorder> workorderPage = new Page<>(current, size);
         Page<Workorder> pageInfo = workorderService.queryByWorkorder(workorderPage, repairOrderTitle, workOrderStatus, emergencyDegree);
-
-        return Result.success(
-                pageInfo.getRecords(), // 通过mybatis封装好的所有的工单，是一个Workorder类型的List集合
-                pageInfo.getTotal());// mybatisplus统计的总数
+        WorkorderDto workorderDto = new WorkorderDto();
+        workorderDto.setEmergencyDegree(0);
+        workorderDto.setHandler("张顺飞");
+        workorderDto.setInitiator("张三");
+        workorderDto.setEmergencyDegree(0);
+        List<WorkorderDto> list = new ArrayList<>();
+        list.add(workorderDto);
+        return Result.success(list);
     }
 
     @ApiOperation("根据id删除工单")
@@ -122,21 +125,35 @@ public class WorkorderController {
 
     }
     @ApiOperation("工单详情")
-    @PutMapping("/updateorder/{id}")
-    public Result<WorkOderDetailsDto> update(@PathVariable("id")Long id){
+    @GetMapping("/queryorder/{id}")
+    public Result<WorkorderUpdateDto> queryorderByid(@PathVariable("id")Long id){
 
        Workorder workorder = new Workorder();
         workorder.setId(1L);
+        workorder.setWorkOrderNumber(95412);
         workorder.setCustomerName("上海大华科技有限公司");
         workorder.setHandler("张三");
         workorder.setLinkman("应南飞");
 
-        WorkOderDetailsDto workOderDetailsDto = new WorkOderDetailsDto();
+        WorkorderUpdateDto workOderDetailsDto = new WorkorderUpdateDto();
         workOderDetailsDto.setWorkorder(workorder);
 
         return Result.success(workOderDetailsDto);
 
 
+    }
+    @ApiOperation("分配工单")
+    @PutMapping("/updateHandler")
+    public Result<WorkorderUpdateDto>  updateHandler(Workorder workorder){
+        boolean flag = workorderService.updateByhandler(workorder);
+//        Workorder workorder1 = new Workorder();
+//        workorder1.setHandler("李四");
+//        Workorder workorder2 = new Workorder();
+//        workorder2.setHandler("王五");
+//        WorkorderUpdateDto workorderUpdateDto = new WorkorderUpdateDto();
+//        workorderUpdateDto.setWorkorder(workorder1);
+//        workorderUpdateDto.setWorkorder(workorder2);
+        return  Result.judge(flag);
     }
 }
 

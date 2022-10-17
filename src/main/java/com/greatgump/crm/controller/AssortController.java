@@ -24,7 +24,7 @@ import java.util.*;
 @Api(tags = "产品分类功能说明")
 @RestController
 @RequestMapping("/crm/assort")
-public class AssortController {
+public class  AssortController {
 
     @Autowired
     private AssortService assortService;

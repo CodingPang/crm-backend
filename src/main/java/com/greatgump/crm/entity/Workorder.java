@@ -81,5 +81,8 @@ public class Workorder implements Serializable {
     @TableField("is_delete")
     private String isDelete;
 
+    @ApiModelProperty("附件")
+    @TableField("accessory")
+    private String accessory;
 
 }

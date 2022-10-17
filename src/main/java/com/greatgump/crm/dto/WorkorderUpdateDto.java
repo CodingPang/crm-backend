@@ -13,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class WorkOderDetailsDto {
+public class WorkorderUpdateDto {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("主键，自动递增，非空")
@@ -27,10 +27,6 @@ public class WorkOderDetailsDto {
     @ApiModelProperty("工单标题")
     @TableField("repair_order_title")
     private String repairOrderTitle;
-
-    @ApiModelProperty("关联客户")
-    @TableField("customer_name")
-    private String customerName;
 
     @ApiModelProperty("发起时间")
     @TableField("start_time")
@@ -48,12 +44,36 @@ public class WorkOderDetailsDto {
     @TableField("work_order_status")
     private Integer workOrderStatus;
 
+    @ApiModelProperty("紧急程度")
+    @TableField("emergency_degree")
+    private Integer emergencyDegree;
+
+    @ApiModelProperty("关联客户")
+    @TableField("customer_name")
+    private String customerName;
+
+    @ApiModelProperty("工单内容")
+    @TableField("work_order_details")
+    private String workOrderDetails;
+
     @ApiModelProperty("联系人")
     @TableField("linkman")
     private String linkman;
 
-    @ApiModelProperty("工单详情")
-    @TableField("work_oder_detailsDto")
+    @ApiModelProperty("备注")
+    @TableField("remark")
+    private String remark;
+
+    @ApiModelProperty("删除（0未删，1删除")
+    @TableField("is_delete")
+    private String isDelete;
+
+    @ApiModelProperty("删除（0未删，1删除")
+    @TableField("workorder")
     private Workorder workorder;
+
+    @ApiModelProperty("附件")
+    @TableField("accessory")
+    private String accessory;
 
 }
