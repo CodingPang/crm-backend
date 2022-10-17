@@ -7,6 +7,7 @@ import com.greatgump.crm.dto.power.UserDto;
 import com.greatgump.crm.entity.*;
 import com.greatgump.crm.service.ClueService;
 
+import com.greatgump.crm.service.FollowFormService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -119,7 +120,7 @@ public class ClueController {
 
  @ApiOperation("线索信息预增加操作")
  @GetMapping("/preAdd")
- public Result<Map<String, Object>> preAdd() {
+ public Result<ClueBoxDto> preAdd() {
 
     ClueBoxDto clueBoxDto = new ClueBoxDto();
   // 1、线索归属
@@ -161,11 +162,11 @@ public class ClueController {
       clueBoxDto.setClueList(clueList);
       clueBoxDto.setStatusList(statusList);
 
-     Map<String, Object> map = new HashMap<>();
-     map.put("cluebox",clueBoxDto);
+//     Map<String, Object> map = new HashMap<>();
+//     map.put("cluebox",clueBoxDto);
 
 
-     return Result.success(map);
+     return Result.success(clueBoxDto);
 
 
 
@@ -213,7 +214,7 @@ public class ClueController {
 
      @ApiOperation("线索联系信息预增加操作")
      @GetMapping("/preAddcontact")
-     public Result<Map<String, Object>> preAddcontact() {
+     public Result<FollowFormDto> preAddcontact() {
          FollowFormDto followFormDto = new FollowFormDto();
          followFormDto.setContactss("zz");
          followFormDto.setPhone("123323432");
@@ -223,9 +224,9 @@ public class ClueController {
          followFormDto.setEMail("123@126.com");
          followFormDto.setDeptId("1");
 
-         Map<String, Object> map = new HashMap<>();
-         map.put("followFormDto",followFormDto);
-         return Result.success(map);
+//         Map<String, Object> map = new HashMap<>();
+//         map.put("followFormDto",followFormDto);
+         return Result.success(followFormDto);
 
 
 
@@ -308,4 +309,4 @@ public class ClueController {
         return Result.success();
     }
 
-}
+    }
