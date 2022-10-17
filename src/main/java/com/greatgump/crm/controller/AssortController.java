@@ -32,7 +32,7 @@ public class AssortController {
     @ApiOperation("获取所有产品分类")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "page",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/queryAllAssorts/{page}/{size}")
-    public Result<Map<String,Object>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
+    public Result<List<Assort>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
         AssortDto assortDto =new AssortDto();
 
         Assort assort = new Assort();
@@ -46,15 +46,14 @@ public class AssortController {
         List<Assort> assortList = new ArrayList<>();
         assortList.add(assort);
         assortList.add(assort1);
-        Map<String,Object> map = new HashMap<>();
-        map.put("assort",assortList);
-        return Result.success(map,4L);
+
+        return Result.success(assortList,4L);
 
     }
 
     @ApiOperation("产品分类增加")
     @PostMapping("/add")
-    public Result<Map<String ,Object>> preAdd(){
+    public Result preAdd(){
 
         return Result.success();
     }

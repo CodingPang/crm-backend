@@ -31,7 +31,7 @@ public class PropertyController {
     @ApiOperation("获取所有产品属性")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "page",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/queryAllPropertys/{page}/{size}")
-    public Result<Map<String,Object>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
+    public Result<List<Property>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
         PropertyDto propertyDto =new PropertyDto();
 
         Property property = new Property();
@@ -49,15 +49,14 @@ public class PropertyController {
         List<Property> propertyList = new ArrayList<>();
         propertyList.add(property);
         propertyList.add(property1);
-        Map<String,Object> map = new HashMap<>();
-        map.put("property",propertyList);
-        return Result.success(map,4L);
+
+        return Result.success(propertyList,4L);
 
     }
 
     @ApiOperation("产品属性新增")
     @PostMapping ("/add")
-    public Result<Map<String ,Object>> preAdd(){
+    public Result preAdd(){
 
         return Result.success();
     }

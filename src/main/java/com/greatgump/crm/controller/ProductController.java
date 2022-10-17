@@ -32,7 +32,7 @@ public class ProductController {
 @ApiOperation("获取所有产品信息")
 @ApiImplicitParams(value = {@ApiImplicitParam(name = "page",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
 @GetMapping("/queryAllProducts/{page}/{size}")
-public Result<Map<String,Object>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
+public Result<List<Product>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
     ProductDto productDto =new ProductDto();
 
     Product product01 = new Product();
@@ -54,16 +54,14 @@ public Result<Map<String,Object>> queryAllLoans(@PathVariable("page") Integer cu
     List<Product> productList = new ArrayList<>();
     productList.add(product01);
     productList.add(product02);
-    Map<String,Object> map = new HashMap<>();
-    map.put("product",productList);
-    return Result.success(map,4L);
+    return Result.success(productList,4L);
 
 }
 
 
     @ApiOperation("产品下拉框")
     @PostMapping("/pre")
-    public Result<Map<String ,Object>> preAdd(){
+    public Result<ProductBoxDto> preAdd(){
 
     ProductBoxDto productBoxDto = new ProductBoxDto();
 
@@ -108,9 +106,7 @@ public Result<Map<String,Object>> queryAllLoans(@PathVariable("page") Integer cu
     productBoxDto.setCalcUnitList(calcUnitList);
     productBoxDto.setPropertyList(propertyList);
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("productBox",productBoxDto);
-        return Result.success(map);
+        return Result.success(productBoxDto);
 
     }
 
