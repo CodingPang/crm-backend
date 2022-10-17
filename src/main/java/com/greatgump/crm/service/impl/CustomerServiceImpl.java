@@ -115,7 +115,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
     public boolean updateTransfer(Integer cid, Integer from, Integer to) {
         boolean u = customerMapper.transferCustomer(cid, to);
         boolean i = customertrfMapper.insertRecording(from, to);
-        return false;
+        return u&i;
     }
 
 

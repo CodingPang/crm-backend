@@ -1,6 +1,7 @@
 package com.greatgump.crm.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.ContactDto;
 import com.greatgump.crm.entity.Contact;
 import com.greatgump.crm.mapper.ContactMapper;
 import com.greatgump.crm.service.ContactService;
@@ -21,8 +22,23 @@ public class ContactServiceImpl extends ServiceImpl<ContactMapper, Contact> impl
     @Autowired
     private ContactMapper contactMapper;
     @Override
-    public Page<Contact> queryAllContact(Page page) {
+    public Page<ContactDto> queryAllContact(Page page) {
         return contactMapper.queryAllContact(page);
+    }
+
+    @Override
+    public ContactDto queryContactById(Integer id) {
+        return contactMapper.queryContactById(id);
+    }
+
+    @Override
+    public Page<ContactDto> queryContactDynamic(String keywords,Page page) {
+        return contactMapper.queryContactDynamic(keywords,page);
+    }
+
+    @Override
+    public int updateContact(Contact contact) {
+        return contactMapper.updateContact(contact);
     }
 
     @Override
