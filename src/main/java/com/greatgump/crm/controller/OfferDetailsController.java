@@ -50,7 +50,7 @@ public class OfferDetailsController {
 
     @ApiOperation("联系人的下拉框，需提供客户id")
     @GetMapping("/crm/offer_details/phone")
-    public Result<List<String>> listPhoe(){
+    public Result<List<String>> listPhone(){
         return Result.success(customerService.queryPhone());
     }
     @ApiOperation("修改报价页面列表，需提供页面参数")
