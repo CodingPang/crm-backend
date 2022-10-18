@@ -1,7 +1,7 @@
 package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-//import com.greatgump.crm.dto.BackCheckDto;
+import com.greatgump.crm.dto.BackCheckDto;
 import com.greatgump.crm.service.BackCheckService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
@@ -32,13 +32,13 @@ public class BackCheckController {
   private BackCheckService backCheckService;
 
 
-//  @ApiOperation("查询所有的回款审批")
-//  @GetMapping("/backchecks/{current}/{size}")
-//  @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
-//  public Result<List<BackCheckDto>> queryAllBackCheck(@PathVariable("current") int current, @PathVariable("size") int size) {
-//    Page<BackCheckDto> backCheckDtoPage =  new Page<>(current,size);
-//    Page<BackCheckDto> pageInfo = backCheckService.queryAllBackCheck(backCheckDtoPage);
-//    return Result.success(pageInfo.getRecords(),pageInfo.getTotal());
-//  }
+  @ApiOperation("查询所有的回款审批")
+  @GetMapping("/backchecks/{current}/{size}")
+  @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
+  public Result<List<BackCheckDto>> queryAllBackCheck(@PathVariable("current") int current, @PathVariable("size") int size) {
+    Page<BackCheckDto> backCheckDtoPage =  new Page<>(current,size);
+    Page<BackCheckDto> pageInfo = backCheckService.queryAllBackCheck(backCheckDtoPage);
+    return Result.success(pageInfo.getRecords(),pageInfo.getTotal());
+  }
 
 }
