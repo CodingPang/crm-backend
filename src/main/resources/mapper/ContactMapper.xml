@@ -31,10 +31,12 @@
                 <result column="customer_name" property="customerName" />
             </association>
     </resultMap>
+
     <insert id="saveContact">
         insert into t_contact( contact_name, mail, phone, qq, department, wechat, customer_id,is_default, is_delete)
-        values(#{contactName},#{mail},#{phone},#{qq},#{department},#{wechat},#{customerId},#{isDefault},0)
+        values(#{contactName},#{mail},#{phone},#{qq},#{department},#{wechat},#{customerId},1,0)
     </insert>
+
     <update id="updateContact">
         UPDATE t_contact SET contact_name=#{contactName}, mail=#{mail}, phone=#{phone}, qq=#{qq}, department=#{department}, wechat=#{wechat}, customer_id=#{customerId} WHERE  id = #{id}
     </update>
