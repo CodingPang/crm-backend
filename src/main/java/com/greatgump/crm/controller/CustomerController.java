@@ -139,7 +139,7 @@ public class CustomerController {
                                    @PathVariable("to")Integer to){
         boolean b = false;
         for (CustomerDto customerDto : customerDtos) {
-             b = customerService.updateTransfer((int) customerDto.getId(), from, to);
+           customerService.updateTransfer((int) customerDto.getId(), from, to);
         }
         return Result.judge(b);
     }

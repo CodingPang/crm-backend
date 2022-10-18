@@ -2,13 +2,10 @@ package com.greatgump.crm.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.greatgump.crm.dto.back.BackCheckDto;
+//import com.greatgump.crm.dto.BackCheckDto;
 import com.greatgump.crm.entity.BackCheck;
-import com.greatgump.crm.entity.BackRecord;
 import com.greatgump.crm.mapper.BackCheckMapper;
 import com.greatgump.crm.service.BackCheckService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,11 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class BackCheckServiceImpl extends ServiceImpl<BackCheckMapper, BackCheck> implements BackCheckService {
 
-  @Qualifier
-  private BackRecord backRecord;
-
-  @Override
-  public Page<BackCheckDto> queryAllBackCheck(Page<BackCheckDto> backCheckDtoPage) {
-    return null;
-  }
+//  @Override
+//  public Page<BackCheckDto> queryAllBackCheck(Page<BackCheckDto> backCheckDtoPage) {
+//    return null;
+//  }
 }

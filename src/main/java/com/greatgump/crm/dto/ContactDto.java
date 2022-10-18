@@ -1,7 +1,6 @@
 package com.greatgump.crm.dto;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.greatgump.crm.entity.Customer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -29,8 +28,8 @@ public class ContactDto implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty("客户对象")
-    private Customer customer;
+    @ApiModelProperty("客户名称")
+    private String customerName;
 
     @ApiModelProperty("联系人名称")
     private String contactName;

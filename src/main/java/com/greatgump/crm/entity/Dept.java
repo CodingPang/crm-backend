@@ -8,9 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -21,9 +19,6 @@ import lombok.experimental.Accessors;
  * @author team6
  * @since 2022-10-13 04:01:06
  */
-
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
 @Accessors(chain = true)
 @TableName("t_dept")
@@ -52,8 +47,4 @@ public class Dept implements Serializable {
   @TableLogic
   private String isDelete;
 
-  public Dept(Long deptNo, String deptName) {
-    this.deptNo = deptNo;
-    this.deptName = deptName;
-  }
 }

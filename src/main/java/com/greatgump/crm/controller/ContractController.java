@@ -1,5 +1,6 @@
 package com.greatgump.crm.controller;
 
+import com.greatgump.crm.dto.ContactNameDto;
 import com.greatgump.crm.dto.LuoDto2;
 import com.greatgump.crm.entity.Contract;
 import com.greatgump.crm.service.ContractService;
@@ -75,12 +76,13 @@ public class ContractController {
 
     @ApiOperation("联系人的下拉框，需提供客户id")
     @GetMapping("/crm/contract/phone")
-    public Result<List<String>> listPhone(){
-        return Result.success(customerService.queryPhone());
+    public Result<List<ContactNameDto>> listPhone(Long id){
+        return Result.success(customerService.queryPhone(id));
     }
 
 
-
+    @ApiOperation("上传测试dataform请求传文件")
+    @PostMapping("/crm/contract/upload")
     public void upload(HttpServletRequest request) throws IOException{
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
         MultipartFile multipartFile = multipartHttpServletRequest.getFile("file");

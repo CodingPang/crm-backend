@@ -36,7 +36,7 @@ public class LoanController {
   @ApiOperation("获取所有的借款信息")
   @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
   @GetMapping("/queryAllLoans/{current}/{size}")
-  public Result<List<Loan>> queryAllLoans(@PathVariable("current") Integer current,@PathVariable("size") Integer size){
+  public Result<Map<String,Object>> queryAllLoans(@PathVariable("current") Integer current,@PathVariable("size") Integer size){
     LoanDto loanDto = new LoanDto();
 
     // 1、所有用户
@@ -97,13 +97,13 @@ public class LoanController {
     List<Loan> loanList = new ArrayList<>();
     loanList.add(loan01);
     loanList.add(loan02);
-
-
-    return Result.success(loanList,4L);
+     Map<String,Object> map = new HashMap<>();
+     map.put("loanb",loanList);
+    return Result.success(map,4L);
   }
      @ApiOperation("借款下拉框")
      @PostMapping("/pre")
-     public Result<LoanBoxDto> preAdd(){
+     public Result<Map<String ,Object>> preAdd(){
        LoanBoxDto loanBoxDto = new LoanBoxDto();//回显数据
 
        List<Customer> customerList = new ArrayList<>();//给loanDto中customerList准备数据
@@ -142,13 +142,19 @@ public class LoanController {
        loanBoxDto.setOrderList(orderList);
        loanBoxDto.setBusinessList(businessList);
 
+       Map<String, Object> map = new HashMap<>();
+       map.put("loanbox",loanBoxDto);
 
-       return Result.success(loanBoxDto);
+
+
+
+
+       return Result.success(map);
 
      }
   @ApiOperation("获取详情")
   @GetMapping("/queryAllDetail/{id}")
-  public Result<DetailDto> queryAllLoans(@PathVariable("id")Long id) {
+  public Result<Map<String,Object>> queryAllLoans(@PathVariable("id")Long id) {
     DetailDto detailDto = new DetailDto();
     detailDto.setLoanAmount(BigDecimal.valueOf(2000));
     detailDto.setSubmitted("ls");
@@ -162,7 +168,9 @@ public class LoanController {
     detailDto.setSubmission_time(new Date(System.currentTimeMillis()));
 
 
-   return Result.success(detailDto);
+    Map<String, Object> map = new HashMap<>();
+    map.put("detail",detailDto);
+   return Result.success(map);
   }
   @ApiOperation("借款页面修改")
   @PutMapping("/update/{id}")
@@ -195,21 +203,21 @@ public class LoanController {
     return Result.success(loanDto);
 
    }
-    @ApiOperation("借款页面关键词查询")
-    @PostMapping("/queryAllkeys")
-   public Result<LoanDto> queryAllkeys(@RequestBody List<LoanQueryDto>  loanQueryDto){
-
-      LoanDto loanDto = new LoanDto();
-      loanDto.setId(1L);
-      loanDto.setCustomer(new Customer().setCustomerName("上海大华科技有限公司"));
-      loanDto.setLoanAmount(BigDecimal.valueOf(2000));
-      loanDto.setCause("借款原因");
-      loanDto.setApprovalStatus("1");
-      loanDto.setAppplicationTime(new Date(System.currentTimeMillis()));
-      loanDto.setApplicant(new User().setUsername("zs"));
-
-        return Result.success(loanDto);
-   }
+//    @ApiOperation("借款页面关键词查询")
+//    @GetMapping("/queryAllkeys")
+//   public Result queryAllkeys(@RequestBody List<LoanQueryDto>  loanQueryDto){
+//
+//      LoanDto loanDto = new LoanDto();
+//      loanDto.setId(1L);
+//      loanDto.setCustomer(new Customer().setCustomerName("上海大华科技有限公司"));
+//      loanDto.setLoanAmount(BigDecimal.valueOf(2000));
+//      loanDto.setCause("借款原因");
+//      loanDto.setApprovalStatus("1");
+//      loanDto.setAppplicationTime(new Date(System.currentTimeMillis()));
+//      loanDto.setApplicant(new User().setUsername("zs"));
+//
+//        return Result.success(loanDto);
+//   }
 
   @ApiOperation("借款页面删除")
   @DeleteMapping("/delete/{id}")
@@ -228,6 +236,6 @@ public class LoanController {
             loanService.removeById(loanDto.getId());
         }
 
-        return Result.success();
+    return Result.success();
   }
 }

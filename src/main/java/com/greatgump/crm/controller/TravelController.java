@@ -31,7 +31,7 @@ public class TravelController {
     @ApiOperation("获取所有的出差信息")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/queryAllLoans/{current}/{size}")
-    public Result<List<Travel>> queryAllLoans(@PathVariable("current") Integer current, @PathVariable("size") Integer size) {
+    public Result<Map<String,Object>> queryAllLoans(@PathVariable("current") Integer current, @PathVariable("size") Integer size) {
         TravelDto travelDto = new TravelDto();
         Customer customer03 = new Customer();
         customer03.setId(1L);
@@ -75,14 +75,15 @@ public class TravelController {
         List<Travel> travelList = new ArrayList<>();
         travelList.add(travel01);
         travelList.add(travel02);
+        Map<String, Object> map = new HashMap<>();
+        map.put("travel", travelList);
 
-
-        return Result.success(travelList, 4L);
+        return Result.success(map, 4L);
     }
 
         @ApiOperation("出差下拉框")
         @PostMapping("/pre")
-        public Result<TravelBoxDto> preAdd(){
+        public Result<Map<String ,Object>> preAdd(){
             TravelBoxDto travelBoxDto = new TravelBoxDto();
 
             List<Customer> customerList = new ArrayList<>();//给loanDto中customerList准备数据
@@ -110,13 +111,15 @@ public class TravelController {
             travelBoxDto.setCustomerList(customerList);
             travelBoxDto.setOrderList(orderList);
 
-            return Result.success(travelBoxDto);
+            Map<String, Object> map = new HashMap<>();
+            map.put("travelb",travelBoxDto);
+            return Result.success(map);
 
 
     }
     @ApiOperation("获取详情")
     @GetMapping("/queryAllTravelDetail/{id}")
-    public Result<TravelDetailDto> queryAllLoans(@PathVariable("id")Long id) {
+    public Result<Map<String,Object>> queryAllLoans(@PathVariable("id")Long id) {
         TravelDetailDto travelDetailDto = new TravelDetailDto();
          travelDetailDto.setCustomer("上海哈哈集团");
          travelDetailDto.setRelevant("附件名称.pdf");
@@ -130,8 +133,9 @@ public class TravelController {
          travelDetailDto.setApprover("wangwang");
          travelDetailDto.setApproval_time(new Date(System.currentTimeMillis()));
 
-
-         return Result.success(travelDetailDto);
+         Map<String, Object> map = new HashMap<>();
+         map.put("travelDetail",travelDetailDto);
+         return Result.success(map);
     }
         @ApiOperation("出差页面修改")
         @PutMapping("/update/{id}")

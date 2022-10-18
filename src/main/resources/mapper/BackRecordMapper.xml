@@ -6,42 +6,22 @@
     <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.BackRecord">
         <id column="id" property="id" />
         <result column="back_record_no" property="backRecordNo" />
+        <result column="back_id" property="backId" />
+        <result column="customer_id" property="customerId" />
+        <result column="order_id" property="orderId" />
         <result column="back_date" property="backDate" />
         <result column="back_money" property="backMoney" />
-        <result column="pay_method" property="payMethod" />
-        <result column="check_status" property="checkStatus" />
+        <result column="back_plan_id" property="backPlanId" />
+        <result column="transfer_id" property="transferId" />
+        <result column="user_id" property="userId" />
         <result column="overdue_days" property="overdueDays" />
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
-        <association property="backplan" javaType="com.greatgump.crm.entity.BackPlan">
-            <id column="id" property="id"/>
-            <result column="back_no" property="backNo"/>
-            <result column="plan_back_count" property="planBackCount"/>
-        </association>
-        <association  property="customer" javaType="com.greatgump.crm.entity.Customer">
-            <id column="id" property="id"/>
-            <result column="customer_name" property="customerName"/>
-        </association>
-        <association property="order" javaType="com.greatgump.crm.entity.Order" >
-            <id column="id" property="id"/>
-            <result column="order_title" property="orderTitle"/>
-        </association>
-        <association property="backPlanDetail" javaType="com.greatgump.crm.entity.BackPlanDetail">
-            <id column="id" property="id"/>
-            <result column="back_periods" property="backPeriods"/>
-            <result column="back_date" property="backDate"/>
-            <result column="back_ratio" property="backRatio"/>
-            <result column="back_money" property="backMoney"/>
-        </association>
-        <association property="user" javaType="com.greatgump.crm.entity.User">
-            <id column="id" property="id"/>
-            <result column="username" property="username"/>
-        </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, back_record_no, back_id, customer_id, order_id, back_date, back_money, back_pland_id, pay_method, user_id, check_status, overdue_days, remark, is_delete
+        id, back_record_no, back_id, customer_id, order_id, back_date, back_money, back_plan_id, transfer_id, user_id, overdue_days, remark, is_delete
     </sql>
   <select id="queryAllBackRecord" resultType="com.greatgump.crm.entity.BackRecord">
       SELECT <include refid="Base_Column_List"></include>

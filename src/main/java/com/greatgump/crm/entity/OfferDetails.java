@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -24,6 +25,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("t_offer_details")
 @ApiModel(value = "OfferDetails对象", description = "")
+@ToString
 public class OfferDetails implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -62,7 +64,7 @@ public class OfferDetails implements Serializable {
 
     @ApiModelProperty("公司")
     @TableField("company")
-    private String company;
+    private Long company;
 
     @ApiModelProperty("备注")
     @TableField("remake")

@@ -7,55 +7,18 @@
         <id column="id" property="id" />
         <result column="cost_no" property="costNo" />
         <result column="cost_name" property="costName" />
-        <result column="cost_source" property="costSource" />
-        <result column="cost_type" property="costType" />
-        <result column="cost_stage" property="costStage" />
+        <result column="customer_id" property="customerId" />
         <result column="cost_money" property="costMoney" />
         <result column="happened_time" property="happenedTime" />
+        <result column="charge" property="charge" />
         <result column="expense_status" property="expenseStatus" />
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
-        <association property="customer" javaType="com.greatgump.crm.entity.Customer">
-            <id column="id" property="id"/>
-            <result column="customer_name" property="customerName"/>
-        </association>
-        <association property="user" javaType="com.greatgump.crm.entity.User">
-            <id column="id" property="id"/>
-            <result column="username" property="username"/>
-        </association>
-        <association property="order" javaType="com.greatgump.crm.entity.Order">
-            <id column="id" property="id"/>
-            <result column="order_title" property="orderTitle"/>
-        </association>
-        <association property="business" javaType="com.greatgump.crm.entity.Business">
-            <id column="id" property="id"/>
-            <result column="bussiness_title" property="bussinessTitle"/>
-        </association>
-        <association property="invoice" javaType="com.greatgump.crm.entity.Invoice">
-            <id column="id" property="id"/>
-            <result column="invoice_money" property="invoiceMoney"/>
-            <result column="invoice_subject" property="invoiceSubject"/>
-            <result column="invoice_no" property="invoiceNo"/>
-            <result column="invoice_date" property="invoiceDate"/>
-        </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, cost_no, cost_name, cost_type, customer_id, user_id, order_id, business_id, invoice_id, cost_money, happened_time, expense_status, remark, is_delete
+        id, cost_no, cost_name, customer_id, cost_money, happened_time, charge, expense_status, remark, is_delete
     </sql>
-    <select id="selectAllCost" resultType="com.greatgump.crm.dto.finance.cost.CostQueryDto">
-        SELECT  cos.id, cos.cost_no, cos.cost_name, cus.customer_name, cos.cost_money, cos.happened_time, u.username, cos.expense_status
-        FROM t_cost cos
-                 LEFT JOIN t_customer cus
-                           ON cos.customer_id = cus.id
-                 LEFt JOIN t_user u
-                           ON cos.user_id = u.id
-                 LEFt JOIN t_order o
-                           ON cos.order_id = o.id
-                 LEFt JOIN t_business b
-                           ON cos.business_id = b.id
-        WHERE 1 = 1
-    </select>
 
 </mapper>

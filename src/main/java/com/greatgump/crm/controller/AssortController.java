@@ -1,7 +1,13 @@
 package com.greatgump.crm.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.AssortDto;
+import com.greatgump.crm.dto.CalcUnitDto;
+import com.greatgump.crm.dto.ProductDto;
 import com.greatgump.crm.entity.Assort;
+import com.greatgump.crm.entity.CalcUnit;
+import com.greatgump.crm.entity.Customer;
+import com.greatgump.crm.entity.Property;
 import com.greatgump.crm.service.AssortService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
@@ -24,15 +30,15 @@ import java.util.*;
 @Api(tags = "产品分类功能说明")
 @RestController
 @RequestMapping("/crm/assort")
-public class  AssortController {
+public class AssortController {
 
     @Autowired
     private AssortService assortService;
 
     @ApiOperation("获取所有产品分类")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "page",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
-    @GetMapping("/queryAllAssorts/{page}/{size}")
-    public Result<List<Assort>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
+    @GetMapping("/queryAllLoans/{page}/{size}")
+    public Result<Map<String,Object>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
         AssortDto assortDto =new AssortDto();
 
         Assort assort = new Assort();
@@ -46,14 +52,15 @@ public class  AssortController {
         List<Assort> assortList = new ArrayList<>();
         assortList.add(assort);
         assortList.add(assort1);
-
-        return Result.success(assortList,4L);
+        Map<String,Object> map = new HashMap<>();
+        map.put("assort",assortList);
+        return Result.success(map,4L);
 
     }
 
     @ApiOperation("产品分类增加")
     @PostMapping("/add")
-    public Result preAdd(){
+    public Result<Map<String ,Object>> preAdd(){
 
         return Result.success();
     }

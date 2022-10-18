@@ -2,7 +2,7 @@ package com.greatgump.crm.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.greatgump.crm.dto.back.BackCheckDto;
+//import com.greatgump.crm.dto.BackCheckDto;
 import com.greatgump.crm.entity.BackCheck;
 
 /**
@@ -20,5 +20,5 @@ public interface BackCheckService extends IService<BackCheck> {
    * @param backCheckDtoPage
    * @return
    */
-  Page<BackCheckDto> queryAllBackCheck(Page<BackCheckDto> backCheckDtoPage);
+//  Page<BackCheckDto> queryAllBackCheck(Page<BackCheckDto> backCheckDtoPage);
 }

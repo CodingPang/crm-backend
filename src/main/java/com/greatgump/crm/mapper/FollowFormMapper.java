@@ -1,8 +1,14 @@
 package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.FollowFormAllDto;
 import com.greatgump.crm.entity.FollowForm;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +21,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface FollowFormMapper extends BaseMapper<FollowForm> {
 
+    Page<FollowFormAllDto> listIneed(Page page);
 }

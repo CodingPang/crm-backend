@@ -41,10 +41,5 @@ public class WorkorderServiceImpl extends ServiceImpl<WorkorderMapper, Workorder
         return workorderMapper.queryByWorkorder(page,repairOrderTitle,workOrderStatus,emergencyDegree);
     }
 
-    @Override
-    public boolean updateByhandler(Workorder workorder) {
-        return false;
-    }
-
 
 }

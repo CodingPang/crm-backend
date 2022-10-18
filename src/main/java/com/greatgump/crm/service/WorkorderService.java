@@ -24,7 +24,5 @@ public interface WorkorderService extends IService<Workorder> {
     int addWororder(WorkorderDto2 workorderDto2);
 
     Page<Workorder>  queryByWorkorder(Page page,String repairOrderTitle,Integer workOrderStatus,Integer emergencyDegree);
-
-    boolean updateByhandler(Workorder workorder);
 }
 
