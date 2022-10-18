@@ -16,35 +16,52 @@
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
     </resultMap>
+
     <resultMap id="contactDto" type="com.greatgump.crm.dto.ContactDto">
         <id column="id" property="id" />
-        <result column="customerName" property="contactName" />
+
         <result column="contact_name" property="contactName" />
         <result column="mail" property="mail" />
         <result column="phone" property="phone" />
         <result column="qq" property="qq" />
         <result column="department" property="department" />
         <result column="wechat" property="wechat" />
-
+            <association property="customer" javaType="com.greatgump.crm.entity.Customer">
+                <id column="cid" property="id" />
+                <result column="customer_name" property="customerName" />
+            </association>
     </resultMap>
+
     <insert id="saveContact">
         insert into t_contact( contact_name, mail, phone, qq, department, wechat, customer_id,is_default, is_delete)
-        values(#{contactName},#{mail},#{phone},#{qq},#{department},#{wechat},#{customerId},#{isDefault},0)
+        values(#{contactName},#{mail},#{phone},#{qq},#{department},#{wechat},#{customerId},1,0)
     </insert>
+
+    <update id="updateContact">
+        UPDATE t_contact SET contact_name=#{contactName}, mail=#{mail}, phone=#{phone}, qq=#{qq}, department=#{department}, wechat=#{wechat}, customer_id=#{customerId} WHERE  id = #{id}
+    </update>
 
 
     <select id="queryAllContact" resultMap="contactDto">
-        SELECT tc.id, tc.contact_name, tc.mail, tc.phone, tc.qq, tc.department, tc.wechat,tcs.customer_name
+        SELECT tc.id, tc.contact_name, tc.mail, tc.phone, tc.qq, tc.department, tc.wechat,tcs.id cid,tcs.customer_name
         FROM t_contact tc,t_customer tcs WHERE tc.is_delete = 0 AND tc.is_default = 1 AND tc.customer_id = tcs.id
     </select>
+
     <select id="queryDefByCustomerIdContact" resultType="com.greatgump.crm.entity.Contact">
         select id, contact_name, mail, phone, qq, department, wechat
         from t_contact where is_delete = 0 and is_default = 1 and customer_id = #{cid}
     </select>
-    <select id="queryOne" resultType="com.greatgump.crm.entity.Contact">
-        SELECT *
-        FROM t_contact
-        WHERE id = #{id}
+    <select id="queryContactById"  resultMap="contactDto">
+        SELECT tc.id, tc.contact_name, tc.mail, tc.phone, tc.qq, tc.department, tc.wechat,tcs.id cid,tcs.customer_name
+        FROM t_contact tc,t_customer tcs WHERE tc.is_delete = 0 AND tc.is_default = 1 AND tc.customer_id = tcs.id AND tc.id = #{id}
+    </select>
+    <select id="queryContactDynamic" resultMap="contactDto">
+        SELECT tc.id, tc.contact_name, tc.mail, tc.phone, tc.qq, tc.department, tc.wechat,tcs.id cid,tcs.customer_name
+        FROM t_contact tc,t_customer tcs WHERE tc.is_delete = 0 AND tc.is_default = 1 AND tc.customer_id = tcs.id
+        <if test="arg0 != null and arg0 !=''">
+            AND tc.contact_name = #{arg0} || tc.mail=#{arg0} || tc.phone=#{arg0} || tc.qq=#{arg0}
+                || tc.department=#{arg0} ||tc.wechat=#{arg0} || tcs.customer_name=#{arg0}
+        </if>
     </select>
 
 </mapper>

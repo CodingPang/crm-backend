@@ -1,18 +1,11 @@
 package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.BusinessDto;
-import com.greatgump.crm.dto.FollowFormAllDto;
-import com.greatgump.crm.dto.UserDto;
 import com.greatgump.crm.entity.*;
 import com.greatgump.crm.service.*;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,35 +28,22 @@ public class BusinessController {
     private FollowService followService;
 
     @ApiOperation("主页面的商机信息")
-    @GetMapping("/crm/business/list/{current}/{size}")
-    public Result<List<FollowFormAllDto>> list(@PathVariable("current") int current, @PathVariable("size") int size){
-//        Page<FollowForm> offerPage = new Page(current,size);
-//        Page<FollowForm> offerInfo = followFormService.page(offerPage);
-//        return Result.success(offerPage.getRecords(),offerInfo.getTotal());
-//        followFormService.listIneed(current,size);
-        Page<FollowFormAllDto> followFormAllDtoPage = new Page<>(current,size);
-        Page<FollowFormAllDto> followFormAllDtoPage1 = followFormService.listIneed(followFormAllDtoPage);
-        System.out.println("===================>"+followFormAllDtoPage1.getRecords());
-        return Result.success(followFormAllDtoPage1.getRecords(),followFormAllDtoPage1.getTotal());
+    @GetMapping("/crm/business/list")
+    public Result<List<FollowForm>> list(@PathVariable("current")int current,@PathVariable("size")int size){
+        Page<FollowForm> offerPage = new Page(current,size);
+        Page<FollowForm> offerInfo = followFormService.page(offerPage);
+        return Result.success(offerPage.getRecords(),offerInfo.getTotal());
     }
-
-
     @ApiOperation("商机线索增加")
     @PostMapping("/crm/business/add")
     public Result list(Follow follow){
         boolean flag = followService.save(follow);
         return Result.judge(flag);
     }
-    @ApiOperation("商机增加")
-    @PostMapping("/crm/business/addbusy")
-    public  Result addBusy(FollowForm followForm){
-        boolean flag = followFormService.save(followForm);
-        return Result.judge(flag);
-    }
     @ApiOperation("主页面的单个删除")
     @DeleteMapping("/crm/business/delete")
-    public Result delete(FollowForm followForm){
-        boolean flag = followService.removeById(followForm);
+    public Result delete(Follow follow){
+        boolean flag = followService.removeById(follow);
         return Result.judge(flag);
     }
 

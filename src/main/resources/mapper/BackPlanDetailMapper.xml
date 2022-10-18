@@ -5,13 +5,24 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.BackPlanDetail">
         <id column="id" property="id" />
-        <result column="back_plan_id" property="backPlanId" />
         <result column="back_periods" property="backPeriods" />
         <result column="back_date" property="backDate" />
         <result column="back_ratio" property="backRatio" />
         <result column="back_money" property="backMoney" />
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
+        <association  property="backPlan" javaType="com.greatgump.crm.entity.BackPlan">
+            <id column="id" property="id"/>
+            <result column="back_no" property="backNo" />
+            <result column="plan_back_total" property="planBackTotal" />
+            <result column="back_status" property="backStatus" />
+            <result column="plan_back_count" property="planBackCount" />
+            <result column="approval_status" property="approvalStatus" />
+            <result column="creation_time" property="creationTime" />
+            <result column="update_time" property="updateTime" />
+            <result column="remark" property="remark" />
+            <result column="is_delete" property="isDelete" />
+        </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->

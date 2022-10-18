@@ -10,6 +10,6 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class LuoDto2 {
-    private String customerName;
+    private String customer_name;
     private Long id;
 }

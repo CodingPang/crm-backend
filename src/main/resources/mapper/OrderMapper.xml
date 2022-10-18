@@ -5,19 +5,63 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Order">
         <id column="id" property="id" />
-        <result column="customer_name" property="customerName" />
+        <result column="order_no" property="orderNo" />
         <result column="order_title" property="orderTitle" />
         <result column="oder_status" property="oderStatus" />
-        <result column="oder_total" property="oderTotal" />
+        <result column="pay_methods" property="payMethods" />
+        <result column="owner_signer_phone" property="ownerSignerPhone" />
+        <result column="face_signer_phone" property="faceSignerPhone" />
+        <result column="order_date" property="orderDate" />
         <result column="total_res" property="totalRes" />
         <result column="total_ticket" property="totalTicket" />
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
+        <association  property="customer" javaType="com.greatgump.crm.entity.Customer">
+            <id column="id" property="id"/>
+            <result column="customer_name" property="customerName"/>
+        </association>
+        <association property="sale" javaType="com.greatgump.crm.entity.User">
+            <id column="id" property="id"/>
+            <result column="username" property="username"/>
+        </association>
+        <association property="business" javaType="com.greatgump.crm.entity.Business">
+            <id column="id" property="id"/>
+            <result column="bussiness_title" property="bussinessTitle"/>
+        </association>
+        <association property="product" javaType="com.greatgump.crm.entity.Product">
+            <id column="id" property="id"/>
+            <result column="product_name" property="productName"/>
+        </association>
+        <association property="uploadAttachment" javaType="com.greatgump.crm.entity.UploadAttachment">
+            <id column="id" property="id" />
+            <result column="upload_location" property="uploadLocation" />
+        </association>
+        <association property="orderContract" javaType="com.greatgump.crm.entity.Contract">
+            <id column="id" property="id" />
+            <result column="contract_num" property="contractNum" />
+            <result column="signing_date" property="signingDate" />
+            <result column="contract_name" property="contractName" />
+            <result column="contract_amount" property="contractAmount" />
+        </association>
+        <association property="ownerSigner" javaType="com.greatgump.crm.entity.User">
+            <id column="id" property="id" />
+            <result column="username" property="username"/>
+        </association>
+        <association property="faceSigner" javaType="com.greatgump.crm.entity.Contact">
+            <id column="id" property="id" />
+            <result column="contact_name" property="contactName"/>
+        </association>
+
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, customer_name, order_title, oder_status, oder_total, total_res, total_ticket, remark, is_delete
+        id, order_no, order_title, customer_id, sale_id, business_id, product_id, oder_total, oder_status, upload_attachment_id, pay_methods, order_contract, owner_signer, owner_signer_phone, face_signer, face_signer_phone, order_date, total_res, total_ticket, remark, is_delete
     </sql>
+  <select id="selectOrderListDto"
+    resultType="com.greatgump.crm.dto.finance.cost.OrderListDto">
+      SELECT o.id, o.order_no, o.order_title
+      FROM t_order o
+  </select>
 
 </mapper>

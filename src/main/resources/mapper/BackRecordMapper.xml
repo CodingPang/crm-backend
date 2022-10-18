@@ -1,31 +1,201 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.greatgump.crm.mapper.BackRecordMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.BackRecord">
-        <id column="id" property="id" />
-        <result column="back_record_no" property="backRecordNo" />
-        <result column="back_id" property="backId" />
-        <result column="customer_id" property="customerId" />
-        <result column="order_id" property="orderId" />
-        <result column="back_date" property="backDate" />
-        <result column="back_money" property="backMoney" />
-        <result column="back_plan_id" property="backPlanId" />
-        <result column="transfer_id" property="transferId" />
-        <result column="user_id" property="userId" />
-        <result column="overdue_days" property="overdueDays" />
-        <result column="remark" property="remark" />
-        <result column="is_delete" property="isDelete" />
-    </resultMap>
+  <!-- 通用查询映射结果 -->
+  <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.BackRecord">
+    <id column="id" property="id"/>
+    <result column="back_record_no" property="backRecordNo"/>
+    <result column="back_date" property="backDate"/>
+    <result column="back_money" property="backMoney"/>
+    <result column="pay_method" property="payMethod"/>
+    <result column="check_status" property="checkStatus"/>
+    <result column="check_time" property="checkTime"/>
+    <result column="overdue_days" property="overdueDays"/>
+    <result column="submit_time" property="submitTime"/>
+    <result column="remark" property="remark"/>
+    <result column="is_delete" property="isDelete"/>
+    <association property="backplan" javaType="com.greatgump.crm.entity.BackPlan">
+      <id column="id" property="id"/>
+      <result column="back_no" property="backNo"/>
+      <result column="plan_back_count" property="planBackCount"/>
+    </association>
+    <association property="customer" javaType="com.greatgump.crm.entity.Customer">
+      <id column="id" property="id"/>
+      <result column="customer_name" property="customerName"/>
+    </association>
+    <association property="order" javaType="com.greatgump.crm.entity.Order">
+      <id column="id" property="id"/>
+      <result column="order_title" property="orderTitle"/>
+    </association>
+    <association property="backPlanDetail" javaType="com.greatgump.crm.entity.BackPlanDetail">
+      <id column="id" property="id"/>
+      <result column="back_periods" property="backPeriods"/>
+      <result column="back_date" property="backDate"/>
+      <result column="back_ratio" property="backRatio"/>
+      <result column="back_money" property="backMoney"/>
+    </association>
+    <association property="user" javaType="com.greatgump.crm.entity.User">
+      <id column="id" property="id"/>
+      <result column="username" property="username"/>
+    </association>
+    <association property="submitter" javaType="com.greatgump.crm.entity.User">
+      <id column="id" property="id"/>
+      <result column="username" property="username"/>
+    </association>
+    <association property="checker" javaType="com.greatgump.crm.entity.User">
+      <id column="id" property="id"/>
+      <result column="username" property="username"/>
+    </association>
+  </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, back_record_no, back_id, customer_id, order_id, back_date, back_money, back_plan_id, transfer_id, user_id, overdue_days, remark, is_delete
-    </sql>
-  <select id="queryAllBackRecord" resultType="com.greatgump.crm.entity.BackRecord">
-      SELECT <include refid="Base_Column_List"></include>
-          FROM t_back_record
+  <!-- 通用查询结果列 -->
+  <sql id="Base_Column_List">
+    id
+    , back_record_no, back_id, customer_id, order_id, back_date, back_money, back_pland_id, pay_method, user_id, submitter, submit_time, checker, check_status, overdue_days, remark, is_delete
+  </sql>
+
+  <select id="queryAllBackRecord" resultMap="BaseResultMap">
+    SELECT tbr.id,
+           tbr.back_record_no,
+           o.order_title,
+           tbpd.back_periods,
+           tbr.back_money,
+           tbr.back_date,
+           tbr.check_status
+    FROM t_back_record tbr
+           LEFT JOIN t_order o
+                     ON tbr.order_id = o.id
+           LEFT JOIN t_customer cus
+                     ON tbr.customer_id = cus.id
+           LEFT JOIN t_back_plan_detail tbpd
+                     ON tbr.back_pland_id = tbpd.id AND tbr.back_id = tbpd.back_plan_id
+           LEFT JOIN t_back_plan tbp
+                     ON tbr.back_id = tbp.id
+    WHERE 1 = 1
+
   </select>
 
+  <select id="queryAllBackCheck" resultMap="BaseResultMap">
+    SELECT tbr.id,
+           tbr.back_record_no,
+           o.order_title,
+           tbpd.back_periods,
+           tbr.back_money,
+           tbr.back_date,
+           tbr.check_status,
+           tbr.submit_time
+    FROM t_back_record tbr
+           LEFT JOIN t_order o
+                     ON tbr.order_id = o.id
+           LEFT JOIN t_customer cus
+                     ON tbr.customer_id = cus.id
+           LEFT JOIN t_back_plan_detail tbpd
+                     ON tbr.back_pland_id = tbpd.id AND tbr.back_id = tbpd.back_plan_id
+           LEFT JOIN t_back_plan tbp
+                     ON tbr.back_id = tbp.id
+    WHERE 1 = 1
+  </select>
+
+  <select id="selectAllByCondition" resultMap="BaseResultMap">
+    SELECT tbr.id,tbr.back_record_no, o.order_title, tbpd.back_periods , tbr.back_money,
+    tbr.back_date, tbr.check_status, tbr.submit_time
+    FROM t_back_record tbr
+    LEFT JOIN t_order o
+    ON tbr.order_id = o.id
+    LEFT JOIN t_customer cus
+    ON tbr.customer_id = cus.id
+    LEFT JOIN t_back_plan_detail tbpd
+    ON tbr.back_pland_id = tbpd.id AND tbr.back_id = tbpd.back_plan_id
+    LEFT JOIN t_back_plan tbp
+    ON tbr.back_id = tbp.id
+    <where>
+      <if test="backRecord.checkStatus != null and backRecord.checkStatus != '' ">
+        AND tbr.check_status = #{backRecord.checkStatus}
+      </if>
+      <if test="backRecord.submitTime != null and backRecord.submitTime != '' ">
+        AND tbr.submit_time = #{backRecord.submitTime}
+      </if>
+    </where>
+    ORDER BY tbr.id LIMIT #{current}, #{size}
+  </select>
+  <select id="selectAllWithCondition" resultMap="BaseResultMap">
+    SELECT tbr.id,tbr.back_record_no, o.order_title, tbpd.back_periods , tbr.back_money,
+    tbr.back_date, tbr.check_status
+    FROM t_back_record tbr
+    LEFT JOIN t_order o
+    ON tbr.order_id = o.id
+    LEFT JOIN t_customer cus
+    ON tbr.customer_id = cus.id
+    LEFT JOIN t_back_plan_detail tbpd
+    ON tbr.back_pland_id = tbpd.id AND tbr.back_id = tbpd.back_plan_id
+    LEFT JOIN t_back_plan tbp
+    ON tbr.back_id = tbp.id
+    <where>
+      <if test="checkStatus != null and checkStatus != '' ">
+        AND tbr.check_status = #{checkStatus}
+      </if>
+      <if test="submitStartTime != null and submitStartTime != '' ">
+        AND tbr.submit_time &gt;= #{submitStartTime}
+      </if>
+      <if test="submitEndTime != null and submitEndTime != '' ">
+        AND tbr.submit_time &lt;= #{submitEndTime}
+      </if>
+    </where>
+    ORDER BY tbr.id LIMIT #{current}, #{size}
+  </select>
+  <select id="selectByPrimaryId" resultMap="BaseResultMap">
+    SELECT tbr.id,
+           tbr.back_record_no,
+           o.order_title,
+           tbpd.back_periods,
+           tbr.back_money,
+           tbr.back_date,
+           cus.customer_name,
+           tbr.check_status,
+           tbr.submit_time,
+           tbr.overdue_days,
+           shoukuan.id,
+           tbr.pay_method,
+           submitter.id,
+           checker.id,
+           tbr.check_time
+    FROM t_back_record tbr
+           LEFT JOIN t_order o
+                     ON tbr.order_id = o.id
+           LEFT JOIN t_customer cus
+                     ON tbr.customer_id = cus.id
+           LEFT JOIN t_back_plan_detail tbpd
+                     ON tbr.back_pland_id = tbpd.id AND tbr.back_id = tbpd.back_plan_id
+           LEFT JOIN t_back_plan tbp
+                     ON tbr.back_id = tbp.id
+           LEFT JOIN t_user shoukuan
+                     ON tbr.user_id = shoukuan.id
+           LEFT JOIN t_user submitter
+                     ON tbr.user_id = submitter.id
+           LEFT JOIN t_user checker
+                     ON tbr.user_id = checker.id
+    WHERE 1 = 1
+      AND tbr.id = #{id}
+  </select>
+  <select id="selectAllbackRecord" resultMap="BaseResultMap">
+    SELECT tbr.id,tbr.back_record_no, o.order_title, tbpd.back_periods , tbr.back_money,
+           tbr.back_date, tbr.check_status
+    FROM t_back_record tbr
+           LEFT JOIN t_order o
+                     ON tbr.order_id = o.id
+           LEFT JOIN t_customer cus
+                     ON tbr.customer_id = cus.id
+           LEFT JOIN t_back_plan_detail tbpd
+                     ON tbr.back_pland_id = tbpd.id AND tbr.back_id = tbpd.back_plan_id
+           LEFT JOIN t_back_plan tbp
+                     ON tbr.back_id = tbp.id
+  </select>
+
+  <update id="updateOne" >
+    UPDATE t_back_record
+    SET check_status = #{checkStatus}, remark = #{remark}, check_time = #{checkTime}
+    WHERE id = #{bid}
+  </update>
 </mapper>

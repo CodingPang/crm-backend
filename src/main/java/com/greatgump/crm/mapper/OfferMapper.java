@@ -1,13 +1,8 @@
 package com.greatgump.crm.mapper;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.OfferListDto;
-import com.greatgump.crm.dto.OfferSearchDto;
 import com.greatgump.crm.entity.Offer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
 
 /**
  * <p>
@@ -20,9 +15,4 @@ import java.util.List;
 @Mapper
 public interface OfferMapper extends BaseMapper<Offer> {
 
-    Page<OfferListDto> listIneed(Page<OfferListDto> offerListDtoPage);
-
-    List<OfferListDto> searchList(OfferSearchDto offerSearchDto);
-
-    Integer countList(OfferSearchDto offerSearchDto);
 }

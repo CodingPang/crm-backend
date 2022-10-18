@@ -60,12 +60,12 @@
 
   <!--    将mapper接口 交给spring管理-->
   <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-    <property name="basePackage" value="com.greatgump.crm.mapper"></property>
+    <property name="basePackage" value="com.greatgump.crm.mapper"/>
   </bean>
 
   <!--   将service交给spring管理 -->
   <context:component-scan
-    base-package="com.greatgump.crm.service"></context:component-scan>
+    base-package="com.greatgump.crm.service"/>
 
   <!--    事务管理-->
   <!--添加事务管理器-->

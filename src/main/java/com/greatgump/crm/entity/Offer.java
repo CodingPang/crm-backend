@@ -12,7 +12,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -25,7 +24,6 @@ import lombok.experimental.Accessors;
  */
 @Getter
 @Setter
-@ToString
 @Accessors(chain = true)
 @TableName("t_offer")
 @ApiModel(value = "Offer对象", description = "")
@@ -46,20 +44,20 @@ public class Offer implements Serializable {
     private Date creationDate;
 
     @ApiModelProperty("客户")
-    @TableField("customer_id")
-    private Integer customerId;
+    @TableField("customer")
+    private String customer;
 
     @ApiModelProperty("报价人")
-    @TableField("saler_id")
-    private Integer salerId;
+    @TableField("saler")
+    private String saler;
 
     @ApiModelProperty("联系人")
-    @TableField("contacts_id")
-    private Integer contactsId;
+    @TableField("contacts")
+    private String contacts;
 
     @ApiModelProperty("售价总额")
     @TableField("price")
-    private BigDecimal pricetotal;
+    private BigDecimal price;
 
     @ApiModelProperty("折扣率")
     @TableField("discount_tate")

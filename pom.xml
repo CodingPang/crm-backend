@@ -252,6 +252,20 @@
       <version>3.12.0</version>
     </dependency>
 
+    <!-- 解决dto,do,vo转换问题 -->
+    <dependency>
+      <groupId>net.sf.dozer</groupId>
+      <artifactId>dozer</artifactId>
+      <version>5.5.1</version>
+    </dependency>
+
+<!--    时间处理工具类-->
+    <dependency>
+      <groupId>cn.hutool</groupId>
+      <artifactId>hutool-all</artifactId>
+      <version>5.2.3</version>
+    </dependency>
+
   </dependencies>
 
   <build>

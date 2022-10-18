@@ -1,12 +1,6 @@
 package com.greatgump.crm.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.AssortDto;
-import com.greatgump.crm.dto.ProductDto;
 import com.greatgump.crm.dto.PropertyDto;
-import com.greatgump.crm.entity.Assort;
-import com.greatgump.crm.entity.Customer;
-import com.greatgump.crm.entity.Product;
 import com.greatgump.crm.entity.Property;
 import com.greatgump.crm.service.PropertyService;
 import com.greatgump.crm.utils.Result;
@@ -36,9 +30,9 @@ public class PropertyController {
 
     @ApiOperation("获取所有产品属性")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "page",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
-    @GetMapping("/queryAllLoans/{page}/{size}")
-    public Result<Map<String,Object>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
-        PropertyDto productDto =new PropertyDto();
+    @GetMapping("/queryAllPropertys/{page}/{size}")
+    public Result<List<Property>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
+        PropertyDto propertyDto =new PropertyDto();
 
         Property property = new Property();
         property.setId(1L);
@@ -55,15 +49,14 @@ public class PropertyController {
         List<Property> propertyList = new ArrayList<>();
         propertyList.add(property);
         propertyList.add(property1);
-        Map<String,Object> map = new HashMap<>();
-        map.put("property",propertyList);
-        return Result.success(map,4L);
+
+        return Result.success(propertyList,4L);
 
     }
 
     @ApiOperation("产品属性新增")
     @PostMapping ("/add")
-    public Result<Map<String ,Object>> preAdd(){
+    public Result preAdd(){
 
         return Result.success();
     }

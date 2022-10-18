@@ -34,8 +34,8 @@ public class CalcUnitController {
 
     @ApiOperation("获取所有计量单位")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "page",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
-    @GetMapping("/queryAllLoans/{page}/{size}")
-    public Result<Map<String,Object>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
+    @GetMapping("/queryAllCalcUnits/{page}/{size}")
+    public Result<List<CalcUnit>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
         CalcUnitDto calcUnitDto =new CalcUnitDto();
 
         CalcUnit calcUnit = new CalcUnit();
@@ -51,15 +51,14 @@ public class CalcUnitController {
         List<CalcUnit> calcUnitList = new ArrayList<>();
         calcUnitList.add(calcUnit);
         calcUnitList.add(calcUnit1);
-        Map<String,Object> map = new HashMap<>();
-        map.put("calcUnit",calcUnitList);
-        return Result.success(map,4L);
+
+        return Result.success(calcUnitList,4L);
 
     }
 
     @ApiOperation("计量单位新增")
     @PostMapping("/add")
-    public Result<Map<String ,Object>> preAdd(){
+    public Result preAdd(){
 
         return Result.success();
     }

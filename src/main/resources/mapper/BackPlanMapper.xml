@@ -6,15 +6,9 @@
     <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.BackPlan">
         <id column="id" property="id" />
         <result column="back_no" property="backNo" />
-        <result column="plan_back_date" property="planBackDate" />
-        <result column="plan_back_count" property="planBackCount" />
-        <result column="plan_back_money" property="planBackMoney" />
-        <result column="real_back_money" property="realBackMoney" />
-        <result column="not_back_money" property="notBackMoney" />
-        <result column="pay_mothod" property="payMothod" />
+        <result column="plan_back_total" property="planBackTotal" />
         <result column="back_status" property="backStatus" />
-        <result column="real_back_date" property="realBackDate" />
-        <result column="overdue_days" property="overdueDays" />
+        <result column="plan_back_count" property="planBackCount" />
         <result column="approval_status" property="approvalStatus" />
         <result column="creation_time" property="creationTime" />
         <result column="update_time" property="updateTime" />
@@ -32,7 +26,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, back_no, plan_back_date, plan_back_count, plan_back_money, real_back_money, not_back_money, pay_mothod, back_status, customer_id, order_id, real_back_date, overdue_days, approval_status, creation_time, update_time, remark, is_delete
+        id, back_no, plan_back_total, back_status, customer_id, order_id, plan_back_count, approval_status, creation_time, update_time, remark, is_delete
     </sql>
     <select id="queryAllBackPlan" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List"></include>

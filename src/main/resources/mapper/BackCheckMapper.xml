@@ -6,7 +6,7 @@
     <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.BackCheck">
         <id column="id" property="id" />
         <result column="back_check_no" property="backCheckNo" />
-        <result column="associated _order" property="associated Order" />
+        <result column="associated _order" property="associatedOrder" />
         <result column="back_period" property="backPeriod" />
         <result column="back_money" property="backMoney" />
         <result column="back_date" property="backDate" />

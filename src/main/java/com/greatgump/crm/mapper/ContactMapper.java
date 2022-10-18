@@ -1,10 +1,10 @@
 package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.ContactDto;
 import com.greatgump.crm.entity.Contact;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -16,11 +16,13 @@ import org.apache.ibatis.annotations.Param;
  */
 @Mapper
 public interface ContactMapper extends BaseMapper<Contact> {
-    Page<Contact> queryAllContact(Page page);
+    Page<ContactDto> queryAllContact(Page page);
     int saveContact(Contact contact);
 
+    int updateContact(Contact contact);
+    Page<ContactDto>  queryContactDynamic(String keywords,Page page);
+    ContactDto queryContactById(Integer id);
     Contact queryDefByCustomerIdContact(Integer cid);
 
 
-    Contact queryOne(@Param("id") Integer id);
 }

@@ -23,5 +23,10 @@
     <select id="listBase" resultType="com.greatgump.crm.dto.BusinessDto">
 
     </select>
+  <select id="selectAllBusiness"
+    resultType="com.greatgump.crm.dto.finance.cost.BusinessListDto">
+      SELECT id, bussiness_title, bussiness_source, bussiness_stage
+      FROM t_business
+  </select>
 
 </mapper>

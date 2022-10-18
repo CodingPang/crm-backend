@@ -1,12 +1,7 @@
 package com.greatgump.crm.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.greatgump.crm.dto.FollowFormAllDto;
 import com.greatgump.crm.entity.FollowForm;
-import com.hazelcast.core.LifecycleService;
-
-import java.util.List;
 
 /**
  * <p>
@@ -19,5 +14,4 @@ import java.util.List;
 public interface FollowFormService extends IService<FollowForm> {
 
 
-    Page<FollowFormAllDto> listIneed(Page page);
 }

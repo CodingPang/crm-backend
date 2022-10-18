@@ -1,6 +1,8 @@
 package com.greatgump.crm.controller;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.ContactDto;
 import com.greatgump.crm.entity.Contact;
 import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.service.ContactService;
@@ -31,9 +33,22 @@ public class ContactController {
     @ApiOperation("获取所有联系人")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/contacts/{current}/{size}")
-    public Result<List<Contact>> getAllContact(@PathVariable("current") int current, @PathVariable("size") int size){
-        Page<Contact> contactPage = new Page(current,size);
-        Page<Contact> pageInfo = contactService.queryAllContact(contactPage);
+    public Result<List<ContactDto>> getAllContact(@PathVariable("current") int current, @PathVariable("size") int size){
+        Page<ContactDto> contactPage = new Page(current,size);
+        Page<ContactDto> pageInfo = contactService.queryAllContact(contactPage);
+
+        return Result.success(pageInfo.getRecords(),pageInfo.getTotal());
+    }
+
+    @ApiOperation("关键字查询联系人")
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "keywords",value ="查询的关键字",required = true),
+                                @ApiImplicitParam(name = "current",value ="当前页数",required = true),
+                                @ApiImplicitParam(name = "size",value = "每页的条数",required = true)
+    })
+    @GetMapping("/contacts/{keywords}/{current}/{size}")
+    public Result<List<ContactDto>> queryContactDynamic(@PathVariable("keywords") String keywords,@PathVariable("current") int current, @PathVariable("size") int size){
+        Page<ContactDto> contactPage = new Page(current,size);
+        Page<ContactDto> pageInfo = contactService.queryContactDynamic(keywords,contactPage);
 
         return Result.success(pageInfo.getRecords(),pageInfo.getTotal());
     }
@@ -46,11 +61,19 @@ public class ContactController {
         return s>0?Result.success():Result.failed();
     }
 
-    @ApiOperation("编辑首位联系人")
+    @ApiOperation("编辑联系人--点击保存")
     @PutMapping("/contacts")
     public Result editContact(@RequestBody Contact contact){
-        boolean b = contactService.updateById(contact);
-        return Result.judge(b);
+
+        int u = contactService.updateContact(contact);
+        return Result.judge(u>0?true:false);
+    }
+
+    @ApiOperation("编辑联系人--点击编辑")
+    @PutMapping("/contacts/{cuid}")
+    public Result<ContactDto> preEditContact(@PathVariable("cuid")Integer cuid){
+        ContactDto contactDto = contactService.queryContactById(cuid);
+        return Result.success(contactDto);
     }
 
     @ApiOperation("单个删除联系人")

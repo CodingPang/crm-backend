@@ -1,5 +1,6 @@
 package com.greatgump.crm.config;
 
+import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -27,7 +28,20 @@ public class SwaggerConfig {
         .apiInfo(apiInfo())// api信息的描述
         .enable(true)//开始swagger
         .select() // 通过.select()方法，去配置扫描接口,RequestHandlerSelectors配置如何扫描接口
-        .apis(RequestHandlerSelectors.basePackage("com.greatgump.crm.controller")) // 配置扫描哪些接口
+        // .apis(RequestHandlerSelectors.basePackage("com.greatgump.crm.controller")) // 配置扫描哪些接口
+        .apis(
+            Predicates.or(
+/*                RequestHandlerSelectors.basePackage("com.greatgump.crm.controller.finance.cost")
+                ,RequestHandlerSelectors.basePackage("com.greatgump.crm.controller.finance.Invoice")
+                ,RequestHandlerSelectors.basePackage("com.greatgump.crm.controller.finance.order")
+                ,RequestHandlerSelectors.basePackage("com.greatgump.crm.controller.finance.reimbur")
+                ,RequestHandlerSelectors.basePackage("com.greatgump.crm.controller.finance.travel")
+                ,RequestHandlerSelectors.basePackage("com.greatgump.crm.controller.back")
+                ,RequestHandlerSelectors.basePackage("com.greatgump.crm.controller.power")
+                ,*/
+                RequestHandlerSelectors.basePackage("com.greatgump.crm.controller")
+            )
+        )
         .build();
   }
 

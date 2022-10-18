@@ -74,4 +74,9 @@ public class Business implements Serializable {
   @TableLogic
   private Integer isDelete;
 
+  // 费用管理使用的有参构造
+  public Business(Long id, String bussinessTitle) {
+    this.id = id;
+    this.bussinessTitle = bussinessTitle;
+  }
 }

@@ -3,30 +3,12 @@ package com.greatgump.crm.dto;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-@NoArgsConstructor
-@ToString
-@AllArgsConstructor
-@Data
-@Accessors(chain = true)
-@TableName("t_offer_details")
-@ApiModel(value = "offerdto对象", description = "商机管理")
 public class OfferDto {
-
-//    @ApiModelProperty("主键，自增")
-//    @TableId(value = "id", type = IdType.AUTO)
-//    private Long id;
 
     @ApiModelProperty("单号")
     @TableField("odd_num")
@@ -38,19 +20,19 @@ public class OfferDto {
 
     @ApiModelProperty("客户")
     @TableField("customer_id")
-    private Long customerId;
+    private String customerId;
 
     @ApiModelProperty("报价人")
     @TableField("saler_id")
-    private Long salerId;
+    private String salerId;
 
     @ApiModelProperty("联系人")
     @TableField("contacts_id")
-    private Long contactsId;
+    private String contactsId;
 
     @ApiModelProperty("售价总额")
     @TableField("price")
-    private BigDecimal pricetotal;
+    private BigDecimal price;
 
     @ApiModelProperty("折扣率")
     @TableField("discount_tate")
@@ -60,5 +42,16 @@ public class OfferDto {
     @TableField("offer")
     private BigDecimal offer;
 
+    @ApiModelProperty("备注")
+    @TableField("remake")
+    private String remake;
 
+    @ApiModelProperty("虚拟删除(0表示未删除，1表示删除)")
+    @TableField("is_delete")
+    private Integer isDelete;
+    private Long id;
+    private String product_name;
+    private String product_code;
+    private String unit;
+    private Double totalprice;
 }
