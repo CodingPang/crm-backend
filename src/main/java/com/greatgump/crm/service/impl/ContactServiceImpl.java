@@ -43,8 +43,20 @@ public class ContactServiceImpl extends ServiceImpl<ContactMapper, Contact> impl
 
     @Override
     public int saveContact(Contact contact) {
+            contactMapper.updateIsDefaultByCid(contact.getCustomerId());
         return contactMapper.saveContact(contact);
     }
+
+    @Override
+    public int deleteById(Integer id) {
+        return contactMapper.deleteById(id);
+    }
+
+    @Override
+    public int updateCustomerById(Contact contact) {
+        return contactMapper.updateCustomerById(contact);
+    }
+
 
     @Override
     public Contact queryOne(Integer id) {

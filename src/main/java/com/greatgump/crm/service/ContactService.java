@@ -19,6 +19,7 @@ public interface ContactService extends IService<Contact> {
     Page<ContactDto>  queryContactDynamic(String keywords,Page page);
     int updateContact(Contact contact);
     int saveContact(Contact contact);
-
+    int deleteById(Integer id);
+    int updateCustomerById(Contact contact);
     Contact queryOne(Integer id);
 }
