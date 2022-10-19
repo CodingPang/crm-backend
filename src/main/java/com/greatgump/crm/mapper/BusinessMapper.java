@@ -1,6 +1,8 @@
 package com.greatgump.crm.mapper;
 
 import com.greatgump.crm.dto.BusinessDto;
+import com.greatgump.crm.dto.LoanBusinessDto;
+import com.greatgump.crm.dto.LoanOrderDto;
 import com.greatgump.crm.dto.finance.cost.BusinessListDto;
 import com.greatgump.crm.entity.Business;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -26,4 +28,6 @@ public interface BusinessMapper extends BaseMapper<Business> {
    * @return
    */
   List<BusinessListDto> selectAllBusiness();
+
+    List<LoanBusinessDto> queryBusiness();
 }

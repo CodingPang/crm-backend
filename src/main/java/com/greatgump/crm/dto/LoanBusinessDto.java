@@ -3,14 +3,14 @@ package com.greatgump.crm.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Accessors(chain = true)
-public class UserDto0 {
-    private String username;
+public class LoanBusinessDto {
 
     private Long id;
+
+    private String bussiness_title;
+
 }

@@ -53,6 +53,11 @@
         </association>
 
     </resultMap>
+    <resultMap id="queryOrder" type="com.greatgump.crm.dto.LoanOrderDto">
+        <id column="id" property="id"/>
+        <result column="order_title" property="order_title"/>
+
+    </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
@@ -63,5 +68,8 @@
       SELECT o.id, o.order_no, o.order_title
       FROM t_order o
   </select>
+    <select id="queryOrder" resultMap="queryOrder">
+        SELECT id,order_title from t_order
+    </select>
 
 </mapper>

@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoanDynamicDto implements Serializable {
+public class TravelDynamicDto implements Serializable {
 
 
     private static final long serialVersionUID = 1L;
@@ -22,13 +22,4 @@ public class LoanDynamicDto implements Serializable {
     @ApiModelProperty("审批状态")
     private Integer approval_status;
 
-    @ApiModelProperty("开始时间")
-    private Date appplication_time;
-
-    @ApiModelProperty("结束时间")
-    private Date submission_time;
-
-    private int current;
-
-    private int size;
 }

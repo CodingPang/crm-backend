@@ -1,6 +1,7 @@
 package com.greatgump.crm.service.impl;
 
 import com.greatgump.crm.dto.BusinessDto;
+import com.greatgump.crm.dto.LoanBusinessDto;
 import com.greatgump.crm.entity.Business;
 import com.greatgump.crm.mapper.BusinessMapper;
 import com.greatgump.crm.service.BusinessService;
@@ -26,5 +27,11 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
     @Override
     public List<BusinessDto> listBase(int current, int size) {
         return businessMapper.listBase(current,size);
+    }
+
+    @Override
+    public List<LoanBusinessDto> queryBusiness() {
+
+        return businessMapper.queryBusiness();
     }
 }

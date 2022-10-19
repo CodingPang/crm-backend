@@ -5,6 +5,8 @@ import com.greatgump.crm.dto.*;
 import com.greatgump.crm.entity.Travel;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 出差表 服务类
@@ -25,6 +27,7 @@ public interface TravelService extends IService<Travel> {
 
     int updateTravel(AddedTravelDto addedTravelDto);
 
+    List<TravelDto> queryTravelDynamic(TravelDynamicDto travelDynamicDto);
     boolean deleteTravel(Integer id);
 
 

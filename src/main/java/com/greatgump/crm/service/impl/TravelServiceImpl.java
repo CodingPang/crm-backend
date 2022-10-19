@@ -9,6 +9,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 出差表 服务实现类
@@ -51,6 +53,12 @@ public class TravelServiceImpl extends ServiceImpl<TravelMapper, Travel> impleme
     public int updateTravel(AddedTravelDto addedTravelDto) {
 
         return travelMapper.updateTravel(addedTravelDto);
+    }
+
+    @Override
+    public List<TravelDto> queryTravelDynamic(TravelDynamicDto travelDynamicDto) {
+
+        return travelMapper.queryTravelDynamic(travelDynamicDto);
     }
 
     @Override

@@ -85,5 +85,14 @@
       WHERE ttr.customer_id = tcs.id AND ttr.id = #{id}
 
  </select>
+    <select id="queryTravelDynamic" resultMap="BaseResultMap">
+        SELECT  tt.id,tt.applicant,tt.cause,tt.start_time,tt.end_time,tt.travel_days,tt.approval_status
+        FROM t_travel tt
+        WHERE tt.applicant = #{keywords}
+        <if test="approval_status !=  0">
+            AND tt.approval_status = #{approval_status}
+        </if>
+
+    </select>
 
 </mapper>
