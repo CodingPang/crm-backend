@@ -38,20 +38,23 @@ public class Product implements Serializable {
     private String productCode;
 
     @ApiModelProperty("所属分类")
-    @TableField("classification")
-    private String classification;
+    @TableField("classificationid")
+    private Integer classificationid;
+
+    @ApiModelProperty("所属分类")
+    private Assort assort;
 
     @ApiModelProperty("产品名称")
     @TableField("product_name")
     private String productName;
 
     @ApiModelProperty("计量单位")
-    @TableField("unit")
-    private String unit;
+    @TableField("unitid")
+    private Integer unitid;
 
-    @ApiModelProperty("产品分类表的id")
-    @TableField("assort_id")
-    private Integer assortId;
+    @ApiModelProperty("计量单位")
+    private CalcUnit calcUnit;
+
 
     @ApiModelProperty("创建日期")
     @TableField("creation_date")

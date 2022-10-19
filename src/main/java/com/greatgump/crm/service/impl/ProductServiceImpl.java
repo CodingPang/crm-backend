@@ -1,6 +1,11 @@
 package com.greatgump.crm.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.productlibrary.AddProductDto;
 import com.greatgump.crm.dto.LuoDto1;
+import com.greatgump.crm.dto.productlibrary.ProductDto;
+import com.greatgump.crm.dto.productlibrary.QueryProductDto;
+import com.greatgump.crm.dto.productlibrary.UpdeProductDto;
 import com.greatgump.crm.entity.Product;
 import com.greatgump.crm.mapper.ProductMapper;
 import com.greatgump.crm.service.ProductService;
@@ -31,4 +36,29 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     public List<LuoDto1> listIneed(int current, int size) {
         return productMapper.listIneed(current,size);
     }
+
+    @Override
+    public Page<ProductDto> queryAllProducts(Page page) {
+        Page<ProductDto> productDtoPage = productMapper.queryAllProducts(page);
+        return productDtoPage;
+    }
+
+    @Override
+    public int insertProduct(AddProductDto addProductDto) {
+        int i = productMapper.insertProduct(addProductDto);
+        return i;
+    }
+
+    @Override
+    public QueryProductDto queryBid(Integer id) {
+
+        return productMapper.queryBid(id);
+    }
+
+    @Override
+    public int updateProduct(UpdeProductDto updeProductDto) {
+        return productMapper.updateProduct(updeProductDto);
+    }
+
+
 }

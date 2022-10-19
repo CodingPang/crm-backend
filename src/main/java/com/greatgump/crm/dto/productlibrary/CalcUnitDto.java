@@ -1,39 +1,26 @@
-package com.greatgump.crm.entity;
+package com.greatgump.crm.dto.productlibrary;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.util.Date;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-import lombok.experimental.Accessors;
+import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-/**
- * <p>
- * 计量单位
- * </p>
- *
- * @author team6
- * @since 2022-10-12 10:31:27
- */
+import java.util.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Accessors(chain = true)
-@TableName("t_calc_unit")
-@ApiModel(value = "CalcUnit对象", description = "计量单位")
-public class CalcUnit implements Serializable {
-
-       private static final long serialVersionUID = 1L;
+public class CalcUnitDto implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("主键,自增")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-    @ApiModelProperty("产品分类")
-    private Assort assort;
+
     @ApiModelProperty("单位名称")
     @TableField("unit_name")
     private String unitName;
@@ -50,8 +37,4 @@ public class CalcUnit implements Serializable {
     @TableField("is_delete")
     private Integer isDelete;
 
-    public CalcUnit(Long id, String unitName) {
-        this.id = id;
-        this.unitName = unitName;
-    }
 }

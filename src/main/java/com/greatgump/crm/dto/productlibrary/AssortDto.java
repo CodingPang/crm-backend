@@ -1,4 +1,4 @@
-package com.greatgump.crm.dto;
+package com.greatgump.crm.dto.productlibrary;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -22,7 +22,7 @@ public class AssortDto implements Serializable {
 
     @ApiModelProperty("产品分类")
     @TableField("assort_name")
-    private Assort assort;
+    private String assortName;
 
     @ApiModelProperty("父级分类的id")
     @TableField("parent_id")

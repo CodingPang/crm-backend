@@ -1,5 +1,9 @@
 package com.greatgump.crm.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.productlibrary.AddCalcUnitDto;
+import com.greatgump.crm.dto.productlibrary.CalcUnitDto;
+import com.greatgump.crm.dto.productlibrary.QueryCalcUnitDto;
 import com.greatgump.crm.entity.CalcUnit;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,5 +18,10 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface CalcUnitMapper extends BaseMapper<CalcUnit> {
+    Page<CalcUnitDto> queryAllCalcUnits(Page page);
+
+    int insertCalcUnit(AddCalcUnitDto addCalcUnitDto);
+
+    QueryCalcUnitDto queryBid(Integer id);
 
 }

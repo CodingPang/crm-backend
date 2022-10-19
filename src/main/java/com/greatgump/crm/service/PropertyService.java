@@ -1,5 +1,9 @@
 package com.greatgump.crm.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.productlibrary.AddPropertyDto;
+import com.greatgump.crm.dto.productlibrary.PropertyDto;
+import com.greatgump.crm.dto.productlibrary.QueryPropertyDto;
 import com.greatgump.crm.entity.Property;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +16,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-10-12 10:31:27
  */
 public interface PropertyService extends IService<Property> {
+    Page<PropertyDto> queryAllPropertys(Page page);
+
+    int insertProperty(AddPropertyDto addPropertyDto);
+
+    QueryPropertyDto queryBid(Integer id);
 
 }

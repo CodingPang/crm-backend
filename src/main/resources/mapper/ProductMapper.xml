@@ -6,10 +6,9 @@
     <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Product">
         <id column="id" property="id" />
         <result column="product_code" property="productCode" />
-        <result column="classification" property="classification" />
+        <result column="classification" property="classificationid" />
         <result column="product_name" property="productName" />
-        <result column="unit" property="unit" />
-        <result column="assort_id" property="assortId" />
+        <result column="unit" property="unitid" />
         <result column="creation_date" property="creationDate" />
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
@@ -20,8 +19,82 @@
     <sql id="Base_Column_List">
         id, product_code, classification, product_name, unit, assort_id, creation_date, remark, is_delete
     </sql>
+    <insert id="insertProduct">
+insert into t_product(product_code,product_name,classificationid,unitid,porperty_id)
+values (#{productCode},#{productName},#{assortName},#{unitName},#{propertyName})
+    </insert>
+    <resultMap id="BaseResultMap3" type="com.greatgump.crm.dto.productlibrary.QueryProductDto">
+        <id column="id" property="id" />
+        <result column="product_code" property="productCode" />
+        <result column="product_name" property="productName" />
+        <result column="product_name" property="productName" />
+        <association property="assort" javaType="com.greatgump.crm.entity.Assort">
+            <id column="aid" property="id"></id>
+            <result column="assort_name" property="assortName"/>
+        </association>
+        <association property="calcUnit" javaType="com.greatgump.crm.entity.CalcUnit">
+            <id column="cid" property="id"></id>
+            <result column="unit_name" property="unitName"/>
+        </association>
+        <association property="property" javaType="com.greatgump.crm.entity.Property">
+            <id column="cid" property="id"></id>
+            <result column="property_name" property="propertyName"/>
+        </association>
+
+    </resultMap>
+    <update id="updateProduct">
+        UPDATE t_product
+        SET product_code=#{productCode},product_name=#{productName},classificationid=#{assort},unitid=#{calcUnit},porperty_id=#{property}
+        WHERE id=#{id}
+    </update>
+
+
     <select id="listIneed" resultType="com.greatgump.crm.dto.LuoDto1" >
         select * from t_product limit #{current},#{size}
     </select>
+    <resultMap id="BaseResultMap1" type="com.greatgump.crm.dto.productlibrary.ProductDto">
+        <result column="product_code" property="productCode" />
+        <result column="product_name" property="productName" />
+        <result column="creation_date" property="creationDate" />
+        <association property="assort" javaType="com.greatgump.crm.entity.Assort">
+            <id column="aid" property="id"></id>
+
+            <result column="assort_name" property="assortName"/>
+        </association>
+        <association property="calcUnit" javaType="com.greatgump.crm.entity.CalcUnit">
+            <id column="cid" property="id"></id>
+            <result column="unit_name" property="unitName"/>
+        </association>
+    </resultMap>
+    <select id="queryAllProducts" resultMap="BaseResultMap1">
+        SELECT pt.product_code,ast.id aid,ast.assort_name,pt.product_name,ct.id cid,ct.unit_name,pt.creation_date
+        FROM t_product pt,t_assort ast,t_calc_unit ct
+        WHERE pt.classificationid=ast.id and pt.unitid=ct.id
+    </select>
+    <resultMap id="BaseResultMap2" type="com.greatgump.crm.dto.productlibrary.QueryProductDto">
+        <id column="id" property="id" />
+        <result column="product_code" property="productCode" />
+        <result column="product_name" property="productName" />
+        <result column="product_name" property="productName" />
+        <association property="assort" javaType="com.greatgump.crm.entity.Assort">
+            <id column="aid" property="id"></id>
+            <result column="assort_name" property="assortName"/>
+        </association>
+        <association property="calcUnit" javaType="com.greatgump.crm.entity.CalcUnit">
+            <id column="cid" property="id"></id>
+            <result column="unit_name" property="unitName"/>
+        </association>
+        <association property="property" javaType="com.greatgump.crm.entity.Property">
+            <id column="cid" property="id"></id>
+            <result column="property_name" property="propertyName"/>
+        </association>
+
+    </resultMap>
+    <select id="queryBid" resultMap="BaseResultMap2">
+        SELECT pt.product_code,ast.id aid,ast.assort_name,pt.product_name,ct.id cid,ct.unit_name,py.id pid,py.property_name
+        FROM t_product pt,t_assort ast,t_calc_unit ct,t_property py
+        WHERE pt.classificationid=ast.id and pt.unitid=ct.id and pt.porperty_id=py.id and pt.id=#{id}
+    </select>
+
 
 </mapper>

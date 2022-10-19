@@ -1,7 +1,9 @@
 package com.greatgump.crm.controller;
 
-import com.greatgump.crm.dto.PropertyDto;
-import com.greatgump.crm.entity.Property;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.productlibrary.AddPropertyDto;
+import com.greatgump.crm.dto.productlibrary.PropertyDto;
+import com.greatgump.crm.dto.productlibrary.QueryPropertyDto;
 import com.greatgump.crm.service.PropertyService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
@@ -31,34 +33,44 @@ public class PropertyController {
     @ApiOperation("获取所有产品属性")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "page",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/queryAllPropertys/{page}/{size}")
-    public Result<List<Property>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
-        PropertyDto propertyDto =new PropertyDto();
+    public Result<List<PropertyDto>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
+        Page<PropertyDto> propertyDtoPage = new Page<>(current, size);
+        Page<PropertyDto> pageIfo = propertyService.queryAllPropertys(propertyDtoPage);
+        return Result.success(pageIfo.getRecords(),pageIfo.getTotal());
+//        PropertyDto propertyDto =new PropertyDto();
+//
+//        Property property = new Property();
+//        property.setId(1L);
+//        property.setPropertyName("颜色");
+//        property.setPropertyValue("红,黄");
+//        property.setCreationDate(new Date());
+//
+//        Property property1 = new Property();
+//        property1.setId(2L);
+//        property1.setPropertyName("尺寸");
+//        property1.setPropertyValue("XS,S,M,L,XL,XXL,XXXL");
+//        property1.setCreationDate(new Date());
+//
+//        List<Property> propertyList = new ArrayList<>();
+//        propertyList.add(property);
+//        propertyList.add(property1);
 
-        Property property = new Property();
-        property.setId(1L);
-        property.setPropertyName("颜色");
-        property.setPropertyValue("红,黄");
-        property.setCreationDate(new Date());
-
-        Property property1 = new Property();
-        property1.setId(2L);
-        property1.setPropertyName("尺寸");
-        property1.setPropertyValue("XS,S,M,L,XL,XXL,XXXL");
-        property1.setCreationDate(new Date());
-
-        List<Property> propertyList = new ArrayList<>();
-        propertyList.add(property);
-        propertyList.add(property1);
-
-        return Result.success(propertyList,4L);
+//        return Result.success(propertyList,4L);
 
     }
 
     @ApiOperation("产品属性新增")
     @PostMapping ("/add")
-    public Result preAdd(){
+    public Result preAdd(@RequestBody AddPropertyDto addPropertyDto){
+        int property = propertyService.insertProperty(addPropertyDto);
+        return Result.judge(property>0);
+    }
 
-        return Result.success();
+    @ApiOperation("产品属性编辑预查询")
+    @PutMapping("/querybid/{id}")
+    public Result<QueryPropertyDto> queryBid(@PathVariable("id") Integer id){
+
+        return Result.success(propertyService.queryBid(id));
     }
 
     @ApiOperation("产品属性编辑")

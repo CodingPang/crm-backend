@@ -3,17 +3,35 @@
 <mapper namespace="com.greatgump.crm.mapper.CalcUnitMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.CalcUnit">
-        <id column="id" property="id" />
-        <result column="unit_name" property="unitName" />
-        <result column="creation_date" property="creationDate" />
-        <result column="remark" property="remark" />
-        <result column="is_delete" property="isDelete" />
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.dto.productlibrary.CalcUnitDto">
+        <id column="id" property="id"/>
+        <result column="unit_name" property="unitName"/>
+        <result column="creation_date" property="creationDate"/>
+        <result column="remark" property="remark"/>
+        <result column="is_delete" property="isDelete"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, unit_name, creation_date, remark, is_delete
     </sql>
+    <insert id="insertCalcUnit">
+        insert into t_calc_unit(unit_name)
+        values (#{unitName})
+    </insert>
+    <select id="queryAllCalcUnits" resultMap="BaseResultMap">
+        SELECT c.unit_name,c.creation_date
+        FROM t_calc_unit c
+    </select>
+    <resultMap id="BaseResultMap1" type="com.greatgump.crm.dto.productlibrary.QueryCalcUnitDto">
+        <id column="id" property="id"/>
+        <result column="unit_name" property="unitName"/>
+    </resultMap>
+    <select id="queryBid" resultMap="BaseResultMap1">
+        SELECT cu.unit_name
+        FROM t_calc_unit cu
+        WHERE cu.id=#{id}
+    </select>
+
 
 </mapper>

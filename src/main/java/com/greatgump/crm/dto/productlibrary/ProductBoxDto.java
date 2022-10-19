@@ -1,4 +1,4 @@
-package com.greatgump.crm.dto;
+package com.greatgump.crm.dto.productlibrary;
 
 import com.greatgump.crm.entity.*;
 import io.swagger.annotations.ApiModelProperty;

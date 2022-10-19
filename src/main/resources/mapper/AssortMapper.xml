@@ -3,7 +3,7 @@
 <mapper namespace="com.greatgump.crm.mapper.AssortMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Assort">
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.dto.productlibrary.AssortDto">
         <id column="id" property="id" />
         <result column="assort_name" property="assortName" />
         <result column="parent_id" property="parentId" />
@@ -13,5 +13,22 @@
     <sql id="Base_Column_List">
         id, assort_name, parent_id
     </sql>
+    <insert id="insertAssort">
+        insert into t_assort(assort_name)
+        values (#{assortName})
+    </insert>
+    <select id="queryAllAssorts" resultMap="BaseResultMap">
+        SELECT t.assort_name
+        FROM t_assort t
+    </select>
+    <resultMap id="BaseResultMap1" type="com.greatgump.crm.dto.productlibrary.QueryAssortDto">
+        <id column="id" property="id" />
+        <result column="assort_name" property="assortName" />
+    </resultMap>
+    <select id="queryBid" resultMap="BaseResultMap1">
+        SELECT ast.assort_name
+        FROM t_assort ast
+        WHERE ast.id=#{id}
+    </select>
 
 </mapper>

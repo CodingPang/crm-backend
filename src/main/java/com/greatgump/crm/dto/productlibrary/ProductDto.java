@@ -1,11 +1,9 @@
-package com.greatgump.crm.dto;
+package com.greatgump.crm.dto.productlibrary;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.greatgump.crm.entity.Assort;
-import com.greatgump.crm.entity.CalcUnit;
-import com.greatgump.crm.entity.Property;
+import com.greatgump.crm.entity.*;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,24 +32,29 @@ public class ProductDto {
     private String productName;
 
     @ApiModelProperty("所属分类")
-    @TableField("classification")
+    @TableField("classificationid")
+    private Integer classificationid;
+
+    @ApiModelProperty("所属分类")
     private Assort assort;
 
 
     @ApiModelProperty("计量单位")
-    @TableField("unit")
+    @TableField("unitid")
+    private Integer unitid;
+
+    @ApiModelProperty("计量单位")
     private CalcUnit calcUnit;
 
-    @ApiModelProperty("属性")
-    private Property property;
 
-    @ApiModelProperty("产品分类表的id")
-    @TableField("assort_id")
-    private Integer assortId;
+//    @ApiModelProperty("属性")
+//    private Property property;
+
 
     @ApiModelProperty("创建日期")
     @TableField("creation_date")
     private Date creationDate;
+
 
 
 //    @ApiModelProperty("备注")
