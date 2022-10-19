@@ -6,24 +6,61 @@
     <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Ordercontext">
         <id column="id" property="id" />
         <result column="order_title" property="orderTitle" />
-        <result column="order_owner" property="orderOwner" />
-        <result column="order_customer" property="orderCustomer" />
+        <result column="order_owner" property="orderOwnerId" />
+        <result column="order_customer" property="orderCustomerId" />
         <result column="order_opp" property="orderOpp" />
         <result column="order_product" property="orderProduct" />
         <result column="total" property="total" />
         <result column="fujian" property="fujian" />
         <result column="pay_method" property="payMethod" />
         <result column="your_sigh" property="yourSigh" />
-        <result column="our_sigh" property="ourSigh" />
+        <result column="our_sigh" property="ourSighId" />
         <result column="phone" property="phone" />
         <result column="sighdate" property="sighdate" />
         <result column="remake" property="remake" />
         <result column="is_delete" property="isDelete" />
     </resultMap>
 
+    <resultMap id="listMap" type="com.greatgump.crm.dto.OrderContextDto">
+        <id column="id" property="id" />
+        <result column="order_title" property="orderTitle" />
+        <result column="order_owner_id" property="orderOwner" />
+        <result column="order_customer_id" property="orderCustomer" />
+        <result column="order_opp" property="orderOpp" />
+        <result column="total" property="total" />
+        <result column="fujian" property="fujian" />
+        <result column="pay_method" property="payMethod" />
+        <result column="your_sigh" property="yourSigh" />
+        <result column="our_sigh_id" property="ourSigh" />
+        <result column="phone" property="phone" />
+        <result column="sighdate" property="sighdate" />
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, order_title, order_owner, order_customer, order_opp, order_product, total, fujian, pay_method, your_sigh, our_sigh, phone, sighdate, remake, is_delete
     </sql>
+    <select id="listIneed" resultMap="listMap">
+        SELECT
+            ord.id,
+            ord.order_title,
+            us.username,
+            cus.customer_name,
+            ord.order_opp,
+            ord.total,
+            ord.fujian,
+            ord.pay_method,
+            ord.your_sigh,
+            ord.our_sigh_id,
+            ord.phone,
+            ord.sighdate
+        FROM
+            t_ordercontext ord,
+            t_user us,
+            t_customer cus
+        WHERE
+            ord.order_owner_id = us.id AND
+            ord.order_customer_id = cus.id
+    </select>
 
 </mapper>

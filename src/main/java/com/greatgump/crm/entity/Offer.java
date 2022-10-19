@@ -44,16 +44,16 @@ public class Offer implements Serializable {
     private Date creationDate;
 
     @ApiModelProperty("客户")
-    @TableField("customer")
-    private String customer;
+    @TableField("customer_id")
+    private String customerId;
 
     @ApiModelProperty("报价人")
-    @TableField("saler")
-    private String saler;
+    @TableField("saler_id")
+    private String salerId;
 
     @ApiModelProperty("联系人")
-    @TableField("contacts")
-    private String contacts;
+    @TableField("contacts_id")
+    private String contactsId;
 
     @ApiModelProperty("售价总额")
     @TableField("price")

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -38,12 +39,12 @@ public class Ordercontext implements Serializable {
     private String orderTitle;
 
     @ApiModelProperty("订单归属")
-    @TableField("order_owner")
-    private String orderOwner;
+    @TableField("order_owner_")
+    private String orderOwnerId;
 
     @ApiModelProperty("关联客户")
-    @TableField("order_customer")
-    private String orderCustomer;
+    @TableField("order_customer_id")
+    private String orderCustomerId;
 
     @ApiModelProperty("关联商机")
     @TableField("order_opp")
@@ -55,7 +56,7 @@ public class Ordercontext implements Serializable {
 
     @ApiModelProperty("订单总额")
     @TableField("total")
-    private String total;
+    private BigDecimal total;
 
     @ApiModelProperty("上传附件")
     @TableField("fujian")
@@ -70,8 +71,8 @@ public class Ordercontext implements Serializable {
     private String yourSigh;
 
     @ApiModelProperty("我方签订人")
-    @TableField("our_sigh")
-    private String ourSigh;
+    @TableField("our_sigh_id")
+    private String ourSighId;
 
     @ApiModelProperty("联系方式")
     @TableField("phone")

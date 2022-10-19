@@ -37,7 +37,7 @@
     <select id="listIneed" resultMap="offerList">
         SELECT offer.id,offer.odd_num,offer.creation_date,cus.customer_name,us.username,cont.contact_name,offer.price,offer.discount_tate,offer.offer,offer.customer_id
         FROM t_offer offer ,t_customer cus,t_user us,t_contact cont
-        WHERE offer.customer_id = cus.id AND offer.saler_id = us.id AND cont.customer_id = cus.id
+        WHERE offer.customer_id = cus.id AND offer.saler_id = us.id AND offer.customer_id = cont.id
     </select>
     <select id="searchList" resultMap="offerList">
         SELECT offer.id,offer.odd_num,offer.creation_date,cus.customer_name,us.username,cont.contact_name,offer.price,offer.discount_tate,offer.offer

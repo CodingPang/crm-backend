@@ -1,12 +1,16 @@
 package com.greatgump.crm.controller;
 
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.ContactNameDto;
 import com.greatgump.crm.dto.ContractDto;
 import com.greatgump.crm.dto.LuoDto2;
+import com.greatgump.crm.dto.UserDto0;
 import com.greatgump.crm.entity.Contract;
 import com.greatgump.crm.service.ContractService;
 import com.greatgump.crm.service.CustomerService;
+import com.greatgump.crm.service.UserService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -19,10 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,13 +35,15 @@ import java.util.UUID;
  * @author team6
  * @since 2022-10-12 10:31:27
  */
-@Api(tags = "beta-合同管理-l")
+@Api(tags = "AAA合同管理")
 @RestController
 public class ContractController {
     @Autowired
     private ContractService contractService;
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private UserService userService;
 
 
     public Result list(){
@@ -131,4 +134,72 @@ public class ContractController {
         file.transferTo(target);
         return "";
     }
+    public String upload02( @RequestParam(value="file",required=false)MultipartFile file, HttpServletRequest request) throws IOException {
+        //1.得到本地服务目录的地址
+        String path = request.getSession().getServletContext().getRealPath("upload");
+        System.out.println(path);
+        //2.判断该目录是否存在
+        File file1 = new File(path);
+        if (!file1.exists()) {
+            file1.mkdirs();
+        }
+        //3.把myfile保存到本地文件夹中
+        //随机一个文件名字
+        String filename=file.getOriginalFilename();
+        File target=new File(path+"/"+filename);
+        //把file转到目标目录下
+        file.transferTo(target);
+
+
+        // Endpoint填写为https://oss-cn-chengdu.aliyuncs.com。
+        String endpoint = "https://oss-cn-chengdu.aliyuncs.com";
+        // 阿里云账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM用户进行API访问或日常运维，请登录RAM控制台创建RAM用户。
+        String accessKeyId = "LTAI5tC9j1JopSJiQnnpkgns";
+        String accessKeySecret = "olIwhVDsSpLByE8A7JkoaAdzN419Ne";
+        // 创建OSSClient实例。
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+        String objectname = "file/" + System.currentTimeMillis()+"/demo/";
+        // 填写本地文件的完整路径。如果未指定本地路径，则默认从示例程序所属项目对应本地路径中上传文件流。
+        InputStream inputStream = new FileInputStream("D:\\apache-tomcat-9.0.12\\webapps\\crm\\upload\\"+filename);
+        //调用oss实现上传第一个参数bucket名称  第二个参数文件名称  第三个参数输入流
+        String url = objectname+filename;
+        ossClient.putObject("pic28", url, inputStream);
+        // 关闭OSSClient。
+        ossClient.shutdown();
+        //返回组成的文件url
+        String photoUrl = "https://" + "mgmf." + "oss-cn-chengdu.aliyuncs.com"+ "/" + url;
+        System.out.println(photoUrl);
+
+        return "";
+    }
+
+    @ApiOperation("关联客户下拉框")
+    @GetMapping("/crm/contract/getbox1")
+    public Result<List<LuoDto2>> getBox1(){
+        return Result.success(contractService.list01());
+    }
+
+    @ApiOperation("这是业务员下拉框，会返回业务员名称及id")
+    @GetMapping("/crm/contract/getbox2")
+    public  Result<List<UserDto0>> getBox2(){
+        return Result.success(userService.getName());
+    }
+
+    @ApiOperation("联系人的下拉框，需提供客户id")
+    @GetMapping("/crm/contract/getbox3")
+    public Result<List<ContactNameDto>> getbox3(Long id){
+        return Result.success(customerService.queryPhone(id));
+    }
+
+    @ApiOperation("这是我方签订人下拉框，会返回业务员名称及id")
+    @GetMapping("/crm/contract/getbox4")
+    public  Result<List<UserDto0>> getBox4(){
+        return Result.success(userService.getName());
+    }
+//    @ApiOperation("合同页面删除")
+//    @DeleteMapping("/crm/contract/delete1")
+//    public Result delete(Long id){
+//        boolean flag = contractService.removeById(id);
+//        return Result.judge(flag);
+//    }
 }
