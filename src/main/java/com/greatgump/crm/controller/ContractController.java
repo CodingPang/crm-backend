@@ -115,8 +115,7 @@ public class ContractController {
 ////        outputStream.close();
 //    }
 
-    @ApiOperation("上传测试dataform请求传文件")
-    @PostMapping("/crm/contract/upload")
+
     public String upload01( @RequestParam(value="file",required=false)MultipartFile file, HttpServletRequest request) throws IOException {
         //1.得到本地服务目录的地址
         String path = request.getSession().getServletContext().getRealPath("upload");
@@ -134,43 +133,77 @@ public class ContractController {
         file.transferTo(target);
         return "";
     }
+
+    @ApiOperation("上传测试dataform请求传文件")
+    @PostMapping("/crm/contract/upload")
     public String upload02( @RequestParam(value="file",required=false)MultipartFile file, HttpServletRequest request) throws IOException {
         //1.得到本地服务目录的地址
         String path = request.getSession().getServletContext().getRealPath("upload");
         System.out.println(path);
         //2.判断该目录是否存在
-        File file1 = new File(path);
-        if (!file1.exists()) {
-            file1.mkdirs();
-        }
+//        File file1 = new File(path);
+//        if (!file1.exists()) {
+//            file1.mkdirs();
+//        }
         //3.把myfile保存到本地文件夹中
         //随机一个文件名字
         String filename=file.getOriginalFilename();
-        File target=new File(path+"/"+filename);
-        //把file转到目标目录下
-        file.transferTo(target);
+//        File target=new File(path+"/"+filename);
+//        //把file转到目标目录下
+//        file.transferTo(target);
+//        System.out.println("filename========>"+filename);
 
 
-        // Endpoint填写为https://oss-cn-chengdu.aliyuncs.com。
-        String endpoint = "https://oss-cn-chengdu.aliyuncs.com";
+        // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
+        String endpoint = "oss-cn-chengdu.aliyuncs.com";
         // 阿里云账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM用户进行API访问或日常运维，请登录RAM控制台创建RAM用户。
         String accessKeyId = "LTAI5tC9j1JopSJiQnnpkgns";
         String accessKeySecret = "olIwhVDsSpLByE8A7JkoaAdzN419Ne";
+        // 填写Bucket名称，例如examplebucket。
+        String bucketName = "pic28";
+        //你上传到oss后的名字 会根据日期帮你创建文件夹。
+        String objectName =filename;
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-        String objectname = "file/" + System.currentTimeMillis()+"/demo/";
-        // 填写本地文件的完整路径。如果未指定本地路径，则默认从示例程序所属项目对应本地路径中上传文件流。
-        InputStream inputStream = new FileInputStream("D:\\apache-tomcat-9.0.12\\webapps\\crm\\upload\\"+filename);
-        //调用oss实现上传第一个参数bucket名称  第二个参数文件名称  第三个参数输入流
-        String url = objectname+filename;
-        ossClient.putObject("pic28", url, inputStream);
-        // 关闭OSSClient。
-        ossClient.shutdown();
-        //返回组成的文件url
-        String photoUrl = "https://" + "mgmf." + "oss-cn-chengdu.aliyuncs.com"+ "/" + url;
-        System.out.println(photoUrl);
 
-        return "";
+        try {
+            InputStream inputStream = file.getInputStream();
+            // 创建PutObject请求。
+            ossClient.putObject(bucketName, objectName, inputStream);
+        } catch (Exception oe) {
+
+        } finally {
+            if (ossClient != null) {
+                ossClient.shutdown();
+            }
+        }
+        String url = "https://" + bucketName + "." + endpoint + "/" + objectName;
+        return url;
+
+
+
+
+//
+//        // Endpoint填写为https://oss-cn-chengdu.aliyuncs.com。
+//        String endpoint = "https://oss-cn-chengdu.aliyuncs.com";
+//        // 阿里云账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM用户进行API访问或日常运维，请登录RAM控制台创建RAM用户。
+//        String accessKeyId = "LTAI5tC9j1JopSJiQnnpkgns";
+//        String accessKeySecret = "olIwhVDsSpLByE8A7JkoaAdzN419Ne";
+//        // 创建OSSClient实例。
+//        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+//        String objectname = "file/" + System.currentTimeMillis()+"/demo/";
+//        // 填写本地文件的完整路径。如果未指定本地路径，则默认从示例程序所属项目对应本地路径中上传文件流。
+//        InputStream inputStream = new FileInputStream("D:\\apache-tomcat-9.0.12\\webapps\\crm\\upload\\"+filename);
+//        //调用oss实现上传第一个参数bucket名称  第二个参数文件名称  第三个参数输入流
+//        String url = objectname+filename;
+//        ossClient.putObject("pic28", url, inputStream);
+//        // 关闭OSSClient。
+//        ossClient.shutdown();
+//        //返回组成的文件url
+//        String photoUrl = "https://" + "mgmf." + "oss-cn-chengdu.aliyuncs.com"+ "/" + url;
+//        System.out.println(photoUrl);
+//
+//        return "";
     }
 
     @ApiOperation("关联客户下拉框")
