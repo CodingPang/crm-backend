@@ -39,11 +39,6 @@
         <result column="pay_date" property="payDate" />
     </resultMap>
 
-    <resultMap id="box1" type="com.greatgump.crm.dto.LuoDto2">
-        <id column="id" property="id"></id>
-        <result column="customer_name" property="customerName"></result>
-    </resultMap>
-
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, contract_num, signing_date, contract_name, customer_name, our_signatory, your_signatory, contract_amount, saler, contacts, contrac_url, contacts_phone, pay_method, pay_date, remake, is_delete
@@ -74,10 +69,6 @@
           AND cta.our_signatory_id = us.id
           AND cta.saler_id = us.id
           AND cta.contacts = tc.id
-    </select>
-    <select id="listBox1" resultMap="box1">
-        SELECT id,customer_name
-        FROM t_customer
     </select>
 
 </mapper>

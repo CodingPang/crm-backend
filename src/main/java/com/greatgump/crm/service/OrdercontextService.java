@@ -1,7 +1,5 @@
 package com.greatgump.crm.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.OrderContextDto;
 import com.greatgump.crm.entity.Ordercontext;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -15,5 +13,4 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface OrdercontextService extends IService<Ordercontext> {
 
-    Page<OrderContextDto> listIneed(Page<OrderContextDto> offerListDtoPage);
 }

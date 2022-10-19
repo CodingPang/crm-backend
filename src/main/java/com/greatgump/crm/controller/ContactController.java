@@ -1,5 +1,6 @@
 package com.greatgump.crm.controller;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.ContactDto;
 import com.greatgump.crm.entity.Contact;
@@ -39,6 +40,19 @@ public class ContactController {
         return Result.success(pageInfo.getRecords(),pageInfo.getTotal());
     }
 
+    @ApiOperation("关键字查询联系人")
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "keywords",value ="查询的关键字",required = true),
+                                @ApiImplicitParam(name = "current",value ="当前页数",required = true),
+                                @ApiImplicitParam(name = "size",value = "每页的条数",required = true)
+    })
+    @GetMapping("/contacts/{keywords}/{current}/{size}")
+    public Result<List<ContactDto>> queryContactDynamic(@PathVariable("keywords") String keywords,@PathVariable("current") int current, @PathVariable("size") int size){
+        Page<ContactDto> contactPage = new Page(current,size);
+        Page<ContactDto> pageInfo = contactService.queryContactDynamic(keywords,contactPage);
+
+        return Result.success(pageInfo.getRecords(),pageInfo.getTotal());
+    }
+
     @ApiOperation("添加联系人")
     @PostMapping("/contacts")
     public Result saveContact(@RequestBody Contact contact){
@@ -47,30 +61,36 @@ public class ContactController {
         return s>0?Result.success():Result.failed();
     }
 
-    @ApiOperation("编辑首位联系人")
+    @ApiOperation("编辑联系人--点击保存")
     @PutMapping("/contacts")
     public Result editContact(@RequestBody Contact contact){
-        contact.setIsDefault(1);
-        contact.setIsDelete(0);
-        int b = contactService.updateCustomerById(contact);
-        return Result.judge(b>0);
+
+        int u = contactService.updateContact(contact);
+        return Result.judge(u>0?true:false);
+    }
+
+    @ApiOperation("编辑联系人--点击编辑")
+    @PutMapping("/contacts/{cuid}")
+    public Result<ContactDto> preEditContact(@PathVariable("cuid")Integer cuid){
+        ContactDto contactDto = contactService.queryContactById(cuid);
+        return Result.success(contactDto);
     }
 
     @ApiOperation("单个删除联系人")
     @DeleteMapping("/contacts/{id}")
     public Result deleteById(@PathVariable Integer id){
-        int b = contactService.deleteById(id);
-        return Result.judge(b>0);
+        boolean b = contactService.removeById(id);
+        return Result.judge(b);
     }
 
     @ApiOperation("批量删除联系人")
     @DeleteMapping("/contacts")
     public Result batchDelete(@RequestBody List<Contact> contacts){
-        int b = 0;
+        boolean b = false;
         for (Contact contact : contacts) {
-            b = contactService.deleteById(contact.getId().intValue());
+            b = contactService.removeById(contact.getId());
         }
 
-        return Result.judge(b>0);
+        return Result.judge(b);
     }
 }

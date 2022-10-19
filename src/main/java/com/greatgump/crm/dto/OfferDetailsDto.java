@@ -53,6 +53,4 @@ public class OfferDetailsDto {
     @ApiModelProperty("公司")
     @TableField("company")
     private Long company;
-
-    private Long remark;
 }
