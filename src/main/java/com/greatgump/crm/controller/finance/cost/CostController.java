@@ -3,12 +3,14 @@ package com.greatgump.crm.controller.finance.cost;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.CustomerDto;
 import com.greatgump.crm.dto.OrderDto;
+import com.greatgump.crm.dto.finance.cost.CostAddDto;
 import com.greatgump.crm.dto.finance.cost.CostDetailDto;
 import com.greatgump.crm.dto.finance.cost.CostDto;
 import com.greatgump.crm.dto.finance.cost.CostQueryDto;
 import com.greatgump.crm.dto.finance.invoice.InvoiceDto;
 import com.greatgump.crm.dto.power.UserDto;
 import com.greatgump.crm.entity.Business;
+import com.greatgump.crm.entity.Cost;
 import com.greatgump.crm.service.CostService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
@@ -119,8 +121,17 @@ public class CostController {
 
   @ApiOperation("新增费用记录")
   @PostMapping("/cost")
-  public Result save(@RequestBody CostDto costDto) {
-    return Result.success();
+  public Result save(@RequestBody CostAddDto costAddDto) {
+    // 1、非空校验
+    boolean flag = false;
+    if (costAddDto != null){
+      /*// 2、Dto转取值存入List集合
+      List<Object> list = new ArrayList<>();
+      list.add(costAddDto);*/
+      flag =  costService.saveCost(costAddDto);
+
+    }
+    return Result.judge(flag);
   }
 
 

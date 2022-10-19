@@ -43,31 +43,27 @@ public class CostAddDto {
 
   @ApiModelProperty("费用类型(0表示招待费，1表示交通费，2表示住宿费，3表示礼品费，4表示其他)")
   @TableField("cost_type")
-  private Integer costType;
+  private CostTypeDto costType;
 
-  @ApiModelProperty("费用阶段(0表示需求获取，1表示首次拜访，2表示方案展示，3表示产品报价，4表示合同谈判，5表示合同签订)")
-  @TableField("cost_stage")
-  private Integer costStage;
-
-  @ApiModelProperty("关联客户(外键)")
+  @ApiModelProperty("关联客户")
   @TableField("customer_id")
-  private Customer customer;
+  private CustomerList customer;
 
-  @ApiModelProperty("负责人员(外键，销售)")
+  @ApiModelProperty("负责人员")
   @TableField("user_id")
-  private User user;
+  private PrincipalDto user;
 
-  @ApiModelProperty("关联订单(外键)")
+  @ApiModelProperty("关联订单")
   @TableField("order_id")
-  private Order order;
+  private OrderListDto order;
 
-  @ApiModelProperty("关联商机(外键)")
+  @ApiModelProperty("关联商机")
   @TableField("business_id")
-  private Business business;
+  private BusinessListDto business;
 
-  @ApiModelProperty("关联发票(外键)")
+ /* @ApiModelProperty("关联发票(外键)")
   @TableField("invoice_id")
-  private Invoice invoice;
+  private Invoice invoice;*/
 
   @ApiModelProperty("费用金额")
   @TableField("cost_money")

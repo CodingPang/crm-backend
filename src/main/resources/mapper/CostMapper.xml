@@ -44,13 +44,18 @@
     <sql id="Base_Column_List">
         id, cost_no, cost_name, cost_type, customer_id, user_id, order_id, business_id, invoice_id, cost_money, happened_time, expense_status, remark, is_delete
     </sql>
-    <select id="selectAllCost" resultMap="BaseResultMap">
+  <select id="selectAllCost" resultMap="BaseResultMap">
         SELECT cost.id, cost.cost_no, cost.cost_name, cus.customer_name, cost.cost_money, cost.happened_time, tu.username, cost.expense_status
         FROM t_cost cost
                  JOIN t_customer cus
                       ON cost.customer_id = cus.id
                  JOIN t_user tu
                       ON cost.user_id = tu.id
+WHERE id = #{ID}
     </select>
+
+    <insert id="insertOneCost" parameterType="com.greatgump.crm.dto.finance.cost.CostAddDto">
+        INSERT INTO t_cost (cost_name,cost_type,customer_id,user_id,order_id,business_id,cost_money,happened_time,remark,cost_no) VALUES (#{costName},#{costType.id}, #{customer.id}, #{user.id}, #{order.id}, #{business.id}, #{costMoney}, #{happenedTime}, #{remark}, #{costNo})
+    </insert>
 
 </mapper>

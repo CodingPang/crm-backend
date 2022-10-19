@@ -2,6 +2,7 @@ package com.greatgump.crm.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.greatgump.crm.dto.finance.cost.CostAddDto;
 import com.greatgump.crm.dto.finance.cost.CostDto;
 import com.greatgump.crm.dto.finance.cost.CostQueryDto;
 import com.greatgump.crm.dto.finance.cost.CostTypeDto;
@@ -39,4 +40,10 @@ public interface CostService extends IService<Cost> {
    */
   HashMap<String,Object> preAdd();
 
+  /**
+   * 新增费用记录
+   * @param costAddDto
+   * @return
+   */
+  boolean saveCost(CostAddDto costAddDto);
 }

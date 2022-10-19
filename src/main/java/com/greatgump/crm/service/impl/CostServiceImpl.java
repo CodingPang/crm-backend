@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.greatgump.crm.dto.CustomerDto;
 import com.greatgump.crm.dto.finance.cost.BusinessListDto;
+import com.greatgump.crm.dto.finance.cost.CostAddDto;
 import com.greatgump.crm.dto.finance.cost.CostDto;
 import com.greatgump.crm.dto.finance.cost.CostQueryDto;
 import com.greatgump.crm.dto.finance.cost.CostTypeDto;
@@ -19,6 +20,7 @@ import com.greatgump.crm.mapper.CustomerMapper;
 import com.greatgump.crm.mapper.OrderMapper;
 import com.greatgump.crm.mapper.UserMapper;
 import com.greatgump.crm.service.CostService;
+import com.greatgump.crm.utils.NoGenerateUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -103,5 +105,17 @@ public class CostServiceImpl extends ServiceImpl<CostMapper, Cost> implements Co
     map.put("allBusiness", allBusiness);
 
     return map;
+  }
+
+
+  @Override
+  public boolean saveCost(CostAddDto costAddDto) {
+    // 1、根据订单的ID生成费用编号
+    String costNo = NoGenerateUtils.getCostCode(
+        Integer.valueOf(Math.toIntExact(costAddDto.getOrder().getId())));
+    // 2、将费用编号放进Dto类
+    costAddDto.setCostNo(costNo);
+   boolean flag = costMapper.insertOneCost(costAddDto);
+    return flag;
   }
 }
