@@ -9,7 +9,6 @@
         <result column="e_mail" property="eMail" />
         <result column="phone" property="phone" />
         <result column="qq" property="qq" />
-        <result column="dept_id" property="deptId" />
         <result column="wechat" property="wechat" />
         <result column="customer_needs" property="customerNeeds" />
         <result column="status" property="status" />
@@ -23,6 +22,25 @@
         <result column="estimated_income" property="estimatedIncome" />
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
+        <!--
+            1、什么情况用 association 标签？
+                当前这张表(t_follow_form) 与 外键字段的那张表(dept_id -> t_dept) 是多对一关系
+            2、具体怎么用association 标签？
+            如下：
+                ①association标签<>内
+                <association  property="deptId" javaType="com.greatgump.crm.entity.Dept"></association>
+                其中property="" 写的是t_follow_form转换后的entity对象(FollowForm)的属性名,
+                javaType="" 写的是上面property对应的对象类型，即本业务中：deptId的类型是什么？是一个com.greatgump.crm.entity.Dept类型
+                ②association标签内容区内
+                外键关联的那张表(t_dept)的字段与外键关联的Java对象(com.greatgump.crm.entity.Dept)的映射;
+                用到哪些字段，就写哪些字段
+        -->
+        <association  property="deptId" javaType="com.greatgump.crm.entity.Dept">
+            <!--主键的用id标签，其余的，也就是非表主键的用result-->
+            <id column="dept_no" property="deptNo"/>
+            <result column="dept_name" property="deptName"/>
+        </association>
+
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -30,6 +48,27 @@
         id, contactss, e_mail, phone, qq, dept_id, wechat, customer_needs, status, follow_type, follow_source, user_id, customer_id, current_time, business_name, business_stage, estimated_income, remark, is_delete
     </sql>
 
+    <!--    添加-->
+    <insert id="insertClue">
+        insert into t_follow_form(customer_name,user_id,source_id,status,customer_needs,contactss,e_mail,phone,qq,dept_id,wechat)
+        values (#{username},#{userId},#{sourceId},#{status},#{customerNeeds},#{contacts},#{eMail},#{phone},#{qq},#{deptId},#{wechat})
+    </insert>
+
+
+    <!--    &lt;!&ndash;      查询&ndash;&gt;
+        <select id="quryallClue" resultType="com.greatgump.crm.dto.ClueReceiveDto">
+            SELECT * FROM t_follow_form
+        </select>-->
+
+    <!--       编辑-->
+    <update id="updateClue">
+        update t_follow_form set customer_name =#{username},user_id =#{userId},source_id=#{sourceId},status=#{status},customer_needs=#{customerNeeds},contactss=#{contacts},e_mail=#{eMail},phone=#{phone},qq=#{qq},dept_id=#{deptId},wechat=#{wechat} where id=#{id}
+    </update>
+
+
+    <select id="selectOneClue" resultType="com.greatgump.crm.dto.clue.CluePreEditDto">
+
+    </select>
 
 
 </mapper>

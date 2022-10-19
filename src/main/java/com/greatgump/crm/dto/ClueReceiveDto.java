@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ClueReceiveDto {
-    private static final long serialVersionUID = 1L;
     private long id;
 
     @ApiModelProperty("客户名称")

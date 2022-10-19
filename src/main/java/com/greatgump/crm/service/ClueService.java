@@ -5,6 +5,7 @@ import com.greatgump.crm.dto.ClueDto;
 import com.greatgump.crm.dto.ClueReceiveDto;
 import com.greatgump.crm.dto.CustomerBaseDto;
 import com.greatgump.crm.dto.CustomerDto;
+import com.greatgump.crm.dto.clue.CluePreEditDto;
 import com.greatgump.crm.entity.Clue;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +26,10 @@ public interface ClueService extends IService<Clue> {
    boolean update( ClueReceiveDto clueReceiveDto);
        boolean lookup( ClueReceiveDto clueReceiveDto);
 
-
-
-
+  /**
+   * 1、根据id查询这条数据在线索表的记录
+   * @param id
+   * @return
+   */
+  CluePreEditDto queryOneClue(Integer id);
 }

@@ -57,22 +57,16 @@
     </insert>
 
 
-    <!--      查询-->
+<!--    &lt;!&ndash;      查询&ndash;&gt;
     <select id="quryallClue" resultType="com.greatgump.crm.dto.ClueReceiveDto">
         SELECT * FROM t_follow_form
+    </select>-->
 
-
-
-    </select>
-
-                        <!--       编辑-->
+  <!--       编辑-->
     <update id="update">
         update t_follow_form set customer_name =#{username},user_id =#{userId},source_id=#{sourceId},status=#{status},customer_needs=#{customerNeeds},contactss=#{contacts},e_mail=#{eMail},phone=#{phone},qq=#{qq},dept_id=#{deptId},wechat=#{wechat} where id=#{id}
 
     </update>
-
-
-
 
 
 </mapper>

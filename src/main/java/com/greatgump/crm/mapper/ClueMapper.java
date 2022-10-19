@@ -2,6 +2,7 @@ package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.ClueReceiveDto;
+import com.greatgump.crm.dto.clue.CluePreEditDto;
 import com.greatgump.crm.entity.Clue;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.greatgump.crm.entity.Customer;
@@ -21,7 +22,6 @@ public interface ClueMapper extends BaseMapper<Clue> {
 
     boolean update( ClueReceiveDto clueReceiveDto);
 
-    Page<ClueReceiveDto> quryallClue(Page page);
-
+//    Page<ClueReceiveDto> quryallClue(Page page);
 
 }

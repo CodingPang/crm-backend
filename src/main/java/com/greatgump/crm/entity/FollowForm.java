@@ -57,7 +57,7 @@ public class FollowForm implements Serializable {
 
     @ApiModelProperty("部门职务(外键，部门表)")
     @TableField("dept_id")
-    private String deptId;
+    private Dept deptId;
 
     @ApiModelProperty("微信账号")
     @TableField("wechat")
@@ -79,7 +79,7 @@ public class FollowForm implements Serializable {
     @TableField("follow_source")
     private String followSource;
 
-    @ApiModelProperty("归属客户(关联用户表的id)")
+    @ApiModelProperty("线索归属(关联用户表的id)")
     @TableField("user_id")
     private Long userId;
 

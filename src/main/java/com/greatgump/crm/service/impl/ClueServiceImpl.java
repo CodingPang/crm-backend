@@ -3,8 +3,10 @@ package com.greatgump.crm.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.ClueDto;
 import com.greatgump.crm.dto.ClueReceiveDto;
+import com.greatgump.crm.dto.clue.CluePreEditDto;
 import com.greatgump.crm.entity.Clue;
 import com.greatgump.crm.mapper.ClueMapper;
+import com.greatgump.crm.mapper.FollowFormMapper;
 import com.greatgump.crm.service.ClueService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +22,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ClueServiceImpl extends ServiceImpl<ClueMapper, Clue> implements ClueService {
+
       @Autowired
-    private ClueMapper clueMapper;
+      private FollowFormMapper followFormMapper;
 
 
     @Override
@@ -31,12 +34,12 @@ public class ClueServiceImpl extends ServiceImpl<ClueMapper, Clue> implements Cl
 
     @Override
     public boolean saveClue(ClueReceiveDto clueReceiveDto) {
-        return clueMapper.saveClue(clueReceiveDto);
+        return followFormMapper.insertClue(clueReceiveDto);
     }
 
     @Override
     public boolean update(ClueReceiveDto clueReceiveDto) {
-        return clueMapper.update(clueReceiveDto);
+        return followFormMapper.updateClue(clueReceiveDto);
     }
 
     @Override
@@ -44,7 +47,10 @@ public class ClueServiceImpl extends ServiceImpl<ClueMapper, Clue> implements Cl
         return false;
     }
 
-
+    @Override
+    public CluePreEditDto queryOneClue(Integer id) {
+        return followFormMapper.selectOneClue(id);
+    }
 }
 
 

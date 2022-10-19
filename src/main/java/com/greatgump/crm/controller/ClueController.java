@@ -3,6 +3,7 @@ package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.*;
+import com.greatgump.crm.dto.clue.CluePreEditDto;
 import com.greatgump.crm.dto.power.UserDto;
 import com.greatgump.crm.entity.*;
 import com.greatgump.crm.service.ClueService;
@@ -243,6 +244,15 @@ public class ClueController {
 
     }
 
+
+    @ApiOperation("预编辑")
+    @GetMapping("/crm/clue/preUpdate/{id}")
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "id", value = "要查询的这条记录的主键", required = true)})
+    public Result<CluePreEditDto> preEdit(@PathVariable("id") Integer id){
+        // 1、根据id查询这条数据在线索表的记录
+        CluePreEditDto cluePreEditDto = clueService.queryOneClue(id);
+        return null;
+    }
 
     @ApiOperation("主页面编辑")
     @PutMapping("/crm/clue/update")
