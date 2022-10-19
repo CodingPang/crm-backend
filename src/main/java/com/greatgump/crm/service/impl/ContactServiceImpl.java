@@ -45,4 +45,9 @@ public class ContactServiceImpl extends ServiceImpl<ContactMapper, Contact> impl
     public int saveContact(Contact contact) {
         return contactMapper.saveContact(contact);
     }
+
+    @Override
+    public Contact queryOne(Integer id) {
+        return contactMapper.queryOne(id);
+    }
 }

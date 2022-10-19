@@ -1,10 +1,7 @@
 package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.BoxDto;
-import com.greatgump.crm.dto.CustomerDto;
-import com.greatgump.crm.dto.CustomerQueryDto;
-import com.greatgump.crm.dto.LuoDto2;
+import com.greatgump.crm.dto.*;
 import com.greatgump.crm.dto.finance.cost.CustomerList;
 import com.greatgump.crm.entity.Customer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -37,6 +34,8 @@ public interface CustomerMapper extends BaseMapper<Customer> {
   List<LuoDto2> queryName();
 
     List<String> queryPhone();
+
+    List<ContactNameDto> queryPhone(Long id);
 
   /**
    * 不分页查询所有的Customer(只查询id与customerName)

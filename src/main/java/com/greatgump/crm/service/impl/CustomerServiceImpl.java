@@ -2,11 +2,7 @@ package com.greatgump.crm.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.BoxDto;
-import com.greatgump.crm.dto.CustomerBaseDto;
-import com.greatgump.crm.dto.CustomerDto;
-import com.greatgump.crm.dto.CustomerQueryDto;
-import com.greatgump.crm.dto.LuoDto2;
+import com.greatgump.crm.dto.*;
 import com.greatgump.crm.entity.*;
 import com.greatgump.crm.mapper.*;
 import com.greatgump.crm.service.ContactService;
@@ -128,5 +124,10 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
     public List<String> queryPhone() {
         return customerMapper.queryPhone();
     }
+    @Override
+    public List<ContactNameDto> queryPhone(Long id) {
+        return customerMapper.queryPhone(id);
+    }
+
 
 }

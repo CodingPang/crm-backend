@@ -116,7 +116,8 @@ public class CostController {
 
     HashMap<String, Object> map = costService.preAdd();
 
-    return Result.success(map, Long.valueOf(map.size()));
+//    return Result.success(map, Long.valueOf(map.size()));
+    return null;
   }
 
   @ApiOperation("新增费用记录")

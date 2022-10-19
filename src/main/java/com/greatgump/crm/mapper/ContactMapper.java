@@ -5,6 +5,7 @@ import com.greatgump.crm.dto.ContactDto;
 import com.greatgump.crm.entity.Contact;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -24,5 +25,5 @@ public interface ContactMapper extends BaseMapper<Contact> {
     ContactDto queryContactById(Integer id);
     Contact queryDefByCustomerIdContact(Integer cid);
 
-
+    Contact queryOne(@Param("id") Integer id);
 }

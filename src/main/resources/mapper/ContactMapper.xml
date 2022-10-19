@@ -63,5 +63,9 @@
                 || tc.department=#{arg0} ||tc.wechat=#{arg0} || tcs.customer_name=#{arg0}
         </if>
     </select>
-
+    <select id="queryOne" resultType="com.greatgump.crm.entity.Contact">
+        SELECT *
+        FROM t_contact
+        WHERE id = #{id}
+    </select>
 </mapper>
