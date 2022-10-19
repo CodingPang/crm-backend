@@ -1,43 +1,49 @@
 package com.greatgump.crm.dto;
 
 import com.greatgump.crm.entity.Customer;
-import com.greatgump.crm.entity.Dept;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
-
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-public class DetailDto {
+@AllArgsConstructor
+@NoArgsConstructor
+public class EditTravelDto {
 
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("主键，自增")
-    private Long id;
+      private Long id;
 
-    @ApiModelProperty("借款金额")
-    private BigDecimal loanAmount;
-
-    @ApiModelProperty("提交人员")
-    private String submitted;
-
-    @ApiModelProperty("借款部门")
-    private Dept deptId;
-
-    @ApiModelProperty("关联用户")
+    @ApiModelProperty("关联客户")
     private Customer customerId;
-
-    @ApiModelProperty("借款原因")
-    private String cause;
 
     @ApiModelProperty("相关附件")
     private String relevant;
+
+    @ApiModelProperty("出差地址")
+    private String address;
+
+    @ApiModelProperty("开始时间")
+    private Date startTime;
+
+    @ApiModelProperty("出差天数")
+    private Integer travel_days;
+
+    @ApiModelProperty("结束时间")
+    private Date endTime;
+
+    @ApiModelProperty("申请人员")
+    private String applicant;
+
+    @ApiModelProperty("出差原因")
+    private String cause;
+
+    @ApiModelProperty("出差人员")
+    private String travelers;
 
     @ApiModelProperty("提交时间")
     private Date submission_time;
@@ -50,5 +56,11 @@ public class DetailDto {
 
     @ApiModelProperty("审批时间")
     private Date approval_time;
+
+
+
+
+
+
 
 }

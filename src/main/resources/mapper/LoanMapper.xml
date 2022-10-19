@@ -3,22 +3,96 @@
 <mapper namespace="com.greatgump.crm.mapper.LoanMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Loan">
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.dto.LoanDto">
         <id column="id" property="id" />
         <result column="loan_amount" property="loanAmount" />
         <result column="cause" property="cause" />
         <result column="approval_status" property="approvalStatus" />
         <result column="appplication_time" property="appplicationTime" />
-        <result column="applicant" property="applicant" />
-        <result column="remark" property="remark" />
-        <result column="is_delete" property="isDelete" />
-        <association javaType="com.greatgump.crm.entity.Customer" property="associatedBusiness" >
+        <association property="customer" javaType="com.greatgump.crm.entity.Customer">
+            <id column="cid" property="id" />
+            <result column="customer_name" property="customerName" />
+        </association>
+        <association property="order" javaType="com.greatgump.crm.entity.Order">
+            <id column="oid" property="id" />
+            <result column="order_title" property="orderTitle" />
+        </association>
+        <association property="business" javaType="com.greatgump.crm.entity.Business">
+            <id column="bid" property="id" />
+            <result column="bussinesst_itle" property="bussinessTitle"/>
+        </association>
+        <association property="applicant" javaType="com.greatgump.crm.entity.User">
+            <id column="uid" property="id" />
+            <result column="username" property="username"/>
+        </association>
+
+    </resultMap>
+    <insert id="insertLoan" useGeneratedKeys="true" keyProperty="id">
+          insert into t_loan(customer_id,order_id,loan_amount,business_id,cause,submitted,relevant,dept_id,submission_time,approval_status,approver,approval_time,appplication_time,user_id)
+        values(#{customerId},#{orderId},#{loanAmount},#{businessId},#{cause},#{submitted},#{relevant},#{deptId},#{submission_time},#{approval_status},#{approver},#{approval_time},#{appplication_time},#{userId})
+    </insert>
+
+    <update id="updateLoan">
+        UPDATE t_loan
+        SET customer_id=#{customerId},loan_amount =#{loanAmount},cause=#{cause},order_id = #{orderId},business_id = #{businessId}
+        WHERE id=#{id};
+    </update>
+    <delete id="deleteLoan"></delete>
+    <delete id="deletebatch"></delete>
+
+
+    <select id="queryAllloans" resultMap="BaseResultMap">
+        SELECT tcs.id cid,tcs.customer_name,tl.loan_amount,tl.cause,tl.approval_status,tl.appplication_time,tu.id uid,tu.username
+        FROM t_customer tcs,t_loan tl,t_user tu
+        WHERE tl.customer_id = tcs.id AND tl.user_id = tu.id
+    </select>
+    <resultMap id="queryAllDetailMap" type="com.greatgump.crm.dto.DetailDto">
+        <id column="id" property="id" />
+        <result column="loan_amount" property="loanAmount"/>
+        <result column="submitted" property="submitted"/>
+          <result column="cause" property="cause"/>
+           <result column="relevant" property="relevant"/>
+        <result column="submission_time" property="submission_time"/>
+         <result column="approval_status" property="approvalStatus"/>
+              <result column="approver" property="approver"/>
+        <result column="approval_time" property="approval_time"/>
+        <association property="deptId" javaType="com.greatgump.crm.entity.Dept">
+            <id column="did" property="deptNo" />
+            <result column="dept_name" property="deptName"></result>
+        </association>
+        <association property="customerId" javaType="com.greatgump.crm.entity.Customer">
             <id column="id" property="id"/>
+            <result column="customer" property="customerName"/>
+        </association>
+
+    </resultMap>
+   <select id="queryAllDetails" resultMap="queryAllDetailMap">
+       SELECT tl.id ,tcs.customer_name customer,tl.loan_amount,tl.cause,tl.approval_status,tl.appplication_time,tu.id uid,tu.username,tl.approver,tl.relevant,
+              tl.submitted,tl.submission_time,tl.dept_id did,td.dept_name
+       FROM t_customer tcs,t_loan tl,t_user tu,t_dept td
+       WHERE tl.customer_id = tcs.id AND tl.user_id = tu.id AND tl.dept_id=td.dept_no AND tl.id = #{id}
+   </select>
+    <resultMap id="queryEdit" type="com.greatgump.crm.dto.EditDto">
+        <id column="id" property="id"/>
+        <result column="loan_amount" property="loanAmount"/>
+        <result column="cause" property="cause"/>
+        <association property="customerId" javaType="com.greatgump.crm.entity.Customer">
+            <id column="cid" property="id"/>
             <result column="customer_name" property="customerName"/>
         </association>
+        <association property="orderId" javaType="com.greatgump.crm.entity.Order">
+            <id column="oid" property="id"/>
+            <result column="order_title" property="orderTitle"/>
+        </association>
+        <association property="businessId" javaType="com.greatgump.crm.entity.Business">
+            <id column="bid" property="id"/>
+            <result column="bussiness_title" property="bussinessTitle"/>
+        </association>
     </resultMap>
-    <select id="queryAllloans" resultType="com.greatgump.crm.entity.Loan">
-
+    <select id="queryEdit" resultMap="queryEdit">
+        SELECT tcs.id cid, tcs.customer_name,tor.id oid, tor.order_title,tl.loan_amount, tb.id bid,tb.bussiness_title,tl.cause,tl.id
+        FROM t_loan tl,t_order tor,t_business tb,t_customer tcs
+        WHERE tl.customer_id=tcs.id AND tl.order_id = tor.id AND tl.business_id = tb.id AND tl.id =#{id}
     </select>
 
 

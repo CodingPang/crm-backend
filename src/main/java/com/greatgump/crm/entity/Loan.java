@@ -36,7 +36,7 @@ public class Loan implements Serializable {
 
     @ApiModelProperty("关联业务")
     @TableField("associated_business")
-    private Customer associatedBusiness;
+    private Long customerId;
 
     @ApiModelProperty("借款金额")
     @TableField("loan_amount")
@@ -56,7 +56,7 @@ public class Loan implements Serializable {
 
     @ApiModelProperty("申请人员")
     @TableField("applicant")
-    private String applicant;
+    private Long userId;
 
     @ApiModelProperty("备注")
     @TableField("remark")

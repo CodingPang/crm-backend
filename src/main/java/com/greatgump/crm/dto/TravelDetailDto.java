@@ -1,5 +1,6 @@
 package com.greatgump.crm.dto;
 
+import com.greatgump.crm.entity.Customer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,9 +12,13 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 public class TravelDetailDto {
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty("主键，自增")
+    private Long id;
 
     @ApiModelProperty("关联用户")
-    private String customer;
+    private Customer customerId;
 
     @ApiModelProperty("相关附件")
     private String relevant;
@@ -30,6 +35,9 @@ public class TravelDetailDto {
     @ApiModelProperty("结束时间")
     private Date endTime;
 
+    @ApiModelProperty("申请人员")
+    private String applicant;
+
     @ApiModelProperty("出差原因")
     private String cause;
 
@@ -43,7 +51,7 @@ public class TravelDetailDto {
     private Integer approvalStatus;
 
     @ApiModelProperty("审批人员")
-    private String Approver;
+    private String approver;
 
     @ApiModelProperty("审批时间")
     private Date approval_time;

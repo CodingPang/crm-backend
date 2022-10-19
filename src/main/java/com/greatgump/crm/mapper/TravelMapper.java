@@ -1,5 +1,7 @@
 package com.greatgump.crm.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.*;
 import com.greatgump.crm.entity.Travel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,5 +16,20 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface TravelMapper extends BaseMapper<Travel> {
+
+    Page<TravelDto> queryAllTravels(Page page);
+
+    TravelDetailDto queryTravelDetails(Integer id);
+
+    int insertTravel(AddedTravelDto addedTravelDto);
+
+    EditTravelDto queryEditTravel(Integer id);
+
+    int updateTravel(AddedTravelDto addedTravelDto);
+
+    boolean deleteTravel(Integer id);
+
+    boolean deletebatch(TravelDto travelDto);
+
 
 }

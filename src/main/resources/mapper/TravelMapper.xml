@@ -3,7 +3,7 @@
 <mapper namespace="com.greatgump.crm.mapper.TravelMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Travel">
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.dto.TravelDto">
         <id column="id" property="id" />
         <result column="applicant" property="applicant" />
         <result column="cause" property="cause" />
@@ -14,10 +14,72 @@
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
     </resultMap>
+    <insert id="insertTravel" useGeneratedKeys="true" keyProperty="id">
+  INSERT INTO t_travel (id,customer_id,travel_days,cause,address,relevant,start_time,end_time,applicant,travelers,submission_time,approval_status,approver,approval_time)
+               VALUES(#{id},#{customerId},#{travelDays},#{cause},#{address},#{relevant},#{startTime},#{endTime},#{applicant},#{travelers},#{submission_time}
+               ,#{approvalStatus},#{approver},#{approval_time})
+ </insert>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, applicant, cause, start_time, end_time, travel_days, approval_status, remark, is_delete
-    </sql>
+    <update id="updateTravel">
+   UPDATE t_travel
+        SET customer_id=#{customerId},travel_days = #{travelDays},cause =#{cause},address = #{address}
+        WHERE id=#{id};
+ </update>
+
+    <delete id="deleteTravel"> </delete>
+    <delete id="deletebatch"> </delete>
+
+
+
+    <select id="queryAllTravels" resultMap="BaseResultMap">
+        SELECT tt.applicant,tt.cause,tt.start_time,tt.end_time,tt.travel_days,tt.approval_status
+        FROM t_travel tt
+    </select>
+
+    <resultMap id="TravelResultMap" type="com.greatgump.crm.dto.TravelDetailDto">
+        <id column="id" property="id"/>
+        <result column="relevant" property="relevant"/>
+        <result column="address" property="address"/>
+        <result column="start_time" property="startTime"/>
+        <result column="travel_days" property="travel_days"/>
+        <result column="end_time" property="endTime"/>
+        <result column="cause" property="cause"/>
+        <result column="travelers" property="travelers"/>
+        <result column="submission_time" property="submission_time"/>
+        <result column="approval_status" property="approvalStatus"/>
+        <result column="approver" property="approver"/>
+        <result column="approval_time" property="approval_time"/>
+        <association property="customerId" javaType="com.greatgump.crm.entity.Customer">
+            <id column="rid" property="id"/>
+            <result column="customer_name" property="customerName"/>
+        </association>
+
+
+    </resultMap>
+
+    <select id="queryTravelDetails" resultMap="TravelResultMap">
+        SELECT  tcs.id rid,tcs.customer_name,ttr.relevant,ttr.address,ttr.start_time,ttr.travel_days,ttr.end_time,ttr.cause,ttr.travelers,ttr.submission_time,
+               ttr.approval_status,ttr.approver,ttr.approval_time,ttr.id
+        FROM t_travel ttr,t_customer tcs
+        WHERE ttr.customer_id = tcs.id AND ttr.id = #{id}
+
+    </select>
+
+    <resultMap id="queryEditTravel" type="com.greatgump.crm.dto.EditTravelDto">
+        <id column="id" property="id"/>
+        <result column="travel_days" property="travel_days"/>
+        <result column="cause" property="cause"/>
+        <result column="address" property="address"/>
+        <association property="customerId" javaType="com.greatgump.crm.entity.Customer">
+            <id column="rid" property="id"/>
+            <result column="customer_name" property="customerName"/>
+        </association>
+    </resultMap>
+    <select id="queryEditTravel" resultMap="queryEditTravel">
+      SELECT tcs.id rid,tcs.customer_name,ttr.travel_days,ttr.cause,ttr.address,ttr.id
+      FROM t_travel ttr,t_customer tcs
+      WHERE ttr.customer_id = tcs.id AND ttr.id = #{id}
+
+ </select>
 
 </mapper>

@@ -1,15 +1,13 @@
 package com.greatgump.crm.controller;
 
-import com.greatgump.crm.dto.TravelBoxDto;
-import com.greatgump.crm.dto.TravelDetailDto;
-import com.greatgump.crm.dto.TravelDto;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.*;
 import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.entity.Order;
-import com.greatgump.crm.entity.Travel;
 import com.greatgump.crm.service.TravelService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.*;
-import org.apache.poi.ss.formula.functions.T;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -27,149 +25,74 @@ import java.util.*;
 @RequestMapping("/crm/travel")
 public class TravelController {
 
+    @Autowired
     private TravelService travelService;
     @ApiOperation("获取所有的出差信息")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
-    @GetMapping("/queryAllLoans/{current}/{size}")
-    public Result<List<Travel>> queryAllLoans(@PathVariable("current") Integer current, @PathVariable("size") Integer size) {
-        TravelDto travelDto = new TravelDto();
-        Customer customer03 = new Customer();
-        customer03.setId(1L);
-        customer03.setCustomerName("xx集团");
-        Customer customer04 = new Customer();
-        customer04.setId(1L);
-        customer04.setCustomerName("xx集团");
+    @GetMapping("/queryAllTravels/{current}/{size}")
+    public Result<List<TravelDto>> queryAllTravels(@PathVariable("current") Integer current, @PathVariable("size") Integer size) {
 
-        List<Customer> customerList = new ArrayList<>();
-        customerList.add(customer03);
-        customerList.add(customer04);
+        Page<TravelDto> travelDtoPage = new Page<>(current,size);
+        Page<TravelDto> pageInfo = travelService.queryAllTravel(travelDtoPage);
 
-        // 查询出所有的借款
-        Order order01 = new Order();
-        order01.setId(1L);
-        order01.setOrderTitle("订单标题1");
-        Order order02 = new Order();
-        order02.setId(1L);
-        order02.setOrderTitle("订单标题2");
-        List<Order> orderList = new ArrayList<>();
-        orderList.add(order01);
-        orderList.add(order02);
-
-        Travel travel01 = new Travel();
-        travel01.setId(1L);
-        travel01.setApplicant("zs");
-        travel01.setCause("出差原因");
-        travel01.setStartTime(new Date(System.currentTimeMillis()));
-        travel01.setEndTime(new Date(System.currentTimeMillis()));
-        travel01.setTravelDays(4);
-        travel01.setApprovalStatus(1);
-        Travel travel02 = new Travel();
-        travel02.setId(2L);
-        travel02.setApplicant("ls");
-        travel02.setCause("出差原因");
-        travel02.setStartTime(new Date(System.currentTimeMillis()));
-        travel02.setEndTime(new Date(System.currentTimeMillis()));
-        travel02.setTravelDays(5);
-        travel02.setApprovalStatus(2);
-
-        List<Travel> travelList = new ArrayList<>();
-        travelList.add(travel01);
-        travelList.add(travel02);
-
-
-        return Result.success(travelList, 4L);
+        return Result.success(pageInfo.getRecords(), pageInfo.getTotal());
     }
 
-        @ApiOperation("出差下拉框")
-        @PostMapping("/pre")
-        public Result<TravelBoxDto> preAdd(){
-            TravelBoxDto travelBoxDto = new TravelBoxDto();
+        @ApiOperation("出差新增")
+        @PostMapping("/insertTravel")
+        public Result insertTravel(@RequestBody AddedTravelDto addedTravelDto){
 
-            List<Customer> customerList = new ArrayList<>();//给loanDto中customerList准备数据
-            Customer customer = new Customer();//给customerList准备数据
-            customer.setId(1L);
-            customer.setCustomerName("zss");
-            customerList.add(customer);//把数据添加到customerList中
+            int insertTravel = travelService.insertTravel(addedTravelDto);
 
-             Customer customer1 = new Customer();//给customerList准备数据
-            customer1.setId(2L);
-            customer1.setCustomerName("dff");
-            customerList.add(customer1);//把数据添加到customerList中
-
-            List<Order> orderList = new ArrayList<>();//给loanListDto中orderList准备数据
-            Order order = new Order();//给orderList准备数据
-            order.setId(1L);
-            order.setOrderTitle("订单标题3");
-            orderList.add(order);//把数据添加到orderList中
-
-                Order order1 = new Order();//给orderList准备数据
-            order1.setId(2L);
-            order1.setOrderTitle("订单标题4");
-            orderList.add(order1);//把数据添加到orderList中
-
-            travelBoxDto.setCustomerList(customerList);
-            travelBoxDto.setOrderList(orderList);
-
-            return Result.success(travelBoxDto);
+            return Result.success(insertTravel);
 
 
     }
     @ApiOperation("获取详情")
-    @GetMapping("/queryAllTravelDetail/{id}")
-    public Result<TravelDetailDto> queryAllLoans(@PathVariable("id")Long id) {
-        TravelDetailDto travelDetailDto = new TravelDetailDto();
-         travelDetailDto.setCustomer("上海哈哈集团");
-         travelDetailDto.setRelevant("附件名称.pdf");
-         travelDetailDto.setAddress("出差地址");
-         travelDetailDto.setStartTime(new Date(System.currentTimeMillis()));
-         travelDetailDto.setTravel_days(5);
-         travelDetailDto.setEndTime(new Date(System.currentTimeMillis()));
-         travelDetailDto.setCause("出差原因");
-         travelDetailDto.setSubmission_time(new Date(System.currentTimeMillis()));
-         travelDetailDto.setApprovalStatus(1);
-         travelDetailDto.setApprover("wangwang");
-         travelDetailDto.setApproval_time(new Date(System.currentTimeMillis()));
-
+    @GetMapping("/queryTravelDetails/{id}")
+    public Result<TravelDetailDto> queryTravelDetails(@PathVariable("id")Integer id) {
+           TravelDetailDto travelDetailDto = travelService.queryTravelDetail(id);
 
          return Result.success(travelDetailDto);
     }
+
+    @ApiOperation("获取编辑详情")
+    @GetMapping("/queryEditTravel/{id}")
+    public Result<EditTravelDto> queryEditTravel(@PathVariable("id") Integer id) {
+
+        return Result.success(travelService.queryEditTravel(id));
+    }
+
+
         @ApiOperation("出差页面修改")
-        @PutMapping("/update/{id}")
-        public Result<TravelDto> update(@PathVariable("id")Long id){
-            Customer customer = new Customer();
-            customer.setId(1L);
-            customer.setCustomerName("xx集团");
-
-            Order order = new Order();
-            order.setId(1L);
-            order.setOrderTitle("订单标题1");
-
-            String cause = "出差原因";
-
-            TravelDto travelDto = new TravelDto();
-            travelDto.setCustomer(customer);
-            travelDto.setOrder(order);
-            travelDto.setCause(cause);
-
-            return Result.success(travelDto);
+        @PutMapping("/updateTravel")
+        public Result<AddedTravelDto> updateTravel(@RequestBody AddedTravelDto addedTravelDto){
+            int updateTravel = travelService.updateTravel(addedTravelDto);
+            if (updateTravel>0){
+                return Result.success();
+            }else {
+                return Result.failed();
+            }
 
         }
 
     @ApiOperation("出差页面删除")
-    @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable("id")Long id){
+    @DeleteMapping("/deleteTravel/{id}")
+    public Result deleteTravel(@PathVariable("id")Long id){
 
-        travelService.removeById(id);
-        return Result.success();
+        boolean b = travelService.removeById(id);
+        return Result.judge(b);
+
+
     }
     @ApiOperation("出差页面批量删除")
-    @DeleteMapping("/deletion")
-    public Result deletion(@RequestBody List<TravelDto> travelDtos){
-//        System.out.println("-------->"+travelDtos);
+    @DeleteMapping("/deletebatch")
+    public Result deletebatch(@RequestBody List<TravelDto> travelDtos){
+        boolean b =false;
         for (TravelDto travelDto : travelDtos) {
-            travelService.removeById(travelDto.getId());
+            b = travelService.removeById(travelDto.getId());
         }
 
-        return Result.success();
+        return Result.judge(b);
     }
 }
