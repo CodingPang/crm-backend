@@ -6,6 +6,8 @@ import com.greatgump.crm.entity.CalcUnit;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 计量单位 Mapper 接口
@@ -24,4 +26,7 @@ public interface CalcUnitMapper extends BaseMapper<CalcUnit> {
 
     int updateClcUnit(UpdeCalcUnitDto updeCalcUnitDto);
 
+    boolean deleteCalcUnit(Integer id);
+
+    List<CalcUnitDto> searchList(CalcUnitsearchDto calcUnitsearchDto);
 }

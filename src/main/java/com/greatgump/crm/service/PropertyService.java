@@ -5,6 +5,8 @@ import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.entity.Property;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 产品属性 服务类
@@ -22,4 +24,8 @@ public interface PropertyService extends IService<Property> {
 
     int updateProperty(UpdePropertyDto updePropertyDto);
 
+    boolean deleteProperty(Integer id);
+
+
+    List<PropertyDto> searchList1(PropertysearchDto propertysearchDto);
 }

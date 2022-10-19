@@ -1,16 +1,15 @@
 package com.greatgump.crm.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.AddCalcUnitDto;
-import com.greatgump.crm.dto.productlibrary.CalcUnitDto;
-import com.greatgump.crm.dto.productlibrary.QueryCalcUnitDto;
-import com.greatgump.crm.dto.productlibrary.UpdeCalcUnitDto;
+import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.entity.CalcUnit;
 import com.greatgump.crm.mapper.CalcUnitMapper;
 import com.greatgump.crm.service.CalcUnitService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -45,5 +44,16 @@ public class CalcUnitServiceImpl extends ServiceImpl<CalcUnitMapper, CalcUnit> i
     @Override
     public int updateCalcUnit(UpdeCalcUnitDto updeCalcUnitDto) {
         return calcUnitMapper.updateClcUnit(updeCalcUnitDto);
+    }
+
+    @Override
+    public boolean deleteCalcUnit(Integer id) {
+        boolean b = calcUnitMapper.deleteCalcUnit(id);
+        return b;
+    }
+
+    @Override
+    public List<CalcUnitDto> searchList3(CalcUnitsearchDto calcUnitsearchDto) {
+        return calcUnitMapper.searchList(calcUnitsearchDto);
     }
 }

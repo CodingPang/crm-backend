@@ -100,23 +100,35 @@ public class  AssortController {
 //
 //    }
 
-
     @ApiOperation("产品分类信息删除")
-    @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable("id")Long id){
-        assortService.removeById(id);
+    @DeleteMapping("/deleteAssort/{id}")
+    public Result deleteAssort(@PathVariable("id")Long id){
 
-        return Result.success();
+        boolean b = assortService.removeById(id);
+        return Result.judge(b);
+
+
     }
 
-    @ApiOperation("产品分类信息批量删除")
-    @DeleteMapping("/deletion")
-    public Result deletion(@RequestBody List<AssortDto> assortDtos){
-        for (AssortDto assortDto : assortDtos) {
-            assortService.removeById(assortDto.getId());
-        }
 
-        return Result.success();
+//    @ApiOperation("产品分类信息批量删除")
+//    @DeleteMapping("/deletion")
+//    public Result deletion(@RequestBody List<AssortDto> assortDtos){
+//        for (AssortDto assortDto : assortDtos) {
+//            assortService.removeById(assortDto.getId());
+//        }
+//
+//        return Result.success();
+//    }
+
+    @ApiOperation("产品分类信息批量删除")
+    @DeleteMapping("/deletebatch")
+    public Result deletebatch(@RequestBody List<Long> ids){
+
+        boolean  b = assortService.removeByIds(ids);
+
+
+        return Result.judge(b);
     }
 
 }

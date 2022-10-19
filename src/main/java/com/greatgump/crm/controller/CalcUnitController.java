@@ -96,23 +96,44 @@ public class CalcUnitController {
 //
 //    }
 
-
     @ApiOperation("计量单位信息删除")
-    @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable("id")Long id){
-        calcUnitService.removeById(id);
-        return Result.success();
+    @DeleteMapping("/deleteCalcUnit/{id}")
+    public Result deleteCalcUnit(@PathVariable("id")Long id){
+
+        boolean b = calcUnitService.removeById(id);
+        return Result.judge(b);
+
+
     }
 
-    @ApiOperation("计量单位信息批量删除")
-    @DeleteMapping("/deletion")
-    public Result deletion(@RequestBody List<CalcUnitDto> calcUnitDtos){
-        for (CalcUnitDto calcUnitDto : calcUnitDtos) {
-            System.out.println("----------------->"+calcUnitDtos);
-            calcUnitService.removeById(calcUnitDto.getId());
-        }
 
-        return Result.success();
+//    @ApiOperation("计量单位信息批量删除")
+//    @DeleteMapping("/deletion")
+//    public Result deletion(@RequestBody List<CalcUnitDto> calcUnitDtos){
+//        for (CalcUnitDto calcUnitDto : calcUnitDtos) {
+//            System.out.println("----------------->"+calcUnitDtos);
+//            calcUnitService.removeById(calcUnitDto.getId());
+//        }
+//
+//        return Result.success();
+//    }
+
+    @ApiOperation("计量单位信息批量删除")
+    @DeleteMapping("/deletebatch")
+    public Result deletebatch(@RequestBody List<Long> ids){
+
+        boolean  b = calcUnitService.removeByIds(ids);
+
+
+        return Result.judge(b);
+    }
+
+    @ApiOperation("计量单位搜索")
+    @PostMapping("/crm/calcunit/search")
+    public Result<List<CalcUnitDto>> search(@RequestBody CalcUnitsearchDto calcUnitsearchDto){
+        List<CalcUnitDto> calcunitListDtoPage= calcUnitService.searchList3(calcUnitsearchDto);
+//        Long count = Long.valueOf(productService.countList(productsearchDto));
+        return Result.success(calcunitListDtoPage);
     }
 
 

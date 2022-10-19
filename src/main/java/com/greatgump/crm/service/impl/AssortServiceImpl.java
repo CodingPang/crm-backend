@@ -45,4 +45,10 @@ public class AssortServiceImpl extends ServiceImpl<AssortMapper, Assort> impleme
     public int updateAssort(UpdeAssortDto updeAssortDto) {
         return assortMapper.updateAssort(updeAssortDto);
     }
+
+    @Override
+    public boolean deleteAssort(Integer id) {
+        boolean b = assortMapper.deleteAssort(id);
+        return b;
+    }
 }

@@ -24,4 +24,6 @@ public interface AssortMapper extends BaseMapper<Assort> {
     QueryAssortDto queryBid(Integer id);
 
     int updateAssort(UpdeAssortDto updeAssortDto);
+
+    boolean deleteAssort(Integer id);
 }

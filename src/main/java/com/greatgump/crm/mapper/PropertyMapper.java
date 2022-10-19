@@ -6,6 +6,8 @@ import com.greatgump.crm.entity.Property;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 产品属性 Mapper 接口
@@ -23,4 +25,8 @@ public interface PropertyMapper extends BaseMapper<Property> {
     QueryPropertyDto queryBid(Integer id);
 
     int updateProperty(UpdePropertyDto updePropertyDto);
+
+    boolean deleteProperty(Integer id);
+
+    List<PropertyDto> searchList1(PropertysearchDto propertysearchDto);
 }

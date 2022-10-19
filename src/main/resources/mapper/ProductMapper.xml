@@ -23,6 +23,11 @@
 insert into t_product(product_code,product_name,classificationid,unitid,porperty_id)
 values (#{productCode},#{productName},#{assortName},#{unitName},#{propertyName})
     </insert>
+    <delete id="deleteProduct">
+        DELETE
+        FROM t_product
+        WHERE id=#{id}
+    </delete>
     <resultMap id="BaseResultMap3" type="com.greatgump.crm.dto.productlibrary.QueryProductDto">
         <id column="id" property="id" />
         <result column="product_code" property="productCode" />
@@ -94,6 +99,54 @@ values (#{productCode},#{productName},#{assortName},#{unitName},#{propertyName})
         SELECT pt.product_code,ast.id aid,ast.assort_name,pt.product_name,ct.id cid,ct.unit_name,py.id pid,py.property_name
         FROM t_product pt,t_assort ast,t_calc_unit ct,t_property py
         WHERE pt.classificationid=ast.id and pt.unitid=ct.id and pt.porperty_id=py.id and pt.id=#{id}
+    </select>
+    <resultMap id="BaseResultMap5" type="com.greatgump.crm.dto.productlibrary.ProductBox1Dto">
+        <id column="id" property="id" />
+        <result column="assort_name" property="assortName" />
+    </resultMap>
+    <select id="getAssort" resultMap="BaseResultMap5">
+        SELECT id,assort_name
+        FROM t_assort
+    </select>
+    <resultMap id="BaseResultMap6" type="com.greatgump.crm.dto.productlibrary.ProductBox2Dto">
+        <id column="id" property="id"/>
+        <result column="unit_name" property="unitName"/>
+    </resultMap>
+    <select id="getClacUnit" resultMap="BaseResultMap6">
+        SELECT id,unit_name
+        FROM t_calc_unit
+    </select>
+    <resultMap id="BaseResultMap7" type="com.greatgump.crm.dto.productlibrary.ProductBox3Dto">
+        <id column="id" property="id" />
+        <result column="property_name" property="propertyName" />
+    </resultMap>
+    <select id="getProperty" resultMap="BaseResultMap7">
+        SELECT id,property_name
+        FROM t_property
+    </select>
+    <select id="searchList" resultMap="BaseResultMap1">
+        SELECT
+            pt.product_code,
+            ast.id aid,
+            ast.assort_name,
+            pt.product_name,
+            ct.id cid,
+            ct.unit_name,
+            pt.creation_date
+        FROM
+            t_product pt,
+            t_assort ast,
+            t_calc_unit ct
+        WHERE
+            pt.classificationid = ast.id
+          AND pt.unitid = ct.id
+        <if test="productName != null and productName != ''">
+            AND pt.product_name=#{productName}
+        </if>
+        <if test="start != null &amp;end != null ">
+            AND pt.creation_date BETWEEN #{start} AND #{end}
+        </if>
+
     </select>
 
 

@@ -5,6 +5,8 @@ import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.entity.CalcUnit;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 计量单位 服务类
@@ -22,4 +24,7 @@ public interface CalcUnitService extends IService<CalcUnit> {
 
     int updateCalcUnit(UpdeCalcUnitDto updeCalcUnitDto);
 
+    boolean deleteCalcUnit(Integer id);
+
+    List<CalcUnitDto> searchList3(CalcUnitsearchDto calcUnitsearchDto);
 }

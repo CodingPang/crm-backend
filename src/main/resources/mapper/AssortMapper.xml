@@ -22,6 +22,11 @@
         SET assort_name=#{assortName}
         WHERE id=#{id}
     </update>
+    <delete id="deleteAssort">
+        DELETE
+        FROM t_assort
+        WHERE id=#{id};
+    </delete>
     <select id="queryAllAssorts" resultMap="BaseResultMap">
         SELECT t.assort_name
         FROM t_assort t

@@ -24,6 +24,11 @@
         SET unit_name=#{unitName}
         WHERE id=#{id}
     </update>
+    <delete id="deleteCalcUnit">
+        DELETE
+        FROM t_calc_unit
+        WHERE id=#{id};
+    </delete>
     <select id="queryAllCalcUnits" resultMap="BaseResultMap">
         SELECT c.unit_name,c.creation_date
         FROM t_calc_unit c
@@ -36,6 +41,20 @@
         SELECT cu.unit_name
         FROM t_calc_unit cu
         WHERE cu.id=#{id}
+    </select>
+    <select id="searchList" resultMap="BaseResultMap">
+        SELECT
+        unit_name,
+        creation_date
+        FROM
+        t_calc_unit
+        WHERE
+        <if test = "unitName != null and unitName != ''" >
+         unit_name = #{unitName}
+        </if >
+          <if test = "start != null &amp;end != null " >
+        AND creation_date BETWEEN #{start} AND #{end}
+    </if>
     </select>
 
 

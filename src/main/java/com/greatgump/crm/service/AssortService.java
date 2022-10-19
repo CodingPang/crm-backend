@@ -22,4 +22,6 @@ public interface AssortService extends IService<Assort> {
 
     int updateAssort(UpdeAssortDto updeAssortDto);
 
+    boolean deleteAssort(Integer id);
+
 }

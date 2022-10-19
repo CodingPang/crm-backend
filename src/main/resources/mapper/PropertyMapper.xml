@@ -25,19 +25,44 @@
         SET property_name=#{propertyName},property_value=#{propertyValue}
         WHERE id=#{id}
     </update>
-    <select id="queryAllPropertys" resultType="com.greatgump.crm.dto.productlibrary.PropertyDto">
+    <delete id="deleteProperty">
+        DELETE
+        FROM t_property
+        WHERE id=#{id};
+    </delete>
+    <resultMap id="BaseResultMap2" type="com.greatgump.crm.dto.productlibrary.PropertyDto">
+        <id column="id" property="id" />
+        <result column="property_name" property="propertyName" />
+        <result column="property_value" property="propertyValue" />
+        <result column="creation_date" property="creationDate" />
+    </resultMap>
+    <select id="queryAllPropertys" resultMap="BaseResultMap2">
         SELECT t.property_name,t.property_value,t.creation_date
         FROM t_property t
     </select>
     <resultMap id="BaseResultMap1" type="com.greatgump.crm.dto.productlibrary.QueryPropertyDto">
-        <id column="id" property="id" />
-        <result column="property_name" property="propertyName" />
-        <result column="property_value" property="propertyValue" />
-    </resultMap>
+    <id column="id" property="id" />
+    <result column="property_name" property="propertyName" />
+    <result column="property_value" property="propertyValue" />
+</resultMap>
     <select id="queryBid" resultMap="BaseResultMap1">
         SELECT py.property_name,py.property_value
         FROM t_property py
         WHERE py.id=#{id}
+    </select>
+    <select id="searchList1" resultMap="BaseResultMap2">
+        SELECT
+        property_name,
+        property_value,
+        creation_date
+        FROM t_property
+        WHERE
+        <if test = "propertyName != null and propertyName != ''" >
+            property_name = #{propertyName}
+        </if >
+        <if test = "start != null &amp;end != null " >
+            AND creation_date BETWEEN #{start} AND #{end}
+        </if>
     </select>
 
 </mapper>

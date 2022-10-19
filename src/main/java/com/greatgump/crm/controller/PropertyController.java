@@ -100,21 +100,41 @@ public class PropertyController {
 //    }
 
     @ApiOperation("产品属性信息删除")
-    @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable("id")Long id){
-        propertyService.removeById(id);
+    @DeleteMapping("/deleteProperty/{id}")
+    public Result deleteProperty(@PathVariable("id")Long id){
 
-        return Result.success();
+        boolean b = propertyService.removeById(id);
+        return Result.judge(b);
+
+
     }
 
-    @ApiOperation("产品属性信息批量删除")
-    @DeleteMapping("/deletion")
-    public Result deletion(@RequestBody List<PropertyDto> propertyDtos){
-        for (PropertyDto propertyDto : propertyDtos) {
-            propertyService.removeById(propertyDto.getId());
-        }
+//    @ApiOperation("产品属性信息批量删除")
+//    @DeleteMapping("/deletion")
+//    public Result deletion(@RequestBody List<PropertyDto> propertyDtos){
+//        for (PropertyDto propertyDto : propertyDtos) {
+//            propertyService.removeById(propertyDto.getId());
+//        }
+//
+//        return Result.success();
+//    }
 
-        return Result.success();
+    @ApiOperation("产品属性信息批量删除")
+    @DeleteMapping("/deletebatch")
+    public Result deletebatch(@RequestBody List<Long> ids){
+
+        boolean  b = propertyService.removeByIds(ids);
+
+
+        return Result.judge(b);
+    }
+
+    @ApiOperation("产品属性搜索")
+    @PostMapping("/crm/property/search")
+    public Result<List<PropertyDto>> search1(@RequestBody PropertysearchDto propertysearchDto){
+        List<PropertyDto> productListDtoPage= propertyService.searchList1(propertysearchDto);
+//        Long count = Long.valueOf(productService.countList(productsearchDto));
+        return Result.success(productListDtoPage);
     }
 
 }
