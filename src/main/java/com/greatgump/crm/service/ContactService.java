@@ -16,6 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface ContactService extends IService<Contact> {
     Page<ContactDto> queryAllContact(Page page);
     ContactDto queryContactById(Integer id);
+
     Page<ContactDto>  queryContactDynamic(String keywords,Page page);
     int updateContact(Contact contact);
     int saveContact(Contact contact);

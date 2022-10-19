@@ -19,8 +19,10 @@ import org.apache.ibatis.annotations.Param;
 public interface ContactMapper extends BaseMapper<Contact> {
     Page<ContactDto> queryAllContact(Page page);
     int saveContact(Contact contact);
-
+    int updateIsDefaultByCid(Long cid);
+    int updateCustomerById(Contact contact);
     int updateContact(Contact contact);
+    int deleteById(Integer id);
     Page<ContactDto>  queryContactDynamic(String keywords,Page page);
     ContactDto queryContactById(Integer id);
     Contact queryDefByCustomerIdContact(Integer cid);

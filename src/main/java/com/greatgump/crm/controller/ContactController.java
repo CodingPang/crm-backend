@@ -1,6 +1,7 @@
 package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.ContactDto;
 import com.greatgump.crm.entity.Contact;
 import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.service.ContactService;
@@ -31,9 +32,9 @@ public class ContactController {
     @ApiOperation("获取所有联系人")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/contacts/{current}/{size}")
-    public Result<List<Contact>> getAllContact(@PathVariable("current") int current, @PathVariable("size") int size){
-        Page<Contact> contactPage = new Page(current,size);
-        Page<Contact> pageInfo = contactService.queryAllContact(contactPage);
+    public Result<List<ContactDto>> getAllContact(@PathVariable("current") int current, @PathVariable("size") int size){
+        Page<ContactDto> contactPage = new Page(current,size);
+        Page<ContactDto> pageInfo = contactService.queryAllContact(contactPage);
 
         return Result.success(pageInfo.getRecords(),pageInfo.getTotal());
     }
