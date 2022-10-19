@@ -1,5 +1,7 @@
 package com.greatgump.crm.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.ContractDto;
 import com.greatgump.crm.entity.Contract;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ContractService extends IService<Contract> {
 
+    Page<ContractDto> listIneed(Page<ContractDto> offerListDtoPage);
 }

@@ -1,22 +1,30 @@
 package com.greatgump.crm.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.ContactNameDto;
+import com.greatgump.crm.dto.ContractDto;
 import com.greatgump.crm.dto.LuoDto2;
 import com.greatgump.crm.entity.Contract;
 import com.greatgump.crm.service.ContractService;
 import com.greatgump.crm.service.CustomerService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>
@@ -34,11 +42,18 @@ public class ContractController {
     @Autowired
     private CustomerService customerService;
 
-    @ApiOperation("展示表格")
-    @GetMapping("/crm/contract/list")
+
     public Result list(){
 //        return R.ok().put("合同管理列表",contractService.list());
         return Result.success(contractService.list(),1L);
+    }
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
+    @ApiOperation("展示表格")
+    @GetMapping("/crm/contract/list/{current}/{size}")
+    public Result<List<ContractDto>> list1(@PathVariable("current")int current,@PathVariable("size")int size){
+       Page<ContractDto> offerListDtoPage = new Page<>(current,size);
+        Page<ContractDto> offerListDtoPage1 = contractService.listIneed(offerListDtoPage);
+        return Result.success(offerListDtoPage1.getRecords(),offerListDtoPage1.getTotal());
     }
 
 
@@ -75,24 +90,45 @@ public class ContractController {
 
     @ApiOperation("联系人的下拉框，需提供客户id")
     @GetMapping("/crm/contract/phone")
-    public Result<List<String>> listPhone(){
-        return Result.success(customerService.queryPhone());
+    public Result<List<ContactNameDto>> listPhone(Long id){
+        return Result.success(customerService.queryPhone(id));
     }
 
 
+//    @ApiOperation("上传测试dataform请求传文件")
+//    @RequestMapping("/crm/contract/upload")
+//    public void upload(HttpServletRequest request) throws IOException{
+////        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
+////        MultipartFile multipartFile = multipartHttpServletRequest.getFile("file");
+////        String path = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
+////        String filename = multipartFile.getOriginalFilename();
+////        InputStream inputStream = multipartFile.getInputStream();
+////        byte[] b =new byte[1048576];
+////        int length = inputStream.read(b);
+////        path +="//"+filename;
+////        FileOutputStream outputStream = new FileOutputStream(path);
+////        outputStream.write(b,0,length);
+////        inputStream.close();
+////        outputStream.close();
+//    }
 
-    public void upload(HttpServletRequest request) throws IOException{
-        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
-        MultipartFile multipartFile = multipartHttpServletRequest.getFile("file");
-        String path = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
-        String filename = multipartFile.getOriginalFilename();
-        InputStream inputStream = multipartFile.getInputStream();
-        byte[] b =new byte[1048576];
-        int length = inputStream.read(b);
-        path +="//"+filename;
-        FileOutputStream outputStream = new FileOutputStream(path);
-        outputStream.write(b,0,length);
-        inputStream.close();
-        outputStream.close();
+    @ApiOperation("上传测试dataform请求传文件")
+    @PostMapping("/crm/contract/upload")
+    public String upload01( @RequestParam(value="file",required=false)MultipartFile file, HttpServletRequest request) throws IOException {
+        //1.得到本地服务目录的地址
+        String path = request.getSession().getServletContext().getRealPath("upload");
+        System.out.println(path);
+        //2.判断该目录是否存在
+        File file1 = new File(path);
+        if (!file1.exists()) {
+            file1.mkdirs();
+        }
+        //3.把myfile保存到本地文件夹中
+        //随机一个文件名字
+        String filename=file.getOriginalFilename();
+        File target=new File(path+"/"+filename);
+        //把file转到目标目录下
+        file.transferTo(target);
+        return "";
     }
 }

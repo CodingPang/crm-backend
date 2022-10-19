@@ -7,19 +7,62 @@
         <id column="id" property="id" />
         <result column="odd_num" property="oddNum" />
         <result column="creation_date" property="creationDate" />
-        <result column="customer" property="customer" />
+       <!-- <result column="customer" property="customer" />
         <result column="saler" property="saler" />
         <result column="contacts" property="contacts" />
-        <result column="price" property="price" />
+        <result column="price" property="price" />-->
         <result column="discount_tate" property="discountTate" />
         <result column="offer" property="offer" />
         <result column="remake" property="remake" />
         <result column="is_delete" property="isDelete" />
     </resultMap>
 
+    <resultMap id="offerList" type="com.greatgump.crm.dto.OfferListDto">
+        <id column="id" property="id"></id>
+        <result column="odd_num" property="oddNum"></result>
+        <result column="creation_date" property="creationDate"></result>
+        <result column="customer_name" property="customerName"></result>
+        <result column="username" property="salerName"></result>
+        <result column="contact_name" property="contactsName"></result>
+        <result column="price" property="pricetotal"></result>
+        <result column="discount_tate" property="discountTate"></result>
+        <result column="offer" property="offer"></result>
+        <result column="customer_id" property="customerId"></result>
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, odd_num, creation_date, customer, saler, contacts, price, discount_tate, offer, remake, is_delete
     </sql>
+    <select id="listIneed" resultMap="offerList">
+        SELECT offer.id,offer.odd_num,offer.creation_date,cus.customer_name,us.username,cont.contact_name,offer.price,offer.discount_tate,offer.offer,offer.customer_id
+        FROM t_offer offer ,t_customer cus,t_user us,t_contact cont
+        WHERE offer.customer_id = cus.id AND offer.saler_id = us.id AND cont.customer_id = cus.id
+    </select>
+    <select id="searchList" resultMap="offerList">
+        SELECT offer.id,offer.odd_num,offer.creation_date,cus.customer_name,us.username,cont.contact_name,offer.price,offer.discount_tate,offer.offer
+        FROM t_offer offer ,t_customer cus,t_user us,t_contact cont
+        WHERE offer.customer_id = cus.id AND offer.saler_id = us.id AND cont.customer_id = cus.id
+        <if test="customerName != null and customerName != ''">
+            AND cus.customer_name = #{customerName}
+        </if>
+        <if test="start != null &amp;end != null ">
+            AND offer.creation_date BETWEEN #{start} AND #{end}
+        </if>
+        <if test="current != null and current != '' &amp; size != null and size != ''">
+            LIMIT ${(current-1) * size},#{size}
+        </if>
+    </select>
+    <select id="countList" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM t_offer offer ,t_customer cus,t_user us,t_contact cont
+        WHERE offer.customer_id = cus.id AND offer.saler_id = us.id AND cont.customer_id = cus.id
+        <if test="customerName != null and customerName != ''">
+            AND cus.customer_name = #{customerName}
+        </if>
+        <if test="start != null &amp;end != null ">
+            AND offer.creation_date BETWEEN #{start} AND #{end}
+        </if>
+    </select>
 
 </mapper>

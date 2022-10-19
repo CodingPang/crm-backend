@@ -1,5 +1,7 @@
 package com.greatgump.crm.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.ContractDto;
 import com.greatgump.crm.entity.Contract;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,4 +17,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ContractMapper extends BaseMapper<Contract> {
 
+    Page<ContractDto> listIneed(Page<ContractDto> offerListDtoPage);
 }

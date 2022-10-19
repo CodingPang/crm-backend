@@ -8,11 +8,11 @@
         <result column="contract_num" property="contractNum" />
         <result column="signing_date" property="signingDate" />
         <result column="contract_name" property="contractName" />
-        <result column="customer_name" property="customerName" />
-        <result column="our_signatory" property="ourSignatory" />
+<!--        <result column="customer_name" property="customerName" />-->
+<!--        <result column="our_signatory" property="ourSignatory" />-->
         <result column="your_signatory" property="yourSignatory" />
         <result column="contract_amount" property="contractAmount" />
-        <result column="saler" property="saler" />
+<!--        <result column="saler" property="saler" />-->
         <result column="contacts" property="contacts" />
         <result column="contrac_url" property="contracUrl" />
         <result column="contacts_phone" property="contactsPhone" />
@@ -22,9 +22,53 @@
         <result column="is_delete" property="isDelete" />
     </resultMap>
 
+    <resultMap id="ContractMap" type="com.greatgump.crm.dto.ContractDto">
+        <id column="id" property="id" />
+        <result column="contract_num" property="contractNum" />
+        <result column="signing_date" property="signingDate" />
+        <result column="contract_name" property="contractName" />
+        <result column="customer_name" property="customerName" />
+        <result column="username" property="ourSignatory" />
+        <result column="your_signatory" property="yourSignatory" />
+        <result column="contract_amount" property="contractAmount" />
+        <result column="saler" property="saler" />
+        <result column="contract_amount" property="contacts" />
+        <result column="contract_url" property="contracUrl" />
+        <result column="contacts_phone" property="contactsPhone" />
+        <result column="pay_method" property="payMethod" />
+        <result column="pay_date" property="payDate" />
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, contract_num, signing_date, contract_name, customer_name, our_signatory, your_signatory, contract_amount, saler, contacts, contrac_url, contacts_phone, pay_method, pay_date, remake, is_delete
     </sql>
+    <select id="listIneed" resultMap="ContractMap">
+        SELECT
+            cta.id,
+            cta.contract_num,
+            cta.signing_date,
+            cta.contract_name,
+            cus.customer_name,
+            us.username,
+            cta.your_signatory,
+            cta.contract_amount,
+            us.username AS saler,
+            tc.contact_name,
+            cta.pay_method,
+            cta.pay_date,
+            cta.contrac_url,
+            cta.contacts_phone
+        FROM
+            t_contract cta,
+            t_customer cus,
+            t_user us,
+            t_contact tc
+        WHERE
+            cta.customer_id = cus.id
+          AND cta.our_signatory_id = us.id
+          AND cta.saler_id = us.id
+          AND cta.contacts = tc.id
+    </select>
 
 </mapper>

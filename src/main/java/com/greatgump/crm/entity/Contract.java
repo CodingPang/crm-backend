@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -46,12 +47,12 @@ public class Contract implements Serializable {
     private String contractName;
 
     @ApiModelProperty("客户名称")
-    @TableField("customer_name")
-    private String customerName;
+    @TableField("customer_id")
+    private Long customerId;
 
     @ApiModelProperty("我方签订人")
-    @TableField("our_signatory")
-    private String ourSignatory;
+    @TableField("our_signatory_id")
+    private Long ourSignatoryId;
 
     @ApiModelProperty("对方签订人")
     @TableField("your_signatory")
@@ -59,11 +60,11 @@ public class Contract implements Serializable {
 
     @ApiModelProperty("合同金额")
     @TableField("contract_amount")
-    private String contractAmount;
+    private BigDecimal contractAmount;
 
     @ApiModelProperty("业务员")
-    @TableField("saler")
-    private String saler;
+    @TableField("saler_id")
+    private Long salerId;
 
     @ApiModelProperty("对方公司联系人")
     @TableField("contacts")
