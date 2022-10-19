@@ -85,4 +85,5 @@ public class Customer implements Serializable {
     @TableField(exist = false)
     private Contact contact;
 
+
 }

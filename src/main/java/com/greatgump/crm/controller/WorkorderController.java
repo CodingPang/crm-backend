@@ -35,124 +35,91 @@ public class WorkorderController {
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current", value = "当前页数", required = true), @ApiImplicitParam(name = "size", value = "每页的条数", required = true)})
     @GetMapping("/workorder/{current}/{size}")
     public Result<List<WorkorderDto>> getAllWorkorder(@PathVariable("current") int current, @PathVariable("size") int size) {
-        Page<Workorder> workorderPage = new Page<>(current, size);
-        Page<Workorder> pageInfo = workorderService.queryAllWorkorder(workorderPage);
-        WorkorderDto workorderDto = new WorkorderDto(23333, "工单标题1", new Date(System.currentTimeMillis()), "张三三", "李四四", 0, 0);
-        WorkorderDto workorderDto01 = new WorkorderDto(231453, "工单标题2", new Date(System.currentTimeMillis()), "周芷若", "张天", 1, 2);
+//        Page<Workorder> workorderPage = new Page<>(current, size);
+//        Page<Workorder> pageInfo = workorderService.queryAllWorkorder(workorderPage);
+//        return Result.success(workorderPage.getRecords(),
+//                pageInfo.getTotal());
+        WorkorderDto workorderDto = new WorkorderDto();
+        workorderDto.setRepairOrderTitle("工单标题1");
+        workorderDto.setHandler("sdd");
+        workorderDto.setInitiator("ww");
+        workorderDto.setEmergencyDegree(1);
+        workorderDto.setWorkOrderNumber(45444);
+        workorderDto.setWorkOrderStatus(0);
+
+        WorkorderDto workorderDto1 = new WorkorderDto();
+        workorderDto1.setRepairOrderTitle("工单标题2");
+        workorderDto1.setHandler("sd1");
+        workorderDto1.setInitiator("ssa");
+        workorderDto1.setEmergencyDegree(1);
+        workorderDto1.setWorkOrderNumber(455544);
+        workorderDto1.setWorkOrderStatus(1);
         List<WorkorderDto> list = new ArrayList<>();
         list.add(workorderDto);
-        list.add(workorderDto01);
-        return Result.success(list);
+        list.add(workorderDto1);
+        return Result.success(list,4L);
     }
 
-    @ApiOperation("预新增工单信息")
+    @ApiOperation("我发起的工单")
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current", value = "当前页数", required = true), @ApiImplicitParam(name = "size", value = "每页的条数", required = true)})
+    @GetMapping("/workorder/{uid}/{current}/{size}")
+    public Result<List<Workorder>> getWorkorderByUid(@PathVariable("uid") int uid,@PathVariable("current") int current, @PathVariable("size") int size) {
+        Page<Workorder> workorderPage = new Page<>(current, size);
+        Page<Workorder> pageInfo = workorderService.getWorkorderByUid(uid,workorderPage);
+        return Result.success(workorderPage.getRecords(),
+                pageInfo.getTotal());
+    }
+
+
+    @ApiOperation("新增工单信息")
     @PostMapping("/preorder")
-    public Result<Map<String,Object>> preorder() {
-        //封装关联客户列表
-        Customer customer01 = new Customer();
-        customer01.setId(1L);
-        customer01.setCustomerName("上海大华科技有限公司");
-
-        Customer customer02 = new Customer();
-        customer02.setId(2L);
-        customer02.setCustomerName("苏州智慧科技有限公司");
-
-        List<Customer> customers = new ArrayList<>();
-        customers.add(customer01);
-        customers.add(customer02);
-        //封装关联订单列表
-        OrderDto orderDto01 = new OrderDto(1L,"订单标题一");
-        OrderDto orderDto02 = new OrderDto(2L,"订单标题二");
-        List<OrderDto> orderDtos = new ArrayList<>();
-        orderDtos.add(orderDto01);
-        orderDtos.add(orderDto02);
-        //紧急状态封装
-        WorkorderDto workorderDto01 = new WorkorderDto();
-        workorderDto01.setEmergencyDegree(0);
-        WorkorderDto workorderDto02 = new WorkorderDto();
-        workorderDto02.setEmergencyDegree(1);
-        List<WorkorderDto> workorderDtos = new ArrayList<>();
-        workorderDtos.add(workorderDto01);
-        workorderDtos.add(workorderDto02);
-
-        Map<String,Object> map = new HashMap<>();
-        map.put("order",customers);
-        map.put("order1",orderDtos);
-        map.put("order2",workorderDtos);
-
-        return Result.success(map,2l);
+    public Result addWorkorder(WorkorderDto2 workorderDto2){
+         boolean flag = workorderService.addWorkorder(workorderDto2);
+        return Result.success(flag);
 
 
     }
 
-    //    @ApiOperation("新建工单")
-//    @PutMapping("/addWorkorder")
-//    public Result addWorkorder(@RequestBody WorkorderDto2 workorderDto2){
-//        int i = workorderService.addWororder(workorderDto2);
-//         return Result.success();}
     @ApiOperation("根据条件查询工单")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current", value = "当前页数", required = true), @ApiImplicitParam(name = "size", value = "每页的条数", required = true)})
     @GetMapping("/queryByWorkorder/{current}/{size}")
-    public Result<List<WorkorderDto>> queryByWorkorder(@PathVariable("current") int current, @PathVariable("size") int size, String repairOrderTitle, Integer workOrderStatus, Integer emergencyDegree) {
+    public Result<List<Workorder>> queryByWorkorder(@PathVariable("current") int current, @PathVariable("size") int size, String repairOrderTitle, Integer workOrderStatus, Integer emergencyDegree) {
         Page<Workorder> workorderPage = new Page<>(current, size);
         Page<Workorder> pageInfo = workorderService.queryByWorkorder(workorderPage, repairOrderTitle, workOrderStatus, emergencyDegree);
-        WorkorderDto workorderDto = new WorkorderDto();
-        workorderDto.setEmergencyDegree(0);
-        workorderDto.setHandler("张顺飞");
-        workorderDto.setInitiator("张三");
-        workorderDto.setEmergencyDegree(0);
-        List<WorkorderDto> list = new ArrayList<>();
-        list.add(workorderDto);
-        return Result.success(list);
+        return Result.success(workorderPage.getRecords(),pageInfo.getTotal());
     }
 
     @ApiOperation("根据id删除工单")
     @DeleteMapping("/deleteOrder/{id}")
     public Result deleteOrder(@PathVariable("id") Integer id) {
-        boolean b =   workorderService.removeById(id);
-        return Result.success();
+        boolean flag =   workorderService.deleteOrder(id);
+        return Result.judge(flag);
     }
         @ApiOperation("工单信息批量删除")
         @DeleteMapping("/deletes")
         public Result deletes(@RequestBody List<Workorder> workorders){
+              boolean b  = false;
             for (Workorder workorder : workorders) {
 
-             boolean b =  workorderService.removeById(workorder.getId());
+                 b =  workorderService.deletes(workorders);
 
             }
-           return  Result.success();
+           return  Result.judge(b);
 
 
     }
     @ApiOperation("工单详情")
     @GetMapping("/queryorder/{id}")
-    public Result<WorkorderUpdateDto> queryorderByid(@PathVariable("id")Long id){
+    public Result<List<Workorder>> queryorderByid(@PathVariable("id")Long id){
 
-       Workorder workorder = new Workorder();
-        workorder.setId(1L);
-        workorder.setWorkOrderNumber(95412);
-        workorder.setCustomerName("上海大华科技有限公司");
-        workorder.setHandler("张三");
-        workorder.setLinkman("应南飞");
-
-        WorkorderUpdateDto workOderDetailsDto = new WorkorderUpdateDto();
-        workOderDetailsDto.setWorkorder(workorder);
-
-        return Result.success(workOderDetailsDto);
+        return Result.success();
 
 
     }
     @ApiOperation("分配工单")
     @PutMapping("/updateHandler")
-    public Result<WorkorderUpdateDto>  updateHandler(Workorder workorder){
-        boolean flag = workorderService.updateByhandler(workorder);
-//        Workorder workorder1 = new Workorder();
-//        workorder1.setHandler("李四");
-//        Workorder workorder2 = new Workorder();
-//        workorder2.setHandler("王五");
-//        WorkorderUpdateDto workorderUpdateDto = new WorkorderUpdateDto();
-//        workorderUpdateDto.setWorkorder(workorder1);
-//        workorderUpdateDto.setWorkorder(workorder2);
+    public Result<Workorder>  updateHandler(String handler){
+        boolean flag = workorderService.updateByhandler(handler);
         return  Result.judge(flag);
     }
 }

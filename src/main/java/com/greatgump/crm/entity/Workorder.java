@@ -46,32 +46,32 @@ public class Workorder implements Serializable {
     private Date startTime;
 
     @ApiModelProperty("发起人")
-    @TableField("initiator")
-    private String initiator;
+    @TableField("initiator_id")
+    private User initiatorId;
 
     @ApiModelProperty("处理人")
-    @TableField("handler")
-    private String handler;
+    @TableField("handler_id")
+    private User handlerId;
 
     @ApiModelProperty("工单状态(0:待处理，1：处理中，2：已完结)")
-    @TableField("work_order_status")
-    private Integer workOrderStatus;
+    @TableField("status_id")
+    private Integer statusId;
 
     @ApiModelProperty("紧急程度")
-    @TableField("emergency_degree")
-        private Integer emergencyDegree;
+    @TableField("degree_id")
+    private Integer degreeId;
 
     @ApiModelProperty("关联客户")
     @TableField("customer_name")
-    private String customerName;
+    private Customer customerName;
 
     @ApiModelProperty("工单内容")
     @TableField("work_order_details")
     private String workOrderDetails;
 
     @ApiModelProperty("联系人")
-    @TableField("linkman")
-    private String linkman;
+    @TableField("linkman_id")
+    private Contact linkmanId;
 
     @ApiModelProperty("备注")
     @TableField("remark")
@@ -85,4 +85,7 @@ public class Workorder implements Serializable {
     @TableField("accessory")
     private String accessory;
 
-}
+
+
+    }
+

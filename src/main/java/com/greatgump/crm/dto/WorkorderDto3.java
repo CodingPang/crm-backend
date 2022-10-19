@@ -3,7 +3,9 @@ package com.greatgump.crm.dto;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.greatgump.crm.entity.Workorder;
+import com.greatgump.crm.entity.Contact;
+import com.greatgump.crm.entity.Customer;
+import com.greatgump.crm.entity.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class WorkorderUpdateDto {
+public class WorkorderDto3 {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("主键，自动递增，非空")
@@ -34,23 +36,20 @@ public class WorkorderUpdateDto {
 
     @ApiModelProperty("发起人")
     @TableField("initiator")
-    private String initiator;
+    private User initiator;
 
     @ApiModelProperty("处理人")
     @TableField("handler")
-    private String handler;
+    private User handler;
 
     @ApiModelProperty("工单状态(0:待处理，1：处理中，2：已完结)")
     @TableField("work_order_status")
     private Integer workOrderStatus;
 
-    @ApiModelProperty("紧急程度")
-    @TableField("emergency_degree")
-    private Integer emergencyDegree;
 
     @ApiModelProperty("关联客户")
     @TableField("customer_name")
-    private String customerName;
+    private Customer customerName;
 
     @ApiModelProperty("工单内容")
     @TableField("work_order_details")
@@ -58,7 +57,7 @@ public class WorkorderUpdateDto {
 
     @ApiModelProperty("联系人")
     @TableField("linkman")
-    private String linkman;
+    private Contact linkman;
 
     @ApiModelProperty("备注")
     @TableField("remark")
@@ -68,12 +67,7 @@ public class WorkorderUpdateDto {
     @TableField("is_delete")
     private String isDelete;
 
-    @ApiModelProperty("删除（0未删，1删除")
-    @TableField("workorder")
-    private Workorder workorder;
-
     @ApiModelProperty("附件")
     @TableField("accessory")
     private String accessory;
-
 }
