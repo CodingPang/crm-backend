@@ -26,13 +26,17 @@
         WHERE id=#{id};
  </update>
 
-    <delete id="deleteTravel"> </delete>
-    <delete id="deletebatch"> </delete>
+    <delete id="deleteTravel">
+        DELETE FROM t_travel
+        WHERE id=#{id}
+
+ </delete>
+
 
 
 
     <select id="queryAllTravels" resultMap="BaseResultMap">
-        SELECT tt.applicant,tt.cause,tt.start_time,tt.end_time,tt.travel_days,tt.approval_status
+        SELECT  tt.id,tt.applicant,tt.cause,tt.start_time,tt.end_time,tt.travel_days,tt.approval_status
         FROM t_travel tt
     </select>
 

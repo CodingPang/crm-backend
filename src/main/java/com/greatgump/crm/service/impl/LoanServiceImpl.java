@@ -1,16 +1,15 @@
 package com.greatgump.crm.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.AddedLoanDto;
-import com.greatgump.crm.dto.DetailDto;
-import com.greatgump.crm.dto.EditDto;
-import com.greatgump.crm.dto.LoanDto;
+import com.greatgump.crm.dto.*;
 import com.greatgump.crm.entity.Loan;
 import com.greatgump.crm.mapper.LoanMapper;
 import com.greatgump.crm.service.LoanService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -48,6 +47,12 @@ public class LoanServiceImpl extends ServiceImpl<LoanMapper, Loan> implements Lo
     }
 
     @Override
+    public List<LoanDto> queryLoanDynamic(LoanDynamicDto loanDynamicDto) {
+
+        return loanMapper.queryLoanDynamic(loanDynamicDto);
+    }
+
+    @Override
     public int updateLoan(AddedLoanDto addedLoanDto) {
         return loanMapper.updateLoan(addedLoanDto);
     }
@@ -58,11 +63,7 @@ public class LoanServiceImpl extends ServiceImpl<LoanMapper, Loan> implements Lo
         return b;
     }
 
-    @Override
-    public boolean deletebatch(LoanDto loanDto) {
-        boolean b1 = loanMapper.deletebatch(loanDto);
-        return b1;
-    }
+
 
 
 }

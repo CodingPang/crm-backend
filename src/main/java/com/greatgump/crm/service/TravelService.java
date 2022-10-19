@@ -27,6 +27,6 @@ public interface TravelService extends IService<Travel> {
 
     boolean deleteTravel(Integer id);
 
-    boolean deletebatch(TravelDto travelDto);
+
 
 }

@@ -1,16 +1,14 @@
 package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.AddedLoanDto;
-import com.greatgump.crm.dto.DetailDto;
-import com.greatgump.crm.dto.EditDto;
-import com.greatgump.crm.dto.LoanDto;
+import com.greatgump.crm.dto.*;
 import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.entity.Loan;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.rmi.server.UID;
+import java.util.List;
 
 /**
  * <p>
@@ -32,8 +30,10 @@ public interface LoanMapper extends BaseMapper<Loan> {
 
       int updateLoan(AddedLoanDto addedLoanDto);
 
+      List<LoanDto> queryLoanDynamic(LoanDynamicDto loanDynamicDto);
+
       boolean deleteLoan(Integer id);
 
-      boolean deletebatch(LoanDto loanDto);
+
 
 }

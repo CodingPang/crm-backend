@@ -87,11 +87,13 @@ public class TravelController {
     }
     @ApiOperation("出差页面批量删除")
     @DeleteMapping("/deletebatch")
-    public Result deletebatch(@RequestBody List<TravelDto> travelDtos){
+    public Result deletebatch(@RequestBody List<Long> ids){
         boolean b =false;
-        for (TravelDto travelDto : travelDtos) {
-            b = travelService.removeById(travelDto.getId());
+        for (Long id : ids) {
+            b = travelService.removeById(id);
         }
+
+
 
         return Result.judge(b);
     }

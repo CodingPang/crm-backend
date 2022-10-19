@@ -59,9 +59,4 @@ public class TravelServiceImpl extends ServiceImpl<TravelMapper, Travel> impleme
         return b;
     }
 
-    @Override
-    public boolean deletebatch(TravelDto travelDto) {
-        boolean b1 = travelMapper.deletebatch(travelDto);
-        return b1;
-    }
 }

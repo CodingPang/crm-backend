@@ -29,7 +29,5 @@ public interface TravelMapper extends BaseMapper<Travel> {
 
     boolean deleteTravel(Integer id);
 
-    boolean deletebatch(TravelDto travelDto);
-
 
 }

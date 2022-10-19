@@ -79,6 +79,7 @@ public class LoanController {
           return Result.failed();
       }
 
+
    }
     @ApiOperation("借款页面关键词查询")
     @PostMapping("/queryAllkeys")
@@ -107,11 +108,14 @@ public class LoanController {
   }
   @ApiOperation("借款页面批量删除")
   @DeleteMapping("/deletebatch")
-  public Result deletebatch(@RequestBody List<LoanDto> loanDtos){
+  public Result deletebatch(@RequestBody List<Long> ids){
            boolean b =false;
-        for (LoanDto loanDto : loanDtos) {
-           b = loanService.removeById(loanDto.getId());
-        }
+      for (Long id : ids) {
+
+          b = loanService.removeById(id);
+      }
+
+
 
         return Result.judge(b);
   }
