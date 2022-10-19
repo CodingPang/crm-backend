@@ -20,4 +20,10 @@
         id, customer, person, follow_method, follow_people, followdate, follow_context, remake, is_delete
     </sql>
 
+
+
+
+
+
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.ClueReceiveDto;
 import com.greatgump.crm.entity.Clue;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.greatgump.crm.entity.Customer;
@@ -16,8 +17,11 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ClueMapper extends BaseMapper<Clue> {
-    Page<Customer> queryAllCustomer(Page page);
-    Page<Customer> queryAllSeas(Page page);
-    Page<Customer> queryCustomerByUid(Integer uid,Page page);
+    boolean saveClue(ClueReceiveDto clueReceiveDto);
+
+    boolean update( ClueReceiveDto clueReceiveDto);
+
+    Page<ClueReceiveDto> quryallClue(Page page);
+
 
 }

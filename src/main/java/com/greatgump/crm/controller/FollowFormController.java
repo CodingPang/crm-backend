@@ -32,7 +32,7 @@ public class FollowFormController {
     @ApiOperation("获取所有的跟进管理信息")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/queryAllFollowForms/{current}/{size}")
-    public Result<Map<String,Object>> queryAllLoans(@PathVariable("current") Integer current, @PathVariable("size") Integer size){
+    public Result<FollowFormDto> queryAllLoans(@PathVariable("current") Integer current, @PathVariable("size") Integer size){
         FollowFormDto followFormDto = new FollowFormDto();
 
         // 1、所有联系人
@@ -62,15 +62,15 @@ public class FollowFormController {
 
 
         // 加入list
-
-        Map<String,Object> map = new HashMap<>();
-        map.put("followForm",followFormList);
-        return Result.success(map,4L);
+//
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("followForm",followFormList);
+        return Result.success(followFormDto);
     }
 
     @ApiOperation("获取详情")
     @GetMapping("/queryAllManagement/{id}")
-    public Result<Map<String,Object>> queryAllLoans(@PathVariable("id")Long id) {
+    public Result<FollowFormDto> queryAllLoans(@PathVariable("id")Long id) {
         ManagementDot managementDot = new ManagementDot();
         managementDot.setCustomerName("与客户沟通报价事宜");
         managementDot.setFollowTime(new Date());
@@ -83,9 +83,9 @@ public class FollowFormController {
         managementDot.setCreationTime(new Date());
 
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("management",managementDot);
-        return Result.success(map);
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("management",managementDot);
+        return Result.success(new FollowFormDto());
     }
 
     @ApiOperation("跟进记录下拉框")

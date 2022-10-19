@@ -30,4 +30,6 @@
         id, contactss, e_mail, phone, qq, dept_id, wechat, customer_needs, status, follow_type, follow_source, user_id, customer_id, current_time, business_name, business_stage, estimated_income, remark, is_delete
     </sql>
 
+
+
 </mapper>

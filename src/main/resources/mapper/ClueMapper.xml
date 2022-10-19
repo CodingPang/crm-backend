@@ -16,6 +16,8 @@
         <result column="is_delete" property="isDelete" />
 
 
+
+
         <association property="username" javaType="com.greatgump.crm.entity.Scale">
             <id column="wpsid" property="id"></id>
             <result column="scope" property="scope"></result>
@@ -47,5 +49,30 @@
     <sql id="Base_Column_List">
         id, username, needs, personnel, contacts, phone, last_follow, not_follow_days, clue_status, remark, is_delete
     </sql>
+
+                        <!--    添加-->
+    <insert id="saveClue">
+        insert into t_follow_form(customer_name,user_id,source_id,status,customer_needs,contactss,e_mail,phone,qq,dept_id,wechat)
+        values (#{username},#{userId},#{sourceId},#{status},#{customerNeeds},#{contacts},#{eMail},#{phone},#{qq},#{deptId},#{wechat})
+    </insert>
+
+
+    <!--      查询-->
+    <select id="quryallClue" resultType="com.greatgump.crm.dto.ClueReceiveDto">
+        SELECT * FROM t_follow_form
+
+
+
+    </select>
+
+                        <!--       编辑-->
+    <update id="update">
+        update t_follow_form set customer_name =#{username},user_id =#{userId},source_id=#{sourceId},status=#{status},customer_needs=#{customerNeeds},contactss=#{contacts},e_mail=#{eMail},phone=#{phone},qq=#{qq},dept_id=#{deptId},wechat=#{wechat} where id=#{id}
+
+    </update>
+
+
+
+
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.greatgump.crm.mapper;
 
+import com.greatgump.crm.dto.ClueReceiveDto;
 import com.greatgump.crm.entity.Follow;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,5 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface FollowMapper extends BaseMapper<Follow> {
+
+
 
 }
