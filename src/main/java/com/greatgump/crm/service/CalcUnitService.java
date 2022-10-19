@@ -1,9 +1,7 @@
 package com.greatgump.crm.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.AddCalcUnitDto;
-import com.greatgump.crm.dto.productlibrary.CalcUnitDto;
-import com.greatgump.crm.dto.productlibrary.QueryCalcUnitDto;
+import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.entity.CalcUnit;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -21,5 +19,7 @@ public interface CalcUnitService extends IService<CalcUnit> {
     int insertCalcUnit(AddCalcUnitDto addCalcUnitDto);
 
     QueryCalcUnitDto queryBid(Integer id);
+
+    int updateCalcUnit(UpdeCalcUnitDto updeCalcUnitDto);
 
 }

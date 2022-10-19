@@ -44,7 +44,7 @@ values (#{productCode},#{productName},#{assortName},#{unitName},#{propertyName})
     </resultMap>
     <update id="updateProduct">
         UPDATE t_product
-        SET product_code=#{productCode},product_name=#{productName},classificationid=#{assort},unitid=#{calcUnit},porperty_id=#{property}
+        SET product_code=#{productCode},product_name=#{productName},classificationid=#{classificationid},unitid=#{unitid},porperty_id=#{propertyId}
         WHERE id=#{id}
     </update>
 

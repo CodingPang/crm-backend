@@ -1,9 +1,7 @@
 package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.AddPropertyDto;
-import com.greatgump.crm.dto.productlibrary.PropertyDto;
-import com.greatgump.crm.dto.productlibrary.QueryPropertyDto;
+import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.service.PropertyService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
@@ -74,19 +72,32 @@ public class PropertyController {
     }
 
     @ApiOperation("产品属性编辑")
-    @PutMapping("/update/{id}")
-    public Result<PropertyDto> update(@PathVariable("id")Long id){
+    @PutMapping("/updateProperty")
+    public Result<UpdePropertyDto> updateProperty(@RequestBody UpdePropertyDto updePropertyDto){
 
-        String propertyName = "颜色";
-        String propertyValue ="红,白,黑,蓝,黄";
-        PropertyDto propertyDto =new PropertyDto();
-        propertyDto.setPropertyName(propertyName);
-        propertyDto.setPropertyValue(propertyValue);
+        int updateProperty = propertyService.updateProperty(updePropertyDto);
 
-        return Result.success(propertyDto);
-
-
+        if (updateProperty>0){
+            return Result.success();
+        }else{
+            return Result.failed();
+        }
     }
+
+//    @ApiOperation("产品属性编辑")
+//    @PutMapping("/update/{id}")
+//    public Result<PropertyDto> update(@PathVariable("id")Long id){
+//
+//        String propertyName = "颜色";
+//        String propertyValue ="红,白,黑,蓝,黄";
+//        PropertyDto propertyDto =new PropertyDto();
+//        propertyDto.setPropertyName(propertyName);
+//        propertyDto.setPropertyValue(propertyValue);
+//
+//        return Result.success(propertyDto);
+//
+//
+//    }
 
     @ApiOperation("产品属性信息删除")
     @DeleteMapping("/delete/{id}")

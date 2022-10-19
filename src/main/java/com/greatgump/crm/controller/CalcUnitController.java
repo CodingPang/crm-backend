@@ -1,9 +1,7 @@
 package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.AddCalcUnitDto;
-import com.greatgump.crm.dto.productlibrary.CalcUnitDto;
-import com.greatgump.crm.dto.productlibrary.QueryCalcUnitDto;
+import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.service.CalcUnitService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
@@ -72,18 +70,31 @@ public class CalcUnitController {
     }
 
     @ApiOperation("计量单位编辑")
-    @PutMapping("/update/{id}")
-    public Result<CalcUnitDto> update(@PathVariable("id")Long id){
+    @PutMapping("/updateAssort")
+    public Result<UpdeCalcUnitDto> updateCalcUnit(@RequestBody UpdeCalcUnitDto updeCalcUnitDto){
 
-        String unitName = "件";
+        int updateCalcUnit = calcUnitService.updateCalcUnit(updeCalcUnitDto);
 
-        CalcUnitDto calcUnitDto =new CalcUnitDto();
-        calcUnitDto.setUnitName(unitName);
-
-        return Result.success(calcUnitDto);
-
-
+        if (updateCalcUnit>0){
+            return Result.success();
+        }else{
+            return Result.failed();
+        }
     }
+
+//    @ApiOperation("计量单位编辑")
+//    @PutMapping("/update/{id}")
+//    public Result<CalcUnitDto> update(@PathVariable("id")Long id){
+//
+//        String unitName = "件";
+//
+//        CalcUnitDto calcUnitDto =new CalcUnitDto();
+//        calcUnitDto.setUnitName(unitName);
+//
+//        return Result.success(calcUnitDto);
+//
+//
+//    }
 
 
     @ApiOperation("计量单位信息删除")

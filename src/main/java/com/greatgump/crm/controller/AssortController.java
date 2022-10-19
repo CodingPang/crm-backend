@@ -1,9 +1,7 @@
 package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.AddAssortDto;
-import com.greatgump.crm.dto.productlibrary.AssortDto;
-import com.greatgump.crm.dto.productlibrary.QueryAssortDto;
+import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.service.AssortService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
@@ -73,8 +71,21 @@ public class  AssortController {
     }
 
     @ApiOperation("产品分类编辑")
-    @PutMapping("/update/{id}")
-    public Result<AssortDto> update(@PathVariable("id")Long id){
+    @PutMapping("/updateAssort")
+    public Result<UpdeAssortDto> updateAssort(@RequestBody UpdeAssortDto updeAssortDto){
+
+        int updateAssort = assortService.updateAssort(updeAssortDto);
+
+        if (updateAssort>0){
+            return Result.success();
+        }else{
+            return Result.failed();
+        }
+    }
+
+//    @ApiOperation("产品分类编辑")
+//    @PutMapping("/update/{id}")
+//    public Result<AssortDto> update(@PathVariable("id")Long id){
 
 //        Assort assort = new Assort();
 //        assort.setId(1L);
@@ -84,10 +95,10 @@ public class  AssortController {
 //        assortDto.setAssort(assort);
 
 //        return Result.success(assortDto);
-        return null;
-
-
-    }
+//        return null;
+//
+//
+//    }
 
 
     @ApiOperation("产品分类信息删除")

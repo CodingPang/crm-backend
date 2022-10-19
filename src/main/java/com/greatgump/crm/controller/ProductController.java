@@ -135,12 +135,6 @@ public Result<List<ProductDto>> queryAllProducts(@PathVariable("page") Integer c
         }
     }
 
-    @ApiOperation("产品编辑....")
-    @PutMapping("/update/{id}")
-    public Result<ProductDto> update(@PathVariable("id")Long id){
-
-
-
 //    String productCode = "CP-0003";
 //    String productName = "男士卫衣";
 //
@@ -164,10 +158,6 @@ public Result<List<ProductDto>> queryAllProducts(@PathVariable("page") Integer c
 //    productDto.setProperty(property);
 
 //    return Result.success(productDto);
-        return null;
-
-
-    }
 
     @ApiOperation("产品信息删除")
     @DeleteMapping("/delete/{id}")

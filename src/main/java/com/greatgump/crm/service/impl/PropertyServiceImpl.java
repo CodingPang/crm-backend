@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.productlibrary.AddPropertyDto;
 import com.greatgump.crm.dto.productlibrary.PropertyDto;
 import com.greatgump.crm.dto.productlibrary.QueryPropertyDto;
+import com.greatgump.crm.dto.productlibrary.UpdePropertyDto;
 import com.greatgump.crm.entity.Property;
 import com.greatgump.crm.mapper.PropertyMapper;
 import com.greatgump.crm.service.PropertyService;
@@ -39,5 +40,10 @@ public class PropertyServiceImpl extends ServiceImpl<PropertyMapper, Property> i
     @Override
     public QueryPropertyDto queryBid(Integer id) {
         return propertyMapper.queryBid(id);
+    }
+
+    @Override
+    public int updateProperty(UpdePropertyDto updePropertyDto) {
+        return propertyMapper.updateProperty(updePropertyDto);
     }
 }

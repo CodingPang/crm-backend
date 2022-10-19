@@ -27,12 +27,12 @@ public class UpdeProductDto {
     private String productName;
 
     @ApiModelProperty("产品分类")
-    private Integer assort;
+    private Integer classificationid;
 
     @ApiModelProperty("单位名称")
-    private Integer calcUnit;
+    private Integer unitid;
 
     @ApiModelProperty("属性名称")
-    private Integer property;
+    private Integer propertyId;
 
 }

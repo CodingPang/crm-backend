@@ -17,6 +17,11 @@
         insert into t_assort(assort_name)
         values (#{assortName})
     </insert>
+    <update id="updateAssort">
+        UPDATE t_assort
+        SET assort_name=#{assortName}
+        WHERE id=#{id}
+    </update>
     <select id="queryAllAssorts" resultMap="BaseResultMap">
         SELECT t.assort_name
         FROM t_assort t

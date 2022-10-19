@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.productlibrary.AddCalcUnitDto;
 import com.greatgump.crm.dto.productlibrary.CalcUnitDto;
 import com.greatgump.crm.dto.productlibrary.QueryCalcUnitDto;
+import com.greatgump.crm.dto.productlibrary.UpdeCalcUnitDto;
 import com.greatgump.crm.entity.CalcUnit;
 import com.greatgump.crm.mapper.CalcUnitMapper;
 import com.greatgump.crm.service.CalcUnitService;
@@ -39,5 +40,10 @@ public class CalcUnitServiceImpl extends ServiceImpl<CalcUnitMapper, CalcUnit> i
     @Override
     public QueryCalcUnitDto queryBid(Integer id) {
         return calcUnitMapper.queryBid(id);
+    }
+
+    @Override
+    public int updateCalcUnit(UpdeCalcUnitDto updeCalcUnitDto) {
+        return calcUnitMapper.updateClcUnit(updeCalcUnitDto);
     }
 }

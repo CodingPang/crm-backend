@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.productlibrary.AddAssortDto;
 import com.greatgump.crm.dto.productlibrary.AssortDto;
 import com.greatgump.crm.dto.productlibrary.QueryAssortDto;
+import com.greatgump.crm.dto.productlibrary.UpdeAssortDto;
 import com.greatgump.crm.entity.Assort;
 import com.greatgump.crm.mapper.AssortMapper;
 import com.greatgump.crm.service.AssortService;
@@ -38,5 +39,10 @@ public class AssortServiceImpl extends ServiceImpl<AssortMapper, Assort> impleme
     @Override
     public QueryAssortDto queryBid(Integer id) {
         return assortMapper.queryBid(id);
+    }
+
+    @Override
+    public int updateAssort(UpdeAssortDto updeAssortDto) {
+        return assortMapper.updateAssort(updeAssortDto);
     }
 }

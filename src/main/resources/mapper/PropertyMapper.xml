@@ -20,6 +20,11 @@
         insert into t_property(property_name,property_value)
         values (#{propertyName},#{propertyValue})
     </insert>
+    <update id="updateProperty">
+        UPDATE t_property
+        SET property_name=#{propertyName},property_value=#{propertyValue}
+        WHERE id=#{id}
+    </update>
     <select id="queryAllPropertys" resultType="com.greatgump.crm.dto.productlibrary.PropertyDto">
         SELECT t.property_name,t.property_value,t.creation_date
         FROM t_property t
