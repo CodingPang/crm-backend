@@ -7,16 +7,13 @@
         <id column="id" property="id" />
         <result column="customer_id" property="customerId" />
         <result column="bussiness_title" property="bussinessTitle" />
-
-        <result column="bussiness_stage" property="bussinessStage" />
+        <result column="bussiness_origin_id" property="bussinessOrigin" />
+        <result column="bussiness_stage_id" property="bussinessStage" />
         <result column="price_records" property="priceRecords" />
         <result column="last_follow" property="lastFollow" />
         <result column="not_follow_days" property="notFollowDays" />
         <result column="remark" property="remark" />
         <result column="is_delete" property="isDelete" />
-        <association property="bussinessSource" >
-
-        </association>
     </resultMap>
     <resultMap id="queryBusiness" type="com.greatgump.crm.dto.LoanBusinessDto">
         <id column="id" property="id"/>
@@ -24,7 +21,7 @@
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, customer_id, bussiness_title, bussiness_origin, bussiness_stage, price_records, last_follow, not_follow_days, remark, is_delete
+        id, customer_id, bussiness_title, bussiness_origin_id, bussiness_stage_id, price_records, last_follow, not_follow_days, remark, is_delete
     </sql>
     <select id="listBase" resultType="com.greatgump.crm.dto.BusinessDto">
 

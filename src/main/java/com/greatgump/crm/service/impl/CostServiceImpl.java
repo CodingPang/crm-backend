@@ -12,11 +12,16 @@ import com.greatgump.crm.dto.finance.cost.CostTypeDto;
 import com.greatgump.crm.dto.finance.cost.CustomerList;
 import com.greatgump.crm.dto.finance.cost.OrderListDto;
 import com.greatgump.crm.dto.finance.cost.PrincipalDto;
+import com.greatgump.crm.dto.finance.cost.comm.BusinessMiniDto;
 import com.greatgump.crm.dto.finance.cost.comm.CostCommFuzzyQuery;
+import com.greatgump.crm.dto.finance.cost.comm.InputerDto;
+import com.greatgump.crm.dto.finance.cost.comm.OrderMiniDto;
 import com.greatgump.crm.entity.Business;
+import com.greatgump.crm.entity.BusinessOrigin;
 import com.greatgump.crm.entity.Cost;
 import com.greatgump.crm.entity.Order;
 import com.greatgump.crm.mapper.BusinessMapper;
+import com.greatgump.crm.mapper.BusinessOriginMapper;
 import com.greatgump.crm.mapper.CostMapper;
 import com.greatgump.crm.mapper.CustomerMapper;
 import com.greatgump.crm.mapper.OrderMapper;
@@ -54,7 +59,7 @@ public class CostServiceImpl extends ServiceImpl<CostMapper, Cost> implements Co
   private OrderMapper orderMapper;
 
   @Autowired
-  private BusinessMapper businessMapper;
+  private BusinessOriginMapper businessOriginMapper;
 
 
 
@@ -114,7 +119,7 @@ public class CostServiceImpl extends ServiceImpl<CostMapper, Cost> implements Co
     map.put("allOrderListDtos", allOrderListDtos);
 
     // 5、准备商机列表
-    List<BusinessListDto> allBusiness = businessMapper.selectAllBusiness();
+    List<BusinessOrigin> allBusiness = businessOriginMapper.selectAll();
     map.put("allBusiness", allBusiness);
 
     return map;
@@ -134,7 +139,23 @@ public class CostServiceImpl extends ServiceImpl<CostMapper, Cost> implements Co
 
   @Override
   public CostDetailDto getOnCost(Integer id) {
-    return costMapper.selectOneById(id);
+    Cost cost = costMapper.selectOneCostById(id);
+    CostDetailDto costDetailDto = new CostDetailDto(
+        cost.getId(),
+        cost.getCostName(),
+        cost.getCostType(),
+        new CustomerList(cost.getCustomer().getId(),cost.getCustomer().getCustomerName()),
+        new PrincipalDto(cost.getUser().getId(),cost.getUser().getUsername()),
+        new OrderMiniDto(cost.getOrder().getId(),cost.getOrder().getOrderNo(),cost.getOrder().getOrderTitle()),
+        new BusinessMiniDto(cost.getBusiness().getId(),cost.getBusiness().getBussinessTitle()),
+        cost.getCostMoney(),
+        cost.getHappenedTime(),
+        cost.getRemark(),
+        new InputerDto(cost.getInputUser().getId(),cost.getInputUser().getUsername()),
+        cost.getExpenseStatus(),
+        cost.getCreationTime()
+    );
+    return costDetailDto;
 
   }
 

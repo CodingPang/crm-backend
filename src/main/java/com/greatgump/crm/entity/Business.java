@@ -46,7 +46,7 @@ public class Business implements Serializable {
 
   @ApiModelProperty("商机来源")
   @TableField("bussiness_origin_id")
-  private Long bussinessSource;
+  private Long bussinessOrigin;
 
   @ApiModelProperty("商机阶段")
   @TableField("bussiness_stage")

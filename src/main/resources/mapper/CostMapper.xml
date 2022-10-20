@@ -1,102 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.greatgump.crm.mapper.CostMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Cost">
-        <id column="id" property="id" />
-        <result column="cost_no" property="costNo" />
-        <result column="cost_name" property="costName" />
-        <result column="cost_source" property="costSource" />
-        <result column="cost_type" property="costType" />
-        <result column="cost_stage" property="costStage" />
-        <result column="cost_money" property="costMoney" />
-        <result column="happened_time" property="happenedTime" />
-        <result column="expense_status" property="expenseStatus" />
-        <result column="remark" property="remark" />
-        <result column="is_delete" property="isDelete" />
-        <association property="customer" javaType="com.greatgump.crm.entity.Customer">
-            <id column="id" property="id"/>
-            <result column="customer_name" property="customerName"/>
-        </association>
-        <association property="user" javaType="com.greatgump.crm.entity.User">
-            <id column="id" property="id"/>
-            <result column="username" property="username"/>
-        </association>
-        <association property="order" javaType="com.greatgump.crm.entity.Order">
-            <id column="id" property="id"/>
-            <result column="order_title" property="orderTitle"/>
-        </association>
-        <association property="business" javaType="com.greatgump.crm.entity.Business">
-            <id column="id" property="id"/>
-            <result column="bussiness_title" property="bussinessTitle"/>
-        </association>
-        <association property="invoice" javaType="com.greatgump.crm.entity.Invoice">
-            <id column="id" property="id"/>
-            <result column="invoice_money" property="invoiceMoney"/>
-            <result column="invoice_subject" property="invoiceSubject"/>
-            <result column="invoice_no" property="invoiceNo"/>
-            <result column="invoice_date" property="invoiceDate"/>
-        </association>
-    </resultMap>
+  <!-- 通用查询映射结果 -->
+  <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Cost">
+    <id column="id" property="id"/>
+    <result column="cost_no" property="costNo"/>
+    <result column="cost_name" property="costName"/>
+    <result column="cost_source" property="costSource"/>
+    <result column="cost_type" property="costType"/>
+    <result column="cost_stage" property="costStage"/>
+    <result column="cost_money" property="costMoney"/>
+    <result column="happened_time" property="happenedTime"/>
+    <result column="creation_time" property="creationTime"/>
+    <result column="expense_status" property="expenseStatus"/>
+    <result column="remark" property="remark"/>
+    <result column="is_delete" property="isDelete"/>
+    <association property="customer" javaType="com.greatgump.crm.entity.Customer">
+      <id column="id" property="id"/>
+      <result column="customer_name" property="customerName"/>
+    </association>
+    <association property="user" javaType="com.greatgump.crm.entity.User">
+      <id column="id" property="id"/>
+      <result column="username" property="username"/>
+    </association>
+    <association property="order" javaType="com.greatgump.crm.entity.Order">
+      <id column="id" property="id"/>
+      <result column="order_title" property="orderTitle"/>
+    </association>
+    <association property="business" javaType="com.greatgump.crm.entity.Business">
+      <id column="id" property="id"/>
+      <result column="bussiness_title" property="bussinessTitle"/>
+    </association>
+    <association property="invoice" javaType="com.greatgump.crm.entity.Invoice">
+      <id column="id" property="id"/>
+      <result column="invoice_money" property="invoiceMoney"/>
+      <result column="invoice_subject" property="invoiceSubject"/>
+      <result column="invoice_no" property="invoiceNo"/>
+      <result column="invoice_date" property="invoiceDate"/>
+    </association>
+    <association property="inputUser" javaType="com.greatgump.crm.entity.User">
+      <id column="id" property="id"/>
+      <result column="username" property="username"/>
+    </association>
+  </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, cost_no, cost_name, cost_type, customer_id, user_id, order_id, business_id, invoice_id, cost_money, happened_time, expense_status, remark, is_delete
-    </sql>
+  <!-- 通用查询结果列 -->
+  <sql id="Base_Column_List">
+    id
+    , cost_no, cost_name, cost_type, customer_id, user_id, order_id, business_id, invoice_id, cost_money, happened_time, expense_status, remark, is_delete
+  </sql>
   <select id="selectAllCost" resultMap="BaseResultMap">
-        SELECT cost.id, cost.cost_no, cost.cost_name, cus.customer_name, cost.cost_money, cost.happened_time, tu.username, cost.expense_status
-        FROM t_cost cost
-                 JOIN t_customer cus
-                      ON cost.customer_id = cus.id
-                 JOIN t_user tu
-                      ON cost.user_id = tu.id
-WHERE id = #{ID}
-    </select>
-    <select id="selectOneById"
-      resultType="com.greatgump.crm.dto.finance.cost.CostDetailDto">
+    SELECT cost.id,
+           cost.cost_no,
+           cost.cost_name,
+           cus.customer_name,
+           cost.cost_money,
+           cost.happened_time,
+           tu.username,
+           cost.expense_status
+    FROM t_cost cost
+           JOIN t_customer cus
+                ON cost.customer_id = cus.id
+           JOIN t_user tu
+                ON cost.user_id = tu.id
+    WHERE id = #{ID}
+  </select>
+  <select id="selectOneCostById" resultMap="BaseResultMap">
+    SELECT cost.id,
+           cost.cost_name,
+           cost.cost_type,
+           cus.id,
+           cus.customer_name,
+           prin.id,
+           prin.username,
+           o.id,
+           o.order_title,
+           bus.id,
+           bus.bussiness_title,
+           cost.cost_money,
+           cost.happened_time,
+           cost.remark,
+           inu.id,
+           inu.username,
+           cost.expense_status,
+           cost.creation_time
+    FROM t_cost cost
+           LEFT JOIN t_customer cus
+                     ON cost.customer_id = cus.id
+           LEFT JOIN t_user prin
+                     ON cost.user_id = prin.id
+           LEFT JOIN t_order o
+                     ON cost.order_id = o.id
+           LEFT JOIN t_business bus
+                     ON cost.business_id = bus.id
+           LEFT JOIN t_user inu
+                     ON cost.inputer_id = inu.id
+    WHERE cost.id = #{id}
+      AND cost.is_delete = 0
+  </select>
+  <select id="selectAllCosts"
+    resultType="com.greatgump.crm.dto.finance.cost.CostQueryDto">
+    SELECT cost.id, cost.cost_no, cost.cost_name, cus.id, cus.customer_name, cost.cost_money,
+    cost.happened_time,tu.id, tu.username, cost.expense_status,cost.cost_source,cost.cost_stage,
+    cost.cost_type
+    FROM t_cost cost
+    JOIN t_customer cus
+    ON cost.customer_id = cus.id
+    JOIN t_user tu
+    ON cost.user_id = tu.id
+    WHERE 1 = 1
+    <if test="costCommFuzzyQuery.costSource != null and costCommFuzzyQuery.costSource != '' ">
+      AND cost.cost_source = #{costCommFuzzyQuery.costSource}
+    </if>
+    <if test="costCommFuzzyQuery.costStage != null and costCommFuzzyQuery.costStage != ''">
+      AND cost.cost_stage &gt;= #{costCommFuzzyQuery.costStage}
+    </if>
+    <if
+      test="costCommFuzzyQuery.start_back_date != null and costCommFuzzyQuery.start_back_date  != '' ">
+      AND cost.happened_time &lt;= #{costCommFuzzyQuery.start_back_date}
+    </if>
+    <if
+      test="costCommFuzzyQuery.end_back_date != null and costCommFuzzyQuery.end_back_date  != '' ">
+      AND cost.happened_time &lt;= #{costCommFuzzyQuery.end_back_date}
+    </if>
+    <if test="costCommFuzzyQuery.keyword != null and costCommFuzzyQuery.keyword != '' ">
+      AND
+      CONCAT(IFNULL(cost.id,''),
+      IFNULL(cost.cost_no,''),
+      IFNULL(cost.cost_name,''),
+      IFNULL(cus.id,''),
+      IFNULL(cus.customer_name,''),
+      IFNULL(cost.cost_money,''),
+      IFNULL(cost.happened_time,''),
+      IFNULL(tu.id,''),
+      IFNULL(tu.username,''),
+      IFNULL(cost.expense_status,''))
+      LIKE CONCAT('%',#{costCommFuzzyQuery.keyword},'%')
+    </if>
+    AND cost.is_delete = 0 LIMIT #{current}, #{size}
+  </select>
 
-    </select>
-    <select id="selectAllCosts"
-      resultType="com.greatgump.crm.dto.finance.cost.CostQueryDto">
-        SELECT cost.id, cost.cost_no, cost.cost_name, cus.id, cus.customer_name, cost.cost_money, cost.happened_time,tu.id, tu.username, cost.expense_status,cost.cost_source,cost.cost_stage, cost.cost_type
-        FROM t_cost cost
-                 JOIN t_customer cus
-                      ON cost.customer_id = cus.id
-                 JOIN t_user tu
-                      ON cost.user_id = tu.id
-        WHERE 1 = 1
-        <if test="costCommFuzzyQuery.costSource != null and costCommFuzzyQuery.costSource != '' ">
-            AND cost.cost_source = #{costCommFuzzyQuery.costSource}
-        </if>
-        <if test="costCommFuzzyQuery.costStage != null and costCommFuzzyQuery.costStage != ''">
-            AND cost.cost_stage  &gt;= #{costCommFuzzyQuery.costStage}
-        </if>
-        <if test="costCommFuzzyQuery.start_back_date != null and costCommFuzzyQuery.start_back_date  != '' ">
-            AND cost.happened_time &lt;= #{costCommFuzzyQuery.start_back_date}
-        </if>
-        <if test="costCommFuzzyQuery.end_back_date != null and costCommFuzzyQuery.end_back_date  != '' ">
-            AND cost.happened_time &lt;= #{costCommFuzzyQuery.end_back_date}
-        </if>
-        <if test="costCommFuzzyQuery.keyword != null and costCommFuzzyQuery.keyword != '' ">
-            AND
-            CONCAT(IFNULL(cost.id,''),
-            IFNULL(cost.cost_no,''),
-            IFNULL(cost.cost_name,''),
-            IFNULL(cus.id,''),
-            IFNULL(cus.customer_name,''),
-            IFNULL(cost.cost_money,''),
-            IFNULL(cost.happened_time,''),
-            IFNULL(tu.id,''),
-            IFNULL(tu.username,''),
-            IFNULL(cost.expense_status,''))
-            LIKE CONCAT('%',#{costCommFuzzyQuery.keyword},'%')
-        </if>
-        AND cost.is_delete = 0 LIMIT #{current}, #{size}
-    </select>
-
-    <insert id="insertOneCost" parameterType="com.greatgump.crm.dto.finance.cost.CostAddDto">
-        INSERT INTO t_cost (cost_name,cost_type,customer_id,user_id,order_id,business_id,cost_money,happened_time,remark,cost_no) VALUES (#{costName},#{costType.id}, #{customer.id}, #{user.id}, #{order.id}, #{business.id}, #{costMoney}, #{happenedTime}, #{remark}, #{costNo})
-    </insert>
+  <insert id="insertOneCost" parameterType="com.greatgump.crm.dto.finance.cost.CostAddDto">
+    INSERT INTO t_cost (cost_name, cost_type, customer_id, user_id, order_id, business_id,
+                        cost_money, happened_time, remark, cost_no)
+    VALUES (#{costName}, #{costType.id}, #{customer.id}, #{user.id}, #{order.id}, #{business.id},
+            #{costMoney}, #{happenedTime}, #{remark}, #{costNo})
+  </insert>
 
 </mapper>
