@@ -1,4 +1,4 @@
-package com.greatgump.crm.dto.back;
+package com.greatgump.crm.dto.back.plan;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.greatgump.crm.dto.CustomerDto;
 import com.greatgump.crm.dto.OrderDto;
+import com.greatgump.crm.dto.back.record.BackRecordPreDto;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BackPlanDto implements Serializable {
+public class BackPlanQueryAllDto implements Serializable {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty("主键，自增")
     @TableId(value = "id", type = IdType.AUTO)
@@ -84,7 +85,7 @@ public class BackPlanDto implements Serializable {
     private Integer isDelete;
 
 
-    public BackPlanDto(CustomerDto customerId, OrderDto order) {
+    public BackPlanQueryAllDto(CustomerDto customerId, OrderDto order) {
         this.customer = customerId;
         this.order = order;
     }
@@ -99,7 +100,7 @@ public class BackPlanDto implements Serializable {
    * @param backStatus
    * @param customer
    */
-  public BackPlanDto(Long id, String backNo, OrderDto order, BackPlanDetailDto backPlanDetailDto,
+  public BackPlanQueryAllDto(Long id, String backNo, OrderDto order, BackPlanDetailDto backPlanDetailDto,
       BackRecordPreDto backRecordPreDto, Integer backStatus, CustomerDto customer) {
     this.id = id;
     this.backNo = backNo;

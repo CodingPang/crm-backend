@@ -43,13 +43,13 @@ public class CostQueryDto {
   private Integer costStage;
 
   @ApiModelProperty("关联客户(外键)")
-  private String customerName;
+  private CustomerList customer;
 
   @ApiModelProperty("负责人员(外键，销售)")
-  private String userName;
+  private PrincipalDto user;
 
   @ApiModelProperty("关联订单(外键)")
-  private String orderTitle;
+  private OrderListDto orderTitle;
 
   @ApiModelProperty("关联商机(外键)")
   private String business;
@@ -72,16 +72,18 @@ public class CostQueryDto {
   private Integer isDelete;*/
 
   public CostQueryDto(Long id, String costNo, String costName, Integer costSource, Integer costType,
-      Integer costStage, CustomerDto customerName, UserDto userName, Order orderTitle, BusinessDto businessStage,
+      Integer costStage, CustomerList customer, PrincipalDto user, Order orderTitle, BusinessDto businessStage,
       BigDecimal costMoney, String happenedTime, Integer expenseStatus, String remark) {
     this.id = id;
     this.costNo = costNo;
     this.costName = costName;
     /*this.costSource = costSource;
     this.costType = costType;
-    this.costStage = costStage;*/
+    this.costStage = costStage;
     this.customerName = customerName.getCustomerName();
-    this.userName = userName.getUsername();
+    this.userName = userName.getUsername();*/
+    this.customer = customer;
+    this.user = user;
     /*this.orderTitle = orderTitle.getOrderTitle();
     this.business = businessStage.getOpportunityStage();*/
     this.costMoney = costMoney;

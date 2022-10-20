@@ -2,7 +2,8 @@ package com.greatgump.utils;
 
 import com.greatgump.crm.dto.CustomerDto;
 import com.greatgump.crm.dto.OrderDto;
-import com.greatgump.crm.dto.back.BackRecordPreDto;
+import com.greatgump.crm.dto.back.common.ReceiverDto;
+import com.greatgump.crm.dto.back.record.BackRecordPreDto;
 import com.greatgump.crm.dto.power.UserDto;
 import com.greatgump.crm.entity.BackPeriod;
 import com.greatgump.crm.entity.BackRecord;
@@ -61,9 +62,9 @@ public class TestDtoEntityUtil {
     backPeriods.add(backPeriod03);
 
     // 5、收款人员列表封装
-    UserDto userDto01 = new UserDto(1L,"张宏");
-    UserDto userDto02 = new UserDto(2L,"张大仙");
-    List<UserDto> userDtos = new ArrayList<>();
+    ReceiverDto userDto01 = new ReceiverDto(1L,"张宏");
+    ReceiverDto userDto02 = new ReceiverDto(2L,"张大仙");
+    List<ReceiverDto> userDtos = new ArrayList<>();
     userDtos.add(userDto01);
     userDtos.add(userDto02);
 

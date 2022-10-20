@@ -1,4 +1,4 @@
-package com.greatgump.crm.dto.back;
+package com.greatgump.crm.dto.back.record;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.greatgump.crm.dto.CustomerDto;
 import com.greatgump.crm.dto.OrderDto;
+import com.greatgump.crm.dto.back.common.ReceiverDto;
+import com.greatgump.crm.dto.back.plan.BackPlanQueryAllDto;
 import com.greatgump.crm.dto.power.UserDto;
 import com.greatgump.crm.entity.BackPeriod;
 import com.greatgump.crm.entity.TransferType;
@@ -39,7 +41,7 @@ public class BackRecordPreDto implements Serializable {
 
   @ApiModelProperty("回款计划id(外键)")
   @TableField("back_id")
-  private List<BackPlanDto> backPlan;
+  private List<BackPlanQueryAllDto> backPlan;
 
   @ApiModelProperty("关联客户(外键)")
   @TableField("customer_id")
@@ -49,11 +51,11 @@ public class BackRecordPreDto implements Serializable {
   @TableField("order_id")
   private List<OrderDto> orderId;
 
-  @ApiModelProperty("回款日期")
+  @ApiModelProperty("实际回款日期")
   @TableField("back_date")
   private String backDate;
 
-  @ApiModelProperty("回款金额")
+  @ApiModelProperty("实际回款金额")
   @TableField("back_money")
   private BigDecimal backMoney;
 
@@ -67,7 +69,7 @@ public class BackRecordPreDto implements Serializable {
 
   @ApiModelProperty("收款人员(外键)")
   @TableField("user_id")
-  private List<UserDto> userId;
+  private List<ReceiverDto> userId;
 
   @ApiModelProperty("逾期天数")
   @TableField("overdue_days")
@@ -84,7 +86,7 @@ public class BackRecordPreDto implements Serializable {
 
   public BackRecordPreDto(List<CustomerDto> customerId,
       List<OrderDto> orderId, List<BackPeriod> backPlanId, List<TransferType> transferId,
-      List<UserDto> userId) {
+      List<ReceiverDto> userId) {
     this.customerId = customerId;
     this.orderId = orderId;
     this.backPlanId = backPlanId;
@@ -92,9 +94,9 @@ public class BackRecordPreDto implements Serializable {
     this.userId = userId;
   }
 
-  public BackRecordPreDto(List<BackPlanDto> backPlan, List<CustomerDto> customerId,
+  public BackRecordPreDto(List<BackPlanQueryAllDto> backPlan, List<CustomerDto> customerId,
       List<OrderDto> orderId, List<BackPeriod> backPlanId, List<TransferType> transferId,
-      List<UserDto> userId) {
+      List<ReceiverDto> userId) {
     this.backPlan = backPlan;
     this.customerId = customerId;
     this.orderId = orderId;

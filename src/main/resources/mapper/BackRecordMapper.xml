@@ -59,7 +59,9 @@
   <select id="queryAllBackRecord" resultMap="BaseResultMap">
     SELECT tbr.id,
            tbr.back_record_no,
+           o.id,
            o.order_title,
+           tbpd.id,
            tbpd.back_periods,
            tbr.back_money,
            tbr.back_date,
@@ -73,7 +75,7 @@
                      ON tbr.back_pland_id = tbpd.id AND tbr.back_id = tbpd.back_plan_id
            LEFT JOIN t_back_plan tbp
                      ON tbr.back_id = tbp.id
-    WHERE 1 = 1
+    WHERE 1 = 1 AND  is_delete = 0
 
   </select>
 
@@ -95,7 +97,7 @@
                      ON tbr.back_pland_id = tbpd.id AND tbr.back_id = tbpd.back_plan_id
            LEFT JOIN t_back_plan tbp
                      ON tbr.back_id = tbp.id
-    WHERE 1 = 1
+    WHERE 1 = 1 AND  is_delete = 0
   </select>
 
   <select id="selectAllByCondition" resultMap="BaseResultMap">
@@ -110,14 +112,14 @@
     ON tbr.back_pland_id = tbpd.id AND tbr.back_id = tbpd.back_plan_id
     LEFT JOIN t_back_plan tbp
     ON tbr.back_id = tbp.id
-    <where>
+    <trim prefix="where" suffix="is_delete = 0">
       <if test="backRecord.checkStatus != null and backRecord.checkStatus != '' ">
         AND tbr.check_status = #{backRecord.checkStatus}
       </if>
       <if test="backRecord.submitTime != null and backRecord.submitTime != '' ">
         AND tbr.submit_time = #{backRecord.submitTime}
       </if>
-    </where>
+    </trim>
     ORDER BY tbr.id LIMIT #{current}, #{size}
   </select>
   <select id="selectAllWithCondition" resultMap="BaseResultMap">
@@ -132,7 +134,7 @@
     ON tbr.back_pland_id = tbpd.id AND tbr.back_id = tbpd.back_plan_id
     LEFT JOIN t_back_plan tbp
     ON tbr.back_id = tbp.id
-    <where>
+    <trim prefix="where" suffix=" tbr.is_delete = 0 ">
       <if test="checkStatus != null and checkStatus != '' ">
         AND tbr.check_status = #{checkStatus}
       </if>
@@ -142,8 +144,8 @@
       <if test="submitEndTime != null and submitEndTime != '' ">
         AND tbr.submit_time &lt;= #{submitEndTime}
       </if>
-    </where>
-    ORDER BY tbr.id LIMIT #{current}, #{size}
+    </trim>
+     LIMIT #{current}, #{size}
   </select>
   <select id="selectByPrimaryId" resultMap="BaseResultMap">
     SELECT tbr.id,
@@ -177,11 +179,16 @@
            LEFT JOIN t_user checker
                      ON tbr.user_id = checker.id
     WHERE 1 = 1
-      AND tbr.id = #{id}
+      AND tbr.id = #{id} AND tbr.is_delete = 0
   </select>
   <select id="selectAllbackRecord" resultMap="BaseResultMap">
-    SELECT tbr.id,tbr.back_record_no, o.order_title, tbpd.back_periods , tbr.back_money,
-           tbr.back_date, tbr.check_status
+    SELECT tbr.id,
+           tbr.back_record_no,
+           o.order_title,
+           tbpd.back_periods,
+           tbr.back_money,
+           tbr.back_date,
+           tbr.check_status
     FROM t_back_record tbr
            LEFT JOIN t_order o
                      ON tbr.order_id = o.id
@@ -191,11 +198,101 @@
                      ON tbr.back_pland_id = tbpd.id AND tbr.back_id = tbpd.back_plan_id
            LEFT JOIN t_back_plan tbp
                      ON tbr.back_id = tbp.id
+    WHERE tbr.is_delete = 0
+  </select>
+  <select id="queryAllBackRecords" resultMap="BaseResultMap">
+    SELECT tbr.id,tbr.back_record_no, o.id, o.order_title, tbpd.back_periods , tbr.back_money, tbr.back_date, tbr.check_status, tbr.submit_time, tbr.check_time
+    FROM t_back_record tbr
+           LEFT JOIN t_order o
+                     ON tbr.order_id = o.id
+           LEFT JOIN t_customer cus
+                     ON tbr.customer_id = cus.id
+           LEFT JOIN t_back_plan_detail tbpd
+                     ON tbr.back_pland_id = tbpd.id AND tbr.back_id = tbpd.back_plan_id
+           LEFT JOIN t_back_plan tbp
+                     ON tbr.back_id = tbp.id
+    WHERE 1 = 1
+    <if test="backAllFuzzyQuery.back_status != null and backAllFuzzyQuery.back_status != '' ">
+      AND tbr.check_status = #{backAllFuzzyQuery.back_status}
+    </if>
+    <if test="backAllFuzzyQuery.start_back_date != null and backAllFuzzyQuery.start_back_date != ''">
+      AND tbr.submit_time  &gt;= #{backAllFuzzyQuery.start_back_date}
+    </if>
+    <if test="backAllFuzzyQuery.end_back_date != null and backAllFuzzyQuery.end_back_date  != '' ">
+      AND tbr.submit_time &lt;= #{backAllFuzzyQuery.end_back_date}
+    </if>
+    <if test="backAllFuzzyQuery.keyword != null and backAllFuzzyQuery.keyword != '' ">
+      AND
+      CONCAT(IFNULL(tbr.id,''),
+          IFNULL(tbr.back_record_no,''),
+          IFNULL(o.id,''),
+--           IFNULL(o.order_no,''),
+          IFNULL(o.order_title,''),
+--           IFNULL(cus.customer_name,''),
+          IFNULL(tbpd.back_periods,''),
+          IFNULL(tbr.back_money,''),
+          IFNULL(tbr.back_money,''),
+          IFNULL(tbr.back_date,''),
+          IFNULL(tbr.check_status,''),
+          IFNULL(tbr.submit_time,''),
+          IFNULL(tbr.check_time,''))
+              LIKE CONCAT('%',#{backAllFuzzyQuery.keyword},'%')
+    </if>
+    AND tbr.is_delete = 0 LIMIT #{current}, #{size}
+
   </select>
 
-  <update id="updateOne" >
+  <select id="selectAllBackCheckRecords" resultMap="BaseResultMap">
+    SELECT tbr.id,tbr.back_record_no, o.id, o.order_title, tbpd.back_periods , tbr.back_money, tbr.back_date, tbr.check_status, tbr.submit_time, tbr.check_time
+    FROM t_back_record tbr
+    LEFT JOIN t_order o
+    ON tbr.order_id = o.id
+    LEFT JOIN t_customer cus
+    ON tbr.customer_id = cus.id
+    LEFT JOIN t_back_plan_detail tbpd
+    ON tbr.back_pland_id = tbpd.id AND tbr.back_id = tbpd.back_plan_id
+    LEFT JOIN t_back_plan tbp
+    ON tbr.back_id = tbp.id
+    WHERE 1 = 1
+    <if test="backCheckFuzzyQuery.check_status != null and backCheckFuzzyQuery.check_status != '' ">
+      AND tbr.check_status = #{backCheckFuzzyQuery.check_status}
+    </if>
+    <if test="backCheckFuzzyQuery.start_back_date != null and backCheckFuzzyQuery.start_back_date != ''">
+      AND tbr.submit_time  &gt;= #{backCheckFuzzyQuery.start_back_date}
+    </if>
+    <if test="backCheckFuzzyQuery.end_back_date != null and backCheckFuzzyQuery.end_back_date  != '' ">
+      AND tbr.submit_time &lt;= #{backCheckFuzzyQuery.end_back_date}
+    </if>
+    <if test="backCheckFuzzyQuery.keyword != null and backCheckFuzzyQuery.keyword != '' ">
+      AND
+      CONCAT(IFNULL(tbr.id,''),
+      IFNULL(tbr.back_record_no,''),
+      IFNULL(o.id,''),
+      --           IFNULL(o.order_no,''),
+      IFNULL(o.order_title,''),
+      --           IFNULL(cus.customer_name,''),
+      IFNULL(tbpd.back_periods,''),
+      IFNULL(tbr.back_money,''),
+      IFNULL(tbr.back_date,''),
+--       IFNULL(tbr.check_status,''),
+--       IFNULL(tbr.submit_time,''),
+      IFNULL(tbr.check_time,''))
+      LIKE CONCAT('%',#{backCheckFuzzyQuery.keyword},'%')
+    </if>
+    AND tbr.is_delete = 0 LIMIT #{current}, #{size}
+  </select>
+
+  <update id="updateOne">
     UPDATE t_back_record
-    SET check_status = #{checkStatus}, remark = #{remark}, check_time = #{checkTime}
+    SET check_status = #{checkStatus},
+        remark       = #{remark},
+        check_time   = #{checkTime}
     WHERE id = #{bid}
+  </update>
+  <update id="updateChecker">
+    UPDATE t_back_record
+    SET checker = #{checker.id},
+        remark  = #{remark}
+    WHERE id = #{id}
   </update>
 </mapper>

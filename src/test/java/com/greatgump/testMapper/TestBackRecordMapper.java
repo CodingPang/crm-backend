@@ -1,7 +1,7 @@
 package com.greatgump.testMapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.entity.BackRecord;
+import com.greatgump.crm.dto.back.record.BackRecordAllDto;
 import com.greatgump.crm.mapper.BackRecordMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,8 +25,8 @@ public class TestBackRecordMapper {
 
   @Test
   public void testQueryAllBackRecord(){
-    Page<BackRecord> backRecordPage = new Page<>(1,2); // 使用MybatisPlus对单表进行分页
-    Page<BackRecord> backRecordPage1 = backRecordMapper.queryAllBackRecord(backRecordPage);
+    Page<BackRecordAllDto> backRecordPage = new Page<>(1,2); // 使用MybatisPlus对单表进行分页
+    Page<BackRecordAllDto> backRecordPage1 = backRecordMapper.queryAllBackRecord(backRecordPage);
     backRecordPage1.getRecords().forEach(System.out::println);
   }
 }

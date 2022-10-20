@@ -5,12 +5,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.greatgump.crm.dto.CustomerDto;
 import com.greatgump.crm.dto.finance.cost.BusinessListDto;
 import com.greatgump.crm.dto.finance.cost.CostAddDto;
+import com.greatgump.crm.dto.finance.cost.CostDetailDto;
 import com.greatgump.crm.dto.finance.cost.CostDto;
 import com.greatgump.crm.dto.finance.cost.CostQueryDto;
 import com.greatgump.crm.dto.finance.cost.CostTypeDto;
 import com.greatgump.crm.dto.finance.cost.CustomerList;
 import com.greatgump.crm.dto.finance.cost.OrderListDto;
 import com.greatgump.crm.dto.finance.cost.PrincipalDto;
+import com.greatgump.crm.dto.finance.cost.comm.CostCommFuzzyQuery;
 import com.greatgump.crm.entity.Business;
 import com.greatgump.crm.entity.Cost;
 import com.greatgump.crm.entity.Order;
@@ -59,6 +61,17 @@ public class CostServiceImpl extends ServiceImpl<CostMapper, Cost> implements Co
   @Override
   public Page<CostQueryDto> queryAllCost(Page<CostQueryDto> costQueryDtoPage) {
     return costMapper.selectAllCost(costQueryDtoPage);
+  }
+
+
+  @Override
+  public List<CostQueryDto> queryAllCost(int current, int size,
+      CostCommFuzzyQuery costCommFuzzyQuery) {
+    if (current != 0 && size != 0){
+      List<CostQueryDto> costQueryDtos = costMapper.selectAllCosts((current - 1) * size, size, costCommFuzzyQuery);
+      return costQueryDtos;
+    }
+    return null;
   }
 
   @Override
@@ -117,5 +130,20 @@ public class CostServiceImpl extends ServiceImpl<CostMapper, Cost> implements Co
     costAddDto.setCostNo(costNo);
    boolean flag = costMapper.insertOneCost(costAddDto);
     return flag;
+  }
+
+  @Override
+  public CostDetailDto getOnCost(Integer id) {
+    return costMapper.selectOneById(id);
+
+  }
+
+  @Override
+  public boolean deleteByPrimary(Integer id) {
+    int result = costMapper.deleteById(id);
+    if (result != 0){
+      return true;
+    }
+    return false;
   }
 }

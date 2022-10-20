@@ -1,4 +1,4 @@
-package com.greatgump.crm.dto.back;
+package com.greatgump.crm.dto.back.plan;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.greatgump.crm.dto.CustomerDto;
 import com.greatgump.crm.dto.OrderDto;
+import com.greatgump.crm.dto.back.record.BackRecordPreDto;
+import com.greatgump.crm.dto.finance.cost.CustomerList;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -59,7 +61,7 @@ public class BackPlanQueryDto {
 
   @ApiModelProperty("关联客户(外键)")
   @TableField("customer_id")
-  private List<CustomerDto> customer;
+  private List<CustomerList> customer;
 
   @ApiModelProperty("审批状态(0代表已驳回，1代表已通过，2代表审批中)")
   @TableField("approval_status")
@@ -83,7 +85,7 @@ public class BackPlanQueryDto {
   private Integer isDelete;
 
 
-  public BackPlanQueryDto(List<OrderDto> order, List<CustomerDto> customer) {
+  public BackPlanQueryDto(List<OrderDto> order, List<CustomerList> customer) {
     this.order = order;
     this.customer = customer;
   }

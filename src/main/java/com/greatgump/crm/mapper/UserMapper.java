@@ -1,6 +1,7 @@
 package com.greatgump.crm.mapper;
 
 import com.greatgump.crm.dto.UserDto0;
+import com.greatgump.crm.dto.back.common.CheckRecorderDto;
 import com.greatgump.crm.dto.finance.cost.PrincipalDto;
 import com.greatgump.crm.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -21,11 +22,17 @@ public interface UserMapper extends BaseMapper<User> {
     List<User> queryAllUserName();
     User queryUserById(Integer id);
 
-    List<UserDto0> getName();
+  List<UserDto0> getName();
 
   /**
    * 查询所有的费用记录负责人员
    * @return
    */
   List<PrincipalDto> queryAllPrincipalDto();
+
+  /**
+   * 查询所有的审核员
+   * @return
+   */
+  List<CheckRecorderDto> queryAllCheck();
 }

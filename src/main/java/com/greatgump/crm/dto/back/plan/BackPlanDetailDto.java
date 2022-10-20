@@ -1,4 +1,4 @@
-package com.greatgump.crm.dto.back;
+package com.greatgump.crm.dto.back.plan;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,8 +19,10 @@ import lombok.NoArgsConstructor;
 @Data
 public class BackPlanDetailDto {
 
+  @ApiModelProperty("主键id")
+  private Long id;
 
-  @ApiModelProperty("回款期数")
+  @ApiModelProperty("回款期次")
   @TableField("plan_back_count")
   private String planBackCount;
 
@@ -28,7 +30,8 @@ public class BackPlanDetailDto {
   @TableField("plan_back_total")
   private BigDecimal planBackTotal;
 
-  public BackPlanDetailDto(String planBackCount, BigDecimal planBackTotal) {
+  public BackPlanDetailDto(Long id, String planBackCount, BigDecimal planBackTotal) {
+    this.id = id;
     this.planBackCount = planBackCount;
     this.planBackTotal = planBackTotal;
   }

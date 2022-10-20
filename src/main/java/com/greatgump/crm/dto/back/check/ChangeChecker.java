@@ -1,6 +1,7 @@
-package com.greatgump.crm.dto.back;
+package com.greatgump.crm.dto.back.check;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.greatgump.crm.dto.back.common.ReceiverDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,19 +10,19 @@ import lombok.NoArgsConstructor;
 /**
  * @author CodingPang
  * @version V1.0
- * @description
- * @date 2022/10/14 21:39
+ * @description 转他人审批
+ * @date 2022/10/20 11:16
  * @since 1.0
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BackCheckDto {
-  /*@ApiModelProperty("主键，自增")
-  private Integer id;*/
+public class ChangeChecker {
+  @ApiModelProperty("当前要修改的回款记录的id")
+  private Long id;
 
-  @ApiModelProperty("审批状态(0表示待审批，1表示已通过，2表示已驳回)")
-  private Integer checkStatus;
+  @ApiModelProperty("用户名")
+  private ReceiverDto checker;
 
   @ApiModelProperty("备注被驳回的原因")
   private String remark;
