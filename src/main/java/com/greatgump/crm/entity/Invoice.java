@@ -37,11 +37,11 @@ public class Invoice implements Serializable {
 
   @ApiModelProperty("关联订单(外键)")
   @TableField("order_id")
-  private Long orderId;
+  private Order order;
 
   @ApiModelProperty("关联客户(外键)")
   @TableField("customer_id")
-  private Long customerId;
+  private Customer customer;
 
   @ApiModelProperty("开票日期")
   @TableField("invoice_date")
@@ -65,11 +65,11 @@ public class Invoice implements Serializable {
 
   @ApiModelProperty("开票人(外键，会计)")
   @TableField("invoicer")
-  private String invoicer;
+  private User invoicer;
 
   @ApiModelProperty("录入员(外键，)")
   @TableField("inputor")
-  private String inputor;
+  private User inputor;
 
   @ApiModelProperty("创建时间")
   @TableField("creation_time")
