@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.greatgump.crm.mapper.BusinessMapper">
+    <resultMap id="queryBusiness" type="com.greatgump.crm.dto.LoanBusinessDto">
+        <id column="id" property="id"/>
+        <result column="bussiness_title" property="bussiness_title"/>
+    </resultMap>
+    <select id="queryBusiness" resultMap="queryBusiness">
+        SELECT id,bussiness_title from t_business
+    </select>
     <insert id="addBusiness" parameterType="com.greatgump.crm.dto.BussinessDictionaryDto">
       insert  into t_business(bussiness_title,bussiness_origin_id,bussiness_stage_id,customer_id,remark)
       values (#{businessTitle},#{businessOrigin.id},#{businessStage.id},#{businessCustomer.id},#{customerNeeds})

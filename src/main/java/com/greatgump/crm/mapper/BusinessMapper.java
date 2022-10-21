@@ -21,6 +21,7 @@ import java.util.List;
 @Mapper
 public interface BusinessMapper extends BaseMapper<Business> {
 
+    List<LoanBusinessDto> queryBusiness();
 
     /**
      * 查询出所有的商机
