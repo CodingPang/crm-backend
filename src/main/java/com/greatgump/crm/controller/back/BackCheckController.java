@@ -43,10 +43,10 @@ public class BackCheckController {
   @ApiOperation("查询所有的回款审批")
   @PostMapping("/backchecks/{current}/{size}")
   @ApiImplicitParams(value = {
-      @ApiImplicitParam(name = "current", value = "当前页数", required = true),
-      @ApiImplicitParam(name = "size", value = "每页的条数", required = true)})
+          @ApiImplicitParam(name = "current", value = "当前页数", required = true),
+          @ApiImplicitParam(name = "size", value = "每页的条数", required = true)})
   public Result<List<BackRecord>> queryAllBackCheck(@PathVariable("current") Integer current,
-      @PathVariable("size") Integer size, @RequestBody(required = false) BackCheckFuzzyQuery backCheckFuzzyQuery) {
+                                                    @PathVariable("size") Integer size, @RequestBody(required = false) BackCheckFuzzyQuery backCheckFuzzyQuery) {
     //1.创建page对象
 /*    Page<BackRecord> backCheckDtoPage = new Page<>(current, size);
     //2.调用方法，分页查询
@@ -75,7 +75,7 @@ public class BackCheckController {
 
   @ApiOperation("回款审批详情")
   @ApiImplicitParams(value = {
-      @ApiImplicitParam(name = "id", value = "该回款记录的主键id", required = true)})
+          @ApiImplicitParam(name = "id", value = "该回款记录的主键id", required = true)})
   @GetMapping("/preUpdate/{id}")
   public Result<BackRecord> queryAllBackCheck(@PathVariable("id") Integer id) {
     BackRecord backRecord = backCheckService.preUpdate(id);
@@ -84,13 +84,13 @@ public class BackCheckController {
 
   @ApiOperation("审批回款")
   @ApiImplicitParams(value = {
-      @ApiImplicitParam(name = "recordId", value = "该回款记录的主键id", required = true)
+          @ApiImplicitParam(name = "recordId", value = "该回款记录的主键id", required = true)
   /*@ApiImplicitParam(name = "checkStatus", value = "审批状态(0表示待审批，1表示已通过，2表示已驳回)", required = true),
       @ApiImplicitParam(name = "remark", value = "备注", required = false*/
   })
   @PutMapping("/backchecks/{recordId}")
   public Result editOneBackCheck(@PathVariable("recordId") Integer id,
-       @RequestBody BackCheckDto backCheckDto) {
+                                 @RequestBody BackCheckDto backCheckDto) {
     boolean flag = backCheckService.updateOne(id, backCheckDto.getCheckStatus(), backCheckDto.getRemark());
 
     if (flag){

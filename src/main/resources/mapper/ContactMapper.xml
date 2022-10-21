@@ -41,6 +41,13 @@
         UPDATE t_contact SET contact_name=#{contactName}, mail=#{mail}, phone=#{phone}, qq=#{qq}, department=#{department}, wechat=#{wechat}, customer_id=#{customerId} WHERE  id = #{id}
     </update>
 
+    <update id="deleteById">
+        UPDATE t_contact SET is_delete=1 WHERE id=#{id}
+    </update>
+    <update id="updateIsDefaultByCid">
+        UPDATE t_contact SET is_default=0 WHERE customer_id=#{cid}
+    </update>
+
 
     <select id="queryAllContact" resultMap="contactDto">
         SELECT tc.id, tc.contact_name, tc.mail, tc.phone, tc.qq, tc.department, tc.wechat,tcs.id cid,tcs.customer_name

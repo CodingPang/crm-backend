@@ -103,7 +103,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         customerMapper.insertCustomer(customer);
         Contact contact = customer.getContact();
         contact.setCustomerId(customer.getId());
-        int i = contactMapper.insert(contact);
+        int i = contactMapper.saveContact(contact);
         return i>0?true:false;
     }
 

@@ -79,18 +79,18 @@ public class ContactController {
     @ApiOperation("单个删除联系人")
     @DeleteMapping("/contacts/{id}")
     public Result deleteById(@PathVariable Integer id){
-        boolean b = contactService.removeById(id);
-        return Result.judge(b);
+        int i = contactService.deleteById(id);
+        return Result.judge(i>0);
     }
 
     @ApiOperation("批量删除联系人")
     @DeleteMapping("/contacts")
     public Result batchDelete(@RequestBody List<Contact> contacts){
-        boolean b = false;
+        int b = 0;
         for (Contact contact : contacts) {
-            b = contactService.removeById(contact.getId());
+            b = contactService.deleteById(contact.getId().intValue());
         }
 
-        return Result.judge(b);
+        return Result.judge(b>0);
     }
 }
