@@ -35,23 +35,8 @@ public class CalcUnitController {
         Page<CalcUnitDto> productDtoPage = new Page<>(current, size);
         Page<CalcUnitDto> pageIfo = calcUnitService.queryAllCalcUnits(productDtoPage);
         return Result.success(pageIfo.getRecords(),pageIfo.getTotal());
-//        CalcUnitDto calcUnitDto =new CalcUnitDto();
-//
-//        CalcUnit calcUnit = new CalcUnit();
-//        calcUnit.setId(1L);
-//        calcUnit.setUnitName("件");
-//        calcUnit.setCreationDate(new Date());
-//
-//        CalcUnit calcUnit1 = new CalcUnit();
-//        calcUnit1.setId(2L);
-//        calcUnit1.setUnitName("套");
-//        calcUnit1.setCreationDate(new Date());
-//
-//        List<CalcUnit> calcUnitList = new ArrayList<>();
-//        calcUnitList.add(calcUnit);
-//        calcUnitList.add(calcUnit1);
-//
-//        return Result.success(calcUnitList,4L);
+
+
 
     }
 
@@ -63,7 +48,7 @@ public class CalcUnitController {
     }
 
     @ApiOperation("计量单位编辑预查询")
-    @PutMapping("/querybid/{id}")
+    @GetMapping("/querybid/{id}")
     public Result<QueryCalcUnitDto> queryBid(@PathVariable("id") Integer id){
 
         return Result.success(calcUnitService.queryBid(id));
@@ -81,20 +66,6 @@ public class CalcUnitController {
             return Result.failed();
         }
     }
-
-//    @ApiOperation("计量单位编辑")
-//    @PutMapping("/update/{id}")
-//    public Result<CalcUnitDto> update(@PathVariable("id")Long id){
-//
-//        String unitName = "件";
-//
-//        CalcUnitDto calcUnitDto =new CalcUnitDto();
-//        calcUnitDto.setUnitName(unitName);
-//
-//        return Result.success(calcUnitDto);
-//
-//
-//    }
 
     @ApiOperation("计量单位信息删除")
     @DeleteMapping("/deleteCalcUnit/{id}")

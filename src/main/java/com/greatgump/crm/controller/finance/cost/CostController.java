@@ -50,11 +50,11 @@ public class CostController {
 
   @ApiOperation("获得所有费用记录")
   @ApiImplicitParams(value = {
-      @ApiImplicitParam(name = "current", value = "当前页数", required = true),
-      @ApiImplicitParam(name = "size", value = "每页的条数", required = true)})
+          @ApiImplicitParam(name = "current", value = "当前页数", required = true),
+          @ApiImplicitParam(name = "size", value = "每页的条数", required = true)})
   @PostMapping("/costs/{current}/{size}")
   public Result<List<CostQueryDto>> queryAllCost(@PathVariable("current") int current,
-      @PathVariable("size") int size,@RequestBody(required = false) CostCommFuzzyQuery costCommFuzzyQuery) {
+                                                 @PathVariable("size") int size,@RequestBody(required = false) CostCommFuzzyQuery costCommFuzzyQuery) {
 /*    Page<CostQueryDto> costDtoPage = new Page<>(current, size);
     Page<CostQueryDto> pageInfo = costService.queryAllCost(costDtoPage);*/
     List<CostQueryDto> costQueryDtos = costService.queryAllCost(current,size,costCommFuzzyQuery);
@@ -117,8 +117,7 @@ public class CostController {
 
     HashMap<String, Object> map = costService.preAdd();
 
-//    return Result.success(map, Long.valueOf(map.size()));
-    return null;
+    return Result.success(map,(long) map.size());
   }
 
   @ApiOperation("新增费用记录")

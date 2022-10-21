@@ -45,7 +45,7 @@ public interface CostMapper extends BaseMapper<Cost> {
    * @param id
    * @return
    */
-  CostDetailDto selectOneById(Integer id);
+  Cost selectOneCostById(Integer id);
 
 
 }

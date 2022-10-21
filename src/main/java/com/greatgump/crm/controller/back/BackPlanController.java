@@ -117,9 +117,9 @@ public class  BackPlanController {
   public Result<List<OneBackPlanBaseDetailDto>> getOneBackPlanDetail(@PathVariable("id") Long id){
     OneBackPlanBaseDetailDto oneBackPlanBaseDetailDto01 = new OneBackPlanBaseDetailDto(1L,"xxx",new OrderListDto(1L,"OR2022101910064452473673089314864","订单1"),"第1期",BigDecimal.valueOf(50000),BigDecimal.valueOf(40000),3,new CustomerList(1L,"上海大华科技有限公司"),"2022-10-09","2022-10-10","2022-10-09","2022-10-10",0,BigDecimal.valueOf(50000),"");
 
-    OneBackPlanBaseDetailDto oneBackPlanBaseDetailDto02 = new OneBackPlanBaseDetailDto(2L,"xxx",new OrderListDto(1L,"OR2022101910064452473673089314864","订单1"),"第1期",BigDecimal.valueOf(50000),BigDecimal.valueOf(40000),3,new CustomerList(1L,"上海大华科技有限公司"),"2022-11-09","2022-11-11","2022-10-10","2022-11-11",0,BigDecimal.valueOf(50000),"");
+    OneBackPlanBaseDetailDto oneBackPlanBaseDetailDto02 = new OneBackPlanBaseDetailDto(2L,"xxx",new OrderListDto(1L,"OR2022101910064452473673089314864","订单1"),"第2期",BigDecimal.valueOf(50000),BigDecimal.valueOf(40000),3,new CustomerList(1L,"上海大华科技有限公司"),"2022-11-09","2022-11-11","2022-10-10","2022-11-11",0,BigDecimal.valueOf(50000),"");
 
-    OneBackPlanBaseDetailDto oneBackPlanBaseDetailDto03 = new OneBackPlanBaseDetailDto(3L,"xxx",new OrderListDto(1L,"OR2022101910064452473673089314864","订单1"),"第1期",BigDecimal.valueOf(50000),BigDecimal.valueOf(40000),3,new CustomerList(1L,"上海大华科技有限公司"),"2022-12-09","2022-12-07","2022-11-11","2022-12-07",0,BigDecimal.valueOf(50000),"");
+    OneBackPlanBaseDetailDto oneBackPlanBaseDetailDto03 = new OneBackPlanBaseDetailDto(3L,"xxx",new OrderListDto(1L,"OR2022101910064452473673089314864","订单1"),"第3期",BigDecimal.valueOf(50000),BigDecimal.valueOf(40000),3,new CustomerList(1L,"上海大华科技有限公司"),"2022-12-09","2022-12-07","2022-11-11","2022-12-07",0,BigDecimal.valueOf(50000),"");
 
     List<OneBackPlanBaseDetailDto> oneBackPlanBaseDetailDtos = new ArrayList<>();
     oneBackPlanBaseDetailDtos.add(oneBackPlanBaseDetailDto01);

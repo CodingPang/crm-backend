@@ -12,11 +12,16 @@ import com.greatgump.crm.dto.finance.cost.CostTypeDto;
 import com.greatgump.crm.dto.finance.cost.CustomerList;
 import com.greatgump.crm.dto.finance.cost.OrderListDto;
 import com.greatgump.crm.dto.finance.cost.PrincipalDto;
+import com.greatgump.crm.dto.finance.cost.comm.BusinessMiniDto;
 import com.greatgump.crm.dto.finance.cost.comm.CostCommFuzzyQuery;
+import com.greatgump.crm.dto.finance.cost.comm.InputerDto;
+import com.greatgump.crm.dto.finance.cost.comm.OrderMiniDto;
 import com.greatgump.crm.entity.Business;
+import com.greatgump.crm.entity.BusinessOrigin;
 import com.greatgump.crm.entity.Cost;
 import com.greatgump.crm.entity.Order;
 import com.greatgump.crm.mapper.BusinessMapper;
+import com.greatgump.crm.mapper.BusinessOriginMapper;
 import com.greatgump.crm.mapper.CostMapper;
 import com.greatgump.crm.mapper.CustomerMapper;
 import com.greatgump.crm.mapper.OrderMapper;
@@ -54,7 +59,7 @@ public class CostServiceImpl extends ServiceImpl<CostMapper, Cost> implements Co
   private OrderMapper orderMapper;
 
   @Autowired
-  private BusinessMapper businessMapper;
+  private BusinessOriginMapper businessOriginMapper;
 
 
 
@@ -66,7 +71,7 @@ public class CostServiceImpl extends ServiceImpl<CostMapper, Cost> implements Co
 
   @Override
   public List<CostQueryDto> queryAllCost(int current, int size,
-      CostCommFuzzyQuery costCommFuzzyQuery) {
+                                         CostCommFuzzyQuery costCommFuzzyQuery) {
     if (current != 0 && size != 0){
       List<CostQueryDto> costQueryDtos = costMapper.selectAllCosts((current - 1) * size, size, costCommFuzzyQuery);
       return costQueryDtos;
@@ -101,21 +106,21 @@ public class CostServiceImpl extends ServiceImpl<CostMapper, Cost> implements Co
     List<CostTypeDto> allCostType = getAllCostType();
     map.put("allCostType",allCostType);
 
-//    // 2、准备所有的客户
-//    List<CustomerList> allCustomers = customerMapper.queryAllCustomerList();
-//    map.put("allCustomers", allCustomers);
-//
-//    // 3、准备负责人员(PrincipalDto)列表
-//    List<PrincipalDto> allPrincipalDtos = userMapper.queryAllPrincipalDto();
-//    map.put("allPrincipalDtos", allPrincipalDtos);
-//
-//    // 4、准备订单列表
-//    List<OrderListDto> allOrderListDtos = orderMapper.selectOrderListDto();
-//    map.put("allOrderListDtos", allOrderListDtos);
-//
-//    // 5、准备商机列表
-//    List<BusinessListDto> allBusiness = businessMapper.selectAllBusiness();
-//    map.put("allBusiness", allBusiness);
+    // 2、准备所有的客户
+    List<CustomerList> allCustomers = customerMapper.queryAllCustomerList();
+    map.put("allCustomers", allCustomers);
+
+    // 3、准备负责人员(PrincipalDto)列表
+    List<PrincipalDto> allPrincipalDtos = userMapper.queryAllPrincipalDto();
+    map.put("allPrincipalDtos", allPrincipalDtos);
+
+    // 4、准备订单列表
+    List<OrderListDto> allOrderListDtos = orderMapper.selectOrderListDto();
+    map.put("allOrderListDtos", allOrderListDtos);
+
+    // 5、准备商机列表
+    List<BusinessOrigin> allBusiness = businessOriginMapper.selectAll();
+    map.put("allBusiness", allBusiness);
 
     return map;
   }
@@ -125,16 +130,32 @@ public class CostServiceImpl extends ServiceImpl<CostMapper, Cost> implements Co
   public boolean saveCost(CostAddDto costAddDto) {
     // 1、根据订单的ID生成费用编号
     String costNo = NoGenerateUtils.getCostCode(
-        Integer.valueOf(Math.toIntExact(costAddDto.getOrder().getId())));
+            Integer.valueOf(Math.toIntExact(costAddDto.getOrder().getId())));
     // 2、将费用编号放进Dto类
     costAddDto.setCostNo(costNo);
-   boolean flag = costMapper.insertOneCost(costAddDto);
+    boolean flag = costMapper.insertOneCost(costAddDto);
     return flag;
   }
 
   @Override
   public CostDetailDto getOnCost(Integer id) {
-    return costMapper.selectOneById(id);
+    Cost cost = costMapper.selectOneCostById(id);
+    CostDetailDto costDetailDto = new CostDetailDto(
+            cost.getId(),
+            cost.getCostName(),
+            cost.getCostType(),
+            new CustomerList(cost.getCustomer().getId(),cost.getCustomer().getCustomerName()),
+            new PrincipalDto(cost.getUser().getId(),cost.getUser().getUsername()),
+            new OrderMiniDto(cost.getOrder().getId(),cost.getOrder().getOrderNo(),cost.getOrder().getOrderTitle()),
+            new BusinessMiniDto(cost.getBusiness().getId(),cost.getBusiness().getBussinessTitle()),
+            cost.getCostMoney(),
+            cost.getHappenedTime(),
+            cost.getRemark(),
+            new InputerDto(cost.getInputUser().getId(),cost.getInputUser().getUsername()),
+            cost.getExpenseStatus(),
+            cost.getCreationTime()
+    );
+    return costDetailDto;
 
   }
 

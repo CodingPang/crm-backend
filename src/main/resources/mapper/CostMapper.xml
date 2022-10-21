@@ -53,47 +53,6 @@
                       ON cost.user_id = tu.id
 WHERE id = #{ID}
     </select>
-    <select id="selectOneById"
-      resultType="com.greatgump.crm.dto.finance.cost.CostDetailDto">
-
-    </select>
-    <select id="selectAllCosts"
-      resultType="com.greatgump.crm.dto.finance.cost.CostQueryDto">
-        SELECT cost.id, cost.cost_no, cost.cost_name, cus.id, cus.customer_name, cost.cost_money, cost.happened_time,tu.id, tu.username, cost.expense_status,cost.cost_source,cost.cost_stage, cost.cost_type
-        FROM t_cost cost
-                 JOIN t_customer cus
-                      ON cost.customer_id = cus.id
-                 JOIN t_user tu
-                      ON cost.user_id = tu.id
-        WHERE 1 = 1
-        <if test="costCommFuzzyQuery.costSource != null and costCommFuzzyQuery.costSource != '' ">
-            AND cost.cost_source = #{costCommFuzzyQuery.costSource}
-        </if>
-        <if test="costCommFuzzyQuery.costStage != null and costCommFuzzyQuery.costStage != ''">
-            AND cost.cost_stage  &gt;= #{costCommFuzzyQuery.costStage}
-        </if>
-        <if test="costCommFuzzyQuery.start_back_date != null and costCommFuzzyQuery.start_back_date  != '' ">
-            AND cost.happened_time &lt;= #{costCommFuzzyQuery.start_back_date}
-        </if>
-        <if test="costCommFuzzyQuery.end_back_date != null and costCommFuzzyQuery.end_back_date  != '' ">
-            AND cost.happened_time &lt;= #{costCommFuzzyQuery.end_back_date}
-        </if>
-        <if test="costCommFuzzyQuery.keyword != null and costCommFuzzyQuery.keyword != '' ">
-            AND
-            CONCAT(IFNULL(cost.id,''),
-            IFNULL(cost.cost_no,''),
-            IFNULL(cost.cost_name,''),
-            IFNULL(cus.id,''),
-            IFNULL(cus.customer_name,''),
-            IFNULL(cost.cost_money,''),
-            IFNULL(cost.happened_time,''),
-            IFNULL(tu.id,''),
-            IFNULL(tu.username,''),
-            IFNULL(cost.expense_status,''))
-            LIKE CONCAT('%',#{costCommFuzzyQuery.keyword},'%')
-        </if>
-        AND cost.is_delete = 0 LIMIT #{current}, #{size}
-    </select>
 
     <insert id="insertOneCost" parameterType="com.greatgump.crm.dto.finance.cost.CostAddDto">
         INSERT INTO t_cost (cost_name,cost_type,customer_id,user_id,order_id,business_id,cost_money,happened_time,remark,cost_no) VALUES (#{costName},#{costType.id}, #{customer.id}, #{user.id}, #{order.id}, #{business.id}, #{costMoney}, #{happenedTime}, #{remark}, #{costNo})

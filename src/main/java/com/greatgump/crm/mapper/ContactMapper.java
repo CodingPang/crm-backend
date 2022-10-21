@@ -20,6 +20,9 @@ public interface ContactMapper extends BaseMapper<Contact> {
     Page<ContactDto> queryAllContact(Page page);
     int saveContact(Contact contact);
 
+    int deleteById(Integer id);
+    int updateIsDefaultByCid(Integer cid);
+
     int updateContact(Contact contact);
     Page<ContactDto>  queryContactDynamic(String keywords,Page page);
     ContactDto queryContactById(Integer id);
