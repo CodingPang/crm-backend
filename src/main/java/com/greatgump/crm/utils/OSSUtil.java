@@ -29,9 +29,9 @@ public class OSSUtil {
   // 地域节点
   private static String ENDPOINT = "oss-cn-chengdu.aliyuncs.com";
   // 访问ID
-  private static String ACCESSKEYID = "LTAI5tEnZ23zXdYhRVXzkk3E";
+  private static String ACCESSKEYID = "LTAI5tFLFFcJ7gH4Zaz4U4gK";
   // 访问地址
-  private static String ACCESSKEYSECRET = "5ceJQLeAjA87ZXUyqoejw58GzV2Auj";
+  private static String ACCESSKEYSECRET = "0gSXdPkHnSmul45yUKdgfeqaNEB8uX";
   // 填写仓库名称
   private static String BUCKETNAME = "crm-backend-storage";
   // 填写外网访问地址
