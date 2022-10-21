@@ -31,7 +31,7 @@ public class Contract implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("主键，自增")
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
 
     @ApiModelProperty("合同编号")
@@ -68,7 +68,7 @@ public class Contract implements Serializable {
 
     @ApiModelProperty("对方公司联系人")
     @TableField("contacts")
-    private String contacts;
+    private Long contacts;
 
     @ApiModelProperty("上传合同")
     @TableField("contrac_url")

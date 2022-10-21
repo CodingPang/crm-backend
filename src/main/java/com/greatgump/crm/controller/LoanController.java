@@ -67,11 +67,11 @@ public class LoanController {
         return Result.success(customerService.queryName());
     }
 
-    @ApiOperation("关联订单下拉框，会返回订单名称及id")
-    @GetMapping("/loanOrder")
-    public Result<List<LoanOrderDto>> loanOrder(){
-        return Result.success(orderService.queryOrder());
-    }
+//    @ApiOperation("关联订单下拉框，会返回订单名称及id")
+//    @GetMapping("/loanOrder")
+//    public Result<List<LoanOrderDto>> loanOrder(){
+//        return Result.success(orderService.queryOrder());
+//    }
 
    @ApiOperation("关联商机下拉框，会返回商机名称及id")
     @GetMapping("/loanBusiness")
