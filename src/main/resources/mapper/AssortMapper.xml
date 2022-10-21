@@ -28,7 +28,7 @@
         WHERE id=#{id};
     </delete>
     <select id="queryAllAssorts" resultMap="BaseResultMap">
-        SELECT t.assort_name
+        SELECT t.id,t.assort_name
         FROM t_assort t
     </select>
     <resultMap id="BaseResultMap1" type="com.greatgump.crm.dto.productlibrary.QueryAssortDto">
@@ -36,7 +36,7 @@
         <result column="assort_name" property="assortName" />
     </resultMap>
     <select id="queryBid" resultMap="BaseResultMap1">
-        SELECT ast.assort_name
+        SELECT ast.id,ast.assort_name
         FROM t_assort ast
         WHERE ast.id=#{id}
     </select>

@@ -64,7 +64,7 @@ public class  AssortController {
     }
 
     @ApiOperation("产品分类编辑预查询")
-    @PutMapping("/querybid/{id}")
+    @GetMapping("/querybid/{id}")
     public Result<QueryAssortDto> queryBid(@PathVariable("id") Integer id){
 
         return Result.success(assortService.queryBid(id));

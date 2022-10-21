@@ -41,8 +41,8 @@ public class Product implements Serializable {
     @TableField("classificationid")
     private Integer classificationid;
 
-    @ApiModelProperty("所属分类")
-    private Assort assort;
+//    @ApiModelProperty("所属分类")
+//    private Assort assort;
 
     @ApiModelProperty("产品名称")
     @TableField("product_name")
@@ -52,8 +52,8 @@ public class Product implements Serializable {
     @TableField("unitid")
     private Integer unitid;
 
-    @ApiModelProperty("计量单位")
-    private CalcUnit calcUnit;
+//    @ApiModelProperty("计量单位")
+//    private CalcUnit calcUnit;
 
 
     @ApiModelProperty("创建日期")

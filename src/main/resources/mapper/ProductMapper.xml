@@ -14,14 +14,13 @@
         <result column="is_delete" property="isDelete" />
     </resultMap>
 
-
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, product_code, classification, product_name, unit, assort_id, creation_date, remark, is_delete
     </sql>
     <insert id="insertProduct">
-insert into t_product(product_code,product_name,classificationid,unitid,porperty_id)
-values (#{productCode},#{productName},#{assortName},#{unitName},#{propertyName})
+insert into t_product(product_code,product_name,classificationid,unitid,porperty_id,creation_date,price)
+values (#{productCode},#{productName},#{classificationid},#{unitid},#{propertyId},#{createdate},#{price})
     </insert>
     <delete id="deleteProduct">
         DELETE
@@ -63,6 +62,7 @@ values (#{productCode},#{productName},#{assortName},#{unitName},#{propertyName})
         select * from t_offer_details WHERE company = #{customerId} limit #{current},#{size}
     </select>
     <resultMap id="BaseResultMap1" type="com.greatgump.crm.dto.productlibrary.ProductDto">
+        <result column="id" property="id"/>
         <result column="product_code" property="productCode" />
         <result column="product_name" property="productName" />
         <result column="creation_date" property="creationDate" />
@@ -75,16 +75,19 @@ values (#{productCode},#{productName},#{assortName},#{unitName},#{propertyName})
             <id column="cid" property="id"></id>
             <result column="unit_name" property="unitName"/>
         </association>
+        <association property="property" javaType="com.greatgump.crm.entity.Property">
+            <id column="pyid" property="id"></id>
+            <result column="property_name" property="propertyName"/>
+        </association>
     </resultMap>
     <select id="queryAllProducts" resultMap="BaseResultMap1">
-        SELECT pt.product_code,ast.id aid,ast.assort_name,pt.product_name,ct.id cid,ct.unit_name,pt.creation_date
-        FROM t_product pt,t_assort ast,t_calc_unit ct
-        WHERE pt.classificationid=ast.id and pt.unitid=ct.id
+        SELECT pt.id,pt.product_code,ast.id aid,ast.assort_name,pt.product_name,ct.id cid,ct.unit_name,pt.creation_date,py.id pyid,py.property_name
+        FROM t_product pt,t_assort ast,t_calc_unit ct,t_property py
+        WHERE pt.classificationid=ast.id and pt.unitid=ct.id and pt.porperty_id=py.id
     </select>
     <resultMap id="BaseResultMap2" type="com.greatgump.crm.dto.productlibrary.QueryProductDto">
         <id column="id" property="id" />
         <result column="product_code" property="productCode" />
-        <result column="product_name" property="productName" />
         <result column="product_name" property="productName" />
         <association property="assort" javaType="com.greatgump.crm.entity.Assort">
             <id column="aid" property="id"></id>
@@ -101,7 +104,7 @@ values (#{productCode},#{productName},#{assortName},#{unitName},#{propertyName})
 
     </resultMap>
     <select id="queryBid" resultMap="BaseResultMap2">
-        SELECT pt.product_code,ast.id aid,ast.assort_name,pt.product_name,ct.id cid,ct.unit_name,py.id pid,py.property_name
+        SELECT pt.id, pt.product_code,ast.id aid,ast.assort_name,pt.product_name,ct.id cid,ct.unit_name,py.id pid,py.property_name
         FROM t_product pt,t_assort ast,t_calc_unit ct,t_property py
         WHERE pt.classificationid=ast.id and pt.unitid=ct.id and pt.porperty_id=py.id and pt.id=#{id}
     </select>
