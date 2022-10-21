@@ -3,7 +3,6 @@ package com.greatgump.crm.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.OfferListDto;
 import com.greatgump.crm.dto.OfferSearchDto;
-import com.greatgump.crm.dto.OfferUpdateDto;
 import com.greatgump.crm.entity.Offer;
 import com.greatgump.crm.mapper.OfferDetailsMapper;
 import com.greatgump.crm.mapper.OfferMapper;
@@ -42,11 +41,6 @@ public class OfferServiceImpl extends ServiceImpl<OfferMapper, Offer> implements
     @Override
     public Integer countList(OfferSearchDto offerSearchDto) {
         return offerMapper.countList(offerSearchDto);
-    }
-
-    @Override
-    public OfferUpdateDto getByIdDto(Long id) {
-        return offerMapper.getByIdDto(id);
     }
 //    @Override
 //    public boolean addAll(OfferDto offerDto) {

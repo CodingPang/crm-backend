@@ -28,9 +28,9 @@ public interface LoanService extends IService<Loan> {
     List<LoanDto> queryLoanDynamic(LoanDynamicDto loanDynamicDto);
     int updateLoan(AddedLoanDto addedLoanDto);
 
-    boolean deleteLoan(Long id);
+    boolean deleteLoan(Integer id);
 
-    boolean deleteBatch(List<Long> ids);
+
 
 
 }

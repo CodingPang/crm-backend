@@ -62,15 +62,9 @@ public class TravelServiceImpl extends ServiceImpl<TravelMapper, Travel> impleme
     }
 
     @Override
-    public boolean deleteTravel(Long id) {
+    public boolean deleteTravel(Integer id) {
         boolean b = travelMapper.deleteTravel(id);
         return b;
-    }
-
-    @Override
-    public boolean deleteBatch(List<Long> ids) {
-
-        return travelMapper.deleteBatch(ids);
     }
 
 }

@@ -175,9 +175,9 @@ public class OfferController {
 
 
     @ApiOperation("管理页面修改按钮")
-    @PostMapping("/crm/offer/pre_update")
-    private Result<OfferUpdateDto> preUpdate(Long id){
-        return Result.success(offerService.getByIdDto(id));
+    @GetMapping("/crm/offer/pre_update")
+    private Result<Offer> preUpdate(Long id){
+        return Result.success(offerService.getById(id));
     }
 
 

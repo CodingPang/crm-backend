@@ -1,6 +1,5 @@
 package com.greatgump.crm.service.impl;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.LoanOrderDto;
 import com.greatgump.crm.entity.Order;
 import com.greatgump.crm.mapper.OrderMapper;
@@ -21,13 +20,9 @@ import java.util.List;
  */
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
+
     @Autowired
     private OrderMapper orderMapper;
-    @Override
-    public Page<Order> listIneed(Page<Order> offerListDtoPage) {
-        return orderMapper.listIneed(offerListDtoPage);
-    }
-
 
     @Override
     public List<LoanOrderDto> queryOrder() {

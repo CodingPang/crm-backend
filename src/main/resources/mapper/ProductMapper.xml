@@ -44,12 +44,7 @@ values (#{productCode},#{productName},#{classificationid},#{unitid},#{propertyId
             <id column="cid" property="id"></id>
             <result column="property_name" property="propertyName"/>
         </association>
-    </resultMap>
-    <resultMap id="productlist" type="com.greatgump.crm.dto.ProductListDto">
-        <result column="product_name" property="product"></result>
-        <result column="product_code" property="productId"></result>
-        <result column="unit_name" property="productSize"></result>
-        <result column="price" property="price"></result>
+
     </resultMap>
     <update id="updateProduct">
         UPDATE t_product
@@ -59,7 +54,7 @@ values (#{productCode},#{productName},#{classificationid},#{unitid},#{propertyId
 
 
     <select id="listIneed" resultType="com.greatgump.crm.dto.LuoDto1" >
-        select * from t_offer_details WHERE company = #{customerId} limit #{current},#{size}
+        select * from t_product limit #{current},#{size}
     </select>
     <resultMap id="BaseResultMap1" type="com.greatgump.crm.dto.productlibrary.ProductDto">
         <result column="id" property="id"/>
@@ -155,11 +150,6 @@ values (#{productCode},#{productName},#{classificationid},#{unitid},#{propertyId
             AND pt.creation_date BETWEEN #{start} AND #{end}
         </if>
 
-    </select>
-    <select id="listAll" resultMap="productlist">
-        SELECT pd.id,pd.product_name,pd.product_code,un.unit_name,pd.price
-        FROM t_product pd,t_calc_unit un
-        WHERE pd.unitid = un.id
     </select>
 
 

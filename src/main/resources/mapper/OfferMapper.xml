@@ -30,16 +30,6 @@
         <result column="customer_id" property="customerId"></result>
     </resultMap>
 
-    <resultMap id="offerupdate" type="com.greatgump.crm.dto.OfferUpdateDto">
-        <id column="id" property="id"></id>
-        <result column="customer_id" property="customerId"></result>
-        <result column="customer_name" property="customer"></result>
-        <result column="saler_id" property="saleId"></result>
-        <result column="username" property="saler"></result>
-        <result column="contacts_id" property="contactsId"></result>
-        <result column="contact_name" property="contact"></result>
-    </resultMap>
-
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, odd_num, creation_date, customer, saler, contacts, price, discount_tate, offer, remake, is_delete
@@ -50,50 +40,29 @@
         WHERE offer.customer_id = cus.id AND offer.saler_id = us.id AND cont.customer_id = cus.id
     </select>
     <select id="searchList" resultMap="offerList">
-        SELECT offer.id,offer.odd_num,offer.creation_date,cus.customer_name,us.username,cont.contact_name,offer.price,offer.discount_tate,offer.offer,offer.customer_id
+        SELECT offer.id,offer.odd_num,offer.creation_date,cus.customer_name,us.username,cont.contact_name,offer.price,offer.discount_tate,offer.offer
         FROM t_offer offer ,t_customer cus,t_user us,t_contact cont
-        WHERE offer.customer_id = cus.id AND offer.saler_id = us.id AND offer.customer_id = cont.id
+        WHERE offer.customer_id = cus.id AND offer.saler_id = us.id AND cont.customer_id = cus.id
         <if test="customerName != null and customerName != ''">
-            AND customer_name = #{customerName}
+            AND cus.customer_name = #{customerName}
         </if>
         <if test="start != null &amp;end != null ">
             AND offer.creation_date BETWEEN #{start} AND #{end}
         </if>
         <if test="current != null and current != '' &amp; size != null and size != ''">
-            LIMIT ${(current-1) * size},${size}
+            LIMIT ${(current-1) * size},#{size}
         </if>
     </select>
     <select id="countList" resultType="java.lang.Integer">
         SELECT COUNT(1)
         FROM t_offer offer ,t_customer cus,t_user us,t_contact cont
-        WHERE offer.customer_id = cus.id AND offer.saler_id = us.id AND offer.customer_id = cont.id
+        WHERE offer.customer_id = cus.id AND offer.saler_id = us.id AND cont.customer_id = cus.id
         <if test="customerName != null and customerName != ''">
-            AND customer_name = #{customerName}
+            AND cus.customer_name = #{customerName}
         </if>
         <if test="start != null &amp;end != null ">
             AND offer.creation_date BETWEEN #{start} AND #{end}
         </if>
-    </select>
-    <select id="getByIdDto" resultMap="offerupdate">
-        SELECT
-            offer.id,
-            offer.customer_id,
-            cus.customer_name,
-            offer.saler_id,
-            us.username,
-            offer.contacts_id,
-            cont.contact_name
-
-        FROM
-            t_offer offer,
-            t_customer cus,
-            t_user us,
-            t_contact cont
-        WHERE
-            offer.customer_id = cus.id
-          AND offer.saler_id = us.id
-          AND offer.customer_id = cont.id
-          AND offer.id = #{id}
     </select>
 
 </mapper>

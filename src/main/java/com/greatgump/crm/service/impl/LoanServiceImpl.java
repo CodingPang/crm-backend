@@ -58,13 +58,12 @@ public class LoanServiceImpl extends ServiceImpl<LoanMapper, Loan> implements Lo
     }
 
     @Override
-    public boolean deleteLoan(Long id) {
+    public boolean deleteLoan(Integer id) {
         boolean b = loanMapper.deleteLoan(id);
         return b;
     }
 
-    @Override
-    public boolean deleteBatch(List<Long> ids) {
-        return loanMapper.deleteBatch(ids);
-    }
+
+
+
 }

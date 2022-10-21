@@ -71,7 +71,7 @@ public class CostServiceImpl extends ServiceImpl<CostMapper, Cost> implements Co
 
   @Override
   public List<CostQueryDto> queryAllCost(int current, int size,
-      CostCommFuzzyQuery costCommFuzzyQuery) {
+                                         CostCommFuzzyQuery costCommFuzzyQuery) {
     if (current != 0 && size != 0){
       List<CostQueryDto> costQueryDtos = costMapper.selectAllCosts((current - 1) * size, size, costCommFuzzyQuery);
       return costQueryDtos;
@@ -130,10 +130,10 @@ public class CostServiceImpl extends ServiceImpl<CostMapper, Cost> implements Co
   public boolean saveCost(CostAddDto costAddDto) {
     // 1、根据订单的ID生成费用编号
     String costNo = NoGenerateUtils.getCostCode(
-        Integer.valueOf(Math.toIntExact(costAddDto.getOrder().getId())));
+            Integer.valueOf(Math.toIntExact(costAddDto.getOrder().getId())));
     // 2、将费用编号放进Dto类
     costAddDto.setCostNo(costNo);
-   boolean flag = costMapper.insertOneCost(costAddDto);
+    boolean flag = costMapper.insertOneCost(costAddDto);
     return flag;
   }
 
@@ -141,19 +141,19 @@ public class CostServiceImpl extends ServiceImpl<CostMapper, Cost> implements Co
   public CostDetailDto getOnCost(Integer id) {
     Cost cost = costMapper.selectOneCostById(id);
     CostDetailDto costDetailDto = new CostDetailDto(
-        cost.getId(),
-        cost.getCostName(),
-        cost.getCostType(),
-        new CustomerList(cost.getCustomer().getId(),cost.getCustomer().getCustomerName()),
-        new PrincipalDto(cost.getUser().getId(),cost.getUser().getUsername()),
-        new OrderMiniDto(cost.getOrder().getId(),cost.getOrder().getOrderNo(),cost.getOrder().getOrderTitle()),
-        new BusinessMiniDto(cost.getBusiness().getId(),cost.getBusiness().getBussinessTitle()),
-        cost.getCostMoney(),
-        cost.getHappenedTime(),
-        cost.getRemark(),
-        new InputerDto(cost.getInputUser().getId(),cost.getInputUser().getUsername()),
-        cost.getExpenseStatus(),
-        cost.getCreationTime()
+            cost.getId(),
+            cost.getCostName(),
+            cost.getCostType(),
+            new CustomerList(cost.getCustomer().getId(),cost.getCustomer().getCustomerName()),
+            new PrincipalDto(cost.getUser().getId(),cost.getUser().getUsername()),
+            new OrderMiniDto(cost.getOrder().getId(),cost.getOrder().getOrderNo(),cost.getOrder().getOrderTitle()),
+            new BusinessMiniDto(cost.getBusiness().getId(),cost.getBusiness().getBussinessTitle()),
+            cost.getCostMoney(),
+            cost.getHappenedTime(),
+            cost.getRemark(),
+            new InputerDto(cost.getInputUser().getId(),cost.getInputUser().getUsername()),
+            cost.getExpenseStatus(),
+            cost.getCreationTime()
     );
     return costDetailDto;
 

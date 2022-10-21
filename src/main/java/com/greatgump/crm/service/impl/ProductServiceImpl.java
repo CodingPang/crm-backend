@@ -1,8 +1,6 @@
 package com.greatgump.crm.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.OfferListDto;
-import com.greatgump.crm.dto.ProductListDto;
 import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.dto.LuoDto1;
 import com.greatgump.crm.entity.Product;
@@ -23,6 +21,7 @@ import java.util.List;
  * @since 2022-10-12 10:31:27
  */
 @Service
+
 public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> implements ProductService {
     @Autowired
     private ProductMapper productMapper;
@@ -32,8 +31,8 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     @Override
-    public List<LuoDto1> listIneed(int customerId,int current, int size) {
-        return productMapper.listIneed(customerId,current,size);
+    public List<LuoDto1> listIneed(int current, int size) {
+        return productMapper.listIneed(current,size);
     }
 
     @Override
@@ -60,8 +59,24 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     @Override
-    public List<ProductListDto> listAll() {
-        return productMapper.listAll();
+    public boolean deleteProduct(Integer id) {
+        boolean b = productMapper.deleteProduct(id);
+        return b;
+    }
+
+    @Override
+    public List<ProductBox1Dto> getAssort() {
+        return productMapper.getAssort();
+    }
+
+    @Override
+    public List<ProductBox2Dto> getClacUnit() {
+        return productMapper.getClacUnit();
+    }
+
+    @Override
+    public List<ProductBox3Dto> getProperty() {
+        return productMapper.getProperty();
     }
 
     @Override

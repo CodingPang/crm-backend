@@ -76,7 +76,7 @@ public class BackRecord implements Serializable {
   @TableField("checker")
   private User checker;
 
-  @ApiModelProperty("审批状态(1表示待审批，2表示已通过，3表示已驳回)")
+  @ApiModelProperty("审批状态(0表示待审批，1表示已通过，2表示已驳回)")
   @TableField("check_status")
   private Integer checkStatus;
 

@@ -3,7 +3,10 @@ package com.greatgump.crm.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.Equivalence;
-import com.greatgump.crm.dto.*;
+import com.greatgump.crm.dto.ContactNameDto;
+import com.greatgump.crm.dto.LuoDto1;
+import com.greatgump.crm.dto.LuoDto2;
+import com.greatgump.crm.dto.UserDto0;
 import com.greatgump.crm.entity.Contact;
 import com.greatgump.crm.entity.Offer;
 import com.greatgump.crm.entity.OfferDetails;
@@ -18,12 +21,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,8 +46,6 @@ public class OfferDetailsController {
     private CustomerService customerService;
     @Autowired
     private UserService userService;
-
-
 
     @ApiOperation("这是关联客户下拉框，会返回客户名称及id")
     @GetMapping("/crm/offer_details/listcustmoer")
@@ -111,26 +110,9 @@ public class OfferDetailsController {
     @ApiOperation("这是报价商品页面")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/crm/offer_details/listproduct/{current}/{size}")
-    public Result<List<LuoDto1>>listProduct(@PathVariable("customerId") int customerId,@PathVariable("current") int current, @PathVariable("size") int size){
+    public Result<List<LuoDto1>>listProduct(@PathVariable("current") int current, @PathVariable("size") int size){
 //        Page<Product> contactPage = new Page(current,size);
-        return Result.success(productService.listIneed(customerId,current,size));
-    }
-    @ApiOperation("添加商品的列表-所有商品")
-    @GetMapping("/crm/offer_details/listallproduct")
-    public Result<List<ProductListDto>> listAllProduct(){
-        return Result.success(productService.listAll());
-    }
-
-    @ApiOperation("所有商品页面的添加按钮，注意传当前公司company的Id")
-    @PostMapping("/crm/offer_details/addincus")
-    public Result addInCus(List<ProductListDto> productListDtos){
-        List<OfferDetails> offerDetails = new ArrayList<>();
-        for(ProductListDto productListDto : productListDtos){
-            OfferDetails offerDetails1 = new OfferDetails();
-            BeanUtils.copyProperties(productListDto,offerDetails1);
-            offerDetails.add(offerDetails1);
-        }
-        return Result.success(offerDetailsService.saveBatch(offerDetails));
+        return Result.success(productService.listIneed(current,size));
     }
 //
 
