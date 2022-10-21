@@ -77,6 +77,12 @@
 
     </resultMap>
 
+    <resultMap id="queryOrder" type="com.greatgump.crm.dto.LoanOrderDto">
+     <id column="id" property="id"/>
+      <result column="order_title" property="order_title"/>
+
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, order_no, order_title, customer_id, sale_id, business_id, product_id, oder_total, oder_status, upload_attachment_id, pay_methods, order_contract, owner_signer, owner_signer_phone, face_signer, face_signer_phone, order_date, total_res, total_ticket, remark, is_delete
@@ -91,5 +97,9 @@
         FROM t_order od INNER JOIN t_user us1 ON od.sale_id = us1.id INNER JOIN t_user us2 ON od.owner_signer = us2.id,t_customer cus ,t_business bus,t_upload_attachment upl,t_contact cont
         WHERE od.customer_id = cus.id AND od.business_id = bus.id AND od.upload_attachment_id = upl.id AND od.face_signer = cont.id
     </select>
+        <select id="queryOrder" resultMap="queryOrder">
+        SELECT id,order_title from t_order
+    </select>
+
 
 </mapper>

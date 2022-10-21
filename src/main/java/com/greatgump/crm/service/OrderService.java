@@ -1,8 +1,11 @@
 package com.greatgump.crm.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.LoanOrderDto;
 import com.greatgump.crm.entity.Order;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +18,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface OrderService extends IService<Order> {
 
     Page<Order> listIneed(Page<Order> offerListDtoPage);
+
+    List<LoanOrderDto> queryOrder();
 }
