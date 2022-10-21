@@ -35,6 +35,7 @@ public interface ProductService extends IService<Product> {
 
     Page<ProductListDto> listAll(Page<ProductListDto> offerPage);
 
+
     List<ProductDto> searchList(ProductsearchDto productsearchDto);
 
 }

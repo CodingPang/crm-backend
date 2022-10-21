@@ -4,10 +4,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.*;
 import com.greatgump.crm.entity.*;
 import com.greatgump.crm.mapper.BusinessMapper;
-import com.greatgump.crm.service.CustomerService;
-import com.greatgump.crm.service.LoanService;
-import com.greatgump.crm.service.OrderService;
+import com.greatgump.crm.service.*;
 import com.greatgump.crm.utils.Result;
+import com.greatgump.crm.utils.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -32,13 +31,15 @@ import org.springframework.web.bind.annotation.*;
 public class LoanController {
 
     @Autowired
-    private BusinessMapper businessMapper;
+    private BusinessService businessService;
     @Autowired
      private OrderService orderService;
     @Autowired
     private LoanService loanService;
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private ApprovalStatusService approvalStatusService;
 
   @ApiOperation("获取所有的借款信息")
   @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
@@ -67,17 +68,18 @@ public class LoanController {
         return Result.success(customerService.queryName());
     }
 
-//    @ApiOperation("关联订单下拉框，会返回订单名称及id")
-//    @GetMapping("/loanOrder")
-//    public Result<List<LoanOrderDto>> loanOrder(){
-//        return Result.success(orderService.queryOrder());
-//    }
+    @ApiOperation("关联订单下拉框，会返回订单名称及id")
+    @GetMapping("/loanOrder")
+    public Result<List<LoanOrderDto>> loanOrder(){
+        return Result.success(orderService.queryOrder());
+    }
 
    @ApiOperation("关联商机下拉框，会返回商机名称及id")
     @GetMapping("/loanBusiness")
     public Result<List<LoanBusinessDto>> loanBusiness(){
-        return Result.success(businessMapper.queryBusiness());
+        return Result.success(businessService.queryBusiness());
     }
+
 
 
   @ApiOperation("获取详情")
@@ -108,6 +110,12 @@ public class LoanController {
 
 
    }
+    @ApiOperation("审批状态下拉框，会返回审批状态及id")
+    @GetMapping("/queryApprovalStatus")
+    public Result<List<ApprovalStatusDto>> queryApprovalStatus(){
+        return Result.success(approvalStatusService.queryApprovalStatus());
+    }
+
     @ApiOperation("借款页面关键词查询")
     @PostMapping("/queryLoanDynamic")
    public Result<List<LoanDto>>  queryLoanDynamic(@RequestBody LoanDynamicDto loanDynamicDto){
@@ -121,7 +129,7 @@ public class LoanController {
   @DeleteMapping("/deleteLoan/{id}")
   public Result deleteLoan(@PathVariable("id")Long id){
 
-      boolean b = loanService.removeById(id);
+      boolean b = loanService.deleteLoan(id);
       return Result.judge(b);
 
 
@@ -129,13 +137,12 @@ public class LoanController {
   @ApiOperation("借款页面批量删除")
   @DeleteMapping("/deletebatch")
   public Result deletebatch(@RequestBody List<Long> ids){
-           boolean b =false;
-      for (Long id : ids) {
+      // 1、非空校验
+        if (ids == null || ids.size() == 0){ // 执行这里面的 return执行将此方法执行结束
+            return Result.failed("参数为空");
+        }
 
-          b = loanService.removeById(id);
-      }
-
-
+        boolean b = loanService.deleteBatch(ids);
 
         return Result.judge(b);
   }
