@@ -3,6 +3,7 @@ package com.greatgump.crm.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.OfferListDto;
 import com.greatgump.crm.dto.OfferSearchDto;
+import com.greatgump.crm.dto.OfferUpdateDto;
 import com.greatgump.crm.entity.Offer;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -22,6 +23,8 @@ public interface OfferService extends IService<Offer> {
     List<OfferListDto> searchList(OfferSearchDto offerSearchDto);
 
     Integer countList(OfferSearchDto offerSearchDto);
+
+    OfferUpdateDto getByIdDto(Long id);
 
 //    boolean addAll(OfferDto offerDto);
 }

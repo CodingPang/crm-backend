@@ -53,9 +53,27 @@
         </association>
 
     </resultMap>
-    <resultMap id="queryOrder" type="com.greatgump.crm.dto.LoanOrderDto">
-        <id column="id" property="id"/>
-        <result column="order_title" property="order_title"/>
+    
+    <resultMap id="listMap" type="com.greatgump.crm.dto.OrderListDto">
+        <id column="id" property="id"></id>
+        <result column="order_no" property="orderNo"></result>
+        <result column="order_title" property="orderTitle"></result>
+        <result column="customer_name" property="customer"></result>
+        <result column="saler" property="sale"></result>
+        <result column="bussiness_title" property="business"></result>
+        <result column="product_id" property="product"></result>
+        <result column="oder_total" property="oderTotal"></result>
+        <result column="upload_location" property="uploadAttachment"></result>
+        <result column="pay_methods" property="payMethods"></result>
+        <result column="order_contract" property="orderContract"></result>
+        <result column="owner_signer" property="ownerSigner"></result>
+        <result column="owner_signer_phone" property="ownerSignerPhone"></result>
+        <result column="contact_name" property="faceSigner"></result>
+        <result column="face_signer_phone" property="faceSignerPhone"></result>
+        <result column="order_date" property="orderDate"></result>
+        <result column="total_res" property="totalRes"></result>
+        <result column="total_ticket" property="totalTicket"></result>
+
 
     </resultMap>
 
@@ -68,8 +86,10 @@
       SELECT o.id, o.order_no, o.order_title
       FROM t_order o
   </select>
-    <select id="queryOrder" resultMap="queryOrder">
-        SELECT id,order_title from t_order
+    <select id="listIneed" resultMap="listMap">
+        SELECT od.id,od.order_no,od.order_title,cus.customer_name,us1.username AS saler,bus.bussiness_title,od.product_id,od.oder_total,od.oder_status,upl.upload_location,od.pay_methods,od.order_contract,us2.username AS owner_signer,od.owner_signer_phone,cont.contact_name,od.face_signer_phone,od.order_date,od.total_res,od.total_ticket
+        FROM t_order od INNER JOIN t_user us1 ON od.sale_id = us1.id INNER JOIN t_user us2 ON od.owner_signer = us2.id,t_customer cus ,t_business bus,t_upload_attachment upl,t_contact cont
+        WHERE od.customer_id = cus.id AND od.business_id = bus.id AND od.upload_attachment_id = upl.id AND od.face_signer = cont.id
     </select>
 
 </mapper>

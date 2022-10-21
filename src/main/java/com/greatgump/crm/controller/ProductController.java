@@ -42,23 +42,23 @@ public Result<List<ProductDto>> queryAllProducts(@PathVariable("page") Integer c
 
 }
 
-    @ApiOperation("产品分类下拉框")
-    @GetMapping("/crm/offer_details/listAssort")
-    public Result<List<ProductBox1Dto>> listAssort(){
-        return Result.success(productService.getAssort());
-    }
+//    @ApiOperation("产品分类下拉框")
+//    @GetMapping("/crm/offer_details/listAssort")
+//    public Result<List<ProductBox1Dto>> listAssort(){
+//        return Result.success(productService.getAssort());
+//    }
 
-    @ApiOperation("计量单位下拉框")
-    @GetMapping("/crm/Product/listCalcUnit")
-    public Result<List<ProductBox2Dto>> listCalcUnit(){
-        return Result.success(productService.getClacUnit());
-    }
-
-    @ApiOperation("产品属性下拉框")
-    @GetMapping("/crm/Product/listProperty")
-    public Result<List<ProductBox3Dto>> listProperty(){
-        return Result.success(productService.getProperty());
-    }
+//    @ApiOperation("计量单位下拉框")
+//    @GetMapping("/crm/Product/listCalcUnit")
+//    public Result<List<ProductBox2Dto>> listCalcUnit(){
+//        return Result.success(productService.getClacUnit());
+//    }
+//
+//    @ApiOperation("产品属性下拉框")
+//    @GetMapping("/crm/Product/listProperty")
+//    public Result<List<ProductBox3Dto>> listProperty(){
+//        return Result.success(productService.getProperty());
+//    }
 
 
 

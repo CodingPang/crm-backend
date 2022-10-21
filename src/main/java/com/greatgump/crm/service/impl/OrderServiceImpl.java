@@ -1,14 +1,12 @@
 package com.greatgump.crm.service.impl;
 
-import com.greatgump.crm.dto.LoanOrderDto;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.entity.Order;
 import com.greatgump.crm.mapper.OrderMapper;
 import com.greatgump.crm.service.OrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>
@@ -20,13 +18,10 @@ import java.util.List;
  */
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
-
     @Autowired
     private OrderMapper orderMapper;
-
     @Override
-    public List<LoanOrderDto> queryOrder() {
-
-        return orderMapper.queryOrder();
+    public Page<Order> listIneed(Page<Order> offerListDtoPage) {
+        return orderMapper.listIneed(offerListDtoPage);
     }
 }
