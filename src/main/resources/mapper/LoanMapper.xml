@@ -81,6 +81,7 @@
         <id column="id" property="id"/>
         <result column="loan_amount" property="loanAmount"/>
         <result column="cause" property="cause"/>
+
         <association property="customerId" javaType="com.greatgump.crm.entity.Customer">
             <id column="cid" property="id"/>
             <result column="customer_name" property="customerName"/>

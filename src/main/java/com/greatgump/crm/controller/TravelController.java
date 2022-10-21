@@ -2,6 +2,7 @@ package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.*;
+import com.greatgump.crm.service.ApprovalStatusService;
 import com.greatgump.crm.service.CustomerService;
 import com.greatgump.crm.service.OrderService;
 import com.greatgump.crm.service.TravelService;
@@ -33,6 +34,9 @@ public class TravelController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private ApprovalStatusService approvalStatusService;
 
 
     @ApiOperation("获取所有的出差信息")
@@ -84,13 +88,16 @@ public class TravelController {
         return Result.success(travelService.queryEditTravel(id));
     }
 
-
+    @ApiOperation("审批状态下拉框，会返回审批状态及id")
+    @GetMapping("/queryApprovalStatus")
+    public Result<List<ApprovalStatusDto>> queryApprovalStatus(){
+        return Result.success(approvalStatusService.queryApprovalStatus());
+    }
     @ApiOperation("出差页面关键词查询")
     @PostMapping("/queryTravelDynamic")
     public Result<List<TravelDto>>  queryTravelDynamic(@RequestBody TravelDynamicDto travelDynamicDto){
 
         List<TravelDto> travelDtoPage = travelService.queryTravelDynamic(travelDynamicDto);
-//        Long count = Long.valueOf(loanService.count(loanDtoPage));
         return Result.success(travelDtoPage);
     }
         @ApiOperation("出差页面修改")
