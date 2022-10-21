@@ -6,6 +6,7 @@ import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.entity.Loan;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.rmi.server.UID;
 import java.util.List;
@@ -32,8 +33,9 @@ public interface LoanMapper extends BaseMapper<Loan> {
 
       List<LoanDto> queryLoanDynamic(LoanDynamicDto loanDynamicDto);
 
-      boolean deleteLoan(Integer id);
+      boolean deleteLoan(Long id);
 
+      boolean deleteBatch(@Param("ids") List<Long> ids);
 
 
 }

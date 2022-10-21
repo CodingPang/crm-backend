@@ -6,6 +6,7 @@ import com.greatgump.crm.entity.*;
 import com.greatgump.crm.mapper.BusinessMapper;
 import com.greatgump.crm.service.*;
 import com.greatgump.crm.utils.Result;
+import com.greatgump.crm.utils.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -128,7 +129,7 @@ public class LoanController {
   @DeleteMapping("/deleteLoan/{id}")
   public Result deleteLoan(@PathVariable("id")Long id){
 
-      boolean b = loanService.removeById(id);
+      boolean b = loanService.deleteLoan(id);
       return Result.judge(b);
 
 
@@ -136,13 +137,12 @@ public class LoanController {
   @ApiOperation("借款页面批量删除")
   @DeleteMapping("/deletebatch")
   public Result deletebatch(@RequestBody List<Long> ids){
-           boolean b =false;
-      for (Long id : ids) {
+      // 1、非空校验
+        if (ids == null || ids.size() == 0){ // 执行这里面的 return执行将此方法执行结束
+            return Result.failed("参数为空");
+        }
 
-          b = loanService.removeById(id);
-      }
-
-
+        boolean b = loanService.deleteBatch(ids);
 
         return Result.judge(b);
   }

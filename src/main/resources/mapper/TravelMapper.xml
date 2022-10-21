@@ -26,11 +26,19 @@
         WHERE id=#{id};
  </update>
 
-    <delete id="deleteTravel">
-        DELETE FROM t_travel
-        WHERE id=#{id}
+     <update id="deleteTravel">
+         UPDATE t_travel SET is_delete = 1 WHERE id = #{id}
+    </update>
 
- </delete>
+    <update id="deleteBatch">
+        UPDATE t_travel SET is_delete = 1
+        <where>
+            id IN
+            <foreach item="item" collection="ids" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </where>
+    </update>
 
 
 

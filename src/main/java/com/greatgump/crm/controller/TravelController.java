@@ -67,11 +67,11 @@ public class TravelController {
         return Result.success(customerService.queryName());
     }
 
-//    @ApiOperation("关联订单下拉框，会返回订单名称及id")
-//    @GetMapping("/loanOrder")
-//    public Result<List<LoanOrderDto>> loanOrder(){
-//        return Result.success(orderService.queryOrder());
-//    }
+    @ApiOperation("关联订单下拉框，会返回订单名称及id")
+    @GetMapping("/loanOrder")
+    public Result<List<LoanOrderDto>> loanOrder(){
+        return Result.success(orderService.queryOrder());
+    }
 
     @ApiOperation("获取详情")
     @GetMapping("/queryTravelDetails/{id}")
@@ -116,7 +116,7 @@ public class TravelController {
     @DeleteMapping("/deleteTravel/{id}")
     public Result deleteTravel(@PathVariable("id")Long id){
 
-        boolean b = travelService.removeById(id);
+        boolean b = travelService.deleteTravel(id);
         return Result.judge(b);
 
 
@@ -124,10 +124,12 @@ public class TravelController {
     @ApiOperation("出差页面批量删除")
     @DeleteMapping("/deletebatch")
     public Result deletebatch(@RequestBody List<Long> ids){
-        boolean b =false;
-        for (Long id : ids) {
-            b = travelService.removeById(id);
+
+        if (ids == null || ids.size() == 0){
+            return Result.failed("参数为空");
         }
+
+        boolean b = travelService.deleteBatch(ids);
 
 
 
