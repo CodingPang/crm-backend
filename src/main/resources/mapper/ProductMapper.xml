@@ -150,4 +150,19 @@ values (#{productCode},#{productName},#{assortName},#{unitName},#{propertyName})
     </select>
 
 
+
+   <!-- 产品报价-->
+    <select id="queryProductPlan" resultType="com.greatgump.crm.dto.ProductPlanDto">
+        select s.id,p.product_name,p.product_code,p.unitid,p.price,s.number,s.rate,s.b_offer
+        from t_product p,t_product_sales s
+        where p.id=s.product_id and p.product_name in (select product_name from t_business_product where business_name=#{businessTitle})
+    </select>
+    <select id="queryCount" resultType="com.greatgump.crm.dto.ProductCountDto">
+     select count(s.b_offer)as countNotes,sum(s.number) as countNumber,p.price*(sum(s.number)) as allPrice,(s.b_offer*(sum(s.number))-p.price*(sum(s.number)))/s.b_offer*(sum(s.number)) as rates,s.b_offer*(sum(s.number)) as offPrice
+     from t_product_sales s,t_product p
+     where s.product_id=p.id and p.product_name in (select product_name from t_business_product where business_name=#{businessTitle})
+     GROUP BY s.b_offer,s.number,p.price
+    </select>
+
+
 </mapper>

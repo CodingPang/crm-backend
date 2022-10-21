@@ -72,4 +72,15 @@
         SELECT id,order_title from t_order
     </select>
 
+
+
+
+
+
+<!--    商机中关联订单-->
+    <select id="queryBusinessOder" resultType="com.greatgump.crm.dto.OrderBusinessDto">
+        select id,order_title,oder_status,oder_total,total_res, total_ticket
+        from t_order where business_id in(select id from t_business where bussiness_title=#{bussinessTitle})
+    </select>
+
 </mapper>

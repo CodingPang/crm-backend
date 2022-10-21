@@ -2,6 +2,8 @@ package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.LoanDto;
+import com.greatgump.crm.dto.ProductCountDto;
+import com.greatgump.crm.dto.ProductPlanDto;
 import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.dto.LuoDto1;
 import com.greatgump.crm.entity.Product;
@@ -44,4 +46,18 @@ public interface ProductMapper extends BaseMapper<Product> {
 
 
     List<ProductDto> searchList(ProductsearchDto productsearchDto);
+
+
+
+
+    /*
+    *
+    *报价计划
+    */
+    List<ProductPlanDto> queryProductPlan(String businessTitle);
+
+    /*
+    *求报价记录
+    */
+    ProductCountDto queryCount(String businessTitle);
 }

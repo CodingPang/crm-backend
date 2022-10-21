@@ -101,21 +101,21 @@ public class CostServiceImpl extends ServiceImpl<CostMapper, Cost> implements Co
     List<CostTypeDto> allCostType = getAllCostType();
     map.put("allCostType",allCostType);
 
-    // 2、准备所有的客户
-    List<CustomerList> allCustomers = customerMapper.queryAllCustomerList();
-    map.put("allCustomers", allCustomers);
-
-    // 3、准备负责人员(PrincipalDto)列表
-    List<PrincipalDto> allPrincipalDtos = userMapper.queryAllPrincipalDto();
-    map.put("allPrincipalDtos", allPrincipalDtos);
-
-    // 4、准备订单列表
-    List<OrderListDto> allOrderListDtos = orderMapper.selectOrderListDto();
-    map.put("allOrderListDtos", allOrderListDtos);
-
-    // 5、准备商机列表
-    List<BusinessListDto> allBusiness = businessMapper.selectAllBusiness();
-    map.put("allBusiness", allBusiness);
+//    // 2、准备所有的客户
+//    List<CustomerList> allCustomers = customerMapper.queryAllCustomerList();
+//    map.put("allCustomers", allCustomers);
+//
+//    // 3、准备负责人员(PrincipalDto)列表
+//    List<PrincipalDto> allPrincipalDtos = userMapper.queryAllPrincipalDto();
+//    map.put("allPrincipalDtos", allPrincipalDtos);
+//
+//    // 4、准备订单列表
+//    List<OrderListDto> allOrderListDtos = orderMapper.selectOrderListDto();
+//    map.put("allOrderListDtos", allOrderListDtos);
+//
+//    // 5、准备商机列表
+//    List<BusinessListDto> allBusiness = businessMapper.selectAllBusiness();
+//    map.put("allBusiness", allBusiness);
 
     return map;
   }

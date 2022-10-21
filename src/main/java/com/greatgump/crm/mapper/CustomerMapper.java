@@ -42,4 +42,18 @@ public interface CustomerMapper extends BaseMapper<Customer> {
    * @return
    */
   List<CustomerList> queryAllCustomerList();
+    /*
+     *商机中的关联客户
+     */
+
+    List<Customer>  selectCustomerRelation();
+
+    /*
+     *商机归属
+     */
+
+    List<Customer> selectCustomerAscription();
+
+
+    LuoDto2 queryId(String customerName);
 }

@@ -69,6 +69,28 @@
     <select id="selectOneClue" resultType="com.greatgump.crm.dto.clue.CluePreEditDto">
 
     </select>
+    <select id="queryNeeds" resultType="com.greatgump.crm.dto.BusinessSourceDto">
+        select f.business_name,u.username,f.customer_name,f.estimated_income,f.business_stage,f.business_source,f.customer_needs,f.contactss,f.e_mail,f.phone,f.qq,d.dept_name,f.wechat
+        from t_follow_form f,t_dept d,t_user u
+        where f.dept_id=d.dept_no and f.user_id=u.id and f.business_name=#{businessTitle}
+    </select>
+    <select id="queryPeople" resultType="com.greatgump.crm.dto.BusinessCustomerDto">
+        select f.contactss,f.e_mail,f.phone,f.qq,d.dept_name,f.wechat
+        from t_follow_form f,t_dept d
+        where f.dept_id=d.dept_no and f.business_name=#{businessTitle}
+    </select>
 
+    <select id="queryAscription" resultType="com.greatgump.crm.dto.FollowFromAscriptionDto">
+        select u.username as ascription,min(f.current_time) as asriptionStart, MAX(f.current_time) as asriptionEnd,u.username as operators,f.current_time as operateTime
+        from t_follow_form f,t_user u
+        where f.user_id=u.id and f.business_name=#{businessTitle}
+        group by u.username, f.current_time
+    </select>
+
+
+    <insert id="addBusinessFollowForm" parameterType="com.greatgump.crm.dto.BussinessDictionaryDto">
+         insert into t_follow_form(contactss,e-mail,phone,qq,dept_id,wechat,customer_needs,business_name,user_id,business_source,business_stage,customer_id,estimated_income)
+         values (#{contactss},#{eMail},#{phone},#{qq},#{dept.id},#{wechat},#{customerNeeds},#{businessTitle},#{user.id},#{businessOrigin},#{businessStage},#{customer.id},#{estimatedIncome})
+    </insert>
 
 </mapper>

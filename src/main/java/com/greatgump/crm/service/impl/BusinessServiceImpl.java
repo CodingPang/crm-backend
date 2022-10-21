@@ -1,15 +1,20 @@
 package com.greatgump.crm.service.impl;
 
-import com.greatgump.crm.dto.BusinessDto;
-import com.greatgump.crm.dto.LoanBusinessDto;
-import com.greatgump.crm.entity.Business;
-import com.greatgump.crm.mapper.BusinessMapper;
+import com.greatgump.crm.dto.*;
+import com.greatgump.crm.entity.*;
+import com.greatgump.crm.mapper.*;
 import com.greatgump.crm.service.BusinessService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -24,14 +29,213 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
     @Autowired
     private BusinessMapper businessMapper;
 
+    @Autowired
+    private BusinessOriginMapper businessOriginMapper;
+
+    @Autowired
+    private BusinessStageMapper businessStageMapper;
+
+    @Autowired
+    private CustomerMapper customerMapper;
+
+    @Autowired
+    private FollowFormMapper followFormMapper;
+
+    @Autowired
+    private ChasingRecordMapper chasingRecordMapper;
+
+    @Autowired
+    private ProductMapper productMapper;
+
+    @Autowired
+    private OrderMapper orderMapper;
+    @Autowired
+    private FollowMapper followMapper;
+
+    @Autowired
+    private UploadAttachmentMapper uploadAttachmentMapper;
     @Override
-    public List<BusinessDto> listBase(int current, int size) {
+    public List<BusinessDto> queryAllBusiness(int current, int size) {
         return businessMapper.listBase(current,size);
     }
 
     @Override
-    public List<LoanBusinessDto> queryBusiness() {
+    public List<BusinessOrigin> queryBusinessOrigin() {
+        List<BusinessOrigin> businesses = businessOriginMapper.selectList(null);
+        return businesses;
 
-        return businessMapper.queryBusiness();
     }
+
+    @Override
+    public List<BusinessStage> queryBusinessStage() {
+        List<BusinessStage> businesses = businessStageMapper.selectList(null);
+        return businesses;
+    }
+
+    @Override
+    public List<Customer> queryAllCustomer(){
+        List<Customer> customers = this.customerMapper.selectCustomerRelation();
+        return customers;
+    }
+
+    @Override
+    public List<Customer> queryCustomerAscription() {
+        List<Customer> customers = this.customerMapper.selectCustomerAscription();
+        return customers;
+    }
+
+    @Override
+    public void addBusiness(BusinessSourceDto businessSourceDto) {
+        this.businessMapper.addBusiness(businessSourceDto);
+        this.followFormMapper.addBusinessFollowForm(businessSourceDto);
+    }
+
+    @Override
+    public List<BusinessDto> queryBusinessForm(BussinessDictionaryDto bussinessDictionaryDto) {
+        String shopTime=bussinessDictionaryDto.getShapTime();
+        String startTime = null;
+        String endTime = null;
+        Date startDate = null;
+        Date endDate = null;
+        if (shopTime != null && !shopTime.equals("")){
+            String[] times = shopTime.split("~");
+            startTime = times[0];
+            endTime = times[1];
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                startDate = sdf.parse(startTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                endDate = sdf.parse(endTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        List<BusinessDto> list=this.businessMapper.queryBusinessForm(bussinessDictionaryDto.getPage(),bussinessDictionaryDto.getSize(),bussinessDictionaryDto.getCustomer(),bussinessDictionaryDto.getBusinessOrigin(),bussinessDictionaryDto.getBusinessStage(),startDate,endDate);
+
+        return list;
+    }
+
+    @Override
+    public void deleteBusiness(Long id) {
+        this.businessMapper.deleteById(id);
+        this.followFormMapper.deleteByBusinessId(id);
+    }
+
+    @Override
+    public void deletesBusiness(List<Long> ids) {
+        this.businessMapper.deleteBatchIds(ids);
+        for (Long id : ids) {
+            this.followFormMapper.deleteByBusinessId(id);
+        }
+    }
+
+    @Override
+    public List<BusinessDto2> queryId(Long id) {
+        List<BusinessDto2> list=this.businessMapper.queryId(id);
+        return list;
+    }
+
+
+    @Override
+    public void updateBusiness(BusinessSourceDto businessSourceDto) {
+        this.businessMapper.updateBusiness(businessSourceDto);
+        this.followFormMapper.addBusinessFollowForm(businessSourceDto);
+    }
+
+    @Override
+    public ChasingDto queryChasing(Long id) {
+        ChasingDto chasingDto = this.businessMapper.queryChasing(id);
+        return chasingDto;
+    }
+
+    @Override
+    public void addChasing(ChasingAddDto chasingAddDto) {
+        this.chasingRecordMapper.addChasing(chasingAddDto);
+    }
+
+    @Override
+    public  List<BusinessSourceDto> queryInformation(String businessTitle) {
+        List<BusinessSourceDto> businessSourceDtos = this.followFormMapper.queryNeeds(businessTitle);
+        return businessSourceDtos;
+    }
+
+    @Override
+    public List<BusinessCustomerDto> queryPeople(String businessTitle) {
+        this.followFormMapper.queryPeople(businessTitle);
+        return null;
+    }
+
+    @Override
+    public List<FollowDetailsDto> queryChasingPlans(String businessTitle) {
+        List<FollowDetailsDto> followDetailsDtos = this.chasingRecordMapper.queryChasingPlans(businessTitle);
+        return followDetailsDtos;
+    }
+
+    @Override
+    public FollowDetailsDto queryChasingPlan(String userName, Date progressiveTime) {
+        FollowDetailsDto followDetailsDto = this.chasingRecordMapper.queryChasingPlan(userName, progressiveTime);
+        return followDetailsDto;
+    }
+
+    @Override
+    public List<ProductPlanDto> queryProductPlan(String businessTitle) {
+        List<ProductPlanDto> productPlanDtos = this.productMapper.queryProductPlan(businessTitle);
+        return productPlanDtos;
+    }
+
+    @Override
+    public void deleteProduct(int id) {
+        this.productMapper.deleteById(id);
+    }
+
+    @Override
+    public void deleteProducts(List<Integer> ids) {
+         this.productMapper.deleteBatchIds(ids);
+    }
+
+    @Override
+    public ProductCountDto queryCount(String businessTitle) {
+        this.productMapper.queryCount(businessTitle);
+        return null;
+    }
+
+    @Override
+    public List<OrderBusinessDto> queryBusinessOder(String businessTitle) {
+        List<OrderBusinessDto> orderBusinessDtos = this.orderMapper.queryBusinessOder(businessTitle);
+        return orderBusinessDtos;
+    }
+
+    @Override
+    public OrderFollowDto addOrderFollow(Long id) {
+        OrderFollowDto orderFollowDto = this.followMapper.addOrderFollow(id);
+        return orderFollowDto;
+    }
+
+    @Override
+    public void deleteOder(Long id) {
+        this.orderMapper.deleteById(id);
+    }
+
+    @Override
+    public List<UplodeEnclosureDto> queryEnclosure(String businessTitle) {
+        List<UplodeEnclosureDto> uplodeEnclosureDtos = this.uploadAttachmentMapper.queryEnclosure(businessTitle);
+        return uplodeEnclosureDtos;
+    }
+
+    @Override
+    public void deleteEnclosure(Long id) {
+        this.uploadAttachmentMapper.deleteById(id);
+    }
+
+    @Override
+    public List<FollowFromAscriptionDto> queryAscription(String businessTitle) {
+        List<FollowFromAscriptionDto> followFromAscriptionDtos = this.followFormMapper.queryAscription(businessTitle);
+
+        return followFromAscriptionDtos;
+    }
+
 }
