@@ -64,8 +64,8 @@ public Result<List<ProductDto>> queryAllProducts(@PathVariable("page") Integer c
     public Result preAdd(@RequestBody AddProductDto addProductDto){
         Date date = new Date();
         addProductDto.setCreatedate(date);
-        int i = productService.insertProduct(addProductDto);
-        return Result.judge(i>0);
+        int insertProduct = productService.insertProduct(addProductDto);
+        return Result.judge(insertProduct>0);
 
     }
 

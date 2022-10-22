@@ -17,8 +17,8 @@
         id, property_name, property_value, creation_date, remark, is_delete
     </sql>
     <insert id="insertProperty">
-        insert into t_property(property_name,property_value)
-        values (#{propertyName},#{propertyValue})
+        insert into t_property(property_name,property_value,creation_date)
+        values (#{propertyName},#{propertyValue},#{creationDate})
     </insert>
     <update id="updateProperty">
         UPDATE t_property
