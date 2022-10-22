@@ -64,7 +64,7 @@ public class ChasingRecord implements Serializable {
 
     @ApiModelProperty("跟进表id（关联跟进表的id）")
     @TableField("t_follow_form_id")
-    private Long tFollowFormId;
+    private int followFormId;
 
     @ApiModelProperty("备注")
     @TableField("remark")

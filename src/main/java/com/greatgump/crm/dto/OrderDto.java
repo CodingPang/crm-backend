@@ -3,6 +3,7 @@ package com.greatgump.crm.dto;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.greatgump.crm.dto.finance.cost.CustomerList;
 import com.greatgump.crm.entity.Customer;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -32,7 +33,7 @@ public class OrderDto implements Serializable {
 
     @ApiModelProperty("关联名称(外键，客户表id)")
     @TableField("customer_id")
-    private CustomerDto customer;
+    private CustomerList customer;
 
     @ApiModelProperty("订单标题")
     @TableField("order_title")
@@ -67,7 +68,7 @@ public class OrderDto implements Serializable {
     private Integer isDelete;
 
     // 回款计划使用
-    public OrderDto(Long id, CustomerDto customer, String orderTitle, BigDecimal oderTotal,
+    public OrderDto(Long id, CustomerList customer, String orderTitle, BigDecimal oderTotal,
         String orderDate) {
         this.id = id;
         this.customer = customer;

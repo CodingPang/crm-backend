@@ -1,9 +1,7 @@
 package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.AddPropertyDto;
-import com.greatgump.crm.dto.productlibrary.PropertyDto;
-import com.greatgump.crm.dto.productlibrary.QueryPropertyDto;
+import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.service.PropertyService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
@@ -37,25 +35,6 @@ public class PropertyController {
         Page<PropertyDto> propertyDtoPage = new Page<>(current, size);
         Page<PropertyDto> pageIfo = propertyService.queryAllPropertys(propertyDtoPage);
         return Result.success(pageIfo.getRecords(),pageIfo.getTotal());
-//        PropertyDto propertyDto =new PropertyDto();
-//
-//        Property property = new Property();
-//        property.setId(1L);
-//        property.setPropertyName("颜色");
-//        property.setPropertyValue("红,黄");
-//        property.setCreationDate(new Date());
-//
-//        Property property1 = new Property();
-//        property1.setId(2L);
-//        property1.setPropertyName("尺寸");
-//        property1.setPropertyValue("XS,S,M,L,XL,XXL,XXXL");
-//        property1.setCreationDate(new Date());
-//
-//        List<Property> propertyList = new ArrayList<>();
-//        propertyList.add(property);
-//        propertyList.add(property1);
-
-//        return Result.success(propertyList,4L);
 
     }
 
@@ -67,43 +46,52 @@ public class PropertyController {
     }
 
     @ApiOperation("产品属性编辑预查询")
-    @PutMapping("/querybid/{id}")
+    @GetMapping("/querybid/{id}")
     public Result<QueryPropertyDto> queryBid(@PathVariable("id") Integer id){
 
         return Result.success(propertyService.queryBid(id));
     }
 
     @ApiOperation("产品属性编辑")
-    @PutMapping("/update/{id}")
-    public Result<PropertyDto> update(@PathVariable("id")Long id){
+    @PutMapping("/updateProperty")
+    public Result<UpdePropertyDto> updateProperty(@RequestBody UpdePropertyDto updePropertyDto){
 
-        String propertyName = "颜色";
-        String propertyValue ="红,白,黑,蓝,黄";
-        PropertyDto propertyDto =new PropertyDto();
-        propertyDto.setPropertyName(propertyName);
-        propertyDto.setPropertyValue(propertyValue);
+        int updateProperty = propertyService.updateProperty(updePropertyDto);
 
-        return Result.success(propertyDto);
-
-
+        if (updateProperty>0){
+            return Result.success();
+        }else{
+            return Result.failed();
+        }
     }
 
     @ApiOperation("产品属性信息删除")
-    @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable("id")Long id){
-        propertyService.removeById(id);
+    @DeleteMapping("/deleteProperty/{id}")
+    public Result deleteProperty(@PathVariable("id")Long id){
 
-        return Result.success();
+        boolean b = propertyService.removeById(id);
+        return Result.judge(b);
+
+
     }
 
-    @ApiOperation("产品属性信息批量删除")
-    @DeleteMapping("/deletion")
-    public Result deletion(@RequestBody List<PropertyDto> propertyDtos){
-        for (PropertyDto propertyDto : propertyDtos) {
-            propertyService.removeById(propertyDto.getId());
-        }
 
-        return Result.success();
+    @ApiOperation("产品属性信息批量删除")
+    @DeleteMapping("/deletebatch")
+    public Result deletebatch(@RequestBody List<Long> ids){
+
+        boolean  b = propertyService.removeByIds(ids);
+
+
+        return Result.judge(b);
+    }
+
+    @ApiOperation("产品属性搜索")
+    @PostMapping("/crm/property/search")
+    public Result<List<PropertyDto>> search1(@RequestBody PropertysearchDto propertysearchDto){
+        List<PropertyDto> productListDtoPage= propertyService.searchList1(propertysearchDto);
+//        Long count = Long.valueOf(productService.countList(productsearchDto));
+        return Result.success(productListDtoPage);
     }
 
 }

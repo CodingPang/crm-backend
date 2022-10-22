@@ -12,6 +12,7 @@
         <association property="customer" javaType="com.greatgump.crm.entity.Customer">
             <id column="cid" property="id" />
             <result column="customer_name" property="customerName" />
+
         </association>
         <association property="order" javaType="com.greatgump.crm.entity.Order">
             <id column="oid" property="id" />
@@ -37,12 +38,16 @@
         SET customer_id=#{customerId},loan_amount =#{loanAmount},cause=#{cause},order_id = #{orderId},business_id = #{businessId}
         WHERE id=#{id};
     </update>
-    <delete id="deleteLoan"></delete>
-    <delete id="deletebatch"></delete>
+    <delete id="deleteLoan">
+        DELETE FROM t_loan
+         WHERE id=#{id}
+
+    </delete>
+
 
 
     <select id="queryAllloans" resultMap="BaseResultMap">
-        SELECT tcs.id cid,tcs.customer_name,tl.loan_amount,tl.cause,tl.approval_status,tl.appplication_time,tu.id uid,tu.username
+        SELECT tl.id, tcs.id cid,tcs.customer_name,tl.loan_amount,tl.cause,tl.approval_status,tl.appplication_time,tu.id uid,tu.username
         FROM t_customer tcs,t_loan tl,t_user tu
         WHERE tl.customer_id = tcs.id AND tl.user_id = tu.id
     </select>
@@ -93,6 +98,27 @@
         SELECT tcs.id cid, tcs.customer_name,tor.id oid, tor.order_title,tl.loan_amount, tb.id bid,tb.bussiness_title,tl.cause,tl.id
         FROM t_loan tl,t_order tor,t_business tb,t_customer tcs
         WHERE tl.customer_id=tcs.id AND tl.order_id = tor.id AND tl.business_id = tb.id AND tl.id =#{id}
+    </select>
+
+    <select id="queryLoanDynamic" resultMap="BaseResultMap">
+
+        SELECT tl.id ,tcs.customer_name customer,tl.loan_amount,tl.cause,tl.approval_status,tl.appplication_time,tu.username
+        FROM t_customer tcs,t_loan tl,t_user tu,t_dept td
+        WHERE tl.customer_id = tcs.id AND tl.user_id = tu.id AND tl.dept_id=td.dept_no
+        <if test="keywords != null and keywords != ''">
+            AND tcs.customer_name = #{keywords}
+        </if>
+
+          <if test="approval_status !=  0">
+              AND tl.approval_status = #{approval_status}
+          </if>
+        <if test="appplication_time != null">
+            AND tl.appplication_time  >= #{appplication_time}
+        </if>
+        <if test="submission_time !=null">
+            AND tl.submission_time &lt;= #{submission_time}
+        </if>
+
     </select>
 
 

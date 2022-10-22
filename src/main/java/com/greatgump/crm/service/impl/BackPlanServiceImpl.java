@@ -1,8 +1,7 @@
 package com.greatgump.crm.service.impl;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.greatgump.crm.dto.back.BackPlanDto;
+import com.greatgump.crm.dto.back.plan.BackPlanQueryAllDto;
 import com.greatgump.crm.entity.BackPlan;
 import com.greatgump.crm.mapper.BackPlanDetailMapper;
 import com.greatgump.crm.mapper.BackPlanMapper;
@@ -28,8 +27,21 @@ public class BackPlanServiceImpl extends ServiceImpl<BackPlanMapper, BackPlan> i
   private BackPlanDetailMapper backPlanDetailMapper;
 
   @Override
-  public List<BackPlanDto> queryAllBackPlan() {
+  public List<BackPlanQueryAllDto> queryAllBackPlan() {
 //    backPlanMapper.queryAllBackPlan(backPlanPage);
     return null;
+  }
+
+  @Override
+  public boolean deleteById(Integer id) {
+    // 1、先删子表
+    int resultForDetails = backPlanDetailMapper.deleteByPlanId(id);
+    // 2、删主表
+    int resultForPlan   = backPlanMapper.deleteById(id);
+
+    if (resultForPlan + resultForDetails !=0 ){
+      return true;
+    }
+    return false;
   }
 }

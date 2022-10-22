@@ -2,8 +2,10 @@ package com.greatgump.crm.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.greatgump.crm.dto.back.BackCheckDto;
-import com.greatgump.crm.entity.BackCheck;
+import com.greatgump.crm.dto.back.check.BackCheckFuzzyQuery;
+import com.greatgump.crm.dto.back.check.ChangeChecker;
+import com.greatgump.crm.dto.back.common.BackAllFuzzyQuery;
+import com.greatgump.crm.dto.back.common.CheckRecorderDto;
 import com.greatgump.crm.entity.BackRecord;
 import java.util.List;
 
@@ -44,6 +46,8 @@ public interface BackCheckService extends IService<BackRecord> {
    */
   List<BackRecord> queryAllByCondition(Integer current, Integer size, Integer checkStatus, String submitStartTime, String submitEndTime);
 
+  List<BackRecord> queryAllByCondition(Integer current, Integer size, BackAllFuzzyQuery backAllFuzzyQuery);
+
   /**
    * 根据回款id找到该回款的所有信息
    * @param id
@@ -58,4 +62,26 @@ public interface BackCheckService extends IService<BackRecord> {
    * @return
    */
   boolean updateOne(Integer id, Integer checkStatus, String remark);
+
+  /**
+   * 回款审批条件查询
+   * @param current
+   * @param size
+   * @param backCheckFuzzyQuery
+   * @return
+   */
+  List<BackRecord> queryAllByCondition(Integer current, Integer size, BackCheckFuzzyQuery backCheckFuzzyQuery);
+
+  /**
+   *
+   * @return
+   */
+  List<CheckRecorderDto> queryAllCheck();
+
+  /**
+   * 更新回款记录的审核人员
+   * @param changeChecker
+   * @return
+   */
+  boolean updateBackChecker(ChangeChecker changeChecker);
 }

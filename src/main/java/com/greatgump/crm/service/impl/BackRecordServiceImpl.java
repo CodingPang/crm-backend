@@ -2,6 +2,7 @@ package com.greatgump.crm.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.greatgump.crm.dto.back.record.BackRecordAllDto;
 import com.greatgump.crm.entity.BackRecord;
 import com.greatgump.crm.mapper.BackRecordMapper;
 import com.greatgump.crm.service.BackRecordService;
@@ -24,7 +25,16 @@ public class BackRecordServiceImpl extends ServiceImpl<BackRecordMapper, BackRec
   private BackRecordMapper backRecordMapper;
 
   @Override
-  public Page<BackRecord> queryAllBackRecord(Page<BackRecord> backRecordPage) {
+  public Page<BackRecordAllDto> queryAllBackRecord(Page<BackRecordAllDto> backRecordPage) {
     return backRecordMapper.queryAllBackRecord(backRecordPage);
+  }
+
+  @Override
+  public boolean deleteByPrimaryKey(Integer id) {
+    int result = backRecordMapper.deleteById(id);
+    if (result != 0){
+      return true;
+    }
+    return false;
   }
 }

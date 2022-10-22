@@ -31,6 +31,7 @@
     <select id="queryAllBackPlan" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List"></include>
         FROM t_back_plan
+        WHERE is_delete = 0
     </select>
 
 

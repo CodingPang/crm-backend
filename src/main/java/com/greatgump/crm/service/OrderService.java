@@ -1,7 +1,10 @@
 package com.greatgump.crm.service;
 
+import com.greatgump.crm.dto.LoanOrderDto;
 import com.greatgump.crm.entity.Order;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-10-12 10:31:27
  */
 public interface OrderService extends IService<Order> {
+    List<LoanOrderDto> queryOrder();
 
 }

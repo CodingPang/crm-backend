@@ -6,6 +6,8 @@ import com.greatgump.crm.entity.Customer;
 import com.greatgump.crm.entity.Loan;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 借款表 服务类
@@ -23,11 +25,12 @@ public interface LoanService extends IService<Loan> {
 
     EditDto queryEdit(Integer id);
 
+    List<LoanDto> queryLoanDynamic(LoanDynamicDto loanDynamicDto);
     int updateLoan(AddedLoanDto addedLoanDto);
 
     boolean deleteLoan(Integer id);
 
-    boolean deletebatch(LoanDto loanDto);
+
 
 
 }

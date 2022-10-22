@@ -19,8 +19,18 @@
         insert into t_calc_unit(unit_name)
         values (#{unitName})
     </insert>
+    <update id="updateClcUnit">
+        UPDATE t_calc_unit
+        SET unit_name=#{unitName}
+        WHERE id=#{id}
+    </update>
+    <delete id="deleteCalcUnit">
+        DELETE
+        FROM t_calc_unit
+        WHERE id=#{id};
+    </delete>
     <select id="queryAllCalcUnits" resultMap="BaseResultMap">
-        SELECT c.unit_name,c.creation_date
+        SELECT c.id,c.unit_name,c.creation_date
         FROM t_calc_unit c
     </select>
     <resultMap id="BaseResultMap1" type="com.greatgump.crm.dto.productlibrary.QueryCalcUnitDto">
@@ -28,9 +38,23 @@
         <result column="unit_name" property="unitName"/>
     </resultMap>
     <select id="queryBid" resultMap="BaseResultMap1">
-        SELECT cu.unit_name
+        SELECT cu.id,cu.unit_name
         FROM t_calc_unit cu
         WHERE cu.id=#{id}
+    </select>
+    <select id="searchList" resultMap="BaseResultMap">
+        SELECT
+        unit_name,
+        creation_date
+        FROM
+        t_calc_unit
+        WHERE
+        <if test = "unitName != null and unitName != ''" >
+         unit_name = #{unitName}
+        </if >
+          <if test = "start != null &amp;end != null " >
+        AND creation_date BETWEEN #{start} AND #{end}
+    </if>
     </select>
 
 

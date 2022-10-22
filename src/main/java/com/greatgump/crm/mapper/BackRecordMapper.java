@@ -2,11 +2,14 @@ package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.back.check.BackCheckFuzzyQuery;
+import com.greatgump.crm.dto.back.check.ChangeChecker;
+import com.greatgump.crm.dto.back.common.BackAllFuzzyQuery;
+import com.greatgump.crm.dto.back.record.BackRecordAllDto;
 import com.greatgump.crm.entity.BackRecord;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * <p>
@@ -24,7 +27,7 @@ public interface BackRecordMapper extends BaseMapper<BackRecord> {
    * @param backRecordPage
    * @return
    */
-  Page<BackRecord> queryAllBackRecord(Page<BackRecord> backRecordPage);
+  Page<BackRecordAllDto> queryAllBackRecord(Page<BackRecordAllDto> backRecordPage);
 
   /**
    * 分页查询所有的审批记录
@@ -76,4 +79,22 @@ public interface BackRecordMapper extends BaseMapper<BackRecord> {
    * @return
    */
   List<BackRecord> selectAllbackRecord();
+
+  List<BackRecord> queryAllBackRecords(@Param("current") Integer current, @Param("size") Integer size, @Param("backAllFuzzyQuery") BackAllFuzzyQuery backAllFuzzyQuery);
+
+  /**
+   * 回款审批条件全查询
+   * @param current
+   * @param size
+   * @param backCheckFuzzyQuery
+   * @return
+   */
+  List<BackRecord> selectAllBackCheckRecords(@Param("current") Integer current, @Param("size") Integer size, @Param("backCheckFuzzyQuery") BackCheckFuzzyQuery backCheckFuzzyQuery);
+
+  /**
+   * 更新 回款记录 审核人员
+   * @param changeChecker
+   * @return
+   */
+  boolean updateChecker(ChangeChecker changeChecker);
 }

@@ -2,6 +2,7 @@ package com.greatgump.crm.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.greatgump.crm.dto.back.record.BackRecordAllDto;
 import com.greatgump.crm.entity.BackRecord;
 
 /**
@@ -19,5 +20,12 @@ public interface BackRecordService extends IService<BackRecord> {
    * @param backRecordPage
    * @return
    */
-  Page<BackRecord> queryAllBackRecord(Page<BackRecord> backRecordPage);
+  Page<BackRecordAllDto> queryAllBackRecord(Page<BackRecordAllDto> backRecordPage);
+
+  /**
+   * 根据id删除某条回款记录
+   * @param id
+   * @return
+   */
+  boolean deleteByPrimaryKey(Integer id);
 }

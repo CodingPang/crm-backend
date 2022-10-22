@@ -1,10 +1,7 @@
 package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.AddProductDto;
-import com.greatgump.crm.dto.productlibrary.ProductDto;
-import com.greatgump.crm.dto.productlibrary.QueryProductDto;
-import com.greatgump.crm.dto.productlibrary.UpdeProductDto;
+import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.service.ProductService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
@@ -38,85 +35,43 @@ public Result<List<ProductDto>> queryAllProducts(@PathVariable("page") Integer c
     Page<ProductDto> productDtoPage = new Page<>(current, size);
     Page<ProductDto> pageIfo = productService.queryAllProducts(productDtoPage);
     return Result.success(pageIfo.getRecords(),pageIfo.getTotal());
-//    ProductDto productDto =new ProductDto();
 
-//    Product product01 = new Product();
-//    product01.setId(1L);
-//    product01.setProductCode("CP-003");
-//    product01.setClassification("服装");
-//    product01.setProductName("男士卫衣");
-//    product01.setUnit("件");
-//    product01.setCreationDate(new Date());
-//
-//    Product product02 = new Product();
-//    product02.setId(2L);
-//    product02.setProductCode("CP-003");
-//    product02.setClassification("服装");
-//    product02.setProductName("女士卫衣");
-//    product02.setUnit("件");
-//    product02.setCreationDate(new Date());
-//
-//    List<Product> productList = new ArrayList<>();
-//    productList.add(product01);
-//    productList.add(product02);
-//    return Result.success(productList,4L);
-//
 }
-//
-//
+
+    @ApiOperation("产品分类下拉框")
+    @GetMapping("/crm/offer_details/listAssort")
+    public Result<List<ProductBox1Dto>> listAssort(){
+        return Result.success(productService.getAssort());
+    }
+
+    @ApiOperation("计量单位下拉框")
+    @GetMapping("/crm/Product/listCalcUnit")
+    public Result<List<ProductBox2Dto>> listCalcUnit(){
+        return Result.success(productService.getClacUnit());
+    }
+
+    @ApiOperation("产品属性下拉框")
+    @GetMapping("/crm/Product/listProperty")
+    public Result<List<ProductBox3Dto>> listProperty(){
+        return Result.success(productService.getProperty());
+    }
+
+
+
+
     @ApiOperation("产品增加")
     @PostMapping("/pre")
     public Result preAdd(@RequestBody AddProductDto addProductDto){
-
-        int i = productService.insertProduct(addProductDto);
-        return Result.judge(i>0);
-
-
-        //给产品分类准备数据
-//    List<Assort> assortList = new ArrayList<>();
-//    Assort assort =new Assort();
-//    assort.setId(1L);
-//    assort.setAssortName("服装");
-//    assortList.add(assort);
-//
-//    List<Assort> assortList1 = new ArrayList<>();
-//    Assort assort1 =new Assort();
-//    assort1.setId(2L);
-//    assort1.setAssortName("软件");
-//    assortList.add(assort1);
-//
-////给计量单位准备数据
-//     List<CalcUnit> calcUnitList = new ArrayList<>();
-//     CalcUnit calcUnit =new CalcUnit();
-//     calcUnit.setId(1L);
-//     calcUnit.setUnitName("件");
-//     calcUnitList.add(calcUnit);
-//
-//     CalcUnit calcUnit1 =new CalcUnit();
-//     calcUnit1.setId(2L);
-//     calcUnit1.setUnitName("套");
-//     calcUnitList.add(calcUnit1);
-//
-// //给产品属性准备数据
-//     List<Property> propertyList = new ArrayList<>();
-//     Property property =new Property();
-//     property.setId(1L);
-//     property.setPropertyName("颜色");
-//     propertyList.add(property);
-//
-//     Property property1 =new Property();
-//     property1.setId(2L);
-//     property1.setPropertyName("功能");
-//     propertyList.add(property1);
-//
-//    productBoxDto.setAssortList(assortList);
-//    productBoxDto.setCalcUnitList(calcUnitList);
-//    productBoxDto.setPropertyList(propertyList);
+        Date date = new Date();
+        addProductDto.setCreatedate(date);
+        int insertProduct = productService.insertProduct(addProductDto);
+        return Result.judge(insertProduct>0);
 
     }
 
+
     @ApiOperation("产品编辑预查询")
-    @PutMapping("/querybid/{id}")
+    @GetMapping("/querybid/{id}")
     public Result<QueryProductDto> queryBid(@PathVariable("id") Integer id){
 
         return Result.success(productService.queryBid(id));
@@ -135,56 +90,30 @@ public Result<List<ProductDto>> queryAllProducts(@PathVariable("page") Integer c
         }
     }
 
-    @ApiOperation("产品编辑....")
-    @PutMapping("/update/{id}")
-    public Result<ProductDto> update(@PathVariable("id")Long id){
-
-
-
-//    String productCode = "CP-0003";
-//    String productName = "男士卫衣";
-//
-//     Assort assort = new Assort();
-//     assort.setId(1L);
-//     assort.setAssortName("服装");
-//
-//    CalcUnit calcUnit =new CalcUnit();
-//    calcUnit.setId(1L);
-//    calcUnit.setUnitName("件");
-//
-//    Property property = new Property();
-//    property.setId(1L);
-//    property.setPropertyName("颜色");
-//
-//    ProductDto productDto =new ProductDto();
-//    productDto.setProductCode(productCode);
-//    productDto.setProductName(productName);
-//    productDto.setAssort(assort);
-//    productDto.setCalcUnit(calcUnit);
-//    productDto.setProperty(property);
-
-//    return Result.success(productDto);
-        return null;
-
-
-    }
-
     @ApiOperation("产品信息删除")
-    @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable("id")Long id){
+    @DeleteMapping("/deleteProduct/{id}")
+    public Result deleteProduct(@PathVariable("id")Long id){
 
-        productService.removeById(id);
-        return Result.success();
+        boolean b = productService.removeById(id);
+        return Result.judge(b);
+
     }
 
     @ApiOperation("产品信息批量删除")
-    @DeleteMapping("/deletion")
-    public Result deletion(@RequestBody List<ProductDto> productDtos){
-        for (ProductDto productDto : productDtos) {
-             productService.removeById(productDto.getId());
-        }
+    @DeleteMapping("/deletebatch")
+    public Result deletebatch(@RequestBody List<Long> ids){
 
-        return Result.success();
+          boolean  b = productService.removeByIds(ids);
+
+        return Result.judge(b);
+    }
+
+    @ApiOperation("产品管理搜索")
+    @PostMapping("/crm/product/search")
+    public Result<List<ProductDto>> search(@RequestBody ProductsearchDto productsearchDto){
+        List<ProductDto> productListDtoPage= productService.searchList(productsearchDto);
+//        Long count = Long.valueOf(productService.countList(productsearchDto));
+        return Result.success(productListDtoPage);
     }
 
 }

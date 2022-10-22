@@ -1,11 +1,9 @@
 package com.greatgump.crm.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.AddProductDto;
+import com.greatgump.crm.dto.UserDto0;
+import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.dto.LuoDto1;
-import com.greatgump.crm.dto.productlibrary.ProductDto;
-import com.greatgump.crm.dto.productlibrary.QueryProductDto;
-import com.greatgump.crm.dto.productlibrary.UpdeProductDto;
 import com.greatgump.crm.entity.Product;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -33,9 +31,14 @@ public interface ProductService extends IService<Product> {
 
     int updateProduct(UpdeProductDto updeProductDto);
 
+    boolean deleteProduct(Integer id);
+
+    List<ProductBox1Dto> getAssort();
+
+    List<ProductBox2Dto> getClacUnit();
+
+    List<ProductBox3Dto> getProperty();
 
 
-
-
-
+    List<ProductDto> searchList(ProductsearchDto productsearchDto);
 }

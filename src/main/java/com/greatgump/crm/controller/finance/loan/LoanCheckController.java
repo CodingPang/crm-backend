@@ -90,19 +90,11 @@ public class LoanCheckController {
 
     }
     @ApiOperation("借款页面关键词查询")
-    @PostMapping("/queryAllkeys")
-    public Result<LoanDto> queryAllkeys(@RequestBody List<LoanQueryDto>  loanQueryDto){
+    @PostMapping("/queryLoanDynamic")
+    public Result<List<LoanDto>>  queryLoanDynamic(@RequestBody LoanDynamicDto loanDynamicDto){
 
-        LoanDto loanDto = new LoanDto();
-        loanDto.setId(1L);
-        loanDto.setCustomer(new Customer().setCustomerName("上海大华科技有限公司"));
-        loanDto.setLoanAmount(BigDecimal.valueOf(2000));
-        loanDto.setCause("借款原因");
-        loanDto.setApprovalStatus("1");
-        loanDto.setAppplicationTime(new Date(System.currentTimeMillis()));
-        loanDto.setApplicant(new User().setUsername("zs"));
-
-        return Result.success(loanDto);
+        List<LoanDto> loanDtoPage = loanService.queryLoanDynamic(loanDynamicDto);
+        return Result.success(loanDtoPage);
     }
 
     @ApiOperation("借款页面删除")

@@ -7,12 +7,8 @@ import com.greatgump.crm.entity.*;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.util.Date;
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -31,24 +27,24 @@ public class ProductDto {
     @TableField("product_name")
     private String productName;
 
-    @ApiModelProperty("所属分类")
-    @TableField("classificationid")
-    private Integer classificationid;
+//    @ApiModelProperty("所属分类")
+//    @TableField("classificationid")
+//    private Integer classificationid;
 
     @ApiModelProperty("所属分类")
     private Assort assort;
 
 
-    @ApiModelProperty("计量单位")
-    @TableField("unitid")
-    private Integer unitid;
+//    @ApiModelProperty("计量单位")
+//    @TableField("unitid")
+//    private Integer unitid;
 
     @ApiModelProperty("计量单位")
     private CalcUnit calcUnit;
 
 
-//    @ApiModelProperty("属性")
-//    private Property property;
+    @ApiModelProperty("属性")
+    private Property property;
 
 
     @ApiModelProperty("创建日期")

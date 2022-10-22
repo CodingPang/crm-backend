@@ -7,6 +7,7 @@ import com.greatgump.crm.dto.finance.cost.CostAddDto;
 import com.greatgump.crm.dto.finance.cost.CostDetailDto;
 import com.greatgump.crm.dto.finance.cost.CostDto;
 import com.greatgump.crm.dto.finance.cost.CostQueryDto;
+import com.greatgump.crm.dto.finance.cost.comm.CostCommFuzzyQuery;
 import com.greatgump.crm.dto.finance.invoice.InvoiceDto;
 import com.greatgump.crm.dto.power.UserDto;
 import com.greatgump.crm.entity.Business;
@@ -49,20 +50,20 @@ public class CostController {
 
   @ApiOperation("获得所有费用记录")
   @ApiImplicitParams(value = {
-      @ApiImplicitParam(name = "current", value = "当前页数", required = true),
-      @ApiImplicitParam(name = "size", value = "每页的条数", required = true)})
-  @GetMapping("/costs/{current}/{size}")
+          @ApiImplicitParam(name = "current", value = "当前页数", required = true),
+          @ApiImplicitParam(name = "size", value = "每页的条数", required = true)})
+  @PostMapping("/costs/{current}/{size}")
   public Result<List<CostQueryDto>> queryAllCost(@PathVariable("current") int current,
-      @PathVariable("size") int size) {
-    Page<CostQueryDto> costDtoPage = new Page<>(current, size);
-    Page<CostQueryDto> pageInfo = costService.queryAllCost(costDtoPage);
-
-    return Result.success(pageInfo.getRecords(), pageInfo.getTotal());
+                                                 @PathVariable("size") int size,@RequestBody(required = false) CostCommFuzzyQuery costCommFuzzyQuery) {
+/*    Page<CostQueryDto> costDtoPage = new Page<>(current, size);
+    Page<CostQueryDto> pageInfo = costService.queryAllCost(costDtoPage);*/
+    List<CostQueryDto> costQueryDtos = costService.queryAllCost(current,size,costCommFuzzyQuery);
+    return Result.success(costQueryDtos);
   }
 
   @ApiOperation("预新增费用")
   @GetMapping("/preAdd")
-  public Result<Map<String, Object>> preAdd() {
+  public Result<HashMap<String, Object>> preAdd() {
 /*    // 费用类型List
     Map<Integer, String> costTypes = new HashMap<>();
     costTypes.put(0, "招待费");
@@ -116,8 +117,7 @@ public class CostController {
 
     HashMap<String, Object> map = costService.preAdd();
 
-//    return Result.success(map, Long.valueOf(map.size()));
-    return null;
+    return Result.success(map,(long) map.size());
   }
 
   @ApiOperation("新增费用记录")
@@ -140,18 +140,22 @@ public class CostController {
   @GetMapping("/cost/{id}")
   public Result<CostDetailDto> getOneCost(@PathVariable("id") Integer id) {
 
-    CustomerDto customerDto01 = new CustomerDto();
+    /*CustomerDto customerDto01 = new CustomerDto();
     customerDto01.setId(1L);
     customerDto01.setCustomerName("上海大华科技有限公司");
 
     return Result.success(new CostDetailDto(1L,
         new InvoiceDto(1L, customerDto01, "2022-10-20", 00203321, BigDecimal.valueOf(15000),
-            1)), 1L);
+            1)), 1L);*/
+    // 通过id查询费用详情
+    CostDetailDto costDetailDto = costService.getOnCost(id);
+    return Result.success(costDetailDto,1L);
   }
 
   @ApiOperation("删除费用记录")
   @DeleteMapping("/cost/{id}")
   public Result deleteCost(@PathVariable("id") Integer id) {
-    return Result.success();
+    boolean result = costService.deleteByPrimary(id);
+    return Result.judge(result);
   }
 }

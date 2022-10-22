@@ -42,6 +42,9 @@ public class LoanDto implements Serializable {
   @ApiModelProperty("所有商机")
   private Business Business;
 
+  @ApiModelProperty("客户")
+  private String customerName;
+
   @ApiModelProperty("借款金额")
   private BigDecimal loanAmount;
 
@@ -53,6 +56,9 @@ public class LoanDto implements Serializable {
 
   @ApiModelProperty("申请时间")
   private Date appplicationTime;
+
+  @ApiModelProperty("提交时间")
+  private Date submission_time;
 
   @ApiModelProperty("申请人员")
   private User applicant;

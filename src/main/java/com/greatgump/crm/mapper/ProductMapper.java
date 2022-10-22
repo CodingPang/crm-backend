@@ -1,11 +1,11 @@
 package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.AddProductDto;
+import com.greatgump.crm.dto.LoanDto;
+import com.greatgump.crm.dto.ProductCountDto;
+import com.greatgump.crm.dto.ProductPlanDto;
+import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.dto.LuoDto1;
-import com.greatgump.crm.dto.productlibrary.ProductDto;
-import com.greatgump.crm.dto.productlibrary.QueryProductDto;
-import com.greatgump.crm.dto.productlibrary.UpdeProductDto;
 import com.greatgump.crm.entity.Product;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -36,6 +36,28 @@ public interface ProductMapper extends BaseMapper<Product> {
 
     int updateProduct(UpdeProductDto updeProductDto);
 
+    boolean deleteProduct(Integer id);
+
+    List<ProductBox1Dto> getAssort();
+
+    List<ProductBox2Dto> getClacUnit();
+
+    List<ProductBox3Dto> getProperty();
 
 
+    List<ProductDto> searchList(ProductsearchDto productsearchDto);
+
+
+
+
+    /*
+    *
+    *报价计划
+    */
+    List<ProductPlanDto> queryProductPlan(String businessTitle);
+
+    /*
+    *求报价记录
+    */
+    ProductCountDto queryCount(String businessTitle);
 }

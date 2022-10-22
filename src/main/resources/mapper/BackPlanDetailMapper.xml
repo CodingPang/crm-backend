@@ -29,5 +29,9 @@
     <sql id="Base_Column_List">
         id, back_plan_id, back_periods, back_date, back_ratio, back_money, remark, is_delete
     </sql>
+<!--  根据 back_plan_id 假删计划详情表的所有记录 -->
+  <delete id="deleteByPlanId" parameterType="int">
+      UPDATE t_back_plan_detail SET is_delete = 1 WHERE back_plan_id = #{id}
+  </delete>
 
 </mapper>

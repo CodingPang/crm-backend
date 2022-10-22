@@ -1,9 +1,7 @@
 package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.AddAssortDto;
-import com.greatgump.crm.dto.productlibrary.AssortDto;
-import com.greatgump.crm.dto.productlibrary.QueryAssortDto;
+import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.service.AssortService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
@@ -66,15 +64,28 @@ public class  AssortController {
     }
 
     @ApiOperation("产品分类编辑预查询")
-    @PutMapping("/querybid/{id}")
+    @GetMapping("/querybid/{id}")
     public Result<QueryAssortDto> queryBid(@PathVariable("id") Integer id){
 
         return Result.success(assortService.queryBid(id));
     }
 
     @ApiOperation("产品分类编辑")
-    @PutMapping("/update/{id}")
-    public Result<AssortDto> update(@PathVariable("id")Long id){
+    @PutMapping("/updateAssort")
+    public Result<UpdeAssortDto> updateAssort(@RequestBody UpdeAssortDto updeAssortDto){
+
+        int updateAssort = assortService.updateAssort(updeAssortDto);
+
+        if (updateAssort>0){
+            return Result.success();
+        }else{
+            return Result.failed();
+        }
+    }
+
+//    @ApiOperation("产品分类编辑")
+//    @PutMapping("/update/{id}")
+//    public Result<AssortDto> update(@PathVariable("id")Long id){
 
 //        Assort assort = new Assort();
 //        assort.setId(1L);
@@ -84,28 +95,40 @@ public class  AssortController {
 //        assortDto.setAssort(assort);
 
 //        return Result.success(assortDto);
-        return null;
-
-
-    }
-
+//        return null;
+//
+//
+//    }
 
     @ApiOperation("产品分类信息删除")
-    @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable("id")Long id){
-        assortService.removeById(id);
+    @DeleteMapping("/deleteAssort/{id}")
+    public Result deleteAssort(@PathVariable("id")Long id){
 
-        return Result.success();
+        boolean b = assortService.removeById(id);
+        return Result.judge(b);
+
+
     }
 
-    @ApiOperation("产品分类信息批量删除")
-    @DeleteMapping("/deletion")
-    public Result deletion(@RequestBody List<AssortDto> assortDtos){
-        for (AssortDto assortDto : assortDtos) {
-            assortService.removeById(assortDto.getId());
-        }
 
-        return Result.success();
+//    @ApiOperation("产品分类信息批量删除")
+//    @DeleteMapping("/deletion")
+//    public Result deletion(@RequestBody List<AssortDto> assortDtos){
+//        for (AssortDto assortDto : assortDtos) {
+//            assortService.removeById(assortDto.getId());
+//        }
+//
+//        return Result.success();
+//    }
+
+    @ApiOperation("产品分类信息批量删除")
+    @DeleteMapping("/deletebatch")
+    public Result deletebatch(@RequestBody List<Long> ids){
+
+        boolean  b = assortService.removeByIds(ids);
+
+
+        return Result.judge(b);
     }
 
 }

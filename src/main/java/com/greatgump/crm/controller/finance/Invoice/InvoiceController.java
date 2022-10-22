@@ -2,6 +2,7 @@ package com.greatgump.crm.controller.finance.Invoice;
 
 import com.greatgump.crm.dto.CustomerDto;
 import com.greatgump.crm.dto.OrderDto;
+import com.greatgump.crm.dto.finance.cost.CustomerList;
 import com.greatgump.crm.dto.finance.invoice.InvoiceDto;
 import com.greatgump.crm.dto.finance.invoice.InvoiceQueryDto;
 import com.greatgump.crm.service.InvoiceService;
@@ -69,15 +70,15 @@ public class InvoiceController {
   public Result<Map<String,Object>> preAdd(){
 
     // 关联客户
-    CustomerDto customerDto01 = new CustomerDto();
+    CustomerList customerDto01 = new CustomerList();
     customerDto01.setId(1L);
     customerDto01.setCustomerName("上海大华科技有限公司");
 
-    CustomerDto customerDto02 = new CustomerDto();
+    CustomerList customerDto02 = new CustomerList();
     customerDto02.setId(2L);
     customerDto02.setCustomerName("苏州智慧科技有限公司");
 
-    List<CustomerDto> customerDtos = new ArrayList<>();
+    List<CustomerList> customerDtos = new ArrayList<>();
     customerDtos.add(customerDto01);
     customerDtos.add(customerDto02);
 

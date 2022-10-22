@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class CustomerList {
-  @ApiModelProperty("主键")
+  @ApiModelProperty(value = "主键", required = true)
   private long id;
 
-  @ApiModelProperty("客户名")
+  @ApiModelProperty(value = "客户名")
   private String customerName;
 }

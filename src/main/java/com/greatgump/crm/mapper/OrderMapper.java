@@ -1,5 +1,7 @@
 package com.greatgump.crm.mapper;
 
+import com.greatgump.crm.dto.LoanOrderDto;
+import com.greatgump.crm.dto.OrderBusinessDto;
 import com.greatgump.crm.dto.finance.cost.OrderListDto;
 import com.greatgump.crm.entity.Order;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -22,4 +24,16 @@ public interface OrderMapper extends BaseMapper<Order> {
    * @return
    */
   List<OrderListDto> selectOrderListDto();
+
+  List<LoanOrderDto> queryOrder();
+
+
+
+
+
+
+  /*
+  *商机中关联订单
+  */
+  List<OrderBusinessDto> queryBusinessOder(String businessTitle);
 }

@@ -6,6 +6,8 @@ import com.greatgump.crm.entity.Travel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 出差表 Mapper 接口
@@ -27,9 +29,9 @@ public interface TravelMapper extends BaseMapper<Travel> {
 
     int updateTravel(AddedTravelDto addedTravelDto);
 
-    boolean deleteTravel(Integer id);
+    List<TravelDto> queryTravelDynamic(TravelDynamicDto travelDynamicDto);
 
-    boolean deletebatch(TravelDto travelDto);
+    boolean deleteTravel(Integer id);
 
 
 }

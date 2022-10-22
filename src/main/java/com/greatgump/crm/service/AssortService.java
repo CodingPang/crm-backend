@@ -1,9 +1,7 @@
 package com.greatgump.crm.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.AddAssortDto;
-import com.greatgump.crm.dto.productlibrary.AssortDto;
-import com.greatgump.crm.dto.productlibrary.QueryAssortDto;
+import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.entity.Assort;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -21,5 +19,9 @@ public interface AssortService extends IService<Assort> {
     int insertAssort(AddAssortDto addAssortDto);
 
     QueryAssortDto queryBid(Integer id);
+
+    int updateAssort(UpdeAssortDto updeAssortDto);
+
+    boolean deleteAssort(Integer id);
 
 }

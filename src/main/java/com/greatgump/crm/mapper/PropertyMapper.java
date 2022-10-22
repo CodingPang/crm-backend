@@ -1,12 +1,12 @@
 package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.AddPropertyDto;
-import com.greatgump.crm.dto.productlibrary.PropertyDto;
-import com.greatgump.crm.dto.productlibrary.QueryPropertyDto;
+import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.entity.Property;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -23,4 +23,10 @@ public interface PropertyMapper extends BaseMapper<Property> {
     int insertProperty(AddPropertyDto addPropertyDto);
 
     QueryPropertyDto queryBid(Integer id);
+
+    int updateProperty(UpdePropertyDto updePropertyDto);
+
+    boolean deleteProperty(Integer id);
+
+    List<PropertyDto> searchList1(PropertysearchDto propertysearchDto);
 }

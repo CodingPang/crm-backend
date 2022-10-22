@@ -1,9 +1,7 @@
 package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.AddCalcUnitDto;
-import com.greatgump.crm.dto.productlibrary.CalcUnitDto;
-import com.greatgump.crm.dto.productlibrary.QueryCalcUnitDto;
+import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.service.CalcUnitService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
@@ -37,23 +35,8 @@ public class CalcUnitController {
         Page<CalcUnitDto> productDtoPage = new Page<>(current, size);
         Page<CalcUnitDto> pageIfo = calcUnitService.queryAllCalcUnits(productDtoPage);
         return Result.success(pageIfo.getRecords(),pageIfo.getTotal());
-//        CalcUnitDto calcUnitDto =new CalcUnitDto();
-//
-//        CalcUnit calcUnit = new CalcUnit();
-//        calcUnit.setId(1L);
-//        calcUnit.setUnitName("件");
-//        calcUnit.setCreationDate(new Date());
-//
-//        CalcUnit calcUnit1 = new CalcUnit();
-//        calcUnit1.setId(2L);
-//        calcUnit1.setUnitName("套");
-//        calcUnit1.setCreationDate(new Date());
-//
-//        List<CalcUnit> calcUnitList = new ArrayList<>();
-//        calcUnitList.add(calcUnit);
-//        calcUnitList.add(calcUnit1);
-//
-//        return Result.success(calcUnitList,4L);
+
+
 
     }
 
@@ -65,43 +48,63 @@ public class CalcUnitController {
     }
 
     @ApiOperation("计量单位编辑预查询")
-    @PutMapping("/querybid/{id}")
+    @GetMapping("/querybid/{id}")
     public Result<QueryCalcUnitDto> queryBid(@PathVariable("id") Integer id){
 
         return Result.success(calcUnitService.queryBid(id));
     }
 
     @ApiOperation("计量单位编辑")
-    @PutMapping("/update/{id}")
-    public Result<CalcUnitDto> update(@PathVariable("id")Long id){
+    @PutMapping("/updateAssort")
+    public Result<UpdeCalcUnitDto> updateCalcUnit(@RequestBody UpdeCalcUnitDto updeCalcUnitDto){
 
-        String unitName = "件";
+        int updateCalcUnit = calcUnitService.updateCalcUnit(updeCalcUnitDto);
 
-        CalcUnitDto calcUnitDto =new CalcUnitDto();
-        calcUnitDto.setUnitName(unitName);
-
-        return Result.success(calcUnitDto);
-
-
+        if (updateCalcUnit>0){
+            return Result.success();
+        }else{
+            return Result.failed();
+        }
     }
-
 
     @ApiOperation("计量单位信息删除")
-    @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable("id")Long id){
-        calcUnitService.removeById(id);
-        return Result.success();
+    @DeleteMapping("/deleteCalcUnit/{id}")
+    public Result deleteCalcUnit(@PathVariable("id")Long id){
+
+        boolean b = calcUnitService.removeById(id);
+        return Result.judge(b);
+
+
     }
 
-    @ApiOperation("计量单位信息批量删除")
-    @DeleteMapping("/deletion")
-    public Result deletion(@RequestBody List<CalcUnitDto> calcUnitDtos){
-        for (CalcUnitDto calcUnitDto : calcUnitDtos) {
-            System.out.println("----------------->"+calcUnitDtos);
-            calcUnitService.removeById(calcUnitDto.getId());
-        }
 
-        return Result.success();
+//    @ApiOperation("计量单位信息批量删除")
+//    @DeleteMapping("/deletion")
+//    public Result deletion(@RequestBody List<CalcUnitDto> calcUnitDtos){
+//        for (CalcUnitDto calcUnitDto : calcUnitDtos) {
+//            System.out.println("----------------->"+calcUnitDtos);
+//            calcUnitService.removeById(calcUnitDto.getId());
+//        }
+//
+//        return Result.success();
+//    }
+
+    @ApiOperation("计量单位信息批量删除")
+    @DeleteMapping("/deletebatch")
+    public Result deletebatch(@RequestBody List<Long> ids){
+
+        boolean  b = calcUnitService.removeByIds(ids);
+
+
+        return Result.judge(b);
+    }
+
+    @ApiOperation("计量单位搜索")
+    @PostMapping("/crm/calcunit/search")
+    public Result<List<CalcUnitDto>> search(@RequestBody CalcUnitsearchDto calcUnitsearchDto){
+        List<CalcUnitDto> calcunitListDtoPage= calcUnitService.searchList3(calcUnitsearchDto);
+//        Long count = Long.valueOf(productService.countList(productsearchDto));
+        return Result.success(calcunitListDtoPage);
     }
 
 

@@ -1,15 +1,15 @@
 package com.greatgump.crm.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.AddPropertyDto;
-import com.greatgump.crm.dto.productlibrary.PropertyDto;
-import com.greatgump.crm.dto.productlibrary.QueryPropertyDto;
+import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.entity.Property;
 import com.greatgump.crm.mapper.PropertyMapper;
 import com.greatgump.crm.service.PropertyService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -39,5 +39,21 @@ public class PropertyServiceImpl extends ServiceImpl<PropertyMapper, Property> i
     @Override
     public QueryPropertyDto queryBid(Integer id) {
         return propertyMapper.queryBid(id);
+    }
+
+    @Override
+    public int updateProperty(UpdePropertyDto updePropertyDto) {
+        return propertyMapper.updateProperty(updePropertyDto);
+    }
+
+    @Override
+    public boolean deleteProperty(Integer id) {
+        boolean b = propertyMapper.deleteProperty(id);
+        return b;
+    }
+
+    @Override
+    public List<PropertyDto> searchList1(PropertysearchDto propertysearchDto) {
+        return propertyMapper.searchList1(propertysearchDto);
     }
 }

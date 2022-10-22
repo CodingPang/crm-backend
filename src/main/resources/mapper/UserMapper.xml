@@ -18,7 +18,6 @@
         <result column="username" property="username"></result>
     </resultMap>
 
-
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, username, password, salt, role_id, remark, is_delete
@@ -37,8 +36,13 @@
                           ON u.role_id = r.id
       WHERE r.id in(1,2,3)
   </select>
-    <select id="getName" resultMap="queryName">
-        select id, username from t_user
+    <select id="queryAllCheck"
+      resultType="com.greatgump.crm.dto.back.common.CheckRecorderDto">
+        SELECT u.id, u.username
+        FROM t_user u
+                 LEFT JOIN t_role r
+                           ON u.role_id = r.id
+        WHERE r.id = 6
     </select>
-    <!---->
+  <!---->
 </mapper>

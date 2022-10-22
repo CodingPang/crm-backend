@@ -11,5 +11,6 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class UserDto0 {
     private String username;
+
     private Long id;
 }

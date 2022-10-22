@@ -3,6 +3,7 @@ package com.greatgump.crm.mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.OfferListDto;
 import com.greatgump.crm.dto.OfferSearchDto;
+import com.greatgump.crm.dto.OrderFollowDto;
 import com.greatgump.crm.entity.Offer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -24,4 +25,11 @@ public interface OfferMapper extends BaseMapper<Offer> {
     List<OfferListDto> searchList(OfferSearchDto offerSearchDto);
 
     Integer countList(OfferSearchDto offerSearchDto);
+
+
+
+    /*
+    *商机中关联订单跟进
+    */
+    OrderFollowDto addOrderFollow(Long id);
 }

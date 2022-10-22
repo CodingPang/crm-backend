@@ -2,8 +2,8 @@ package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.*;
-import com.greatgump.crm.entity.Customer;
-import com.greatgump.crm.entity.Order;
+import com.greatgump.crm.service.CustomerService;
+import com.greatgump.crm.service.OrderService;
 import com.greatgump.crm.service.TravelService;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.*;
@@ -27,6 +27,14 @@ public class TravelController {
 
     @Autowired
     private TravelService travelService;
+
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private OrderService orderService;
+
+
     @ApiOperation("获取所有的出差信息")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/queryAllTravels/{current}/{size}")
@@ -48,6 +56,19 @@ public class TravelController {
 
 
     }
+
+    @ApiOperation("关联客户下拉框，会返回客户名称及id")
+    @GetMapping("/loanCustomer")
+    public Result<List<LuoDto2>> loanCustomer(){
+        return Result.success(customerService.queryName());
+    }
+
+    @ApiOperation("关联订单下拉框，会返回订单名称及id")
+    @GetMapping("/loanOrder")
+    public Result<List<LoanOrderDto>> loanOrder(){
+        return Result.success(orderService.queryOrder());
+    }
+
     @ApiOperation("获取详情")
     @GetMapping("/queryTravelDetails/{id}")
     public Result<TravelDetailDto> queryTravelDetails(@PathVariable("id")Integer id) {
@@ -64,6 +85,14 @@ public class TravelController {
     }
 
 
+    @ApiOperation("出差页面关键词查询")
+    @PostMapping("/queryTravelDynamic")
+    public Result<List<TravelDto>>  queryTravelDynamic(@RequestBody TravelDynamicDto travelDynamicDto){
+
+        List<TravelDto> travelDtoPage = travelService.queryTravelDynamic(travelDynamicDto);
+//        Long count = Long.valueOf(loanService.count(loanDtoPage));
+        return Result.success(travelDtoPage);
+    }
         @ApiOperation("出差页面修改")
         @PutMapping("/updateTravel")
         public Result<AddedTravelDto> updateTravel(@RequestBody AddedTravelDto addedTravelDto){
@@ -87,11 +116,13 @@ public class TravelController {
     }
     @ApiOperation("出差页面批量删除")
     @DeleteMapping("/deletebatch")
-    public Result deletebatch(@RequestBody List<TravelDto> travelDtos){
+    public Result deletebatch(@RequestBody List<Long> ids){
         boolean b =false;
-        for (TravelDto travelDto : travelDtos) {
-            b = travelService.removeById(travelDto.getId());
+        for (Long id : ids) {
+            b = travelService.removeById(id);
         }
+
+
 
         return Result.judge(b);
     }
