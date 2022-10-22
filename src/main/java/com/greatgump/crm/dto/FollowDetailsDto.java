@@ -2,10 +2,14 @@ package com.greatgump.crm.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 
 @Data
 public class FollowDetailsDto {
+    @ApiModelProperty("id")
+    @TableField("id")
+    private Long id;
     @ApiModelProperty("跟进内容")
     @TableField("catch_content")
     private String catchContent;

@@ -26,17 +26,25 @@
          and t_follow_from_id in (select id from t_business where customer_id  in (select id from t_customer where custer_name=#{customer}))
      </insert>
     <select id="queryChasingPlans" resultType="com.greatgump.crm.dto.FollowDetailsDto">
-      select r.catch_content,r.progressive_time,c.customer_name,u.username,f.follow_type,m.chasing_method,f.contactss,f.phone
+      select r.id,r.catch_content,r.progressive_time,c.customer_name,u.username,f.follow_type,m.chasing_method,f.contactss,f.phone
       from t_chasing_record r,t_follow_form f,t_business b,t_customer c,t_user u,t_chasing_method m
       where r.t_follow_form_id=b.id and r.remark=f.customer_needs and r.user_id=u.id and r.follow_through=m.id
       and f.`current_time`=(select MIN(create_time) from t_follow_form)
       and b.bussiness_title=#{bussiness_title}
     </select>
     <select id="queryChasingPlan" resultType="com.greatgump.crm.dto.FollowDetailsDto">
-      select r.catch_content,r.progressive_time,c.customer_name,u.username,f.follow_type,m.chasing_method,f.contactss,f.phone
+      select r.id,r.catch_content,r.progressive_time,c.customer_name,u.username,f.follow_type,m.chasing_method,f.contactss,f.phone
       from t_chasing_record r,t_follow_form f,t_business b,t_customer c,t_user u,t_chasing_method m
       where r.t_follow_form_id=b.id and r.remark=f.customer_needs and r.user_id=u.id and r.follow_through=m.id
       and f.`current_time`=(select MIN(create_time) from t_follow_form)
       and u.username=#{userName} and r.progressive_time=#{progressiveTime}
     </select>
+    <select id="queryChasingRecordAll" resultType="com.greatgump.crm.dto.FollowDetailsDto">
+      select r.id,r.catch_content,r.progressive_time,c.customer_name,u.username,f.follow_type,m.chasing_method,f.contactss,f.phone
+      from t_chasing_record r,t_follow_form f,t_business b,t_customer c,t_user u,t_chasing_method m
+      where r.t_follow_form_id=b.id and r.remark=f.customer_needs and r.user_id=u.id and r.follow_through=m.id
+      and f.`current_time`=(select MIN(create_time) from t_follow_form)
+      order by r.progressive_time desc
+    </select>
+
 </mapper>

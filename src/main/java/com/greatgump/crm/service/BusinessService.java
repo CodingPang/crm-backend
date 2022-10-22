@@ -103,6 +103,16 @@ public interface BusinessService extends IService<Business> {
     FollowDetailsDto queryChasingPlan(String userName, Date progressiveTime);
 
     /*
+    *跟进计划
+    */
+    List<FollowPlan1Dto> queryFollowPlan(String businessTitle);
+
+    /*
+    * 跟进计划条件查询
+    */
+    List<FollowPlan1Dto> queryFollowPlan1(String title,String planProgress);
+
+    /*
     *产品报价
     */
     List<ProductPlanDto> queryProductPlan(String businessTitle);

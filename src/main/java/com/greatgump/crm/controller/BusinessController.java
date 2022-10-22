@@ -226,7 +226,7 @@ public class BusinessController {
             return Result.failed("跟进失败");
         }
     }
-    @ApiOperation("概括信息中跟进记录详情")
+    @ApiOperation("概括信息中跟进记录单个详情")
     @GetMapping("/crm/business/plan")
     public Result queryChasingPlan(String userName,Date progressiveTime){
         try {
@@ -237,6 +237,30 @@ public class BusinessController {
             return Result.failed("跟进失败");
         }
     }
+    @ApiOperation("概括信息中跟进计划全部")
+    @GetMapping("/crm/business/follow_plans")
+    public Result queryFollowPlans(String businessTitle){
+        try {
+            List<FollowPlan1Dto> followPlan1Dtos = this.businessService.queryFollowPlan(businessTitle);
+            return Result.success(followPlan1Dtos);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.failed("跟进计划查找失败");
+        }
+    }
+
+    @ApiOperation("概括信息中跟进计划条件查询")
+    @GetMapping("/crm/business/follow_plan")
+    public Result queryFollowPlan(String title,String planProgress){
+        try {
+            List<FollowPlan1Dto> followPlan1Dtos = this.businessService.queryFollowPlan1(title,planProgress);
+            return Result.success(followPlan1Dtos);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.failed("跟进计划查找失败");
+        }
+    }
+
     @ApiOperation("概括信息中报价计划详情")
     @GetMapping("/crm/business/products")
     public Result queryProductPlan(String businessTitle){

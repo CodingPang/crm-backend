@@ -23,7 +23,7 @@
         from t_business b,t_customer c,t_business_stage s,t_business_origin o
         where b.customer_id=c.id and b.bussiness_stage_id=s.id
         <if test="customer!=null and customer!=''">
-            and c.customer_name=#{customer}
+            and c.customer_name like concat('%',#{customer},'%')
         </if>
         <if test="businessOrigin!=null and businessOrigin!=''">
             and o.business_origin=#{businessOrigin}

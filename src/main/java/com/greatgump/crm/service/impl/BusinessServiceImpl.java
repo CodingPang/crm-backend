@@ -54,6 +54,10 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
 
     @Autowired
     private UploadAttachmentMapper uploadAttachmentMapper;
+
+    @Autowired
+    private FollowPlanMapper followPlanMapper;
+
     @Override
     public List<BusinessDto> queryAllBusiness(int current, int size) {
         return businessMapper.listBase(current,size);
@@ -179,6 +183,18 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
     public FollowDetailsDto queryChasingPlan(String userName, Date progressiveTime) {
         FollowDetailsDto followDetailsDto = this.chasingRecordMapper.queryChasingPlan(userName, progressiveTime);
         return followDetailsDto;
+    }
+
+    @Override
+    public List<FollowPlan1Dto> queryFollowPlan(String businessTitle) {
+        List<FollowPlan1Dto> followPlan1Dtos = this.followPlanMapper.queryFollowPlan(businessTitle);
+        return followPlan1Dtos;
+    }
+
+    @Override
+    public List<FollowPlan1Dto> queryFollowPlan1(String title, String planProgress) {
+        List<FollowPlan1Dto> followPlan1Dtos = this.followPlanMapper.queryFollowPlan1(title,planProgress);
+        return followPlan1Dtos;
     }
 
     @Override

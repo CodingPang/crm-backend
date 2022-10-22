@@ -11,7 +11,7 @@ public class FollowPlan1Dto {
     private Integer id;
 
     @ApiModelProperty("开始时间")
-    private Date startTime;
+    private Date beginTime;
 
     @ApiModelProperty("计划标题")
     private String title;
