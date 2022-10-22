@@ -44,6 +44,7 @@
     <sql id="Base_Column_List">
         id, odd_num, creation_date, customer, saler, contacts, price, discount_tate, offer, remake, is_delete
     </sql>
+
     <select id="listIneed" resultMap="offerList">
         SELECT offer.id,offer.odd_num,offer.creation_date,cus.customer_name,us.username,cont.contact_name,offer.price,offer.discount_tate,offer.offer,offer.customer_id
         FROM t_offer offer ,t_customer cus,t_user us,t_contact cont

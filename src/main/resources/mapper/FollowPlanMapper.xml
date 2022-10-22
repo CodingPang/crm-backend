@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.FollowPlanMapper">
+
+    <select id="queryFollowPlan" resultType="com.greatgump.crm.dto.FollowPlan1Dto">
+        select f.id,f.begin_time,f.title,u.username,f.plan_progress,f.plan_degree
+        from t_follow_plan f,t_user u
+        where f.user_id=u.id and f.customer_id in (select customer_id from t_business where bussiness_title=#{businessTitle})
+    </select>
+    <select id="queryFollowPlan1" resultType="com.greatgump.crm.dto.FollowPlan1Dto">
+         select f.id,f.begin_time,f.title,u.username,f.plan_progress,f.plan_degree
+        from t_follow_plan f,t_user u
+        where f.user_id=u.id
+        <if test="title!=null and title!=''">
+            and f.title like concat('%',#{title},'%');
+        </if>
+        <if test="planProgress!=null and planProgress!=''">
+            and f.plan_progress=#{planProgress}
+        </if>
+    </select>
+</mapper>

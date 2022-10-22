@@ -115,4 +115,9 @@
       SELECT cus.id, cus.customer_name FROM t_customer cus
   </select>
 
+
+    <!--   找id-->
+    <select id="queryId" resultType="com.greatgump.crm.dto.LuoDto2">
+        SELECT customer_name, id from t_customer where customer_name=#{customerName}
+    </select>
 </mapper>

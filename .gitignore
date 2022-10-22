@@ -34,4 +34,5 @@ jdbc.properties
 DBPropertyPlaceholderConfigurer.java
 EncryptionUtil.java
 FastAutoGeneratorTest.java
+OSSUtil.java
 

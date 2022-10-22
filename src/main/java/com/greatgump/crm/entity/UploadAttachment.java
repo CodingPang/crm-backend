@@ -41,4 +41,17 @@ public class UploadAttachment implements Serializable {
   @TableField("order_id")
   private Order orderId;
 
+  @ApiModelProperty("上传人员")
+  @TableField("upload_people")
+  private String uploadPeople;
+
+  @ApiModelProperty("上传文件地址")
+  @TableField("upload_date")
+  private String uploadDate;
+
+  @ApiModelProperty("上传文件大小")
+  @TableField("upload_size")
+  private String uploadSize;
+
+
 }

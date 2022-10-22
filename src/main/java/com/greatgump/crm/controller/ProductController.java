@@ -1,10 +1,6 @@
 package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.LoanDto;
-import com.greatgump.crm.dto.LuoDto2;
-import com.greatgump.crm.dto.OfferListDto;
-import com.greatgump.crm.dto.OfferSearchDto;
 import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.service.ProductService;
 import com.greatgump.crm.utils.Result;
@@ -66,17 +62,16 @@ public Result<List<ProductDto>> queryAllProducts(@PathVariable("page") Integer c
     @ApiOperation("产品增加")
     @PostMapping("/pre")
     public Result preAdd(@RequestBody AddProductDto addProductDto){
-
-        int i = productService.insertProduct(addProductDto);
-        return Result.judge(i>0);
-
-
-
+        Date date = new Date();
+        addProductDto.setCreatedate(date);
+        int insertProduct = productService.insertProduct(addProductDto);
+        return Result.judge(insertProduct>0);
 
     }
 
+
     @ApiOperation("产品编辑预查询")
-    @PutMapping("/querybid/{id}")
+    @GetMapping("/querybid/{id}")
     public Result<QueryProductDto> queryBid(@PathVariable("id") Integer id){
 
         return Result.success(productService.queryBid(id));
@@ -95,8 +90,6 @@ public Result<List<ProductDto>> queryAllProducts(@PathVariable("page") Integer c
         }
     }
 
-
-
     @ApiOperation("产品信息删除")
     @DeleteMapping("/deleteProduct/{id}")
     public Result deleteProduct(@PathVariable("id")Long id){
@@ -104,25 +97,13 @@ public Result<List<ProductDto>> queryAllProducts(@PathVariable("page") Integer c
         boolean b = productService.removeById(id);
         return Result.judge(b);
 
-
     }
-
-//    @ApiOperation("产品信息批量删除")
-//    @DeleteMapping("/deletion")
-//    public Result deletion(@RequestBody List<ProductDto> productDtos){
-//        for (ProductDto productDto : productDtos) {
-//             productService.removeById(productDto.getId());
-//        }
-//
-//        return Result.success();
-//    }
 
     @ApiOperation("产品信息批量删除")
     @DeleteMapping("/deletebatch")
     public Result deletebatch(@RequestBody List<Long> ids){
 
           boolean  b = productService.removeByIds(ids);
-
 
         return Result.judge(b);
     }
@@ -134,7 +115,5 @@ public Result<List<ProductDto>> queryAllProducts(@PathVariable("page") Integer c
 //        Long count = Long.valueOf(productService.countList(productsearchDto));
         return Result.success(productListDtoPage);
     }
-
-
 
 }

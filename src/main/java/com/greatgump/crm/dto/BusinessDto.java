@@ -22,13 +22,22 @@ public class BusinessDto {
     private String opportunityTitle;
 
     @ApiModelProperty("商机阶段")
-    @TableField("opportunity_stage")
+    @TableField("bussiness_stage_id")
     private String opportunityStage;
 
+    @ApiModelProperty("报价记录")
+    @TableField("price_records")
+    private String priceRecords;
 
     @ApiModelProperty("最后跟进")
     @TableField("last_follow")
     private Date lastFollow;
+
+    @ApiModelProperty("未跟进天数")
+    @TableField("not_follow_days")
+    private int notFollowDays;
+
+
 
 
 

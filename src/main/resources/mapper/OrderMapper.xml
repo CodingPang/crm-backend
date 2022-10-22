@@ -92,4 +92,15 @@
         WHERE od.customer_id = cus.id AND od.business_id = bus.id AND od.upload_attachment_id = upl.id AND od.face_signer = cont.id
     </select>
 
+
+
+
+
+
+<!--    商机中关联订单-->
+    <select id="queryBusinessOder" resultType="com.greatgump.crm.dto.OrderBusinessDto">
+        select id,order_title,oder_status,oder_total,total_res, total_ticket
+        from t_order where business_id in(select id from t_business where bussiness_title=#{bussinessTitle})
+    </select>
+
 </mapper>
