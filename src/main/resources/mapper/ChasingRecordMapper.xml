@@ -1,23 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.greatgump.crm.mapper.ChasingRecordMapper">
+    <insert id="addChasingRecord">
+        INSERT INTO t_chasing_record(contact_id,follow_through,user_id,progressive_time,catch_content,t_follow_form_id,remark)
+        VALUES (#{contactId},#{followThrough},#{userId},#{progressiveTime},#{catchContent},#{tFollowFormId},#{remark})
+    </insert>
+    <insert id="addChasingRecordByCustomerId">
+        INSERT INTO t_chasing_record(contact_id,follow_through,user_id,progressive_time,catch_content,t_follow_form_id,remark,customer_id)
+        VALUES (#{contactId},#{followThrough},#{userId},#{progressiveTime},#{catchContent},#{tFollowFormId},#{remark},customerId)
+    </insert>
+    <!--    &lt;!&ndash; 通用查询映射结果 &ndash;&gt;-->
+<!--    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.ChasingRecord">-->
+<!--        <id column="id" property="id" />-->
+<!--        <result column="contact_id" property="contactId" />-->
+<!--        <result column="follow_through" property="followThrough" />-->
+<!--        <result column="user_id" property="userId" />-->
+<!--        <result column="progressive_time" property="progressiveTime" />-->
+<!--        <result column="catch_content" property="catchContent" />-->
+<!--        <result column="t_follow_form_id" property="tFollowFormId" />-->
+<!--        <result column="remark" property="remark" />-->
+<!--        <result column="is_delete" property="isDelete" />-->
+<!--    </resultMap>-->
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.ChasingRecord">
-        <id column="id" property="id" />
-        <result column="contact_id" property="contactId" />
-        <result column="follow_through" property="followThrough" />
-        <result column="user_id" property="userId" />
-        <result column="progressive_time" property="progressiveTime" />
-        <result column="catch_content" property="catchContent" />
-        <result column="t_follow_form_id" property="tFollowFormId" />
-        <result column="remark" property="remark" />
-        <result column="is_delete" property="isDelete" />
+<!--    &lt;!&ndash; 通用查询结果列 &ndash;&gt;-->
+<!--    <sql id="Base_Column_List">-->
+<!--        id, contact_id, follow_through, user_id, progressive_time, catch_content, t_follow_form_id, remark, is_delete-->
+<!--    </sql>-->
+
+    <resultMap id="chasingRecordDto" type="com.greatgump.crm.dto.chasing.ChasingRecordDto">
+        <result property="id" column="id"></result>
+        <result property="catchContent" column="catch_content"></result>
+        <result property="progressiveTime" column="progressive_time"></result>
+        <result property="customer" column="contact_name"></result>
+        <result property="user" column="username"></result>
+        <result property="followType" column="follow_type"></result>
+        <result property="followThrough" column="follow_through"></result>
+        <result property="contact" column="contact_name"></result>
+        <result property="phone" column="phone"></result>
+        <result property="createTime" column="current_time"></result>
     </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, contact_id, follow_through, user_id, progressive_time, catch_content, t_follow_form_id, remark, is_delete
-    </sql>
+    <resultMap id="chasingMethodDto" type="com.greatgump.crm.dto.chasing.ChasingMethodDto">
+        <result property="id" column="id"></result>
+        <result property="chasingMethod" column="chasing_method"></result>
+    </resultMap>
+
+    <resultMap id="clueCustomerDto" type="com.greatgump.crm.dto.clue.ClueCustomerDto">
+        <result property="customerId" column="id"></result>
+        <result property="customerName" column="customer_name"></result>
+    </resultMap>
+
+    <select id="queryAllChasingMethod" resultMap="chasingMethodDto">
+        SELECT *
+        FROM t_chasing_method
+    </select>
+    <select id="queryAllChasingRecords" resultMap="chasingRecordDto">
+        SELECT crd.id,crd.catch_content,crd.progressive_time,cr.customer_name,u.username,f.follow_type,crd.follow_through,tc.contact_name,tc.phone,f.`current_time`
+		FROM t_chasing_record crd,t_follow_form f,t_contact tc,t_user u,t_customer cr
+		WHERE crd.contact_id=tc.id AND crd.t_follow_form_id=f.id AND crd.user_id=u.id AND f.customer_id=cr.id
+    </select>
+    <select id="queryAllCustomer" resultMap="clueCustomerDto">
+        SELECT cr.id,cr.customer_name
+        FROM t_follow_form f,t_customer cr
+        WHERE f.customer_id=cr.id
+    </select>
+    <select id="queryChasingRecords" resultMap="chasingRecordDto">
+
+    </select>
 
 </mapper>

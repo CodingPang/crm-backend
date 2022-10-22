@@ -2,6 +2,10 @@ package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.*;
+import com.greatgump.crm.dto.chasing.ChasingRecordDto;
+import com.greatgump.crm.dto.customerDetails.ClueWorKOrderDto;
+import com.greatgump.crm.dto.customerDetails.ContactDto;
+import com.greatgump.crm.dto.customerDetails.MainInfoDto;
 import com.greatgump.crm.dto.finance.cost.CustomerList;
 import com.greatgump.crm.entity.Customer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -42,4 +46,13 @@ public interface CustomerMapper extends BaseMapper<Customer> {
    * @return
    */
   List<CustomerList> queryAllCustomerList();
+
+
+    MainInfoDto queryMainInfoById(Long id);
+
+    List<ContactDto> queryContactDto(Long id);
+
+    List<ChasingRecordDto> queryAllChasingRecord(Long id);
+
+    List<ClueWorKOrderDto> querAllWorKOrderDtos(Long id);
 }
