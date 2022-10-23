@@ -27,11 +27,11 @@ public class ClueDto {
 
     @ApiModelProperty("归属人员")
     @TableField("personnel")
-    private User personnel;
+    private String personnel;
 
     @ApiModelProperty("联系人")
     @TableField("contacts")
-    private String contactss;
+    private String contacts;
 
     @ApiModelProperty("号码")
     private String phone;
@@ -40,41 +40,11 @@ public class ClueDto {
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date lastFollow;
 
+    @ApiModelProperty("保存数据时间")
+    private Date currentTime;
+
     @ApiModelProperty("未跟进天数")
     private Integer notFollowDays;
-
-    @ApiModelProperty("线索归属")
-    private User clue;
-
-    @ApiModelProperty("线索来源")
-    private Source source;
-
-    @ApiModelProperty("线索状态")
-    private Integer status;
-
-    @ApiModelProperty("客户需求")
-    private String customerNeeds;
-
-    @ApiModelProperty("联系人")
-    private String contacts;
-
-    @ApiModelProperty("电子邮箱")
-    private String eMail;
-
-
-    @ApiModelProperty("QQ号码")
-    @TableField("qq")
-    private String qq;
-
-    @ApiModelProperty("部门职务(外键，部门表)")
-    private String deptId;
-
-    @ApiModelProperty("微信账号")
-    private String wechat;
-
-
-
-
 
 
 
