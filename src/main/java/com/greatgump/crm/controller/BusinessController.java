@@ -31,14 +31,13 @@ public class BusinessController {
     @Autowired
     private BusinessService businessService;
     @ApiOperation("主页面的商机信息")
-    @GetMapping("/crm/business/list")
-    public Result list(@PathVariable("current")int current,@PathVariable("size")int size){
-//        Page<FollowForm> offerPage = new Page(current,size);
-//        Page<FollowForm> offerInfo = followFormService.page(offerPage);
+    @GetMapping("/crm/business/list/{current}/{size}")
+    public Result<List> list(@PathVariable("current")int current,@PathVariable("size")int size){
         try {
             List<BusinessDto> businessDtos = this.businessService.queryAllBusiness(current, size);
-
-            return Result.success(businessDtos);
+            System.out.println(businessDtos);
+            Result<List> success =Result.success(businessDtos);
+            return success;
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("查询失败");
@@ -46,10 +45,11 @@ public class BusinessController {
     }
     @ApiOperation("商机来源")
     @PostMapping("/crm/business/origin")
-    public Result queryBusinessOrigin(){
+    public Result<List> queryBusinessOrigin(){
         try {
             List<BusinessOrigin> list = this.businessService.queryBusinessOrigin();
-            return Result.success(list);
+            Result<List> success = Result.success(list);
+            return success;
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("查询失败");
@@ -57,22 +57,24 @@ public class BusinessController {
     }
     @ApiOperation("商机阶段")
     @PostMapping("/crm/business/stage")
-    public Result queryBusinessStage(){
+    public Result<List> queryBusinessStage(){
         try {
             List<BusinessStage> list = this.businessService.queryBusinessStage();
 
-            return Result.success(list);
+            Result<List> success = Result.success(list);
+            return success;
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("查询失败");
         }
     }
-    @ApiOperation("商机来源")
+    @ApiOperation("商机关联客户")
     @PostMapping("/crm/business/relation")
-    public Result queryBusinessCustomerRelation(){
+    public Result<List> queryBusinessCustomerRelation(){
         try {
-            List<Customer> list = this.businessService.queryAllCustomer();
-            return Result.success(list);
+            List<Customer1Dto> list = this.businessService.queryAllCustomer();
+            Result<List> success =Result.success(list);
+            return success;
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("查询失败");
@@ -80,17 +82,18 @@ public class BusinessController {
     }
     @ApiOperation("商机归属")
     @PostMapping("/crm/business/ascription")
-    public Result queryBusinessCustomerAscription(){
+    public Result<List> queryBusinessCustomerAscription(){
         try {
-            List<Customer> list = this.businessService.queryCustomerAscription();
-            return Result.success(list);
+            List<Customer1Dto> list = this.businessService.queryCustomerAscription();
+            Result<List> success = Result.success(list);
+            return success;
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("查询失败");
         }
     }
 
-    @ApiOperation("商机线索增加")
+    @ApiOperation("商机信息增加")
     @PostMapping("/crm/business/add")
     public Result addBusiness(@RequestBody BusinessSourceDto businessSourceDto){
         try {
@@ -104,12 +107,13 @@ public class BusinessController {
     }
 
 
-    @ApiOperation("商机表单搜索")
+    @ApiOperation("主页面商机表单搜索")
     @PostMapping("/crm/business/query")
-    public Result queryBusiness(@RequestBody BussinessDictionaryDto businessSourceDto){
+    public Result<List> queryBusiness(@RequestBody BussinessDictionaryDto businessSourceDto){
         try {
             List<BusinessDto> list=this.businessService.queryBusinessForm(businessSourceDto);
-            return Result.success(list);
+            Result<List> success = Result.success(list);
+            return success;
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("查找失败");
@@ -119,8 +123,8 @@ public class BusinessController {
 
 
     @ApiOperation("主页面的单个删除")
-    @DeleteMapping("/crm/business/delete")
-    public Result delete(Long id){
+    @DeleteMapping("/crm/business/delete/{id}")
+    public Result delete(@PathVariable("id") Long id){
         try {
             this.businessService.deleteBusiness(id);
             return Result.success();
@@ -141,11 +145,11 @@ public class BusinessController {
             return Result.failed("批量删除失败");
         }
     }
-    @ApiOperation("主页面回显")
+    @ApiOperation("主页面回显编辑内容")
     @GetMapping("/crm/business/pre")
     public Result queryId(Long id){
         try {
-            List<BusinessDto2> businessDto2 = this.businessService.queryId(id);
+            BusinessDto2 businessDto2 = this.businessService.queryId(id);
             return Result.success(businessDto2);
         }catch (Exception e){
             e.printStackTrace();
@@ -171,16 +175,16 @@ public class BusinessController {
     @GetMapping("/crm/business/chasingPre")
     public Result queryChasing(Long id){
         try {
-            this.businessService.queryChasing(id);
-            return Result.success();
+            ChasingDto chasingDto = this.businessService.queryChasing(id);
+            return Result.success(chasingDto);
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("跟进回显失败");
         }
     }
 
-    @ApiOperation("主页面跟进回显")
-    @GetMapping("/crm/business/chasing")
+    @ApiOperation("主页面跟进回显增加")
+    @GetMapping("/crm/business/addchasing")
     public Result addChasing(ChasingAddDto chasingAddDto){
         try {
             this.businessService.addChasing(chasingAddDto);
@@ -192,12 +196,13 @@ public class BusinessController {
     }
     @ApiOperation("点击标题回转显示需求")
     @GetMapping("/crm/business/need")
-    public Result queryInformation(String businessTitle){
+    public Result<List> queryInformation(String businessTitle){
         try {
             List<BusinessSourceDto> businessSourceDtos = this.businessService.queryInformation(businessTitle);
 
             //差东西
-            return Result.success();
+            Result<List> success = Result.success(businessSourceDtos);
+            return success;
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("跟进失败");
@@ -205,10 +210,11 @@ public class BusinessController {
     }
     @ApiOperation("概括信息中联系人")
     @GetMapping("/crm/business/people")
-    public Result queryPeople(String businessTitle){
+    public Result<List> queryPeople(String businessTitle){
         try {
             List<BusinessCustomerDto> businessCustomerDtos = this.businessService.queryPeople(businessTitle);
-            return Result.success(businessCustomerDtos);
+            Result<List> success = Result.success(businessCustomerDtos);
+            return success;
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("跟进失败");
@@ -217,10 +223,11 @@ public class BusinessController {
 
     @ApiOperation("概括信息中跟进记录全部详情")
     @GetMapping("/crm/business/plans")
-    public Result queryChasingPlans(String businessTitle){
+    public Result<List> queryChasingPlans(String businessTitle){
         try {
             List<FollowDetailsDto> followDetailsDtos = this.businessService.queryChasingPlans(businessTitle);
-            return Result.success(followDetailsDtos);
+            Result<List> success = Result.success(followDetailsDtos);
+            return success;
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("跟进失败");
@@ -239,10 +246,11 @@ public class BusinessController {
     }
     @ApiOperation("概括信息中跟进计划全部")
     @GetMapping("/crm/business/follow_plans")
-    public Result queryFollowPlans(String businessTitle){
+    public Result<List> queryFollowPlans(String businessTitle){
         try {
             List<FollowPlan1Dto> followPlan1Dtos = this.businessService.queryFollowPlan(businessTitle);
-            return Result.success(followPlan1Dtos);
+            Result<List> success =Result.success(followPlan1Dtos);
+            return success;
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("跟进计划查找失败");
@@ -251,7 +259,7 @@ public class BusinessController {
 
     @ApiOperation("概括信息中跟进计划条件查询")
     @GetMapping("/crm/business/follow_plan")
-    public Result queryFollowPlan(String title,String planProgress){
+    public Result<List> queryFollowPlan(String title,String planProgress){
         try {
             List<FollowPlan1Dto> followPlan1Dtos = this.businessService.queryFollowPlan1(title,planProgress);
             return Result.success(followPlan1Dtos);
@@ -263,10 +271,11 @@ public class BusinessController {
 
     @ApiOperation("概括信息中报价计划详情")
     @GetMapping("/crm/business/products")
-    public Result queryProductPlan(String businessTitle){
+    public Result<List> queryProductPlan(String businessTitle){
         try {
             List<ProductPlanDto> productPlanDtos = this.businessService.queryProductPlan(businessTitle);
-            return Result.success(productPlanDtos);
+            Result<List> success =Result.success(productPlanDtos);
+            return success;
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("请求失败");
@@ -308,10 +317,11 @@ public class BusinessController {
     }
     @ApiOperation("概括信息中关联订单详情")
     @GetMapping("/crm/business/order")
-    public Result queryOrder(String businessTitle){
+    public Result<List> queryOrder(String businessTitle){
         try {
             List<OrderBusinessDto> orderBusinessDtos = this.businessService.queryBusinessOder(businessTitle);
-            return Result.success(orderBusinessDtos);
+            Result<List> success =Result.success(orderBusinessDtos);
+            return success;
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("请求失败");
@@ -357,10 +367,11 @@ public class BusinessController {
 
     @ApiOperation("概括信息中相关附件")
     @GetMapping("/crm/business/enclosure")
-    public Result queryEnclosure(String businessTitle){
+    public Result<List> queryEnclosure(String businessTitle){
         try {
             List<UplodeEnclosureDto> uplodeEnclosureDtos = this.businessService.queryEnclosure(businessTitle);
-            return Result.success(uplodeEnclosureDtos);
+            Result<List> success = Result.success(uplodeEnclosureDtos);
+            return success;
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("请求失败");
@@ -379,10 +390,11 @@ public class BusinessController {
     }
     @ApiOperation("概括信息中归属记录")
     @GetMapping("/crm/business/ascription")
-    public Result queryAscription(String businessTitle){
+    public Result<List> queryAscription(String businessTitle){
         try {
             List<FollowFromAscriptionDto> followFromAscriptionDtos = this.businessService.queryAscription(businessTitle);
-            return Result.success(followFromAscriptionDtos);
+            Result<List> success = Result.success(followFromAscriptionDtos);
+            return success;
         }catch (Exception e){
             e.printStackTrace();
             return Result.failed("请求失败");

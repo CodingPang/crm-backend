@@ -4,11 +4,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
+
 public class BussinessDictionaryDto {
-    private int page;
+    private int current;
     private int size;
     @ApiModelProperty("关联客户")
-    private String customer;
+    private String customerName;
 
     @ApiModelProperty("商机来源")
     private String businessOrigin;

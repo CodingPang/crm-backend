@@ -88,8 +88,8 @@
     </select>
 
 
-    <insert id="addBusinessFollowForm" parameterType="com.greatgump.crm.dto.BussinessDictionaryDto">
-         insert into t_follow_form(contactss,e-mail,phone,qq,dept_id,wechat,customer_needs,business_name,user_id,business_source,business_stage,customer_id,estimated_income)
+    <insert id="addBusinessFollowForm" parameterType="com.greatgump.crm.dto.BussinessDictionaryDto" useGeneratedKeys="true" keyProperty="id">
+         insert into t_follow_form(contactss,e_mail,phone,qq,dept_id,wechat,customer_needs,business_name,user_id,business_source,business_stage,customer_id,estimated_income)
          values (#{contactss},#{eMail},#{phone},#{qq},#{dept.id},#{wechat},#{customerNeeds},#{businessTitle},#{user.id},#{businessOrigin},#{businessStage},#{customer.id},#{estimatedIncome})
     </insert>
 
