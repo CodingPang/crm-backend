@@ -48,8 +48,7 @@ public class CustomerController {
     @PostMapping("/sea/dynamic")
     public Result<List<CustomerDto>> querySeasDynamic(@RequestBody CustomerQueryDto customerQueryDto){
 
-
-        List<CustomerDto> customerDtos1 = customerService.queryCustomerDynamic(customerQueryDto);
+        List<CustomerDto> customerDtos1 = customerService.querySeasDynamic(customerQueryDto);
 
         return Result.success(customerDtos1);
 
