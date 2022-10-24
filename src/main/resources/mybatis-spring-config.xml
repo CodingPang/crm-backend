@@ -13,16 +13,16 @@
            http://www.springframework.org/schema/tx
            http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-  <bean id="placeholderConfigurer"
-    class="com.greatgump.crm.utils.DBPropertyPlaceholderConfigurer">
-    <property name="locations" value="classpath:jdbc.properties" />
-    <property name="encryptedProperties">
-      <array>
-        <value>jdbc.username</value>
-        <value>jdbc.password</value>
-      </array>
-    </property>
-  </bean>
+<!--  <bean id="placeholderConfigurer"-->
+<!--    class="com.greatgump.crm.utils.DBPropertyPlaceholderConfigurer">-->
+<!--    <property name="locations" value="classpath:jdbc.properties" />-->
+<!--    <property name="encryptedProperties">-->
+<!--      <array>-->
+<!--        <value>jdbc.username</value>-->
+<!--        <value>jdbc.password</value>-->
+<!--      </array>-->
+<!--    </property>-->
+<!--  </bean>-->
 
   <context:property-placeholder location="classpath:jdbc.properties" ignore-resource-not-found="true"/>
 

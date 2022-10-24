@@ -17,6 +17,9 @@ public class ClueReceiveDto {
     @ApiModelProperty("客户名称")
     private String username;
 
+    @ApiModelProperty("客户名称")
+    private Long customerId;
+
     @ApiModelProperty("线索归属")
     private Integer userId;
 
