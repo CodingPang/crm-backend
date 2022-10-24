@@ -9,8 +9,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
@@ -21,8 +20,10 @@ import lombok.experimental.Accessors;
  * @author team6
  * @since 2022-10-12 10:31:27
  */
-@Getter
-@Setter
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Accessors(chain = true)
 @TableName("t_contract")
 @ApiModel(value = "Contract对象", description = "合同管理")
@@ -30,8 +31,7 @@ public class Contract implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("主键，自增")
-    @TableId(value = "id")
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     @ApiModelProperty("合同编号")

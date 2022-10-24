@@ -1,5 +1,6 @@
 package com.greatgump.crm.service;
 
+import com.greatgump.crm.dto.OfferDetailsUpdateListDto;
 import com.greatgump.crm.entity.OfferDetails;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -24,7 +25,7 @@ public interface OfferDetailsService extends IService<OfferDetails> {
 
     Long listBycompanyCount(int id);
 
-    List<OfferDetails> listBycompanyUpdate(int id, int current, int size, int orderid);
+    List<OfferDetails> listBycompanyUpdate(OfferDetailsUpdateListDto dto);
 
-    Long listBycompanyCountUpdate(int id, int orderid);
+    Long listBycompanyCountUpdate(OfferDetailsUpdateListDto dto);
 }

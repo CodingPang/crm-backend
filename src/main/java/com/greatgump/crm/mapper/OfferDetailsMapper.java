@@ -1,5 +1,6 @@
 package com.greatgump.crm.mapper;
 
+import com.greatgump.crm.dto.OfferDetailsUpdateListDto;
 import com.greatgump.crm.entity.OfferDetails;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -27,7 +28,7 @@ public interface OfferDetailsMapper extends BaseMapper<OfferDetails> {
 
     Long listBycompanyCount(int id);
 
-    List<OfferDetails> listBycompanyUpdate(int id, int current, int size, int orderid);
+    List<OfferDetails> listBycompanyUpdate(OfferDetailsUpdateListDto dto);
 
-    Long listBycompanyCountUpdate(int id, int orderid);
+    Long listBycompanyCountUpdate(OfferDetailsUpdateListDto dto);
 }

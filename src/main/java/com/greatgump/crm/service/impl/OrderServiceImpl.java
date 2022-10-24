@@ -30,7 +30,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     @Override
-    public Page<Order> searchIneed(OrderSearchDto orderSearchDto) {
+    public List<Order> searchIneed(OrderSearchDto orderSearchDto) {
         return orderMapper.searchIneed(orderSearchDto);
     }
 

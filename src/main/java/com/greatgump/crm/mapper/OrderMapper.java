@@ -1,7 +1,6 @@
 package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.LoanOrderDto;
 import com.greatgump.crm.dto.OrderSearchDto;
 import com.greatgump.crm.dto.finance.cost.OrderListDto;
 import com.greatgump.crm.entity.Order;
@@ -29,6 +28,4 @@ public interface OrderMapper extends BaseMapper<Order> {
     Page<Order> listIneed(Page<Order> offerListDtoPage);
 
     Page<Order> searchIneed(OrderSearchDto orderSearchDto);
-
-  List<LoanOrderDto> queryOrder();
 }
