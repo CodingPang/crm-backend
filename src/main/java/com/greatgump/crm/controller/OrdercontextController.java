@@ -189,4 +189,9 @@ public class OrdercontextController {
         return Result.success(offerListDtoPage1.getRecords(),offerListDtoPage1.getTotal());
     }
 
+    @ApiOperation("订单删除")
+    @DeleteMapping("/crm/ordercontext/list")
+    public Result delete(Long id){
+        return Result.success(orderService.removeById(id));
+    }
 }
