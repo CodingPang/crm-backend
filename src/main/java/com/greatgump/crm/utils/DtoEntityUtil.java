@@ -1,10 +1,10 @@
 package com.greatgump.crm.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DtoEntityUtil {
 

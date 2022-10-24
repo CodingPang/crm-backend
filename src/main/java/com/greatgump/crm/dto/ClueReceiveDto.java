@@ -8,20 +8,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class ClueReceiveDto {
+    @ApiModelProperty(value = "id",hidden = true)
     private long id;
 
+    @ApiModelProperty(value = "联系人id",hidden = true)
+    private Long contactId;
+
+
     @ApiModelProperty("客户名称")
-    private String username;
+    private String customerName;
 
     @ApiModelProperty("客户名称")
     private Long customerId;
 
     @ApiModelProperty("线索归属")
-    private Integer userId;
+    private Long userId;
 
     @ApiModelProperty("线索来源")
     private Integer sourceId;
@@ -50,8 +57,11 @@ public class ClueReceiveDto {
     @ApiModelProperty("微信账号")
     private String wechat;
 
+    @ApiModelProperty(value = "最近跟进时间",hidden = true)
+    private Date lastTime;
 
-
+    @ApiModelProperty(value = "线索表id",hidden = true)
+    private Long followFormId;
 
 
 }

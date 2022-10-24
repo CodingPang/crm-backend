@@ -21,13 +21,13 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/upload")
 @Slf4j
 public class OSSController {
-  @Autowired
-  private OSSUtil ossUtil;
-
-  @PostMapping("/test")
-  public String ossTest(@RequestParam("file") MultipartFile multipartFile){
-    String url = ossUtil.uploadDocument(multipartFile, "png");
-    log.info("url路径：" + url);
-    return "文件上传成功！";
-  }
+//  @Autowired
+//  private OSSUtil ossUtil;
+//
+//  @PostMapping("/test")
+//  public String ossTest(@RequestParam("file") MultipartFile multipartFile){
+//    String url = ossUtil.uploadDocument(multipartFile, "png");
+//    log.info("url路径：" + url);
+//    return "文件上传成功！";
+//  }
 }

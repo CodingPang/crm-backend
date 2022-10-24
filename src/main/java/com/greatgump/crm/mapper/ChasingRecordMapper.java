@@ -1,10 +1,10 @@
 package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.greatgump.crm.dto.ChasingAddDto;
-import com.greatgump.crm.dto.FollowDetailsDto;
+import com.greatgump.crm.dto.chasing.ChasingMethodDto;
+import com.greatgump.crm.dto.chasing.ChasingRecordDto;
+import com.greatgump.crm.dto.clue.ClueCustomerDto;
 import com.greatgump.crm.entity.ChasingRecord;
-import com.greatgump.crm.entity.Follow;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Date;
@@ -20,20 +20,18 @@ import java.util.List;
  */
 @Mapper
 public interface ChasingRecordMapper extends BaseMapper<ChasingRecord> {
-    /*
-    *售前跟进管理全部
-    */
-    List<FollowDetailsDto> queryChasingRecordAll();
-    /*
-     *添加跟进
-     */
-    void addChasing(ChasingAddDto chasingAddDto);
-   /*
-   *跟进记录全部
-   */
-   List<FollowDetailsDto> queryChasingPlans(String businessTitle);
-    /*
-     *跟进记录单个
-     */
-    FollowDetailsDto queryChasingPlan(String userName, Date progressiveTime);
+//    void addChasingRecord(ChasingRecord chasingRecord);
+
+    List<ChasingMethodDto> queryAllChasingMethod();
+
+
+    void addChasingRecord(ChasingRecord chasingRecord);
+
+    List<ChasingRecordDto> queryAllChasingRecords();
+
+    void addChasingRecordByCustomerId(ChasingRecord chasingRecord);
+
+    List<ClueCustomerDto> queryAllCustomer();
+
+    List<ChasingRecordDto> queryChasingRecords();
 }

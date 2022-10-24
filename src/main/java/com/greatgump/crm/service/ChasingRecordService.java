@@ -1,7 +1,9 @@
 package com.greatgump.crm.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.greatgump.crm.dto.FollowDetailsDto;
+import com.greatgump.crm.dto.chasing.ChasingMethodDto;
+import com.greatgump.crm.dto.chasing.ChasingRecordDto;
+import com.greatgump.crm.dto.clue.ClueCustomerDto;
 import com.greatgump.crm.entity.ChasingRecord;
 
 import java.util.List;
@@ -15,8 +17,13 @@ import java.util.List;
  * @since 2022-10-15 04:12:19
  */
 public interface ChasingRecordService extends IService<ChasingRecord> {
-    /*
-     *售前跟进管理全部
-     */
-    List<FollowDetailsDto> queryChasingRecordAll();
+    List<ChasingMethodDto> queryAllChasingMethod();
+    void addChasingRecord(ChasingRecord chasingRecord);
+    void deleteChasingRecordById(Long id);
+
+    List<ChasingRecordDto> queryAllChasingRecords();
+
+    void addChasingRecordByCustomerId(ChasingRecord chasingRecord);
+
+    List<ClueCustomerDto> queryAllCustomer();
 }
