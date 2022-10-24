@@ -162,7 +162,7 @@ public class OrdercontextController {
 
     @ApiOperation("修改关联商品按钮")
     @PostMapping("/crm/ordercontext/getproupdate")
-    private Result listPro1(OfferDetailsUpdateListDto dto){
+    private Result listPro1(@RequestBody OfferDetailsUpdateListDto dto){
         return Result.success(offerDetailsService.listBycompanyUpdate(dto),offerDetailsService.listBycompanyCountUpdate(dto));
     }
 

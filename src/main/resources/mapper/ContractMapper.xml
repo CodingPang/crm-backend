@@ -119,7 +119,7 @@
             cta.customer_id = cus.id
           AND cta.contacts = tc.id
         <if test="customerName != null and customerName != ''">
-            AND cus.customer_name = #{customerName}
+            AND cus.customer_name like "%"#{customerName}"%"
         </if>
         <if test="start != null &amp;end != null ">
             AND cta.pay_date BETWEEN #{start} AND #{end}
@@ -140,7 +140,7 @@
             cta.customer_id = cus.id
           AND cta.contacts = tc.id
         <if test="customerName != null and customerName != ''">
-            AND cus.customer_name = #{customerName}
+            AND cus.customer_name like "%"#{customerName}"%"
         </if>
         <if test="start != null &amp;end != null ">
             AND cta.pay_date BETWEEN #{start} AND #{end}
