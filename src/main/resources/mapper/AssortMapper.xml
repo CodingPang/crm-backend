@@ -1,44 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.greatgump.crm.mapper.AssortMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.greatgump.crm.dto.productlibrary.AssortDto">
-        <id column="id" property="id" />
-        <result column="assort_name" property="assortName" />
-        <result column="parent_id" property="parentId" />
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Assort">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="assortName" column="assort_name" jdbcType="VARCHAR"/>
+            <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+            <result property="sort" column="sort" jdbcType="INTEGER"/>
+            <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
     </resultMap>
 
-    <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, assort_name, parent_id
+        id,assort_name,parent_id,
+        sort,is_delete
     </sql>
-    <insert id="insertAssort">
-        insert into t_assort(assort_name)
-        values (#{assortName})
-    </insert>
-    <update id="updateAssort">
-        UPDATE t_assort
-        SET assort_name=#{assortName}
-        WHERE id=#{id}
-    </update>
-    <delete id="deleteAssort">
-        DELETE
-        FROM t_assort
-        WHERE id=#{id};
-    </delete>
-    <select id="queryAllAssorts" resultMap="BaseResultMap">
-        SELECT t.id,t.assort_name
-        FROM t_assort t
-    </select>
-    <resultMap id="BaseResultMap1" type="com.greatgump.crm.dto.productlibrary.QueryAssortDto">
-        <id column="id" property="id" />
-        <result column="assort_name" property="assortName" />
-    </resultMap>
-    <select id="queryBid" resultMap="BaseResultMap1">
-        SELECT ast.id,ast.assort_name
-        FROM t_assort ast
-        WHERE ast.id=#{id}
-    </select>
-
 </mapper>

@@ -1,10 +1,5 @@
 package com.greatgump.crm.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.greatgump.crm.entity.Customer;
-import com.greatgump.crm.entity.Order;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,31 +11,27 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class WorkorderDto2 {
-    @ApiModelProperty("自增主建")
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
 
-    @ApiModelProperty("关联客户")
-    @TableField("customer_name")
-    private Customer customerName;
+    //initiator_id 当前用户id handler_id
+    @ApiModelProperty("关联客户--存客户对象-传id")
+    private Integer customerId;
 
-    @ApiModelProperty("关联订单")
-    @TableField("work_order_number")
-    private Order workOrderNumber;
+    @ApiModelProperty("关联订单编号--传id")
+    private Integer orderId;
 
     @ApiModelProperty("紧急程度")
-    @TableField("emergency_degree")
-    private Integer emergencyDegree;
+    private Integer emergency;
 
     @ApiModelProperty("工单标题")
-    @TableField("repair_order_title")
-    private String repairOrderTitle;
+    private String title;
 
     @ApiModelProperty("工单内容")
-    @TableField("work_order_details")
-    private String workOrderDetails;
+    private String content;
 
+    @ApiModelProperty("附件上传成功后 返回给你的 url")
+    private String attachment;
 
-    public WorkorderDto2(List<Customer> customers, List<OrderDto> orderDtos, List<WorkorderDto> workorderDtos) {
-    }
+    @ApiModelProperty("当前工单的id--（编辑的时候必传--新增的时候不用传）")
+    private Integer workOrderId;
+
 }

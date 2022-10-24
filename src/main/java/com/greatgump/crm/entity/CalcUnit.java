@@ -1,57 +1,49 @@
 package com.greatgump.crm.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import java.util.Date;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.Data;
 
 /**
- * <p>
  * 计量单位
- * </p>
- *
- * @author team6
- * @since 2022-10-12 10:31:27
+ * @TableName t_calc_unit
  */
-@NoArgsConstructor
-@AllArgsConstructor
+@TableName(value ="t_calc_unit")
 @Data
-@Accessors(chain = true)
-@TableName("t_calc_unit")
-@ApiModel(value = "CalcUnit对象", description = "计量单位")
 public class CalcUnit implements Serializable {
-
-       private static final long serialVersionUID = 1L;
-
-    @ApiModelProperty("主键,自增")
+    /**
+     * 主键,自增
+     */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
-    @ApiModelProperty("产品分类")
-    private Assort assort;
-    @ApiModelProperty("单位名称")
-    @TableField("unit_name")
+    private Integer id;
+
+    /**
+     * 单位名称
+     */
+    @TableField(value = "unit_name")
     private String unitName;
 
-    @ApiModelProperty("创建日期")
-    @TableField("creation_date")
+    /**
+     * 创建日期
+     */
+    @TableField(value = "creation_date")
     private Date creationDate;
 
-    @ApiModelProperty("备注")
-    @TableField("remark")
+    /**
+     * 备注
+     */
+    @TableField(value = "remark")
     private String remark;
 
-    @ApiModelProperty("假删(0表示未删,1表示删除)")
-    @TableField("is_delete")
+    /**
+     * 假删(0表示未删,1表示删除)
+     */
+    @TableLogic(value = "0",delval = "1")
+    @TableField(value = "is_delete")
     private Integer isDelete;
 
-    public CalcUnit(Long id, String unitName) {
-        this.id = id;
-        this.unitName = unitName;
-    }
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
 }

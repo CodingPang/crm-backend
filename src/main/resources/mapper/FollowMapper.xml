@@ -21,15 +21,11 @@
     </sql>
 
     <!--    关联订单-->
-    <insert id="addOrderFollow">
+    <insert id="saveOrderFollow">
         insert into(customer,person,followdate,follow_people,follow_method,follow_context)
         values(#{customer},#{person},#{followdate},#{followPeople},#{followMethod},#{followContext})
         where customer in (select customer_name from t_customer where id in (select customer_id from t_business where id in (select business_id from t_oder where id=#{id})))
     </insert>
-
-
-
-
 
 
 

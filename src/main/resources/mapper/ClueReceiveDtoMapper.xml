@@ -23,8 +23,8 @@
     </resultMap>
 
     <insert id="addFollowForm" keyProperty="followFormId" useGeneratedKeys="true">
-        INSERT INTO t_follow_form (customer_id,user_id,follow_source,status,customer_needs,dept_id,contact_id,`current_time`,follow_type,is_delete,customer_id)
-        VALUES (#{usernameId},#{userId},#{sourceId},#{status},#{customerNeeds},#{deptId},#{contactId},#{lastTime},1,0,#{customerId})
+        INSERT INTO t_follow_form (customer_id,user_id,follow_source,status,customer_needs,dept_id,contact_id,`current_time`,follow_type,is_delete)
+        VALUES (#{customerId},#{userId},#{sourceId},#{status},#{customerNeeds},#{deptId},#{contactId},#{lastTime},1,0)
     </insert>
     <insert id="addContact" keyProperty="contactId" useGeneratedKeys="true" >
         INSERT INTO t_contact (contact_name,mail,phone,qq,wechat)

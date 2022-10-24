@@ -112,7 +112,7 @@ public class OfferDetailsController {
     @ApiOperation("这是报价商品页面")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/crm/offer_details/listproduct/{current}/{size}/{customerId}")
-    public Result<List<OfferDetails>>listProduct(@PathVariable("customerId") int customerId,@PathVariable("current") int current, @PathVariable("size") int size){
+    public Result listProduct(@PathVariable("customerId") int customerId,@PathVariable("current") int current, @PathVariable("size") int size){
         Page<OfferDetails> offerPage = new Page(current,size);
 
         QueryWrapper<OfferDetails> wrapper = new QueryWrapper<>();
@@ -125,9 +125,9 @@ public class OfferDetailsController {
     @GetMapping("/crm/offer_details/listallproduct/{current}/{size}")
     public Result<List<ProductListDto>> listAllProduct(@PathVariable("current")int current,@PathVariable("size")int size){
         Page<ProductListDto> offerListDtoPage = new Page<>(current,size);
-        Page<ProductListDto> offerListDtoPage1 = productService.listAll(offerListDtoPage);
-        System.out.println("===================>"+offerListDtoPage1.getRecords());
-        return Result.success(offerListDtoPage1.getRecords(),offerListDtoPage1.getTotal());
+        Page<ProductListDto> productListDtoPage = productService.listAll(offerListDtoPage);
+//        System.out.println("===================>"+offerListDtoPage1.getRecords());
+        return Result.success(productListDtoPage.getRecords(),productListDtoPage.getTotal());
     }
 
     @ApiOperation("所有商品页面的添加按钮，注意传当前公司company的Id")

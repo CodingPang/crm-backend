@@ -1,24 +1,18 @@
 package com.greatgump.crm.dto.productlibrary;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.greatgump.crm.entity.Assort;
-import com.greatgump.crm.entity.CalcUnit;
-import com.greatgump.crm.entity.Property;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class UpdeProductDto {
-    @ApiModelProperty("id")
-    private Long id;
+    @ApiModelProperty("id--必传")
+    private Integer id;
 
     @ApiModelProperty("产品编码")
     private String productCode;
@@ -32,7 +26,9 @@ public class UpdeProductDto {
     @ApiModelProperty("单位名称")
     private Integer unitid;
 
-    @ApiModelProperty("属性名称")
-    private Integer propertyId;
+    @ApiModelProperty("属性--选中的id 封装为数组传递")
+    private List<Integer> propertyIdList;
+    @ApiModelProperty("属性--图片url 封装为数组传递")
+    private List<String> photoUrlList;
 
 }

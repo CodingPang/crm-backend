@@ -20,7 +20,6 @@ public class ClueReceiveDto {
     @ApiModelProperty(value = "联系人id",hidden = true)
     private Long contactId;
 
-
     @ApiModelProperty("客户名称")
     private String customerName;
 

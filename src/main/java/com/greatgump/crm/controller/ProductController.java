@@ -1,13 +1,22 @@
 package com.greatgump.crm.controller;
 
+import java.math.BigDecimal;
+
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.google.common.collect.Lists;
+
+import java.util.Date;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.productlibrary.*;
-import com.greatgump.crm.service.ProductService;
+import com.greatgump.crm.entity.*;
+import com.greatgump.crm.service.*;
+import com.greatgump.crm.utils.NoGenerateUtils;
 import com.greatgump.crm.utils.Result;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,97 +32,148 @@ import java.util.*;
  */
 @Api(tags = "产品库功能说明")
 @RestController
-@RequestMapping("/crm/product")
+@RequestMapping("/product")
 public class ProductController {
     @Autowired
     private ProductService productService;
 
-@ApiOperation("获取所有产品信息")
-@ApiImplicitParams(value = {@ApiImplicitParam(name = "page",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
-@GetMapping("/queryAllProducts/{page}/{size}")
-public Result<List<ProductDto>> queryAllProducts(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
-    Page<ProductDto> productDtoPage = new Page<>(current, size);
-    Page<ProductDto> pageIfo = productService.queryAllProducts(productDtoPage);
-    return Result.success(pageIfo.getRecords(),pageIfo.getTotal());
+    @Autowired
+    private AssortService assortService;
 
-}
+    @Autowired
+    private CalcUnitService calcUnitService;
 
-//    @ApiOperation("产品分类下拉框")
-//    @GetMapping("/crm/offer_details/listAssort")
-//    public Result<List<ProductBox1Dto>> listAssort(){
-//        return Result.success(productService.getAssort());
-//    }
+    @Autowired
+    private PropertyService propertyService;
 
-//    @ApiOperation("计量单位下拉框")
-//    @GetMapping("/crm/Product/listCalcUnit")
-//    public Result<List<ProductBox2Dto>> listCalcUnit(){
-//        return Result.success(productService.getClacUnit());
-//    }
-//
-//    @ApiOperation("产品属性下拉框")
-//    @GetMapping("/crm/Product/listProperty")
-//    public Result<List<ProductBox3Dto>> listProperty(){
-//        return Result.success(productService.getProperty());
-//    }
+    @Autowired
+    private ProductPropertyService productPropertyService;
 
+    @Autowired
+    private ProductPhotoService productPhotoService;
 
+    @ApiOperation("获取所有产品信息")
+    @GetMapping("/all")
+    public Result<Page<Product>> queryAllProducts(ProductSearch search) {
+
+        return Result.success(productService.queryByPage(search));
+
+    }
+
+    @ApiOperation("产品分类下拉框")
+    @GetMapping("/assortlist")
+    public Result<List<Assort>> listAssort() {
+        QueryWrapper<Assort> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("DISTINCT id,assort_name").orderByAsc("assort_name");
+        return Result.success(assortService.getBaseMapper().selectList(queryWrapper));
+    }
+
+    @ApiOperation("计量单位下拉框")
+    @GetMapping("/unitlist")
+    public Result<List<CalcUnit>> listCalcUnit() {
+        QueryWrapper<CalcUnit> wrapper = new QueryWrapper<>();
+        wrapper.select("DISTINCT id,unit_name").orderByAsc("unit_name");
+        List<CalcUnit> calcUnits = calcUnitService.getBaseMapper().selectList(wrapper);
+        return Result.success(calcUnits);
+    }
+
+    @ApiOperation("产品属性下拉框")
+    @GetMapping("/propertlist")
+    public Result<List<Property>> listProperty() {
+        QueryWrapper<Property> wrapper = new QueryWrapper<>();
+        wrapper.select("DISTINCT id,property_name").orderByAsc("property_name");
+        return Result.success(propertyService.getBaseMapper().selectList(wrapper));
+    }
 
 
     @ApiOperation("产品增加")
-    @PostMapping("/pre")
-    public Result preAdd(@RequestBody AddProductDto addProductDto){
-        Date date = new Date();
-        addProductDto.setCreatedate(date);
-        int insertProduct = productService.insertProduct(addProductDto);
-        return Result.judge(insertProduct>0);
+    @PostMapping("/add")
 
+    public Result add(@RequestBody AddProductDto productDto) {
+
+        this.productService.saveProduct(productDto);
+
+        return Result.success();
     }
 
+    @ApiOperation("根据id查询")
+    @PutMapping("/queryByid/{id}")
+    public Result<Product> queryBid(@PathVariable("id") Integer id) {
 
-    @ApiOperation("产品编辑预查询")
-    @GetMapping("/querybid/{id}")
-    public Result<QueryProductDto> queryBid(@PathVariable("id") Integer id){
-
-        return Result.success(productService.queryBid(id));
+        return Result.success(productService.queryById(id));
     }
+
 
     @ApiOperation("产品编辑")
-    @PutMapping("/updateProduct")
-    public Result<UpdeProductDto> updateProduct(@RequestBody UpdeProductDto updeProductDto){
-
-        int updateProduct = productService.updateProduct(updeProductDto);
-
-        if (updateProduct>0){
-            return Result.success();
-        }else{
+    @PutMapping("/edit")
+    public Result<UpdeProductDto> updateProduct(@RequestBody UpdeProductDto updeProductDto) {
+        Integer productId = updeProductDto.getId();
+        if(productId == null){
             return Result.failed();
         }
+
+        Product product = productService.getById(productId);
+        if(product == null){
+            return Result.failed();
+        }
+        product.setId(productId);
+        product.setProductCode(updeProductDto.getProductCode());
+        product.setProductName(updeProductDto.getProductName());
+        product.setClassificationid(updeProductDto.getClassificationid());
+        product.setUnitid(updeProductDto.getUnitid());
+        productService.updateById(product);
+        // 设置产品属性
+        if (productId > 0 && !updeProductDto.getPropertyIdList().isEmpty()) {
+            //移除
+            QueryWrapper<ProductProperty> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("product_id",productId);
+            productPropertyService.remove(queryWrapper);
+            //新增
+            ProductProperty productProperty = new ProductProperty();
+            List<Integer> propertyIdList = updeProductDto.getPropertyIdList();
+            for (Integer propertyId : propertyIdList) {
+                productProperty.setProductId(Long.valueOf(Integer.toString(productId)));
+                productProperty.setPropertyId(Long.valueOf(Integer.toString(propertyId)));
+                productPropertyService.save(productProperty);
+            }
+
+        }
+        //存图片链接
+        if (productId > 0 && !updeProductDto.getPhotoUrlList().isEmpty()) {
+            //移除
+            QueryWrapper<ProductPhoto> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("product_id",productId);
+            productPhotoService.remove(queryWrapper);
+            //新增
+            ProductPhoto productPhoto = new ProductPhoto();
+            List<String> photoList = updeProductDto.getPhotoUrlList();
+            for (String photo : photoList) {
+                productPhoto.setId(0);
+                productPhoto.setProductId(productId);
+                productPhoto.setProductPhoto(photo);
+                productPhotoService.save(productPhoto);
+            }
+        }
+
+        return Result.success();
+
     }
+
 
     @ApiOperation("产品信息删除")
-    @DeleteMapping("/deleteProduct/{id}")
-    public Result deleteProduct(@PathVariable("id")Long id){
-
+    @DeleteMapping("/del/{id}")
+    public Result deleteProduct(@PathVariable("id") Integer id) {
         boolean b = productService.removeById(id);
         return Result.judge(b);
-
     }
+
 
     @ApiOperation("产品信息批量删除")
-    @DeleteMapping("/deletebatch")
-    public Result deletebatch(@RequestBody List<Long> ids){
+    @DeleteMapping("/del")
+    public Result deletebatch(@RequestBody List<Integer> idList) {
 
-          boolean  b = productService.removeByIds(ids);
-
+        boolean b = productService.removeByIds(idList);
         return Result.judge(b);
-    }
-
-    @ApiOperation("产品管理搜索")
-    @PostMapping("/crm/product/search")
-    public Result<List<ProductDto>> search(@RequestBody ProductsearchDto productsearchDto){
-        List<ProductDto> productListDtoPage= productService.searchList(productsearchDto);
-//        Long count = Long.valueOf(productService.countList(productsearchDto));
-        return Result.success(productListDtoPage);
     }
 
 }

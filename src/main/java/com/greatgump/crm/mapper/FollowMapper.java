@@ -1,7 +1,6 @@
 package com.greatgump.crm.mapper;
 
-import com.greatgump.crm.dto.ClueReceiveDto;
-import com.greatgump.crm.dto.OrderFollowDto;
+import com.greatgump.crm.dto.businessDto.OrderFollowDto;
 import com.greatgump.crm.entity.Follow;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,7 +20,7 @@ public interface FollowMapper extends BaseMapper<Follow> {
     /*
      *商机中关联订单跟进
      */
-    OrderFollowDto addOrderFollow(Long id);
+    OrderFollowDto saveOrderFollow(Long id);
 
 
 }

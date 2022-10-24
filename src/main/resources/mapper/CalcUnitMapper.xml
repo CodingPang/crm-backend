@@ -1,61 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.greatgump.crm.mapper.CalcUnitMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.greatgump.crm.dto.productlibrary.CalcUnitDto">
-        <id column="id" property="id"/>
-        <result column="unit_name" property="unitName"/>
-        <result column="creation_date" property="creationDate"/>
-        <result column="remark" property="remark"/>
-        <result column="is_delete" property="isDelete"/>
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.CalcUnit">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="unitName" column="unit_name" jdbcType="VARCHAR"/>
+            <result property="creationDate" column="creation_date" jdbcType="DATE"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
     </resultMap>
 
-    <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, unit_name, creation_date, remark, is_delete
+        id,unit_name,creation_date,
+        remark,is_delete
     </sql>
-    <insert id="insertCalcUnit">
-        insert into t_calc_unit(unit_name)
-        values (#{unitName})
-    </insert>
-    <update id="updateClcUnit">
-        UPDATE t_calc_unit
-        SET unit_name=#{unitName}
-        WHERE id=#{id}
-    </update>
-    <delete id="deleteCalcUnit">
-        DELETE
-        FROM t_calc_unit
-        WHERE id=#{id};
-    </delete>
-    <select id="queryAllCalcUnits" resultMap="BaseResultMap">
-        SELECT c.id,c.unit_name,c.creation_date
-        FROM t_calc_unit c
-    </select>
-    <resultMap id="BaseResultMap1" type="com.greatgump.crm.dto.productlibrary.QueryCalcUnitDto">
-        <id column="id" property="id"/>
-        <result column="unit_name" property="unitName"/>
-    </resultMap>
-    <select id="queryBid" resultMap="BaseResultMap1">
-        SELECT cu.id,cu.unit_name
-        FROM t_calc_unit cu
-        WHERE cu.id=#{id}
-    </select>
-    <select id="searchList" resultMap="BaseResultMap">
-        SELECT
-        unit_name,
-        creation_date
-        FROM
-        t_calc_unit
-        WHERE
-        <if test = "unitName != null and unitName != ''" >
-         unit_name = #{unitName}
-        </if >
-          <if test = "start != null &amp;end != null " >
-        AND creation_date BETWEEN #{start} AND #{end}
-    </if>
-    </select>
-
-
 </mapper>

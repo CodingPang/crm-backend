@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.ProductListDto;
 import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.dto.LuoDto1;
-import com.greatgump.crm.entity.OfferDetails;
 import com.greatgump.crm.entity.Product;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -19,14 +18,29 @@ import java.util.List;
  * @since 2022-10-12 10:31:27
  */
 public interface ProductService extends IService<Product> {
+    /**
+     * 获取所有产品信息
+     * @return
+     * @param
+     */
 
-    List<LuoDto1> listIneed();
 
-    List<OfferDetails> listIneed(int customerId, int current, int size);
+    Page<Product> queryByPage(ProductSearch search);
 
-    Page<ProductDto> queryAllProducts(Page page);
+    void saveProduct(AddProductDto productDto);
 
-    int insertProduct(AddProductDto addProductDto);
+    Product queryById(Integer id);
+
+
+
+
+
+
+
+    List<LuoDto1> listIneed(int customerId,int current, int size);
+
+
+
 
     QueryProductDto queryBid(Integer id);
 
@@ -35,7 +49,6 @@ public interface ProductService extends IService<Product> {
 
     Page<ProductListDto> listAll(Page<ProductListDto> offerPage);
 
-
-    List<ProductDto> searchList(ProductsearchDto productsearchDto);
+    List<ProductDto> searchList(ProductSearch productsearchDto);
 
 }

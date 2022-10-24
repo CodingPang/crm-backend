@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,17 +17,19 @@ public class AddProductDto {
     @ApiModelProperty("产品名称")
     private String productName;
 
-    @ApiModelProperty("产品分类")
-    private Integer classificationid;
+    @ApiModelProperty("产品单价")
+    private String price;
 
-    @ApiModelProperty("单位名称")
-    private Integer unitid;
+    @ApiModelProperty("产品分类---填对应多选框选中的的id")
+    private Integer classId;
 
-    @ApiModelProperty("属性名称")
-    private Integer propertyId;
+    @ApiModelProperty("单位名称---填对多选框选中的 id")
+    private Integer unitId;
 
-    private Date createdate;
+    @ApiModelProperty("属性名称---填选中的的分类的多个id ，封装成数组传过来")
+    private List<Integer> propertyIdList;
 
-    private BigDecimal price;
+    @ApiModelProperty("图片url列表---上传成功返回给你的图片的url地址 ，封装成数组传过来")
+    private List<String> photoList;
 
 }

@@ -1,13 +1,15 @@
 package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.greatgump.crm.dto.businessDto.ChasingAddDto;
+import com.greatgump.crm.dto.FollowDetailsDto;
 import com.greatgump.crm.dto.chasing.ChasingMethodDto;
 import com.greatgump.crm.dto.chasing.ChasingRecordDto;
 import com.greatgump.crm.dto.clue.ClueCustomerDto;
 import com.greatgump.crm.entity.ChasingRecord;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,4 +36,12 @@ public interface ChasingRecordMapper extends BaseMapper<ChasingRecord> {
     List<ClueCustomerDto> queryAllCustomer();
 
     List<ChasingRecordDto> queryChasingRecords();
+
+
+    List<FollowDetailsDto> queryChasingPlans(String businessTitle);
+
+    FollowDetailsDto queryChasingPlan(@Param("userName") String userName, @Param("progressiveTime") String progressiveTime);
+
+    void saveChasing(ChasingAddDto chasingAddDto);
+
 }

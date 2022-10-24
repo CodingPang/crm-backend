@@ -68,4 +68,23 @@
 
     </select>
 
+
+
+    <insert id="saveChasing" parameterType="com.greatgump.crm.dto.businessDto.ChasingAddDto">
+     insert into t_chasing_record(customer_id,contact_id,progressive_time,user_id,follow_through,catch_content)
+     values(#{customerId},#{concatId},#{progressiveTime},#{userId},#{chasingMethod},#{catchContent})
+    </insert>
+
+    <select id="queryChasingPlans" resultType="com.greatgump.crm.dto.FollowDetailsDto">
+     select r.id,r.catch_content,r.progressive_time,c.customer_name,u.username,f.follow_type,m.chasing_method,f.contactss,f.phone
+     from t_chasing_record r,t_follow_form f,t_business b,t_customer c,t_user u,t_chasing_method m
+     where r.t_follow_form_id=b.id and r.remark=f.customer_needs
+     and r.user_id=u.id and r.follow_through=m.id and f.`current_time`=(select MIN(create_time) from t_follow_form)and b.bussiness_title=#{bussinessTitle}
+    </select>
+    <select id="queryChasingPlan" resultType="com.greatgump.crm.dto.FollowDetailsDto">
+        select r.id,r.catch_content,r.progressive_time,c.customer_name,u.username,f.follow_type,m.chasing_method,f.contactss,f.phone
+        from t_chasing_record r,t_follow_form f,t_business b,t_customer c,t_user u,t_chasing_method m
+        where r.t_follow_form_id=b.id and r.remark=f.customer_needs and r.user_id=u.id
+        and r.follow_through=m.id and f.`current_time`=(select MIN(create_time) from t_follow_form)and u.username=#{userName} and r.progressive_time=#{progressiveTime}
+    </select>
 </mapper>

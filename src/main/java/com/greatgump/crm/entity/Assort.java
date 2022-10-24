@@ -1,44 +1,54 @@
 package com.greatgump.crm.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
+
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-import lombok.experimental.Accessors;
+import lombok.Data;
 
 /**
- * <p>
- * 
- * </p>
- *
- * @author team6
- * @since 2022-10-12 10:31:27
+ * 分类表--还可排序
+ * @TableName t_assort
  */
-@NoArgsConstructor
-@AllArgsConstructor
+@TableName(value ="t_assort")
 @Data
-@Accessors(chain = true)
-@TableName("t_assort")
-@ApiModel(value = "Assort对象", description = "")
 public class Assort implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @ApiModelProperty("主键，自增")
+    /**
+     * 主键，自增
+     */
+    @ApiModelProperty("产品分类")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
+    /**
+     * 产品分类
+     */
     @ApiModelProperty("产品分类")
-    @TableField("assort_name")
+    @TableField(value = "assort_name")
     private String assortName;
 
+    /**
+     * 父级分类的id
+     */
     @ApiModelProperty("父级分类的id")
-    @TableField("parent_id")
+    @TableField(value = "parent_id")
     private Integer parentId;
 
+    /**
+     * 用于同级分类排序
+     */
+    @ApiModelProperty("用于同级分类排序")
+    @TableField(value = "sort")
+    private Integer sort;
 
+    /**
+     * 
+     */
+    @TableLogic(value = "0",delval = "1")
+    @TableField(value = "is_delete")
+    private Integer isDelete;
+
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
 }

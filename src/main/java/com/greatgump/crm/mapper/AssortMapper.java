@@ -1,29 +1,18 @@
 package com.greatgump.crm.mapper;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.entity.Assort;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author team6
- * @since 2022-10-12 10:31:27
- */
-@Mapper
+* @author Administrator
+* @description 针对表【t_assort(分类表--还可排序)】的数据库操作Mapper
+* @createDate 2022-10-23 15:42:54
+* @Entity com.greatgump.crm.entity.Assort
+*/
 public interface AssortMapper extends BaseMapper<Assort> {
 
-    Page<AssortDto> queryAllAssorts(Page page);
-
-    int insertAssort(AddAssortDto addAssortDto);
-
-    QueryAssortDto queryBid(Integer id);
-
-    int updateAssort(UpdeAssortDto updeAssortDto);
-
-    boolean deleteAssort(Integer id);
 }
+
+
+
+

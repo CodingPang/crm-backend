@@ -3,59 +3,18 @@
 <mapper namespace="com.greatgump.crm.mapper.ProductMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Product">
-        <id column="id" property="id" />
-        <result column="product_code" property="productCode" />
-        <result column="classification" property="classificationid" />
-        <result column="product_name" property="productName" />
-        <result column="unit" property="unitid" />
-        <result column="creation_date" property="creationDate" />
-        <result column="remark" property="remark" />
-        <result column="is_delete" property="isDelete" />
-    </resultMap>
+
+
+
 
     <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, product_code, classification, product_name, unit, assort_id, creation_date, remark, is_delete
-    </sql>
+
     <insert id="insertProduct">
 insert into t_product(product_code,product_name,classificationid,unitid,porperty_id,creation_date,price)
 values (#{productCode},#{productName},#{classificationid},#{unitid},#{propertyId},#{createdate},#{price})
     </insert>
-    <delete id="deleteProduct">
-        DELETE
-        FROM t_product
-        WHERE id=#{id}
-    </delete>
-    <resultMap id="BaseResultMap3" type="com.greatgump.crm.dto.productlibrary.QueryProductDto">
-        <id column="id" property="id" />
-        <result column="product_code" property="productCode" />
-        <result column="product_name" property="productName" />
-        <result column="product_name" property="productName" />
-        <association property="assort" javaType="com.greatgump.crm.entity.Assort">
-            <id column="aid" property="id"></id>
-            <result column="assort_name" property="assortName"/>
-        </association>
-        <association property="calcUnit" javaType="com.greatgump.crm.entity.CalcUnit">
-            <id column="cid" property="id"></id>
-            <result column="unit_name" property="unitName"/>
-        </association>
-        <association property="property" javaType="com.greatgump.crm.entity.Property">
-            <id column="cid" property="id"></id>
-            <result column="property_name" property="propertyName"/>
-        </association>
-    </resultMap>
-    <resultMap id="productlist" type="com.greatgump.crm.dto.ProductListDto">
-        <result column="product_name" property="product"></result>
-        <result column="product_code" property="productId"></result>
-        <result column="unit_name" property="productSize"></result>
-        <result column="price" property="price"></result>
-    </resultMap>
-    <update id="updateProduct">
-        UPDATE t_product
-        SET product_code=#{productCode},product_name=#{productName},classificationid=#{classificationid},unitid=#{unitid},porperty_id=#{propertyId}
-        WHERE id=#{id}
-    </update>
+
+
         <resultMap id="productList11" type="com.greatgump.crm.dto.LuoDto1">
             <id column="id" property="id"></id>
             <result column="product" property="product_name"></result>
@@ -79,14 +38,187 @@ values (#{productCode},#{productName},#{classificationid},#{unitid},#{propertyId
         <result column="remak" property="remake"></result>
 
     </resultMap>
-    <select id="listIneed" resultMap="listIneed11" >
-        select * from t_offer_details WHERE company = #{customerId} limit ${(current-1) * size},${size}
+
+
+
+
+   <!-- 产品报价-->
+<!--    <select id="queryProductPlan" resultType="com.greatgump.crm.dto.ProductPlanDto">-->
+<!--        select s.id,p.product_name,p.product_code,p.unitid,p.price,s.number,s.rate,s.b_offer-->
+<!--        from t_product p,t_product_sales s-->
+<!--        where p.id=s.product_id and p.product_name in (select product_name from t_business_product where business_name=#{businessTitle})-->
+<!--    </select>-->
+<!--    <select id="queryCount" resultType="com.greatgump.crm.dto.ProductCountDto">-->
+<!--     select count(s.b_offer)as countNotes,sum(s.number) as countNumber,p.price*(sum(s.number)) as allPrice,(s.b_offer*(sum(s.number))-p.price*(sum(s.number)))/s.b_offer*(sum(s.number)) as rates,s.b_offer*(sum(s.number)) as offPrice-->
+<!--     from t_product_sales s,t_product p-->
+<!--     where s.product_id=p.id and p.product_name in (select product_name from t_business_product where business_name=#{businessTitle})-->
+<!--     GROUP BY s.b_offer,s.number,p.price-->
+<!--    </select>-->
+
+    <!-- 产品报价-->
+    <select id="queryProductPlan" resultType="com.greatgump.crm.dto.ProductPlanDto">
+        select s.id,p.product_name,p.product_code,p.unitid,p.price,s.number,s.rate,s.b_offer
+        from t_product p,t_product_sales s
+        where p.id=s.product_id and p.product_name in (select product_name from t_business_product where business_name=#{businessTitle})
     </select>
+    <select id="queryCount" resultType="com.greatgump.crm.dto.ProductCountDto">
+     select count(s.b_offer)as countNotes,sum(s.number) as countNumber,p.price*(sum(s.number)) as allPrice,(s.b_offer*(sum(s.number))-p.price*(sum(s.number)))/s.b_offer*(sum(s.number)) as rates,s.b_offer*(sum(s.number)) as offPrice
+     from t_product_sales s,t_product p
+     where s.product_id=p.id and p.product_name in (select product_name from t_business_product where business_name=#{businessTitle})
+     GROUP BY s.b_offer,s.number,p.price
+    </select>
+
+
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Product">
+        <id column="id" property="id"/>
+        <result column="product_code" property="productCode"/>
+        <result column="classificationid" property="classificationid"/>
+        <result column="product_name" property="productName"/>
+        <result column="unitid" property="unitid"/>
+        <result column="creation_date" property="creationDate"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="is_delete" property="isDelete" jdbcType="INTEGER"/>
+        <result column="purchased_status" property="purchasedStatus" jdbcType="INTEGER"/>
+        <result column="out_status" property="outStatus" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, product_code, classification, product_name, unit, assort_id, creation_date, price, remark, is_delete, purchased_status, out_status
+    </sql>
+
+
+
+    <resultMap id="productResultMap" type="com.greatgump.crm.entity.Product">
+        <id column="pid" property="id"/>
+        <result column="product_code" property="productCode"/>
+        <result column="classificationid" property="classificationid"/>
+        <result column="product_name" property="productName"/>
+        <result column="unitid" property="unitid"/>
+        <result column="creation_date" property="creationDate"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="p_is_delete" property="isDelete" jdbcType="INTEGER"/>
+        <result column="purchased_status" property="purchasedStatus" jdbcType="INTEGER"/>
+        <result column="out_status" property="outStatus" jdbcType="INTEGER"/>
+
+
+
+        <result property="sortName" column="assort_name" jdbcType="VARCHAR"></result>
+        <!--    只有一个属性，可以不用association 直接关联查询后映射 计量单位   -->
+        <result column="unit_name" property="unit" jdbcType="VARCHAR"/>
+        <!-- 多对多映射的关键:collection   -->
+        <collection property="properties" javaType="ArrayList"
+                    column="pid" ofType="com.greatgump.crm.entity.Property"
+                    select="com.greatgump.crm.mapper.PropertyMapper.selectProperyByProductId"
+                    fetchType="lazy">
+            <id property="id" column="id"/>
+            <result property="propertyName" column="property_name"/>
+            <result property="propertyValue" column="property_value"/>
+        </collection>
+        <!-- 多对多映射的关键:collection   -->
+        <collection property="photos" javaType="ArrayList"
+                    column="pid" ofType="com.greatgump.crm.entity.ProductPhoto"
+                    select="com.greatgump.crm.mapper.ProductPhotoMapper.selectProductPhotoByProductId"
+                    fetchType="lazy">
+            <id property="id" column="id"/>
+            <result property="productPhoto" column="product_photo"/>
+        </collection>
+
+    </resultMap>
+
+
+    <select id="selectByPage" resultMap="productResultMap">
+        SELECT t3.*,pt.property_name,pt.property_value
+        FROM
+            (SELECT t2.*,pp.property_id
+             FROM
+                 (SELECT t1.*,u.unit_name
+                  FROM
+                      (SELECT p.id pid,p.product_code,p.classificationid,p.product_name,p.unitid,p.creation_date,p.price,p.remark,p.is_delete p_is_delete,p.purchased_status,p.out_status,a.assort_name
+                       FROM t_product p LEFT JOIN t_assort a ON p.classificationid = a.id) AS t1 LEFT JOIN t_calc_unit u ON t1.unitid = u.id) AS t2  LEFT JOIN t_product_property pp ON t2.pid = pp.product_id) AS t3 LEFT JOIN t_property pt ON t3.property_id = pt.id ${ew.customSqlSegment}
+    </select>
+
+
+
+
+    <insert id="insert" parameterType="com.greatgump.crm.entity.Product"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO t_product(id,product_code,classificationid,product_name,unitid,creation_date,price,remark,is_delete,purchased_status,out_status) VALUES (#{id},#{productCode},#{classificationid},#{productName},#{unitid},#{creationDate},#{price},#{remark},#{isDelete},#{purchasedStatus},#{outStatus})
+    </insert>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <delete id="deleteProduct">
+        DELETE
+        FROM t_product
+        WHERE id = #{id}
+    </delete>
+    <resultMap id="BaseResultMap3" type="com.greatgump.crm.dto.productlibrary.QueryProductDto">
+        <id column="id" property="id"/>
+        <result column="product_code" property="productCode"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_name" property="productName"/>
+        <association property="assort" javaType="com.greatgump.crm.entity.Assort">
+            <id column="aid" property="id"></id>
+            <result column="assort_name" property="assortName"/>
+        </association>
+        <association property="calcUnit" javaType="com.greatgump.crm.entity.CalcUnit">
+            <id column="cid" property="id"></id>
+            <result column="unit_name" property="unitName"/>
+        </association>
+        <association property="property" javaType="com.greatgump.crm.entity.Property">
+            <id column="cid" property="id"></id>
+            <result column="property_name" property="propertyName"/>
+        </association>
+    </resultMap>
+    <resultMap id="productlist" type="com.greatgump.crm.dto.ProductListDto">
+        <result column="product_name" property="product"></result>
+        <result column="product_code" property="productId"></result>
+        <result column="unit_name" property="productSize"></result>
+        <result column="price" property="price"></result>
+    </resultMap>
+    <update id="updateProduct">
+        UPDATE t_product
+        SET product_code=#{productCode},
+            product_name=#{productName},
+            classificationid=#{classificationid},
+            unitid=#{unitid},
+            porperty_id=#{propertyId}
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="listIneed" resultType="com.greatgump.crm.dto.LuoDto1">
+        select *
+        from t_offer_details
+        WHERE company = #{customerId} limit #{current}
+            , #{size}
+    </select>
+
+
     <resultMap id="BaseResultMap1" type="com.greatgump.crm.dto.productlibrary.ProductDto">
-        <result column="id" property="id"/>
-        <result column="product_code" property="productCode" />
-        <result column="product_name" property="productName" />
-        <result column="creation_date" property="creationDate" />
+        <result column="product_code" property="productCode"/>
+        <result column="product_name" property="productName"/>
+        <result column="creation_date" property="creationDate"/>
         <association property="assort" javaType="com.greatgump.crm.entity.Assort">
             <id column="aid" property="id"></id>
 
@@ -96,20 +228,23 @@ values (#{productCode},#{productName},#{classificationid},#{unitid},#{propertyId
             <id column="cid" property="id"></id>
             <result column="unit_name" property="unitName"/>
         </association>
-        <association property="property" javaType="com.greatgump.crm.entity.Property">
-            <id column="pyid" property="id"></id>
-            <result column="property_name" property="propertyName"/>
-        </association>
     </resultMap>
+
     <select id="queryAllProducts" resultMap="BaseResultMap1">
-        SELECT pt.id,pt.product_code,ast.id aid,ast.assort_name,pt.product_name,ct.id cid,ct.unit_name,pt.creation_date,py.id pyid,py.property_name
-        FROM t_product pt,t_assort ast,t_calc_unit ct,t_property py
-        WHERE pt.classificationid=ast.id and pt.unitid=ct.id and pt.porperty_id=py.id
+        SELECT pt.product_code, ast.id aid, ast.assort_name, pt.product_name, ct.id cid, ct.unit_name, pt.creation_date
+        FROM t_product pt,
+             t_assort ast,
+             t_calc_unit ct
+        WHERE pt.classificationid = ast.id
+          and pt.unitid = ct.id
     </select>
+
+
     <resultMap id="BaseResultMap2" type="com.greatgump.crm.dto.productlibrary.QueryProductDto">
-        <id column="id" property="id" />
-        <result column="product_code" property="productCode" />
-        <result column="product_name" property="productName" />
+        <id column="id" property="id"/>
+        <result column="product_code" property="productCode"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_name" property="productName"/>
         <association property="assort" javaType="com.greatgump.crm.entity.Assort">
             <id column="aid" property="id"></id>
             <result column="assort_name" property="assortName"/>
@@ -125,16 +260,29 @@ values (#{productCode},#{productName},#{classificationid},#{unitid},#{propertyId
 
     </resultMap>
     <select id="queryBid" resultMap="BaseResultMap2">
-        SELECT pt.id, pt.product_code,ast.id aid,ast.assort_name,pt.product_name,ct.id cid,ct.unit_name,py.id pid,py.property_name
-        FROM t_product pt,t_assort ast,t_calc_unit ct,t_property py
-        WHERE pt.classificationid=ast.id and pt.unitid=ct.id and pt.porperty_id=py.id and pt.id=#{id}
+        SELECT pt.product_code,
+               ast.id aid,
+               ast.assort_name,
+               pt.product_name,
+               ct.id  cid,
+               ct.unit_name,
+               py.id  pid,
+               py.property_name
+        FROM t_product pt,
+             t_assort ast,
+             t_calc_unit ct,
+             t_property py
+        WHERE pt.classificationid = ast.id
+          and pt.unitid = ct.id
+          and pt.porperty_id = py.id
+          and pt.id = #{id}
     </select>
     <resultMap id="BaseResultMap5" type="com.greatgump.crm.dto.productlibrary.ProductBox1Dto">
-        <id column="id" property="id" />
-        <result column="assort_name" property="assortName" />
+        <id column="id" property="id"/>
+        <result column="assort_name" property="assortName"/>
     </resultMap>
     <select id="getAssort" resultMap="BaseResultMap5">
-        SELECT id,assort_name
+        SELECT id, assort_name
         FROM t_assort
     </select>
     <resultMap id="BaseResultMap6" type="com.greatgump.crm.dto.productlibrary.ProductBox2Dto">
@@ -142,33 +290,33 @@ values (#{productCode},#{productName},#{classificationid},#{unitid},#{propertyId
         <result column="unit_name" property="unitName"/>
     </resultMap>
     <select id="getClacUnit" resultMap="BaseResultMap6">
-        SELECT id,unit_name
+        SELECT id, unit_name
         FROM t_calc_unit
     </select>
     <resultMap id="BaseResultMap7" type="com.greatgump.crm.dto.productlibrary.ProductBox3Dto">
-        <id column="id" property="id" />
-        <result column="property_name" property="propertyName" />
+        <id column="id" property="id"/>
+        <result column="property_name" property="propertyName"/>
     </resultMap>
     <select id="getProperty" resultMap="BaseResultMap7">
-        SELECT id,property_name
+        SELECT id, property_name
         FROM t_property
     </select>
     <select id="searchList" resultMap="BaseResultMap1">
         SELECT
-            pt.product_code,
-            ast.id aid,
-            ast.assort_name,
-            pt.product_name,
-            ct.id cid,
-            ct.unit_name,
-            pt.creation_date
+        pt.product_code,
+        ast.id aid,
+        ast.assort_name,
+        pt.product_name,
+        ct.id cid,
+        ct.unit_name,
+        pt.creation_date
         FROM
-            t_product pt,
-            t_assort ast,
-            t_calc_unit ct
+        t_product pt,
+        t_assort ast,
+        t_calc_unit ct
         WHERE
-            pt.classificationid = ast.id
-          AND pt.unitid = ct.id
+        pt.classificationid = ast.id
+        AND pt.unitid = ct.id
         <if test="productName != null and productName != ''">
             AND pt.product_name=#{productName}
         </if>
@@ -178,25 +326,9 @@ values (#{productCode},#{productName},#{classificationid},#{unitid},#{propertyId
 
     </select>
     <select id="listAll" resultMap="productlist">
-        SELECT pd.id,pd.product_name,pd.product_code,un.unit_name,pd.price
-        FROM t_product pd,t_calc_unit un
+        SELECT pd.id, pd.product_name, pd.product_code, un.unit_name, pd.price
+        FROM t_product pd,
+             t_calc_unit un
         WHERE pd.unitid = un.id
     </select>
-
-
-
-   <!-- 产品报价-->
-    <select id="queryProductPlan" resultType="com.greatgump.crm.dto.ProductPlanDto">
-        select s.id,p.product_name,p.product_code,p.unitid,p.price,s.number,s.rate,s.b_offer
-        from t_product p,t_product_sales s
-        where p.id=s.product_id and p.product_name in (select product_name from t_business_product where business_name=#{businessTitle})
-    </select>
-    <select id="queryCount" resultType="com.greatgump.crm.dto.ProductCountDto">
-     select count(s.b_offer)as countNotes,sum(s.number) as countNumber,p.price*(sum(s.number)) as allPrice,(s.b_offer*(sum(s.number))-p.price*(sum(s.number)))/s.b_offer*(sum(s.number)) as rates,s.b_offer*(sum(s.number)) as offPrice
-     from t_product_sales s,t_product p
-     where s.product_id=p.id and p.product_name in (select product_name from t_business_product where business_name=#{businessTitle})
-     GROUP BY s.b_offer,s.number,p.price
-    </select>
-
-
 </mapper>

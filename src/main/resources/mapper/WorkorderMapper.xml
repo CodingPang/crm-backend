@@ -1,40 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.greatgump.crm.mapper.WorkorderMapper">
+
     <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Workorder">
-        <id column="id" property="id" />
-        <result column="work_order_number" property="workOrderNumber" />
-        <result column="repair_order_title" property="repairOrderTitle" />
-        <result column="start_time" property="startTime" />
-        <result column="status_id" property="statusId" />
-        <result column="degree_id" property="degreeId" />
-        <result column="work_order_details" property="workOrderDetails" />
-        <result column="is_delete" property="isDelete" />
-        <collection property="customerName" ofType="com.greatgump.crm.entity.Customer">
-            <id column="id" property="id" />
-            <result column="customer_name" property="customerName" />
-        </collection>
-        <collection property="linkmanId" ofType="com.greatgump.crm.entity.Contact">
-            <id column="id" property="id" />
-            <result column="contact_name" property="contactName" />
-        </collection>
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="workOrderNumber" column="work_order_number" jdbcType="VARCHAR"/>
+            <result property="repairOrderTitle" column="repair_order_title" jdbcType="VARCHAR"/>
+            <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+            <result property="initiatorId" column="initiator_id" jdbcType="INTEGER"/>
+            <result property="handlerId" column="handler_id" jdbcType="INTEGER"/>
+            <result property="workorderStatus" column="workorder_status" jdbcType="INTEGER"/>
+            <result property="customerId" column="customer_id" jdbcType="INTEGER"/>
+            <result property="contactId" column="contact_id" jdbcType="INTEGER"/>
+            <result property="note" column="note" jdbcType="VARCHAR"/>
+            <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+            <result property="urgent" column="urgent" jdbcType="INTEGER"/>
+            <result property="attachment" column="attachment" jdbcType="VARCHAR"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="orderId" column="order_id" jdbcType="INTEGER"/>
+            <result property="reason" column="reason" jdbcType="VARCHAR"/>
     </resultMap>
-    <insert id="addWorkorder" >
-        INSERT INTO t_workorder(work_order_number, repair_order_title, start_time, initiator_id, handler_id, status_id, customer_name, work_order_details, linkman_id, degree_id, accessory)
-        VALUES(#{workOrderNumber},#{repairOrderTitle},#{startTime},#{initiatorId},#{handlerId},#{statusId},#{degreeId},#{customerName},#{workOrderDetails},#{linkmanId},#{accessory})
-    </insert>
-    <update id="updateByHandler">
-        UPDATE t_workorder SET handler_id = #{handlerId} WHERE id = #{id}
-    </update>
-    <delete id="deleteOrder"></delete>
-    <delete id="deletes"></delete>
-    <select id="queryAllWorkorder" resultMap="BaseResultMap">
-        SELECT tw.id,tw.work_order_number,tw.repair_order_title,tw.start_time,tu.username,tu.username,twd.degree_name,th.name
-        FROM t_workorder tw,t_contact tc,t_user tu,t_customer tcs,t_workorder_dictionary twd,t_handle th
-        WHERE tw.initiator_id = tu.id AND tw.handler_id = tu.id AND tw.status_id = twd.id AND tw.degree_id = th.id
-       AND tw.id = tc.customer_id AND tu.id = tcs.user_id
+
+    <sql id="Base_Column_List">
+        id,work_order_number,repair_order_title,
+        start_time,initiator_id,handler_id,
+        workorder_status,customer_id,contact_id,
+        note,is_delete,urgent,
+        attachment,content,order_id,reason
+    </sql>
+
+
+    <select id="queryByPage" resultType="com.greatgump.crm.entity.Workorder">
+        SELECT t3.*,contact_name contactName
+        FROM
+            (SELECT t2.*,c.customer_name customerName
+             FROM
+                 (SELECT t1.*,u2.username handlePerson
+                  FROM
+                      (SELECT w.handler_id w_handler_id,w.initiator_id w_initiator_id,w.is_delete w_is_delete,w.*,u1.username lunchPerson
+                       FROM t_workorder w LEFT JOIN t_user u1 ON w.initiator_id = u1.id) AS t1 LEFT JOIN t_user u2 ON t1.handler_id = u2.id) AS t2 LEFT JOIN t_customer c ON t2.customer_id = c.id) AS t3 LEFT JOIN t_contact n ON t3.contact_id = n.id ${ew.customSqlSegment}
     </select>
-    <select id="queryByWorkorder" resultType="com.greatgump.crm.entity.Workorder"></select>
-    <select id="queryByID" resultType="com.greatgump.crm.dto.WorkorderDto3"></select>
-    <select id="getWorkorderByUid" resultType="com.greatgump.crm.entity.Workorder"></select>
+    <select id="mySelectById" resultType="com.greatgump.crm.entity.Workorder">
+        SELECT t3.*,contact_name contactName
+        FROM
+            (SELECT t2.*,c.customer_name customerName
+             FROM
+                 (SELECT t1.*,u2.username handlePerson
+                  FROM
+                      (SELECT w.is_delete w_is_delete,w.id wid,w.*,u1.username lunchPerson
+                       FROM t_workorder w LEFT JOIN t_user u1 ON w.initiator_id = u1.id) AS t1 LEFT JOIN t_user u2 ON t1.handler_id = u2.id) AS t2 LEFT JOIN t_customer c ON t2.customer_id = c.id) AS t3 LEFT JOIN t_contact n ON t3.contact_id = n.id ${ew.customSqlSegment}
+    </select>
+
+
+    <resultMap id="workResultMap" type="com.greatgump.crm.entity.Workorder">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="workOrderNumber" column="work_order_number" jdbcType="VARCHAR"/>
+        <result property="repairOrderTitle" column="repair_order_title" jdbcType="VARCHAR"/>
+        <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+        <result property="initiatorId" column="initiator_id" jdbcType="INTEGER"/>
+        <result property="handlerId" column="handler_id" jdbcType="INTEGER"/>
+        <result property="workorderStatus" column="workorder_status" jdbcType="INTEGER"/>
+        <result property="customerId" column="customer_id" jdbcType="INTEGER"/>
+        <result property="contactId" column="contact_id" jdbcType="INTEGER"/>
+        <result property="note" column="note" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+        <result property="urgent" column="urgent" jdbcType="INTEGER"/>
+        <result property="attachment" column="attachment" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="orderId" column="order_id" jdbcType="INTEGER"/>
+        <result property="reason" column="reason" jdbcType="VARCHAR"/>
+
+        <result column="customerName" property="customerName"  />
+        <result column="contactName" property="contactName" />
+        <result column="launchPerson" property="launchPerson" />
+        <result column="handlePerson" property="handlePerson" />
+    </resultMap>
+
+
+
 </mapper>

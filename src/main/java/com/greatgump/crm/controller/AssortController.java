@@ -1,13 +1,18 @@
 package com.greatgump.crm.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.assort.AssortSearch;
 import com.greatgump.crm.dto.productlibrary.*;
+import com.greatgump.crm.dto.property.PropertySearch;
+import com.greatgump.crm.entity.Assort;
+import com.greatgump.crm.entity.Property;
 import com.greatgump.crm.service.AssortService;
 import com.greatgump.crm.utils.Result;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +20,7 @@ import java.util.*;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author team6
@@ -23,110 +28,80 @@ import java.util.*;
  */
 @Api(tags = "产品分类功能说明")
 @RestController
-@RequestMapping("/crm/assort")
-public class  AssortController {
+@RequestMapping("/class")
+public class AssortController {
 
     @Autowired
     private AssortService assortService;
 
-    @ApiOperation("获取所有产品分类")
-    @ApiImplicitParams(value = {@ApiImplicitParam(name = "page",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
-    @GetMapping("/queryAllAssorts/{page}/{size}")
-    public Result<List<AssortDto>> queryAllLoans(@PathVariable("page") Integer current, @PathVariable("size") Integer size){
-
-        Page<AssortDto> assortDtoPage = new Page<>(current, size);
-        Page<AssortDto> pageIfo = assortService.queryAllAssorts(assortDtoPage);
-        return Result.success(pageIfo.getRecords(),pageIfo.getTotal());
-//        AssortDto assortDto =new AssortDto();
-//
-//        Assort assort = new Assort();
-//        assort.setId(1L);
-//        assort.setAssortName("服装");
-//
-//        Assort assort1 = new Assort();
-//        assort1.setId(2L);
-//        assort1.setAssortName("软件");
-//
-//        List<Assort> assortList = new ArrayList<>();
-//        assortList.add(assort);
-//        assortList.add(assort1);
-//
-//        return Result.success(assortList,4L);
+    @ApiOperation("分类列表")
+    @GetMapping("/all")
+    public Result<Page<Assort>> queryAll( AssortSearch search) {
+        Page<Assort> page = new Page<>(search.getCurrent(), search.getSize());
+        QueryWrapper<Assort> queryWrapper = new QueryWrapper<>();
+        if (!StrUtil.isBlank(search.getName())) {
+            queryWrapper.like("assort_name", search.getName());
+        }
+        List<Assort> properties = assortService.getBaseMapper().selectList(queryWrapper);
+        page.setRecords(properties);
+        page.setTotal(properties.size());
+        return Result.success(page);
 
     }
 
-    @ApiOperation("产品分类增加")
+    @ApiOperation("新增分类")
     @PostMapping("/add")
-    public Result preAdd(@RequestBody AddAssortDto addAssortDto){
-        int assort = assortService.insertAssort(addAssortDto);
-        return Result.judge(assort>0);
-
+    public Result preAdd(String className) {
+        Assort assort = new Assort();
+        assort.setId(0L);
+        assort.setAssortName(className);
+        System.out.println(assort+"-------------->111111");
+        return Result.judge(assortService.save(assort));
     }
 
-    @ApiOperation("产品分类编辑预查询")
-    @GetMapping("/querybid/{id}")
-    public Result<QueryAssortDto> queryBid(@PathVariable("id") Integer id){
-
-        return Result.success(assortService.queryBid(id));
+    @ApiOperation("根据id查询分类")
+    @GetMapping("/queryById/{id}")
+    public Result<Assort> queryById(@PathVariable("id") Integer id) {
+        Assort assort = assortService.getById(id);
+        if (assort != null) {
+            return Result.success(assort);
+        }
+        return Result.failed();
     }
 
-    @ApiOperation("产品分类编辑")
-    @PutMapping("/updateAssort")
-    public Result<UpdeAssortDto> updateAssort(@RequestBody UpdeAssortDto updeAssortDto){
-
-        int updateAssort = assortService.updateAssort(updeAssortDto);
-
-        if (updateAssort>0){
+    @ApiOperation("编辑分类")
+    @PostMapping("/edit")
+    public Result<UpdePropertyDto> updateProperty(Integer id,String className) {
+        if (id == null) {
+            return Result.failed("编辑失败");
+        }
+        Assort assort = assortService.getById(id);
+        if (assort == null) {
+            return Result.failed();
+        }
+        assort.setAssortName(className);
+        boolean update = assortService.updateById(assort);
+        if (update) {
             return Result.success();
-        }else{
+        } else {
             return Result.failed();
         }
     }
 
-//    @ApiOperation("产品分类编辑")
-//    @PutMapping("/update/{id}")
-//    public Result<AssortDto> update(@PathVariable("id")Long id){
 
-//        Assort assort = new Assort();
-//        assort.setId(1L);
-//        assort.setAssortName("服装");
-//
-//        AssortDto assortDto =new AssortDto();
-//        assortDto.setAssort(assort);
-
-//        return Result.success(assortDto);
-//        return null;
-//
-//
-//    }
-
-    @ApiOperation("产品分类信息删除")
-    @DeleteMapping("/deleteAssort/{id}")
-    public Result deleteAssort(@PathVariable("id")Long id){
-
+    @ApiOperation("删除分类")
+    @DeleteMapping("/del/{id}")
+    public Result deleteProperty(@PathVariable("id") Integer id) {
         boolean b = assortService.removeById(id);
         return Result.judge(b);
-
-
     }
 
 
-//    @ApiOperation("产品分类信息批量删除")
-//    @DeleteMapping("/deletion")
-//    public Result deletion(@RequestBody List<AssortDto> assortDtos){
-//        for (AssortDto assortDto : assortDtos) {
-//            assortService.removeById(assortDto.getId());
-//        }
-//
-//        return Result.success();
-//    }
+    @ApiOperation("批量删除")
+    @PostMapping("/del")
+    public Result deletebatch(@RequestBody List<Long> ids) {
 
-    @ApiOperation("产品分类信息批量删除")
-    @DeleteMapping("/deletebatch")
-    public Result deletebatch(@RequestBody List<Long> ids){
-
-        boolean  b = assortService.removeByIds(ids);
-
+        boolean b = assortService.removeByIds(ids);
 
         return Result.judge(b);
     }

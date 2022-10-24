@@ -2,11 +2,14 @@ package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.*;
+import com.greatgump.crm.dto.businessDto.ChasingDto;
+import com.greatgump.crm.dto.businessDto.Customer1Dto;
 import com.greatgump.crm.dto.finance.cost.CustomerList;
 import com.greatgump.crm.entity.Customer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -42,18 +45,24 @@ public interface CustomerMapper extends BaseMapper<Customer> {
    * @return
    */
   List<CustomerList> queryAllCustomerList();
-    /*
+
+  /*
      *商机中的关联客户
      */
 
-//    List<Customer>  selectCustomerRelation();
+    List<Customer1Dto>  selectCustomerRelation();
 
     /*
      *商机归属
      */
 
-//    List<Customer> selectCustomerAscription();
+    List<Customer1Dto> selectCustomerAscription();
 
+    /*
+     *回显跟进
+     */
+    @Select("select customer_name from t_customer where id in (select customer_id from t_business where id=#{id})")
+    ChasingDto queryChasing(@Param("id") int id);
 
     LuoDto2 queryId(String customerName);
 }

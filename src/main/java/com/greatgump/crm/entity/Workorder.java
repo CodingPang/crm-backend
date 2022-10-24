@@ -1,91 +1,144 @@
 package com.greatgump.crm.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
-import io.swagger.annotations.ApiModel;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * <p>
  * 工单
- * </p>
- *
- * @author team6
- * @since 2022-10-12 10:31:27
+ * @TableName t_workorder
  */
-@Getter
-@Setter
-@Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @TableName("t_workorder")
-@ApiModel(value = "Workorder对象", description = "工单")
 public class Workorder implements Serializable {
+    /**
+     * 主键，自动递增，非空
+     */
+    @ApiModelProperty("主键")
+    private Integer id;
+
+    /**
+     * 工单编号
+     */
+    @ApiModelProperty("工单编号")
+    @TableField("work_order_number")
+    private String workOrderNumber;
+
+    /**
+     * 工单标题
+     */
+    @TableField("repair_order_title")
+    @ApiModelProperty("工单标题")
+    private String repairOrderTitle;
+
+    /**
+     * 发起时间
+     */
+    @TableField("start_time")
+    @ApiModelProperty("发起时间")
+    private Date startTime;
+
+    /**
+     * 发起人
+     */
+    @TableField("initiator_id")
+    @ApiModelProperty("发起人")
+    private Integer initiatorId;
+
+    /**
+     * 处理人
+     */
+    @TableField("handler_id")
+    @ApiModelProperty("处理人")
+    private Integer handlerId;
+
+    /**
+     * 工单状态(1:待处理，2：处理中，3：已完结)
+     */
+    @TableField("workorder_status")
+    @ApiModelProperty("工单状态(1:待处理，2：处理中，3：已完结)")
+    private Integer workorderStatus;
+
+    /**
+     * 关联客户
+     */
+    @TableField("customer_id")
+    @ApiModelProperty("关联客户")
+    private Integer customerId;
+
+    /**
+     * 联系人
+     */
+    @TableField("contact_id")
+    @ApiModelProperty("联系人")
+    private Integer contactId;
+
+    /**
+     * 备注
+     */
+    @ApiModelProperty("备注")
+    private String note;
+
+    /**
+     * 假删（0：未删除，1：删除）
+     */
+    @TableLogic
+    @TableField("is_delete")
+    @ApiModelProperty("假删（0：未删除，1：删除）")
+    private Integer isDelete;
+
+    /**
+     * 紧急程度（1：非常紧急，2：紧急，3：一般）
+     */
+    @ApiModelProperty("紧急程度（1：非常紧急，2：紧急，3：一般）")
+    private Integer urgent;
+
+    /**
+     * 附件
+     */
+    @ApiModelProperty("附件")
+    private String attachment;
+
+    /**
+     * 工单内容
+     */
+    @ApiModelProperty("工单内容")
+    private String content;
+
+    /**
+     * 订单id
+     */
+    @TableField("order_id")
+    @ApiModelProperty("订单id")
+    private Integer orderId;
+    /**
+     * 转交原因
+     */
+    @TableField("reason")
+    @ApiModelProperty("转交原因")
+    private String reason;
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("主键，自动递增，非空")
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @TableField(exist = false)
+    private String customerName;
 
-    @ApiModelProperty("工单编号")
-    @TableField("work_order_number")
-    private Integer workOrderNumber;
+    @TableField(exist = false)
+    private String contactName;
 
-    @ApiModelProperty("工单标题")
-    @TableField("repair_order_title")
-    private String repairOrderTitle;
+    @TableField(exist = false)
+    private String launchPerson;
 
-    @ApiModelProperty("发起时间")
-    @TableField("start_time")
-    private Date startTime;
+    @TableField(exist = false)
+    private String handlePerson;
 
-    @ApiModelProperty("发起人")
-    @TableField("initiator_id")
-    private User initiatorId;
-
-    @ApiModelProperty("处理人")
-    @TableField("handler_id")
-    private User handlerId;
-
-    @ApiModelProperty("工单状态(0:待处理，1：处理中，2：已完结)")
-    @TableField("status_id")
-    private Integer statusId;
-
-    @ApiModelProperty("紧急程度")
-    @TableField("degree_id")
-    private Integer degreeId;
-
-    @ApiModelProperty("关联客户")
-    @TableField("customer_name")
-    private Customer customerName;
-
-    @ApiModelProperty("工单内容")
-    @TableField("work_order_details")
-    private String workOrderDetails;
-
-    @ApiModelProperty("联系人")
-    @TableField("linkman_id")
-    private Contact linkmanId;
-
-    @ApiModelProperty("备注")
-    @TableField("remark")
-    private String remark;
-
-    @ApiModelProperty("删除（0未删，1删除")
-    @TableField("is_delete")
-    private String isDelete;
-
-    @ApiModelProperty("附件")
-    @TableField("accessory")
-    private String accessory;
-
-
-
-    }
-
+}

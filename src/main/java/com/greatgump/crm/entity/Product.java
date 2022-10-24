@@ -1,11 +1,13 @@
 package com.greatgump.crm.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -19,6 +21,8 @@ import lombok.experimental.Accessors;
  * @author team6
  * @since 2022-10-12 10:31:27
  */
+
+@JsonIgnoreProperties(value = {"handler"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -31,7 +35,7 @@ public class Product implements Serializable {
 
     @ApiModelProperty("主键，自增")
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     @ApiModelProperty("产品编码")
     @TableField("product_code")
@@ -41,8 +45,6 @@ public class Product implements Serializable {
     @TableField("classificationid")
     private Integer classificationid;
 
-//    @ApiModelProperty("所属分类")
-//    private Assort assort;
 
     @ApiModelProperty("产品名称")
     @TableField("product_name")
@@ -52,21 +54,63 @@ public class Product implements Serializable {
     @TableField("unitid")
     private Integer unitid;
 
-//    @ApiModelProperty("计量单位")
-//    private CalcUnit calcUnit;
-
 
     @ApiModelProperty("创建日期")
     @TableField("creation_date")
     private Date creationDate;
 
+    @ApiModelProperty("产品单价")
+    @TableField("price")
+    private BigDecimal price;
+
     @ApiModelProperty("备注")
     @TableField("remark")
     private String remark;
 
-    @ApiModelProperty("假删(0表示未删,1表示删除)")
+    @TableLogic(value = "0",delval = "1")
     @TableField("is_delete")
     private Integer isDelete;
+
+    @ApiModelProperty("购买状态 0-未被购买 1-被购买")
+    @TableField("purchased_status")
+    private Integer purchasedStatus;
+
+    @ApiModelProperty("产品当前出库状态 0-未出库 1-已出库")
+    @TableField("out_status")
+    private Integer outStatus;
+
+
+
+
+
+    /**
+     * 所属分类名称
+     */
+    @ApiModelProperty("所属分类名称")
+    @TableField(exist = false)
+    private String sortName;
+
+    /**
+     * 计量单位   @TableField(exist = false) 该注解表示不和数据库字段映射
+     */
+    @ApiModelProperty("计量单位")
+    @TableField(exist = false)
+    private String unit;
+    /**
+     * 产品属性   @TableField(exist = false) 该注解表示不和数据库字段映射
+     */
+    @ApiModelProperty("产品属性")
+    @TableField(exist = false)
+    private List<Property> properties;
+
+    /**
+     * 产品图片  @TableField(exist = false) 该注解表示不和数据库字段映射
+     */
+    @ApiModelProperty("产品图片")
+    @TableField(exist = false)
+    private List<ProductPhoto> photos;
+
+
 
 
 }

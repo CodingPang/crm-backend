@@ -1,32 +1,31 @@
 package com.greatgump.crm.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.WorkorderDto;
-import com.greatgump.crm.dto.WorkorderDto2;
-import com.greatgump.crm.dto.WorkorderDto3;
-import com.greatgump.crm.entity.Contact;
-import com.greatgump.crm.entity.Workorder;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.apache.ibatis.annotations.Param;
+import com.greatgump.crm.dto.LoanOrderDto;
+import com.greatgump.crm.dto.LuoDto2;
+import com.greatgump.crm.dto.UserDto0;
+//import com.greatgump.crm.dto.workorder.CustomerDto;
+//import com.greatgump.crm.dto.workorder.OrderDto;
+import com.greatgump.crm.dto.workorder.WorkorderSearch;
+import com.greatgump.crm.entity.User;
+import com.greatgump.crm.entity.Workorder;
 
 import java.util.List;
 
 /**
- * <p>
- * 工单 服务类
- * </p>
- *
- * @author team6
- * @since 2022-10-12 10:31:27
- */
+* @author Administrator
+* @description 针对表【t_workorder(工单)】的数据库操作Service
+* @createDate 2022-10-20 14:08:35
+*/
 public interface WorkorderService extends IService<Workorder> {
-    Page<Workorder> queryAllWorkorder(Page page);
-    boolean addWorkorder(WorkorderDto2 workorderDto2);
-    Page<Workorder>  queryByWorkorder(Page page,String repairOrderTitle,Integer workOrderStatus,Integer emergencyDegree);
-    boolean updateByhandler(String handler);
-    boolean deleteOrder(Integer id);
-    boolean deletes(List<Workorder> workorders);
-    List<WorkorderDto3>  queryByID(WorkorderDto3 workorderDto3);
-    Page<Workorder> getWorkorderByUid(Integer uid,Page page);
-}
+     Page<Workorder> queryByPage(WorkorderSearch search);
+     Page<Workorder> queryByPageMe(WorkorderSearch search,Integer currentUserId);
+     Page<Workorder> queryByPageHandle(WorkorderSearch search,Integer currentUserId);
+     Workorder queryById(Integer currentUserId);
 
+     List<LoanOrderDto> getOrderList();
+     List<LuoDto2> getCustomerList();
+     List<User> getUserList();
+
+}

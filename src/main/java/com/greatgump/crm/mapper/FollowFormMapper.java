@@ -1,11 +1,10 @@
 package com.greatgump.crm.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.BusinessCustomerDto;
-import com.greatgump.crm.dto.BusinessSourceDto;
-import com.greatgump.crm.dto.ClueReceiveDto;
-import com.greatgump.crm.dto.FollowFromAscriptionDto;
+import com.greatgump.crm.dto.*;
+import com.greatgump.crm.dto.businessDto.BusinessCustomerDto;
+import com.greatgump.crm.dto.businessDto.BusinessSourceDto;
+import com.greatgump.crm.dto.businessDto.BusinessSourceDtos;
 import com.greatgump.crm.dto.clue.CluePreEditDto;
 import com.greatgump.crm.entity.FollowForm;
 import org.apache.ibatis.annotations.Mapper;
@@ -55,18 +54,18 @@ public interface FollowFormMapper extends BaseMapper<FollowForm> {
   /*
    *由商机的增加而
    */
-  void addBusinessFollowForm(BusinessSourceDto businessSourceDto);
+  void saveBusinessFollowForm(BusinessSourceDto businessSourceDto);
 
   /*
-  * 查询信息
-  * */
-  List<BusinessSourceDto> queryNeeds(String businessTitle);
+   * 查询信息
+   * */
+  List<BusinessSourceDtos> queryNeed(String businessTitle);
   /*
-  * 查询联系人
-  */
+   * 查询联系人
+   */
   List<BusinessCustomerDto> queryPeople(String businessTitle);
   /*
-  *归属人员
-  */
+   *归属人员
+   */
   List<FollowFromAscriptionDto> queryAscription(String businessTitle);
 }
