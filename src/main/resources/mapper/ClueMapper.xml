@@ -2,48 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.greatgump.crm.mapper.ClueMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Clue">
-        <id column="id" property="id" />
-        <result column="username" property="username" />
-        <result column="needs" property="needs" />
-        <result column="personnel" property="personnel" />
-        <result column="contacts" property="contacts" />
-        <result column="phone" property="phone" />
-        <result column="last_follow" property="lastFollow" />
-        <result column="not_follow_days" property="notFollowDays" />
-        <result column="remark" property="remark" />
-        <result column="is_delete" property="isDelete" />
+<!--    &lt;!&ndash; 通用查询映射结果 &ndash;&gt;-->
+<!--    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Clue">-->
+<!--        <id column="id" property="id" />-->
+<!--        <result column="username" property="username" />-->
+<!--        <result column="needs" property="needs" />-->
+<!--        <result column="personnel" property="personnel" />-->
+<!--        <result column="contacts" property="contacts" />-->
+<!--        <result column="phone" property="phone" />-->
+<!--        <result column="last_follow" property="lastFollow" />-->
+<!--        <result column="not_follow_days" property="notFollowDays" />-->
+<!--        <result column="remark" property="remark" />-->
+<!--        <result column="is_delete" property="isDelete" />-->
 
 
 
 
-        <association property="username" javaType="com.greatgump.crm.entity.Scale">
-            <id column="wpsid" property="id"></id>
-            <result column="scope" property="scope"></result>
-        </association>
+<!--        <association property="username" javaType="com.greatgump.crm.entity.Scale">-->
+<!--            <id column="wpsid" property="id"></id>-->
+<!--            <result column="scope" property="scope"></result>-->
+<!--        </association>-->
 
-        <association property="type" javaType="com.greatgump.crm.entity.Type">
-            <id column="tid" property="id"></id>
-            <result column="tname" property="name"></result>
-        </association>
+<!--        <association property="type" javaType="com.greatgump.crm.entity.Type">-->
+<!--            <id column="tid" property="id"></id>-->
+<!--            <result column="tname" property="name"></result>-->
+<!--        </association>-->
 
-        <association property="source" javaType="com.greatgump.crm.entity.Source">
-            <id column="soid" property="id"></id>
-            <result column="soname" property="name"></result>
-        </association>
+<!--        <association property="source" javaType="com.greatgump.crm.entity.Source">-->
+<!--            <id column="soid" property="id"></id>-->
+<!--            <result column="soname" property="name"></result>-->
+<!--        </association>-->
 
-        <association property="industry" javaType="com.greatgump.crm.entity.Industry">
-            <id column="inid" property="id"></id>
-            <result column="iname" property="name"></result>
-        </association>
+<!--        <association property="industry" javaType="com.greatgump.crm.entity.Industry">-->
+<!--            <id column="inid" property="id"></id>-->
+<!--            <result column="iname" property="name"></result>-->
+<!--        </association>-->
 
-        <association property="belong" javaType="com.greatgump.crm.entity.User">
-            <id column="uid" property="id"></id>
-            <result column="username" property="username"></result>
-        </association>
+<!--        <association property="belong" javaType="com.greatgump.crm.entity.User">-->
+<!--            <id column="uid" property="id"></id>-->
+<!--            <result column="username" property="username"></result>-->
+<!--        </association>-->
 
-    </resultMap>
+<!--    </resultMap>-->
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
@@ -68,5 +68,93 @@
 
     </update>
 
+    <resultMap id="clueDto" type="com.greatgump.crm.dto.ClueDto">
+        <result property="id" column="id"></result>
+        <result property="username" column="customer_name"></result>
+        <result property="personnel" column="username"></result>
+        <result property="contacts" column="contact_name"></result>
+        <result property="phone" column="phone"></result>
+        <result property="currentTime" column="current_time"></result>
+        <result property="lastFollow" column="last_time"></result>
+    </resultMap>
+
+    <select id="queryAllClue" resultMap="clueDto">
+        SELECT f.id,c.customer_name,u.username,tc.contact_name,tc.phone,f.`current_time`,MAX(cr.progressive_time) AS last_time
+        FROM t_follow_form f,t_user u,t_customer c,t_contact tc,t_chasing_record cr
+        WHERE f.user_id=u.id AND f.customer_id=c.id  AND f.contact_id=tc.id AND f.follow_type=1 AND f.is_delete=0
+		GROUP BY f.id,c.customer_name,u.username,tc.contact_name,tc.phone,f.`current_time`
+    </select>
+
+
+    <resultMap id="clueOrigin" type="com.greatgump.crm.dto.clue.ClueOrigin">
+        <result property="id" column="id"></result>
+        <result property="clueOrigin" column="business_origin"></result>
+    </resultMap>
+
+    <select id="queryAllClueOrigin" resultMap="clueOrigin">
+        SELECT *
+        FROM t_business_origin
+    </select>
+    <select id="queryAllClueStatus" resultType="com.greatgump.crm.dto.clue.ClueStatus">
+        SELECT *
+        FROM t_clue_status
+    </select>
+
+    <resultMap id="clueUser" type="com.greatgump.crm.dto.clue.ClueUser">
+        <result property="id" column="id"></result>
+        <result property="userName" column="username"></result>
+    </resultMap>
+
+    <select id="queryAllClueUser" resultMap="clueUser">
+        SELECT id,username
+        FROM t_user
+    </select>
+
+    <resultMap id="clueDept" type="com.greatgump.crm.dto.clue.ClueDept">
+        <result property="dept_no" column="dept_no"></result>
+        <result property="dept_name" column="dept_name"></result>
+    </resultMap>
+    <resultMap id="clueCustomerDto" type="com.greatgump.crm.dto.clue.ClueCustomerDto">
+        <result property="customerId" column="id"></result>
+        <result property="customerName" column="customer_name"></result>
+    </resultMap>
+
+    <select id="queryAllClueDept" resultMap="clueDept">
+        SELECT dept_no,dept_name
+        FROM t_dept
+    </select>
+    <select id="queryAllClueContact" resultType="com.greatgump.crm.dto.clue.ClueContact">
+        SELECT tc.id,tc.contact_name,tc.mail,tc.phone,tc.qq,tc.department,tc.wechat,tc.is_default,tc.customer_id,tc.remark
+        FROM t_follow_form f,t_contact tc
+        WHERE f.contact_id=tc.id
+    </select>
+    <select id="queryAllClueCustomerDto" resultMap="clueCustomerDto">
+        SELECT id,customer_name
+        FROM t_customer
+    </select>
+    <select id="selectClueDtoByCondition" resultMap="clueDto">
+        SELECT f.id,c.customer_name,u.username,tc.contact_name,tc.phone,f.`current_time`,MAX(cr.progressive_time) AS last_time
+        FROM t_follow_form f,t_user u,t_customer c,t_contact tc,t_chasing_record cr
+        WHERE f.user_id=u.id AND f.customer_id=c.id  AND f.contact_id=tc.id AND f.follow_type=1 AND f.is_delete=0
+        <if test="username != null and username !='' ">
+            AND c.customer_name LIKE "%"#{username}"%"
+        </if>
+        <if test="originId != null and originId != 0">
+            AND f.source_id=#{originId}
+        </if>
+        <if test="statusId != null and statusId != 0">
+            AND f.status=#{statusId}
+        </if>
+        <if test="startDate != null and endDate != null">
+            AND last_time BETWEEN #{startDate} AND #{endDate}
+        </if>
+        GROUP BY f.id,c.customer_name,u.username,tc.contact_name,tc.phone,f.`current_time`
+    </select>
+    <select id="queryListClue" resultMap="clueDto">
+        SELECT f.id,c.customer_name,u.username,tc.contact_name,tc.phone,f.`current_time`,MAX(cr.progressive_time) AS last_time
+        FROM t_follow_form f,t_user u,t_customer c,t_contact tc,t_chasing_record cr
+        WHERE f.user_id=u.id AND f.customer_id=c.id  AND f.contact_id=tc.id AND f.follow_type=1 AND f.is_delete=0
+		GROUP BY f.id,c.customer_name,u.username,tc.contact_name,tc.phone,f.`current_time`
+    </select>
 
 </mapper>

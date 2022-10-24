@@ -14,15 +14,15 @@ import java.util.Date;
 public class BusinessDto2 {
 
     @ApiModelProperty("商机标题")
-    @TableField("opportunity_title")
-    private String opportunityTitle;
+    @TableField("bussiness_title")
+    private String bussinessTitle;
 
     @ApiModelProperty("商机阶段")
-    @TableField("bussiness_stage_id")
+    @TableField("business_stage")
     private String businessStage;
 
     @ApiModelProperty("报价记录")
-    @TableField("bussiness_origin_id")
+    @TableField("business_origin")
     private String businessOrigin;
 
 

@@ -1,4 +1,5 @@
-package com.greatgump.crm.entity;
+package com.greatgump.crm.dto.clue;
+
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -15,14 +16,13 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Data
 @Accessors(chain = true)
-@TableName("t_business_stage")
-@ApiModel(value = "Business对象", description = "商机管理")
-public class BusinessStage {
+@ApiModel(value = "Clue对象", description = "线索管理")
+public class ClueStatus {
     @ApiModelProperty("自增")
-    @TableId(value = "id", type = IdType.AUTO)
+
     private Long id;
 
-    @ApiModelProperty("商机阶段")
-    @TableField("business_stage")
-    private String businessStage;
+    @ApiModelProperty("线索状态")
+
+    private String ClueStatus;
 }

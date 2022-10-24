@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greatgump.crm.mapper.ClueReceiveDtoMapper">
+
+    <resultMap id="clueReceiveDto" type="com.greatgump.crm.dto.ClueReceiveDto">
+        <result property="id" column="id"></result>
+        <result property="contactId" column="customer_id"></result>
+        <result property="customerName" column="customer_name"></result>
+        <result property="userId" column="source_id"></result>
+        <result property="sourceId" column="source_id"></result>
+        <result property="status" column="clue_status"></result>
+        <result property="customerNeeds" column="needs"></result>
+        <result property="contacts" column="contactss"></result>
+        <result property="eMail" column="e_mail"></result>
+        <result property="phone" column="phone"></result>
+        <result property="qq" column="qq"></result>
+        <result property="deptId" column="dept_id"></result>
+        <result property="wechat" column="wechat"></result>
+        <result property="lastTime" column="current_time"></result>
+    </resultMap>
+
+    <insert id="addFollowForm" keyProperty="followFormId" useGeneratedKeys="true">
+        INSERT INTO t_follow_form (customer_id,user_id,follow_source,status,customer_needs,dept_id,contact_id,`current_time`,follow_type,is_delete)
+        VALUES (#{usernameId},#{userId},#{sourceId},#{status},#{customerNeeds},#{deptId},#{contactId},#{lastTime},1,0)
+    </insert>
+    <insert id="addContact" keyProperty="contactId" useGeneratedKeys="true" >
+        INSERT INTO t_contact (contact_name,mail,phone,qq,wechat)
+        VALUES (#{contacts},#{eMail},#{phone},#{qq},#{wechat})
+    </insert>
+    <insert id="addChasingRecord">
+        INSERT INTO t_chasing_record(contact_id,user_id,progressive_time,t_follow_form_id)
+        VALUES (#{contactId},#{userId},#{lastTime},#{followFormId})
+    </insert>
+
+
+    <update id="updateClueReceiveByClueReceiveDto">
+        UPDATE t_follow_form f,t_contact tc
+        SET f.customer_name=#{username},f.user_id=#{userId},follow_source=#{sourceId},f.status=#{status},f.customer_needs=#{customerNeeds},f.dept_id=#{deptId},f.contact_id=#{contactId}
+            tc.contact_name=#{contacts},tc.mail=#{eMail},tc.phone=#{phone},tc.qq=#{qq},tc.wechat=#{wechat}
+        WHERE f.contact_id=tc.id
+    </update>
+
+    <update id="deleteClueById">
+        UPDATE t_follow_form f,t_chasing_record cr
+        SET f.is_delete=1,cr.is_delete=1
+        WHERE f.id=cr.t_follow_form_id AND f.id=#{id}
+    </update>
+
+    <select id="editPreClueReceive" resultMap="clueReceiveDto">
+        SELECT f.id,c.customer_name,u.username,f.source_id,f.status,f.customer_needs,tc.contact_name,tc.mail,tc.phone,tc.qq,tc.department,tc.wechat
+        FROM t_follow_form f,t_user u,t_customer c,t_contact tc
+        WHERE f.user_id=u.id AND f.customer_id=c.id  AND f.contact_id=tc.id AND f.id=#{id}
+    </select>
+<!--    <select id="selectClueDtoByCondition" resultType="com.greatgump.crm.dto.ClueDto">-->
+<!--        SELECT  f.id,c.customer_name,u.username,tc.contact_name,tc.phone,f.`current_time`,MAX(cr.progressive_time) AS last_time-->
+<!--        FROM    t_follow_form f,t_user u,t_customer c,t_contact tc,t_chasing_record cr-->
+<!--        WHERE  f.user_id=u.id AND f.customer_id=c.id  AND f.contact_id=tc.id AND f.follow_type=1-->
+<!--        <if test="username != null and username !='' ">-->
+<!--            AND c.customer_name=#{username}-->
+<!--        </if>-->
+<!--        <if test="originId != null and originId != 0">-->
+<!--            AND f.originId=#{originId}-->
+<!--        </if>-->
+<!--        <if test="statusId != null and statusId != 0">-->
+<!--            AND f.statusId=#{statusId}-->
+<!--        </if>-->
+<!--        <if test="startDate != null and endDate != null">-->
+<!--            AND last_time BETWEEN #{startDate} AND #{endDate}-->
+<!--        </if>-->
+<!--        GROUP BY f.id,c.customer_name,u.username,tc.contact_name,tc.phone,f.`current_time`-->
+<!--    </select>-->
+
+</mapper>

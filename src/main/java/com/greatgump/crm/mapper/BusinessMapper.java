@@ -5,6 +5,7 @@ import com.greatgump.crm.dto.finance.cost.BusinessListDto;
 import com.greatgump.crm.entity.Business;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.Date;
@@ -27,7 +28,7 @@ public interface BusinessMapper extends BaseMapper<Business> {
      * 查询出所有的商机
      * @return
      */
-    List<BusinessDto> listBase(int current, int size);
+    List<BusinessDto> listBase(@Param("current") int current,@Param("size") int size);
     /*
     新增商机
      */
@@ -37,13 +38,13 @@ public interface BusinessMapper extends BaseMapper<Business> {
      * 条件查询
      */
 
-    List<BusinessDto> queryBusinessForm(int page, int size, String customer, String businessOrigin, String businessStage, Date startDate, Date endDate);
+    List<BusinessDto> queryBusinessForm(@Param("current") int current,@Param("size") int size,@Param("customerName") String customerName,@Param("businessOrigin") String businessOrigin, @Param("businessStage")String businessStage,@Param("startDate") Date startDate,@Param("endDate") Date endDate);
 
     /*
      *
      *回显数据
      */
-    List<BusinessDto2> queryId(Long id);
+    BusinessDto2 queryId(Long id);
 
 
     /*
@@ -54,6 +55,6 @@ public interface BusinessMapper extends BaseMapper<Business> {
     /*
      *回显跟进
      */
-    @Select("select customer_name from t_customer where t_customer.id in (select customer_id from t_business where id=#{id}")
+    @Select("select customer_name from t_customer where t_customer.id in (select customer_id from t_business where id=#{id})")
     ChasingDto queryChasing(Long id);
 }

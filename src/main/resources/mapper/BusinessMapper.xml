@@ -8,22 +8,31 @@
     <select id="queryBusiness" resultMap="queryBusiness">
         SELECT id,bussiness_title from t_business
     </select>
-    <insert id="addBusiness" parameterType="com.greatgump.crm.dto.BussinessDictionaryDto">
+    <insert id="addBusiness" parameterType="com.greatgump.crm.dto.BussinessDictionaryDto" useGeneratedKeys="true" keyProperty="id">
       insert  into t_business(bussiness_title,bussiness_origin_id,bussiness_stage_id,customer_id,remark)
       values (#{businessTitle},#{businessOrigin.id},#{businessStage.id},#{businessCustomer.id},#{customerNeeds})
     </insert>
-
-    <select id="listBase" resultType="com.greatgump.crm.dto.BusinessDto">
-        select c.customer_name,b.bussiness_title,s.bussiness_stage,b.price_records, b.last_follow, b.not_follow_days
+    <resultMap id="BusinessDto" type="com.greatgump.crm.dto.BusinessDto">
+        <id property="id" column="id"/>
+        <result property="customerName" column="customer_name"/>
+        <result property="bussinessTitle" column="bussiness_title"/>
+        <result property="businessStage" column="business_stage"/>
+        <result property="priceRecords" column="price_records"/>
+        <result property="lastFollow" column="last_follow"/>
+        <result property="notFollowDays" column="not_follow_days"/>
+    </resultMap>
+    <select id="listBase" resultMap="BusinessDto">
+        select b.id,c.customer_name,b.bussiness_title,s.business_stage,b.price_records, b.last_follow, b.not_follow_days
         from t_business b,t_customer c,t_business_stage s
         where b.customer_id=c.id and b.bussiness_stage_id=s.id
+        limit #{current},#{size}
     </select>
     <select id="queryBusinessForm" resultType="com.greatgump.crm.dto.BusinessDto">
-        select c.customer_name,b.bussiness_title,s.bussiness_stage,b.price_records, b.last_follow, b.not_follow_days
+        select b.id,c.customer_name,b.bussiness_title,s.business_stage,b.price_records, b.last_follow, b.not_follow_days
         from t_business b,t_customer c,t_business_stage s,t_business_origin o
-        where b.customer_id=c.id and b.bussiness_stage_id=s.id
-        <if test="customer!=null and customer!=''">
-            and c.customer_name like concat('%',#{customer},'%')
+        where b.customer_id=c.id and b.bussiness_stage_id=s.id and b.bussiness_origin_id=o.id
+        <if test="customerName!=null and customerName!=''">
+            and c.customer_name like concat('%',#{customerName},'%')
         </if>
         <if test="businessOrigin!=null and businessOrigin!=''">
             and o.business_origin=#{businessOrigin}
@@ -37,15 +46,15 @@
         <if test="endDate!=null and endDate!=''">
             and b.last_follow  <![CDATA[<=]]> #{endDate}
         </if>
-        limit #{page},#{size}
+        limit #{current},#{size}
     </select>
     <select id="queryId" resultType="com.greatgump.crm.dto.BusinessDto2">
-     select b.bussiness_title,s.bussiness_stage,o.bussiness_origin
+     select b.bussiness_title,s.business_stage,o.business_origin
      from t_business b,t_business_stage s,t_business_origin o
-     where b.bussiness_stage_id=s.id and b.bussiness_orgin_id=o.id and id=#{id}
+     where b.bussiness_stage_id=s.id and b.bussiness_origin_id=o.id and b.id=#{id}
     </select>
     <update id="updateBusiness">
-      update t_business set bussiness_title=#{businessTitle},bussiness_origin_id=#{businessOrigin.id},bussiness_stage_id=#{businessStage.id},customer_id=#{businessCustomer.id},remark#{customerNeeds})
+      update t_business set bussiness_title=#{businessTitle},bussiness_origin_id=#{businessOrigin.id},bussiness_stage_id=#{businessStage.id},customer_id=#{Customer.id},remark#{customerNeeds})
       where id=#{id}
     </update>
 </mapper>

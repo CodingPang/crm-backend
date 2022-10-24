@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 //@AllArgsConstructor
 @Data
+@AllArgsConstructor
 public class BusinessSourceDto {
     @ApiModelProperty("商机标题")
     private String businessTitle;

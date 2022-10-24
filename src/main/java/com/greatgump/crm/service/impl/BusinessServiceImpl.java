@@ -60,7 +60,9 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
 
     @Override
     public List<BusinessDto> queryAllBusiness(int current, int size) {
-        return businessMapper.listBase(current,size);
+
+        List<BusinessDto> businessDtos = businessMapper.listBase(current, size);
+        return businessDtos;
     }
 
     @Override
@@ -77,14 +79,14 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
     }
 
     @Override
-    public List<Customer> queryAllCustomer(){
-        List<Customer> customers = this.customerMapper.selectCustomerRelation();
+    public List<Customer1Dto> queryAllCustomer(){
+        List<Customer1Dto> customers = this.customerMapper.selectCustomerRelation();
         return customers;
     }
 
     @Override
-    public List<Customer> queryCustomerAscription() {
-        List<Customer> customers = this.customerMapper.selectCustomerAscription();
+    public List<Customer1Dto> queryCustomerAscription() {
+        List<Customer1Dto> customers = this.customerMapper.selectCustomerAscription();
         return customers;
     }
 
@@ -118,7 +120,7 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
                 e.printStackTrace();
             }
         }
-        List<BusinessDto> list=this.businessMapper.queryBusinessForm(bussinessDictionaryDto.getPage(),bussinessDictionaryDto.getSize(),bussinessDictionaryDto.getCustomer(),bussinessDictionaryDto.getBusinessOrigin(),bussinessDictionaryDto.getBusinessStage(),startDate,endDate);
+        List<BusinessDto> list=this.businessMapper.queryBusinessForm(bussinessDictionaryDto.getCurrent(),bussinessDictionaryDto.getSize(),bussinessDictionaryDto.getCustomerName(),bussinessDictionaryDto.getBusinessOrigin(),bussinessDictionaryDto.getBusinessStage(),startDate,endDate);
 
         return list;
     }
@@ -126,20 +128,16 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
     @Override
     public void deleteBusiness(Long id) {
         this.businessMapper.deleteById(id);
-        this.followFormMapper.deleteByBusinessId(id);
     }
 
     @Override
     public void deletesBusiness(List<Long> ids) {
         this.businessMapper.deleteBatchIds(ids);
-        for (Long id : ids) {
-            this.followFormMapper.deleteByBusinessId(id);
-        }
     }
 
     @Override
-    public List<BusinessDto2> queryId(Long id) {
-        List<BusinessDto2> list=this.businessMapper.queryId(id);
+    public BusinessDto2 queryId(Long id) {
+        BusinessDto2 list=this.businessMapper.queryId(id);
         return list;
     }
 

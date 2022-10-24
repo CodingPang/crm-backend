@@ -46,13 +46,13 @@ public interface CustomerMapper extends BaseMapper<Customer> {
      *商机中的关联客户
      */
 
-    List<Customer>  selectCustomerRelation();
+    List<Customer1Dto>  selectCustomerRelation();
 
     /*
      *商机归属
      */
 
-    List<Customer> selectCustomerAscription();
+    List<Customer1Dto> selectCustomerAscription();
 
 
     LuoDto2 queryId(String customerName);

@@ -38,13 +38,13 @@ public interface BusinessService extends IService<Business> {
     /*
     关联客户
      */
-    List<Customer> queryAllCustomer();
+    List<Customer1Dto> queryAllCustomer();
 
     /*
      *商机归属
      */
 
-    List<Customer> queryCustomerAscription();
+    List<Customer1Dto> queryCustomerAscription();
 
     /*
     添加商机
@@ -67,10 +67,10 @@ public interface BusinessService extends IService<Business> {
     void deletesBusiness(List<Long> ids);
 
     /*
-     *回显映射
+     *回显编辑映射
      *
      */
-    List<BusinessDto2> queryId(Long id);
+    BusinessDto2 queryId(Long id);
     /*
      *编辑数据
      */
