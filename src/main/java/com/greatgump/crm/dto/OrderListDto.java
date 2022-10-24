@@ -77,5 +77,7 @@ public class OrderListDto {
 
     private String remark;
 
+    private Long cutomerId;
+
 
 }

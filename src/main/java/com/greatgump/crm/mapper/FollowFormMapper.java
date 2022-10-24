@@ -46,6 +46,11 @@ public interface FollowFormMapper extends BaseMapper<FollowForm> {
   CluePreEditDto selectOneClue(Integer id);
 
 
+  /*
+   * 根据商机id删除记录
+   */
+  @Select("delete f.* from t_follow_form f where f.business_name in (select bussiness_title form t_business where id=#{businessId}) ")
+  void deleteByBusinessId(Long businessId);
 
   /*
    *由商机的增加而

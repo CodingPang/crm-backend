@@ -1,20 +1,14 @@
 package com.greatgump.crm.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.*;
-import com.greatgump.crm.dto.chasing.ChasingRecordDto;
-import com.greatgump.crm.dto.clue.*;
-import com.greatgump.crm.dto.customerDetails.*;
-import com.greatgump.crm.dto.customerDetails.BusinessDto;
-import com.greatgump.crm.dto.customerDetails.ContactDto;
-import com.greatgump.crm.dto.customerDetails.OrderDto;
+import com.greatgump.crm.dto.ClueDto;
+import com.greatgump.crm.dto.ClueReceiveDto;
+import com.greatgump.crm.dto.CustomerBaseDto;
+import com.greatgump.crm.dto.CustomerDto;
+import com.greatgump.crm.dto.clue.CluePreEditDto;
 import com.greatgump.crm.entity.Clue;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import javax.xml.crypto.Data;
-import java.util.Date;
-import java.util.List;
 
 /**
  * <p>
@@ -25,7 +19,7 @@ import java.util.List;
  * @since 2022-10-12 10:31:27
  */
 public interface ClueService extends IService<Clue> {
-        List<ClueDto> quryallClue();
+        Page<ClueReceiveDto> quryallClue(Page page);
 
     boolean saveClue(ClueReceiveDto clueReceiveDto);
 
@@ -38,51 +32,4 @@ public interface ClueService extends IService<Clue> {
    * @return
    */
   CluePreEditDto queryOneClue(Integer id);
-
-      List<ClueOrigin> queryAllClueOrigin();
-      List<ClueStatus> queryAllClueStatus();
-      List<ClueUser> queryAllClueUser();
-
-    void addClueReceive(ClueReceiveDto clueReceiveDto);
-
-    ClueReceiveDto editPreClueReceive(Long id);
-
-    void updateClueReceiveByClueReceiveDto(ClueReceiveDto clueReceiveDto);
-    void deleteClueById(Long id);
-
-//    ClueDto selectClueReceiveDtoByCondition(String username, Long OriginId, Long statusId, Date startDate,Date endDate);
-
-    List<ClueDto> selectClueDtoByCondition(String username, Long OriginId, Long statusId, Date startDate,Date endDate);
-
-    List<ClueContact> queryAllClueContact();
-
-    List<ClueDept> queryAllClueDept();
-
-    MainInfoDto queryMainInfoById(Long id);
-
-    List<ContactDto> queryContactDto(Long id);
-
-    List<ChasingRecordDto> queryAllChasingRecord(Long id);
-
-    List<ClueWorKOrderDto> querAllWorKOrderDtos(Long id);
-
-    List<OrderDto> queryAllOrderDto(Long id);
-
-    List<InvoiceDto> queryAllInvoiceDtos(Long id);
-
-    List<CostDto> queryAllCostDtos(Long id);
-
-    List<EnclosureDto> queryAllEnclosureDtos(Long id);
-
-
-    List<ClueCustomerDto> queryAllClueCustomerDto();
-
-    List<FollowPlan> queryAllFollowPlans(Long id);
-
-    List<BelongRecord> queryAllBelongRecords(Long id);
-
-
-    Page<ClueDto> queryListClue(Page<ClueDto> offerListDtoPage);
-
-    List<BusinessDto> queryAllBusinessDtos(Long id);
 }

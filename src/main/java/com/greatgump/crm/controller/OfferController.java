@@ -94,7 +94,9 @@ public class OfferController {
                 BeanUtils.copyProperties(offerDetailsDto,offerDetails1);
                 offerDetails.add(offerDetails1);
             }
-            System.out.println("======>"+offerDetails);
+            for (OfferDetails offerDetail:offerDetails) {
+                offerDetail.setRemake(1L);
+            }
         }
         Date date = new Date();
         String str = RandomStringUtils.randomAlphabetic(5);
@@ -103,7 +105,7 @@ public class OfferController {
         System.out.println("===================>OOOOOOOOFFFFFFEEEEERRRRR"+offer);
         boolean flag = offerService.save(offer);
         boolean flag1 = offerDetailsService.saveBatch(offerDetails);
-        return Result.judge(flag&&flag1);
+        return Result.success(flag&&flag1);
     }
 
 //    @ApiOperation("报价管理页面增加")
@@ -120,7 +122,9 @@ public class OfferController {
     @ApiOperation("报价管理页面删除")
     @DeleteMapping("/crm/offer/delete")
     public Result delete(Long id){
-        boolean flag = offerService.removeById(id);
+        Offer offer = offerService.getById(id);
+        offer.setIsDelete(1);
+        boolean flag = offerService.updateById(offer);
         return Result.judge(flag);
     }
 

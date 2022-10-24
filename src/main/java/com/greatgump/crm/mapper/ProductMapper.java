@@ -5,6 +5,7 @@ import com.greatgump.crm.dto.OfferListDto;
 import com.greatgump.crm.dto.ProductListDto;
 import com.greatgump.crm.dto.productlibrary.*;
 import com.greatgump.crm.dto.LuoDto1;
+import com.greatgump.crm.entity.OfferDetails;
 import com.greatgump.crm.entity.Product;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,7 +26,7 @@ public interface ProductMapper extends BaseMapper<Product> {
 
     List<LuoDto1> listIneed();
 
-    List<LuoDto1> listIneed(@Param("customerId")int customerId,@Param("current")int current, @Param("size")int size);
+    List<OfferDetails> listIneed(@Param("customerId")int customerId, @Param("current")int current, @Param("size")int size);
 
     Page<ProductDto> queryAllProducts(Page page);
 
@@ -36,7 +37,7 @@ public interface ProductMapper extends BaseMapper<Product> {
     int updateProduct(UpdeProductDto updeProductDto);
 
 
-    List<ProductListDto> listAll();
+    Page<ProductListDto> listAll(Page<ProductListDto> offerPage);
 
     List<ProductDto> searchList(ProductsearchDto productsearchDto);
 }

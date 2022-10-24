@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class ChasingDto {
     @ApiModelProperty("关联客户")
-    @TableField("customer_name")
-    private String customer_name;
+    @TableField("customer")
+    private String customer;
 
 }

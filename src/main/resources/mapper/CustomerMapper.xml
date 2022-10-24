@@ -120,10 +120,4 @@
     <select id="queryId" resultType="com.greatgump.crm.dto.LuoDto2">
         SELECT customer_name, id from t_customer where customer_name=#{customerName}
     </select>
-    <select id="selectCustomerRelation" resultType="com.greatgump.crm.dto.Customer1Dto">
-       select customer_name from t_customer
-    </select>
-    <select id="selectCustomerAscription" resultType="com.greatgump.crm.dto.Customer1Dto">
-      select customer_name from t_customer
-    </select>
 </mapper>

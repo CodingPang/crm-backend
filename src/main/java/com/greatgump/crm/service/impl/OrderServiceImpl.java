@@ -1,6 +1,7 @@
 package com.greatgump.crm.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.greatgump.crm.dto.OrderSearchDto;
 import com.greatgump.crm.entity.Order;
 import com.greatgump.crm.mapper.OrderMapper;
 import com.greatgump.crm.service.OrderService;
@@ -23,5 +24,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public Page<Order> listIneed(Page<Order> offerListDtoPage) {
         return orderMapper.listIneed(offerListDtoPage);
+    }
+
+    @Override
+    public Page<Order> searchIneed(OrderSearchDto orderSearchDto) {
+        return orderMapper.searchIneed(orderSearchDto);
     }
 }

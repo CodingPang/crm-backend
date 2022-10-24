@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -29,5 +31,25 @@ public class OfferDetailsServiceImpl extends ServiceImpl<OfferDetailsMapper, Off
     @Override
     public double totalMoney() {
         return offerDetailsMapper.totalMoney();
+    }
+
+    @Override
+    public List<OfferDetails> listBycompany(int id, int current,int size) {
+        return offerDetailsMapper.listBycompany(id,current,size);
+    }
+
+    @Override
+    public Long listBycompanyCount(int id) {
+        return offerDetailsMapper.listBycompanyCount(id);
+    }
+
+    @Override
+    public List<OfferDetails> listBycompanyUpdate(int id, int current, int size, int orderid) {
+        return offerDetailsMapper.listBycompanyUpdate(id,current,size,orderid);
+    }
+
+    @Override
+    public Long listBycompanyCountUpdate(int id, int orderid) {
+        return offerDetailsMapper.listBycompanyCountUpdate(id,orderid);
     }
 }

@@ -28,6 +28,18 @@
     <select id="totalMoney" resultType="java.lang.Double">
         SELECT SUM(price) from t_offer_details
     </select>
+    <select id="listBycompany" resultType="com.greatgump.crm.entity.OfferDetails">
+        SELECT * FROM t_offer_details where company = #{id}  AND remake IS NULL LIMIT ${(current-1) * size},${size}
+    </select>
+    <select id="listBycompanyCount" resultType="java.lang.Long">
+        SELECT count(1) FROM t_offer_details   where company = #{id} AND remake IS NULL
+    </select>
+    <select id="listBycompanyUpdate" resultType="com.greatgump.crm.entity.OfferDetails">
+        SELECT * FROM t_offer_details where company = #{id}  AND (remake IS NULL OR remake=#{orderid}) LIMIT ${(current-1) * size},${size}
+    </select>
+    <select id="listBycompanyCountUpdate" resultType="java.lang.Long">
+        SELECT count(1) FROM t_offer_details   where company = #{id} AND (remake IS NULL OR remake=#{orderid})
+    </select>
 
 
 </mapper>

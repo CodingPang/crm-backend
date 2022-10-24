@@ -76,7 +76,9 @@ public class OfferDetailsController {
     @ApiOperation("修改报价页面删除")
     @DeleteMapping("/crm/offer_details/delete")
     public Result delete(Long id){
-        boolean flag = offerDetailsService.removeById(id);
+        OfferDetails offerDetails = offerDetailsService.getById(id);
+        offerDetails.setIsDelete(1);
+        boolean flag = offerDetailsService.updateById(offerDetails);
         return Result.judge(flag);
     }
 
@@ -110,20 +112,23 @@ public class OfferDetailsController {
 //    }
     @ApiOperation("这是报价商品页面")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
-    @GetMapping("/crm/offer_details/listproduct/{current}/{size}")
-    public Result<List<LuoDto1>>listProduct(@PathVariable("customerId") int customerId,@PathVariable("current") int current, @PathVariable("size") int size){
+    @GetMapping("/crm/offer_details/listproduct/{current}/{size}/{customerId}")
+    public Result<List<OfferDetails>>listProduct(@PathVariable("customerId") int customerId,@PathVariable("current") int current, @PathVariable("size") int size){
 //        Page<Product> contactPage = new Page(current,size);
         return Result.success(productService.listIneed(customerId,current,size));
     }
     @ApiOperation("添加商品的列表-所有商品")
-    @GetMapping("/crm/offer_details/listallproduct")
-    public Result<List<ProductListDto>> listAllProduct(){
-        return Result.success(productService.listAll());
+    @GetMapping("/crm/offer_details/listallproduct/{current}/{size}")
+    public Result<List<ProductListDto>> listAllProduct(@PathVariable("current")int current,@PathVariable("size")int size){
+        Page<ProductListDto> offerListDtoPage = new Page<>(current,size);
+        Page<ProductListDto> offerListDtoPage1 = productService.listAll(offerListDtoPage);
+        System.out.println("===================>"+offerListDtoPage1.getRecords());
+        return Result.success(offerListDtoPage1.getRecords(),offerListDtoPage1.getTotal());
     }
 
     @ApiOperation("所有商品页面的添加按钮，注意传当前公司company的Id")
     @PostMapping("/crm/offer_details/addincus")
-    public Result addInCus(List<ProductListDto> productListDtos){
+    public Result addInCus(@RequestBody List<ProductListDto> productListDtos){
         List<OfferDetails> offerDetails = new ArrayList<>();
         for(ProductListDto productListDto : productListDtos){
             OfferDetails offerDetails1 = new OfferDetails();
@@ -132,6 +137,14 @@ public class OfferDetailsController {
         }
         return Result.success(offerDetailsService.saveBatch(offerDetails));
     }
+//    @ApiOperation("提交报价")
+//    @PostMapping("/crm/offer_details/addinoffer")
+//    public Result addproduct(@RequestBody List<OfferDetails> offerDetails){
+//        for (OfferDetails offerDetail:offerDetails) {
+//                    offerDetail.setRemake(1L);
+//        }
+//      return   Result.success(offerDetailsService.saveBatch(offerDetails));
+//    }
 //
 
 

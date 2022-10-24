@@ -5,6 +5,7 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.*;
 import com.greatgump.crm.entity.Contract;
+import com.greatgump.crm.entity.Offer;
 import com.greatgump.crm.service.ContractService;
 import com.greatgump.crm.service.CustomerService;
 import com.greatgump.crm.service.UserService;
@@ -84,7 +85,9 @@ public class ContractController {
     @ApiOperation("合同管理列表单个删除")
     @DeleteMapping("/crm/contract/delete")
     public Result delete(Long id){
-       boolean flag =  contractService.removeById(id);
+        Contract contract = contractService.getById(id);
+        contract.setIsDelete(1);
+        boolean flag = contractService.updateById(contract);
         return Result.judge(flag);
     }
     @ApiOperation("合同管理系统批量删除")

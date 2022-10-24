@@ -23,6 +23,6 @@ public class BusinessOrigin {
     private Long id;
 
     @ApiModelProperty("商机来源")
-    @TableField("business_origin")
-    private String businessOrigin;
+    @TableField("bussiness_origin")
+    private String bussinessOrigin;
 }

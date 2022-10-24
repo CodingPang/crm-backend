@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Data
 @Accessors(chain = true)
-@TableName("t_business_stage")
+@TableName("t_business_origin")
 @ApiModel(value = "Business对象", description = "商机管理")
 public class BusinessStage {
     @ApiModelProperty("自增")
@@ -23,6 +23,6 @@ public class BusinessStage {
     private Long id;
 
     @ApiModelProperty("商机阶段")
-    @TableField("business_stage")
-    private String businessStage;
+    @TableField("bussiness_stage")
+    private String bussinessStage;
 }

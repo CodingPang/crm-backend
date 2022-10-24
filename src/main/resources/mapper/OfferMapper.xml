@@ -22,7 +22,7 @@
         <result column="odd_num" property="oddNum"></result>
         <result column="creation_date" property="creationDate"></result>
         <result column="customer_name" property="customerName"></result>
-        <result column="username" property="salerName"></result>
+            <result column="username" property="salerName"></result>
         <result column="contact_name" property="contactsName"></result>
         <result column="price" property="pricetotal"></result>
         <result column="discount_tate" property="discountTate"></result>
@@ -48,12 +48,12 @@
     <select id="listIneed" resultMap="offerList">
         SELECT offer.id,offer.odd_num,offer.creation_date,cus.customer_name,us.username,cont.contact_name,offer.price,offer.discount_tate,offer.offer,offer.customer_id
         FROM t_offer offer ,t_customer cus,t_user us,t_contact cont
-        WHERE offer.customer_id = cus.id AND offer.saler_id = us.id AND cont.customer_id = cus.id
+        WHERE offer.customer_id = cus.id  AND offer.saler_id = us.id AND offer.contacts_id = cont.id
     </select>
     <select id="searchList" resultMap="offerList">
         SELECT offer.id,offer.odd_num,offer.creation_date,cus.customer_name,us.username,cont.contact_name,offer.price,offer.discount_tate,offer.offer,offer.customer_id
         FROM t_offer offer ,t_customer cus,t_user us,t_contact cont
-        WHERE offer.customer_id = cus.id AND offer.saler_id = us.id AND offer.customer_id = cont.id
+        WHERE offer.customer_id = cus.id  AND offer.saler_id = us.id AND offer.contacts_id = cont.id
         <if test="customerName != null and customerName != ''">
             AND customer_name = #{customerName}
         </if>
@@ -67,7 +67,7 @@
     <select id="countList" resultType="java.lang.Integer">
         SELECT COUNT(1)
         FROM t_offer offer ,t_customer cus,t_user us,t_contact cont
-        WHERE offer.customer_id = cus.id AND offer.saler_id = us.id AND offer.customer_id = cont.id
+        WHERE offer.customer_id = cus.id =cont.id AND offer.contacts_id = cont.id
         <if test="customerName != null and customerName != ''">
             AND customer_name = #{customerName}
         </if>
@@ -93,7 +93,7 @@
         WHERE
             offer.customer_id = cus.id
           AND offer.saler_id = us.id
-          AND offer.customer_id = cont.id
+          AND offer.contacts_id = cont.id
           AND offer.id = #{id}
     </select>
 

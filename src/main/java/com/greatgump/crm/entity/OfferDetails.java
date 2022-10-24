@@ -62,11 +62,11 @@ public class OfferDetails implements Serializable {
 
     @ApiModelProperty("公司")
     @TableField("company")
-    private String company;
+    private Long company;
 
     @ApiModelProperty("备注")
     @TableField("remake")
-    private String remake;
+    private Long remake;
 
     @ApiModelProperty("虚拟删除(0是未删，1是删除)")
     @TableField("is_delete")

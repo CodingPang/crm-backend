@@ -56,10 +56,31 @@ values (#{productCode},#{productName},#{classificationid},#{unitid},#{propertyId
         SET product_code=#{productCode},product_name=#{productName},classificationid=#{classificationid},unitid=#{unitid},porperty_id=#{propertyId}
         WHERE id=#{id}
     </update>
+        <resultMap id="productList11" type="com.greatgump.crm.dto.LuoDto1">
+            <id column="id" property="id"></id>
+            <result column="product" property="product_name"></result>
+            <result column="product_id" property="product_code"></result>
+            <result column="product_size" property="unit"></result>
+            <result column="price" property="price"></result>
+        </resultMap>
 
 
-    <select id="listIneed" resultType="com.greatgump.crm.dto.LuoDto1" >
-        select * from t_offer_details WHERE company = #{customerId} limit #{current},#{size}
+    <resultMap id="listIneed11" type="com.greatgump.crm.dto.ProductAddDto">
+        <id column="id" property="id"></id>
+        <result column="product" property="product"></result>
+        <result column="product_id" property="productId"></result>
+        <result column="product_size" property="productSize"></result>
+        <result column="price" property="price"></result>
+        <result column="price" property="price"></result>
+        <result column="number" property="number"></result>
+        <result column="discount" property="discount"></result>
+        <result column="real_price" property="realPrice"></result>
+        <result column="company" property="company"></result>
+        <result column="remak" property="remake"></result>
+
+    </resultMap>
+    <select id="listIneed" resultMap="listIneed11" >
+        select * from t_offer_details WHERE company = #{customerId} limit ${(current-1) * size},${size}
     </select>
     <resultMap id="BaseResultMap1" type="com.greatgump.crm.dto.productlibrary.ProductDto">
         <result column="id" property="id"/>

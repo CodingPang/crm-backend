@@ -21,7 +21,7 @@
 
 <!--    查找相关附件-->
     <select id="queryEnclosure" resultType="com.greatgump.crm.dto.UplodeEnclosureDto">
-     select id,upload_people,uplode_date,uplode_location,uplode_size
+     select id,upload_people,upload_date,upload_location,upload_size
      from t_upload_attachment
      where order_id in (select id from t_order where business_id in(select id from t_business where bussiness_title=#{businessTitle}))
     </select>

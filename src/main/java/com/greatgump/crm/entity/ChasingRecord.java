@@ -38,14 +38,11 @@ public class ChasingRecord implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty("客户id,跟进管理中新增跟进需要此id")
-    private Integer customerId;
-
     @ApiModelProperty("联系人id")
     @TableField("contact_id")
     private Integer contactId;
 
-    @ApiModelProperty("跟进方式（1表示到访，2表示电话，3表示微信，4表示QQ）")
+    @ApiModelProperty("跟进方式（0表示到访，1表示电话，2表示微信，3表示QQ）")
     @TableField("follow_through")
     private String followThrough;
 

@@ -1,60 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.greatgump.crm.mapper.BusinessMapper">
+
+    <!-- 通用查询映射结果 -->
+<!--    <resultMap id="BaseResultMap" type="com.greatgump.crm.entity.Business">-->
+<!--        <id column="id" property="id" />-->
+<!--        <result column="customer_id" property="customerId" />-->
+<!--        <result column="bussiness_title" property="bussinessTitle" />-->
+<!--        <result column="bussiness_origin_id" property="bussinessOrigin" />-->
+<!--        <result column="bussiness_stage_id" property="bussinessStage" />-->
+<!--        <result column="price_records" property="priceRecords" />-->
+<!--        <result column="last_follow" property="lastFollow" />-->
+<!--        <result column="not_follow_days" property="notFollowDays" />-->
+<!--        <result column="remark" property="remark" />-->
+<!--        <result column="is_delete" property="isDelete" />-->
+<!--    </resultMap>-->
     <resultMap id="queryBusiness" type="com.greatgump.crm.dto.LoanBusinessDto">
         <id column="id" property="id"/>
         <result column="bussiness_title" property="bussiness_title"/>
     </resultMap>
+
+    <resultMap id="title" type="com.greatgump.crm.dto.BusinessTitleDto">
+        <id column="id" property="id"></id>
+        <result column="bussiness_title" property="orderNo"></result>
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, customer_id, bussiness_title, bussiness_origin_id, bussiness_stage_id, price_records, last_follow, not_follow_days, remark, is_delete
+    </sql>
+    <select id="listBase" resultType="com.greatgump.crm.dto.BusinessDto">
+
+    </select>
+  <select id="selectAllBusiness"
+    resultType="com.greatgump.crm.dto.finance.cost.BusinessListDto">
+      SELECT id, bussiness_title, bussiness_origin, bussiness_stage
+      FROM t_business
+  </select>
+
+
     <select id="queryBusiness" resultMap="queryBusiness">
         SELECT id,bussiness_title from t_business
     </select>
-    <insert id="addBusiness" parameterType="com.greatgump.crm.dto.BussinessDictionaryDto" useGeneratedKeys="true" keyProperty="id">
-      insert  into t_business(bussiness_title,bussiness_origin_id,bussiness_stage_id,customer_id,remark)
-      values (#{businessTitle},#{businessOrigin.id},#{businessStage.id},#{businessCustomer.id},#{customerNeeds})
-    </insert>
-    <resultMap id="BusinessDto" type="com.greatgump.crm.dto.BusinessDto">
-        <id property="id" column="id"/>
-        <result property="customerName" column="customer_name"/>
-        <result property="bussinessTitle" column="bussiness_title"/>
-        <result property="businessStage" column="business_stage"/>
-        <result property="priceRecords" column="price_records"/>
-        <result property="lastFollow" column="last_follow"/>
-        <result property="notFollowDays" column="not_follow_days"/>
-    </resultMap>
-    <select id="listBase" resultMap="BusinessDto">
-        select b.id,c.customer_name,b.bussiness_title,s.business_stage,b.price_records, b.last_follow, b.not_follow_days
-        from t_business b,t_customer c,t_business_stage s
-        where b.customer_id=c.id and b.bussiness_stage_id=s.id
-        limit #{current},#{size}
+    <select id="listTitle" resultMap="title">
+        SELECT * FROM t_business
     </select>
-    <select id="queryBusinessForm" resultType="com.greatgump.crm.dto.BusinessDto">
-        select b.id,c.customer_name,b.bussiness_title,s.business_stage,b.price_records, b.last_follow, b.not_follow_days
-        from t_business b,t_customer c,t_business_stage s,t_business_origin o
-        where b.customer_id=c.id and b.bussiness_stage_id=s.id and b.bussiness_origin_id=o.id
-        <if test="customerName!=null and customerName!=''">
-            and c.customer_name like concat('%',#{customerName},'%')
-        </if>
-        <if test="businessOrigin!=null and businessOrigin!=''">
-            and o.business_origin=#{businessOrigin}
-        </if>
-        <if test="businessStage!=null and businessStage!=''">
-            and s.business_stage=#{businessStage}
-        </if>
-        <if test="startDate!=null and startDate!=''">
-            and b.last_follow  <![CDATA[>=]]> #{startDate}
-        </if>
-        <if test="endDate!=null and endDate!=''">
-            and b.last_follow  <![CDATA[<=]]> #{endDate}
-        </if>
-        limit #{current},#{size}
-    </select>
-    <select id="queryId" resultType="com.greatgump.crm.dto.BusinessDto2">
-     select b.bussiness_title,s.business_stage,o.business_origin
-     from t_business b,t_business_stage s,t_business_origin o
-     where b.bussiness_stage_id=s.id and b.bussiness_origin_id=o.id and b.id=#{id}
-    </select>
-    <update id="updateBusiness">
-      update t_business set bussiness_title=#{businessTitle},bussiness_origin_id=#{businessOrigin.id},bussiness_stage_id=#{businessStage.id},customer_id=#{Customer.id},remark#{customerNeeds})
-      where id=#{id}
-    </update>
+
 </mapper>

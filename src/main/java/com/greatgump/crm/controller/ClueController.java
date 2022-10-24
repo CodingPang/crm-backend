@@ -3,16 +3,9 @@ package com.greatgump.crm.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.greatgump.crm.dto.*;
-import com.greatgump.crm.dto.chasing.ChasingMethodDto;
-import com.greatgump.crm.dto.chasing.ChasingRecordDto;
-import com.greatgump.crm.dto.clue.*;
-import com.greatgump.crm.dto.customerDetails.*;
-import com.greatgump.crm.dto.customerDetails.BusinessDto;
-import com.greatgump.crm.dto.customerDetails.ContactDto;
-import com.greatgump.crm.dto.customerDetails.OrderDto;
+import com.greatgump.crm.dto.clue.CluePreEditDto;
 import com.greatgump.crm.dto.power.UserDto;
 import com.greatgump.crm.entity.*;
-import com.greatgump.crm.service.ChasingRecordService;
 import com.greatgump.crm.service.ClueService;
 
 import com.greatgump.crm.service.FollowFormService;
@@ -25,8 +18,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -46,94 +37,147 @@ public class ClueController {
     private ClueService clueService;
     @Autowired
     private FollowFormService followFormService;
-    @Autowired
-    private ChasingRecordService chasingRecordService;
 
 
-    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
+
+
+
     @ApiOperation("获取所有线索的信息")
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current", value = "当前页数", required = true), @ApiImplicitParam(name = "size", value = "每页的条数", required = true)})
     @GetMapping("/queryAllLoans/{current}/{size}")
-    public Result queryAllLoans(@PathVariable("current")int current,@PathVariable("size")int size) {
+    public Result<List<Clue>> queryAllLoans(@PathVariable("current") Integer current, @PathVariable("size") Integer size) {
 
+        Page<Clue> cluePage = new Page(current,size);
+        Page<Clue> clueInfo = clueService.page(cluePage);
+        return Result.success(cluePage.getRecords(),clueInfo.getTotal());
+//        ClueDto clueDto = new ClueDto();
+//
+//// 1、所有客户对象(客户名称)
+//        CustomerDto customer01 = new CustomerDto();
+//        customer01.setId(1L);
+//        customer01.setCustomerName("xxx公司");
+//
+//        CustomerDto customer02 = new CustomerDto();
+//        customer02.setId(1L);
+//        customer02.setCustomerName("xxx公司");
+//
+//        List<CustomerDto> customerList = new ArrayList<>();
+//        customerList.add(customer01);
+//        customerList.add(customer02);
+//
+//        // 查询出归属人员(所有的归属人员应该都是user)
+//        UserDto personnel01 = new UserDto();
+//        personnel01.setId(1L);
+//        personnel01.setUsername("zs");
+//
+//        UserDto personnel02 = new UserDto();
+//        personnel02.setId(2L);
+//        personnel02.setUsername("ls");
+//  /*List<UserDto> userList = new ArrayList<>();
+//  userList.add(personnel01);
+//  userList.add(personnel02);*/
+//
+//
+//        // 查询出联系人(所有的联系人应该都是UserDto)
+//        UserDto lxr01 = new UserDto();
+//        lxr01.setId(1L);
+//        lxr01.setUsername("zs");
+//
+//        UserDto lxr02 = new UserDto();
+//        lxr01.setId(2L);
+//        lxr01.setUsername("ls");
+//        List<UserDto> lxrList = new ArrayList<>();
+//        lxrList.add(lxr01);
+//        lxrList.add(lxr02);
+//
+//        // 联系号码
+//        String phone01 = "17715214455";
+//        String phone02 = "17715214456";
+//
+//        // 最后跟进
+//        // System.currentTimeMillis() 获取当前系统的毫秒数
+//        Date date01 = new Date(System.currentTimeMillis());
+//        Date date02 = new Date(System.currentTimeMillis() + 1);
+//
+//        // 未跟进天数
+//        Integer notFollowDays01 = 6;
+//        Integer notFollowDays02 = 3;
+//
+//        // 将数据封装进ClueQueryDto
+//        ClueQueryDto clueQueryDto01 = new ClueQueryDto();
+//        clueQueryDto01.setCustomerDto(customer01);
+//        clueQueryDto01.setPersonnel(personnel01);
+//        clueQueryDto01.setContacts(lxr01);
+//        clueQueryDto01.setPhone(phone01);
+//        clueQueryDto01.setLastFollow(date01);
+//        clueQueryDto01.setNotFollowDays(notFollowDays02);
+//
+//        ClueQueryDto clueQueryDto02 = new ClueQueryDto();
+//        clueQueryDto02.setCustomerDto(customer01);
+//        clueQueryDto02.setPersonnel(personnel01);
+//        clueQueryDto02.setContacts(lxr01);
+//        clueQueryDto02.setPhone(phone01);
+//        clueQueryDto02.setLastFollow(date01);
+//        clueQueryDto02.setNotFollowDays(notFollowDays02);
+//
+//        List<ClueQueryDto> clueQueryDtos = new ArrayList<>();
+//        clueQueryDtos.add(clueQueryDto01);
+//        clueQueryDtos.add(clueQueryDto02);
+//
+//        // 通过Result工具类封装给前端解析
+//        return Result.success(clueQueryDtos, 2L);
 
-//            List<ClueDto> clueDtos = this.clueService.quryallClue();
-            List<ClueOrigin> clueOrigins = this.clueService.queryAllClueOrigin();
-            List<ClueStatus> clueStatuses = this.clueService.queryAllClueStatus();
-
-            Page<ClueDto> offerListDtoPage = new Page<>(current,size);
-            Page<ClueDto> offerListDtoPage1 = this.clueService.queryListClue(offerListDtoPage);
-            List<ClueDto> clueDtos = offerListDtoPage1.getRecords();
-            long total = offerListDtoPage1.getTotal();
-
-        for (ClueDto clueDto:clueDtos){
-                System.out.println(clueDto.getLastFollow());
-                System.out.println(clueDto.getCurrentTime());
-
-                int time = (int)(clueDto.getLastFollow().getTime()-clueDto.getCurrentTime().getTime());
-                int days = time/1000/60/60/24;
-                System.out.println(days);
-                clueDto.setNotFollowDays(days);
-            }
-
-            Map map = new HashMap();
-
-            map.put("clueDtos",clueDtos);
-            map.put("length",total);
-            map.put("clueOrigins",clueOrigins);
-            map.put("clueStatuses",clueStatuses);
-
-        return Result.success(map);
     }
 
 
     @ApiOperation("线索信息预增加操作")
     @GetMapping("/preAdd")
-    public Result preAdd() {
+    public Result<ClueBoxDto> preAdd() {
 
-//        ClueBoxDto clueBoxDto = new ClueBoxDto();
-//        // 1、线索归属
-//        List<Clue> clueList = new ArrayList<>();
-//        Clue clue = new Clue();
-//        clue.setId(1L);
-//        clue.setPersonnel("zs");
-//        clueList.add(clue);
-//        Clue clue1 = new Clue();
-//        clue1.setId(2L);
-//        clue1.setPersonnel("ls");
-//        clueList.add(clue1);
-//
-//        // 2、线索来源
-//        List<FollowForm> sourceList = new ArrayList<>();
-//        FollowForm followForm = new FollowForm();
-//        followForm.setId(1L);
-//        followForm.setFollowSource("主动来电");
-//        sourceList.add(followForm);
-//        FollowForm followForm1 = new FollowForm();
-//        followForm1.setId(2L);
-//        followForm1.setFollowSource("客户介绍");
-//        sourceList.add(followForm1);
-//
-//        // 3、线索状态
-//        List<FollowForm> statusList = new ArrayList<>();
-//        FollowForm followForm01 = new FollowForm();
-//        followForm01.setId(1L);
-//        followForm01.setFollowType("1");
-//        statusList.add(followForm01);
-//        FollowForm followForm02 = new FollowForm();
-//        followForm02.setId(1L);
-//        followForm02.setFollowType("2");
-//        statusList.add(followForm02);
-//
-//
-//        clueBoxDto.setSourceList(sourceList);
-//        clueBoxDto.setClueList(clueList);
-//        clueBoxDto.setStatusList(statusList);
-//
-////        Map<String, Object> map = new HashMap<>();
-////        map.put("cluebox", clueBoxDto);
-//
-//
-//        return Result.success(clueBoxDto);
+        ClueBoxDto clueBoxDto = new ClueBoxDto();
+        // 1、线索归属
+        List<Clue> clueList = new ArrayList<>();
+        Clue clue = new Clue();
+        clue.setId(1L);
+        clue.setPersonnel("zs");
+        clueList.add(clue);
+        Clue clue1 = new Clue();
+        clue1.setId(2L);
+        clue1.setPersonnel("ls");
+        clueList.add(clue1);
+
+        // 2、线索来源
+        List<FollowForm> sourceList = new ArrayList<>();
+        FollowForm followForm = new FollowForm();
+        followForm.setId(1L);
+        followForm.setFollowSource("主动来电");
+        sourceList.add(followForm);
+        FollowForm followForm1 = new FollowForm();
+        followForm1.setId(2L);
+        followForm1.setFollowSource("客户介绍");
+        sourceList.add(followForm1);
+
+        // 3、线索状态
+        List<FollowForm> statusList = new ArrayList<>();
+        FollowForm followForm01 = new FollowForm();
+        followForm01.setId(1L);
+        followForm01.setFollowType("1");
+        statusList.add(followForm01);
+        FollowForm followForm02 = new FollowForm();
+        followForm02.setId(1L);
+        followForm02.setFollowType("2");
+        statusList.add(followForm02);
+
+
+        clueBoxDto.setSourceList(sourceList);
+        clueBoxDto.setClueList(clueList);
+        clueBoxDto.setStatusList(statusList);
+
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("cluebox", clueBoxDto);
+
+
+        return Result.success(clueBoxDto);
 
 
 
@@ -147,24 +191,33 @@ public class ClueController {
   Business business03 = new Business();
   business03.setId(3L);
   business03.setBussinessStage(3L);*/
-        List<ClueOrigin> clueOrigins = this.clueService.queryAllClueOrigin();
-        List<ClueStatus> clueStatuses = this.clueService.queryAllClueStatus();
-        List<ClueUser> clueUsers = this.clueService.queryAllClueUser();
-        List<ClueDept> clueDepts = this.clueService.queryAllClueDept();
-        List<ClueCustomerDto> clueCustomerDtos = this.clueService.queryAllClueCustomerDto();
 
 
-        Map map = new HashMap();
+/*  //关联客户
+  List<Customer> customerList = new ArrayList<>();
+  Customer customer01 = new Customer();
+  customer01.setId(1L);
+  customer01.setCustomerName("张三");
+  Customer customer02 = new Customer();
+  customer02.setId(2L);
+  customer02.setCustomerName("李四");
+  Customer customer03 = new Customer();
+  customer03.setId(3L);
+  customer03.setCustomerName("赵柳");*/
 
-        map.put("clueOrigins",clueOrigins);
-        map.put("clueStatuses",clueStatuses);
-        map.put("clueUsers",clueUsers);
-        map.put("clueDepts",clueDepts);
-        map.put("clueCustomerDtos",clueCustomerDtos);
-
-
-        return Result.success(map);
     }
+
+
+/* @ApiOperation("线索信息增加")
+ @PostMapping("/preAdd")
+ public Result saveClue(@RequestBody ){
+
+ }*/
+// @ApiOperation("联系信息")
+// @GetMapping("/contactAdd")
+// public Result<Map<String, Object>> contactAdd() {
+//  // 1、联系人
+//  Foll user01 = new UserDto();
 
 
 
@@ -172,60 +225,41 @@ public class ClueController {
     @PostMapping("/preAddcontact")
     public Result<Clue> preAddcontact(@RequestBody ClueReceiveDto clueReceiveDto) {
 
-        long time = new Date().getTime();
-        Date date = new Date(time);
-        System.out.println(date);
-        clueReceiveDto.setLastTime(date);
+         boolean b = clueService.saveClue(clueReceiveDto);
 
-        try {
-            this.clueService.addClueReceive(clueReceiveDto);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.failed();
-        }
+        return Result.judge(b);
+//        FollowFormDto followFormDto = new FollowFormDto();
+//        followFormDto.setContactss("zz");
+//        followFormDto.setPhone("123323432");
+//        followFormDto.setQq("54546566");
+//        followFormDto.setId(1L);
+//        followFormDto.setWechat("324342343");
+//        followFormDto.setEMail("123@126.com");
+//        followFormDto.setDeptId("1");
 
-        return Result.success();
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("followFormDto", followFormDto);
+
+
 
     }
 
 
-    @ApiOperation("主页面预编辑")
+    @ApiOperation("预编辑")
     @GetMapping("/crm/clue/preUpdate/{id}")
-    public Result preEdit(@PathVariable("id") Long id){
-
-        List<ClueOrigin> clueOrigins = this.clueService.queryAllClueOrigin();
-        List<ClueStatus> clueStatuses = this.clueService.queryAllClueStatus();
-        List<ClueUser> clueUsers = this.clueService.queryAllClueUser();
-        List<ClueDept> clueDepts = this.clueService.queryAllClueDept();
-        List<ClueCustomerDto> clueCustomerDtos = this.clueService.queryAllClueCustomerDto();
-
-
-        ClueReceiveDto clueReceiveDto1 = this.clueService.editPreClueReceive(id);
-        Map map = new HashMap();
-        map.put("clueReceiveDto1",clueReceiveDto1);
-        map.put("clueOrigins",clueOrigins);
-        map.put("clueStatuses",clueStatuses);
-        map.put("clueUsers",clueUsers);
-        map.put("clueDepts",clueDepts);
-        map.put("clueCustomerDtos",clueCustomerDtos);
-
-        return Result.success(map);
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "id", value = "要查询的这条记录的主键", required = true)})
+    public Result<CluePreEditDto> preEdit(@PathVariable("id") Integer id){
+        // 1、根据id查询这条数据在线索表的记录
+        CluePreEditDto cluePreEditDto = clueService.queryOneClue(id);
+        return null;
     }
 
     @ApiOperation("主页面编辑")
     @PutMapping("/crm/clue/update")
     public Result update(@RequestBody ClueReceiveDto clueReceiveDto) {
 
-//        boolean c = clueService.update(clueReceiveDto) ;
-//        return Result.judge(c);
-
-        try {
-            this.clueService.updateClueReceiveByClueReceiveDto(clueReceiveDto);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.failed();
-        }
-        return Result.success();
+        boolean c = clueService.update(clueReceiveDto) ;
+        return Result.judge(c);
     }
 
 
@@ -284,16 +318,9 @@ public class ClueController {
     @ApiOperation("线索页面删除")
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable("id") Long id) {
+        boolean s = clueService.removeById(id);
 
-        try {
-            this.clueService.deleteClueById(id);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Result.failed();
-        }
-
-        return Result.success();
+        return Result.judge(s);
 
     }
 
@@ -301,122 +328,10 @@ public class ClueController {
     @ApiOperation("线索页面批量删除")
     @DeleteMapping("/deletion")
     public Result deletion(@RequestBody List<ClueReceiveDto> clueReceiveDtos) {
-        try {
-            for (ClueReceiveDto clueReceiveDto : clueReceiveDtos) {
-                this.clueService.deleteClueById(clueReceiveDto.getId());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Result.failed();
+        for (ClueReceiveDto clueReceiveDto : clueReceiveDtos) {
+            clueService.removeById(clueReceiveDto.getId());
         }
         return Result.success();
     }
-
-    @ApiOperation("线索页面条件查询")
-    @PostMapping("/selectByCondition")
-    public Result selectByCondition(@RequestBody ClueSelectCondition clueSelectCondition) {
-//        String startTime = null;
-//        String endTime = null;
-//        Date startDate = null;
-//        Date endDate = null;
-//
-//        String selectTime = clueSelectCondition.getSelectTime();
-        String username = clueSelectCondition.getUsername();
-        System.out.println(username);
-        Long originId = clueSelectCondition.getOriginId();
-        Long statusId = clueSelectCondition.getStatusId();
-        Date startTime = clueSelectCondition.getStartTime();
-        Date endTime = clueSelectCondition.getEndTime();
-
-//
-//        if (selectTime != null && !selectTime.equals("")){
-//            String[] times = selectTime.split(",");
-//            startTime = times[0];
-//            endTime = times[1];
-//
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//            try {
-//                startDate = sdf.parse(startTime);
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//            try {
-//                endDate = sdf.parse(endTime);
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-//        ClueReceiveDto ClueReceiveDto = this.clueService.selectClueReceiveDtoByCondition(username,originId,statusId,startTime,endTime);
-       List<ClueDto> clueDtos = this.clueService.selectClueDtoByCondition(username,originId,statusId,startTime,endTime);
-
-        Map map = new HashMap();
-        map.put("clueDtos",clueDtos);
-
-        return Result.success(map);
-    }
-
-    @ApiOperation("线索页面跟进")
-    @GetMapping("/followUpPre/{id}")
-    public Result followUpPre(@PathVariable("id")Long id) {
-        List<ChasingMethodDto> chasingMethodDtos = this.chasingRecordService.queryAllChasingMethod();
-        List<ClueUser> clueUsers = this.clueService.queryAllClueUser();
-
-        Long followFormId = id;
-
-        Map map = new HashMap();
-
-        map.put("chasingMethodDtos",chasingMethodDtos);
-        map.put("clueUsers",clueUsers);
-        map.put("followFormId",followFormId);
-        return Result.success(map);
-    }
-
-    @ApiOperation("线索页面跟进保存")
-    @PostMapping("/followUp")
-    public Result followUp(ChasingRecord chasingRecord) {
-        try {
-            this.chasingRecordService.addChasingRecord(chasingRecord);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.failed();
-        }
-        return Result.success();
-    }
-
-    @ApiOperation("客户明细")
-    @GetMapping("/customerDetail/{id}")
-    public Result customerDetails(@PathVariable("id")Long id) {
-
-        MainInfoDto mainInfoDto = this.clueService.queryMainInfoById(id);
-        List<ContactDto> contactDtos = this.clueService.queryContactDto(id);
-        List<ChasingRecordDto> chasingRecordDtos = this.clueService.queryAllChasingRecord(id);
-        List<ClueWorKOrderDto> worKOrderDtos = this.clueService.querAllWorKOrderDtos(id);
-        List<OrderDto> orderDtos = this.clueService.queryAllOrderDto(id);
-        List<InvoiceDto> invoiceDtos = this.clueService.queryAllInvoiceDtos(id);
-        List<CostDto> costDtos = this.clueService.queryAllCostDtos(id);
-        List<EnclosureDto> enclosureDtos = this.clueService.queryAllEnclosureDtos(id);
-        List<FollowPlan> followPlans = this.clueService.queryAllFollowPlans(id);
-        List<BelongRecord> belongRecords = this.clueService.queryAllBelongRecords(id);
-        List<BusinessDto> businessDtos = this.clueService.queryAllBusinessDtos(id);
-
-        Map map = new HashMap();
-        map.put("mainInfoDto",mainInfoDto);
-        map.put("contactDtos",contactDtos);
-        map.put("chasingRecordDtos",chasingRecordDtos);
-        map.put("worKOrderDtos",worKOrderDtos);
-        map.put("orderDtos",orderDtos);
-        map.put("invoiceDtos",invoiceDtos);
-        map.put("costDtos",costDtos);
-        map.put("enclosureDtos",enclosureDtos);
-        map.put("followPlans",followPlans);
-        map.put("belongRecords",belongRecords);
-        map.put("businessDtos",businessDtos);
-
-        return Result.success(map);
-    }
-
-
 
 }
