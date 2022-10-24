@@ -180,14 +180,14 @@ public class OrdercontextController {
 
     @ApiOperation("订单搜索")
     @PostMapping("/crm/ordercontext/list")
-    public Result<List<Order>> search(@RequestBody OrderSearchDto orderSearchDto){
-        List<Order> offerListDtoPage1 = orderService.searchIneed(orderSearchDto);
-        return Result.success(offerListDtoPage1);
+    public Result<List<Order>> search(OrderSearchDto orderSearchDto){
+        Page<Order> offerListDtoPage1 = orderService.searchIneed(orderSearchDto);
+        return Result.success(offerListDtoPage1.getRecords(),offerListDtoPage1.getTotal());
     }
 
     @ApiOperation("订单删除")
     @DeleteMapping("/crm/ordercontext/list")
     public Result delete(Long id){
-        return Result.success(order11Service.removeById(id));
+        return Result.success(orderService.removeById(id));
     }
 }
