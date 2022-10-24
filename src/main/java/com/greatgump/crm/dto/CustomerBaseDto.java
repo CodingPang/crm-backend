@@ -14,6 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 public class CustomerBaseDto implements Serializable {
     private static final long serialVersionUID = 1L;
+    @ApiModelProperty("客户")
+    private Customer customer;
 
     @ApiModelProperty("企业规模")
     private Scale scale;

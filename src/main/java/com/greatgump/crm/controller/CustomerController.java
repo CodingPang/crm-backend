@@ -98,7 +98,7 @@ public class CustomerController {
     }
 
     @ApiOperation("修改客户或者公海--点击编辑 AND 客户名称点击进入的去的--概况信息")
-    @ApiImplicitParams(value = {@ApiImplicitParam(name = "cid",value ="当前用户id",required = true)})
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "cid",value ="当前客户id",required = true)})
     @PutMapping("/customer/{cid}")
     public Result<CustomerBaseDto> preEditCustomer(@PathVariable("cid")Integer cid){
         CustomerBaseDto customerBaseDto = customerService.queryCustomerById(cid);
@@ -108,8 +108,8 @@ public class CustomerController {
     @ApiOperation("修改客户或者公海--点击保存")
     @PutMapping("/customer")
     public Result editCustomer(@RequestBody Customer customer){
-        boolean b = customerService.updateById(customer);
-        return Result.judge(b);
+        int b = customerService.update(customer);
+        return Result.judge(b>0);
     }
     @ApiOperation("删除单个客户或者公海")
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "id",value ="客户或者公海的id",required = true)})

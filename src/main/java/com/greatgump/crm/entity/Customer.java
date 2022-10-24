@@ -81,7 +81,7 @@ public class Customer implements Serializable {
     @TableLogic
     private Integer isDelete;
 
-    @ApiModelProperty("联系人集合")
+    @ApiModelProperty("联系人对象")
     @TableField(exist = false)
     private Contact contact;
 

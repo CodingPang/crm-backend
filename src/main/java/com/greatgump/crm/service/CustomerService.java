@@ -26,6 +26,8 @@ public interface CustomerService extends IService<Customer> {
     List<CustomerDto> queryCustomerDynamic(CustomerQueryDto customerQueryDto);
 
     List<CustomerDto> querySeasDynamic( CustomerQueryDto customerQueryDto);
+
+    int update(Customer customer);
     boolean saveCustomer(Customer customer);
 
     boolean updateTransfer(Integer cid, Integer from,  Integer to);

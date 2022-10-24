@@ -66,7 +66,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         Industry industry = industryMapper.selectById(customer.getIndustryId());
         User user = userMapper.queryUserById((int) customer.getUserId());
         Contact contact = contactMapper.queryDefByCustomerIdContact(cid);
-        CustomerBaseDto customerBaseDto = new CustomerBaseDto(scale,type,source,industry,user,contact);
+        CustomerBaseDto customerBaseDto = new CustomerBaseDto(customer,scale,type,source,industry,user,contact);
         return customerBaseDto;
     }
 
@@ -93,8 +93,23 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
 
     @Override
     public List<CustomerDto> querySeasDynamic(CustomerQueryDto customerQueryDto) {
+
         return customerMapper.querySeasDynamic(customerQueryDto);
     }
+
+    @Override
+    public int update(Customer customer) {
+        customer.setIsDelete(0);
+        customer.setIsCustomer(1);
+        Contact contact = customer.getContact();
+        contact.setIsDelete(0);
+        contact.setCustomerId(customer.getId());
+        contact.setIsDefault(1);
+        contactMapper.updateContact(contact);
+        int j = customerMapper.updateById(customer);
+        return j;
+    }
+
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
