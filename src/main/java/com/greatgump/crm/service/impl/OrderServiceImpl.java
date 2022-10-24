@@ -30,7 +30,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     @Override
-    public Page<Order> searchIneed(OrderSearchDto orderSearchDto) {
+    public List<Order> searchIneed(OrderSearchDto orderSearchDto) {
         return orderMapper.searchIneed(orderSearchDto);
     }
 
@@ -38,5 +38,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     public List<LoanOrderDto> queryOrder() {
 
         return orderMapper.queryOrder();
+    }
+
+    @Override
+    public Long searchCount(OrderSearchDto orderSearchDto) {
+        return orderMapper.searchCount(orderSearchDto);
     }
 }

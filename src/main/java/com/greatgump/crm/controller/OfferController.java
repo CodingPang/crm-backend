@@ -122,9 +122,8 @@ public class OfferController {
     @ApiOperation("报价管理页面删除")
     @DeleteMapping("/crm/offer/delete")
     public Result delete(Long id){
-        Offer offer = offerService.getById(id);
-        offer.setIsDelete(1);
-        boolean flag = offerService.updateById(offer);
+
+        boolean flag = offerService.removeById(id);
         return Result.judge(flag);
     }
 
@@ -172,8 +171,10 @@ public class OfferController {
     public Result<List<OfferDetails>> listOffer(Long id){
         QueryWrapper<OfferDetails> wrapper = new QueryWrapper<>();
         wrapper.eq("company" , id);
+        wrapper.isNull("remake");
         List<OfferDetails> offerDetails = offerDetailsService.list(wrapper);
-        return Result.success(offerDetails);
+
+        return Result.success(offerDetails,offerDetailsService.count(wrapper));
     }
 
 

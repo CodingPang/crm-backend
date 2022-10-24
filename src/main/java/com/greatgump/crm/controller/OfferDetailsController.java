@@ -76,9 +76,8 @@ public class OfferDetailsController {
     @ApiOperation("修改报价页面删除")
     @DeleteMapping("/crm/offer_details/delete")
     public Result delete(Long id){
-        OfferDetails offerDetails = offerDetailsService.getById(id);
-        offerDetails.setIsDelete(1);
-        boolean flag = offerDetailsService.updateById(offerDetails);
+
+        boolean flag = offerDetailsService.removeById(id);
         return Result.judge(flag);
     }
 
@@ -114,8 +113,13 @@ public class OfferDetailsController {
     @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
     @GetMapping("/crm/offer_details/listproduct/{current}/{size}/{customerId}")
     public Result<List<OfferDetails>>listProduct(@PathVariable("customerId") int customerId,@PathVariable("current") int current, @PathVariable("size") int size){
-//        Page<Product> contactPage = new Page(current,size);
-        return Result.success(productService.listIneed(customerId,current,size));
+        Page<OfferDetails> offerPage = new Page(current,size);
+
+        QueryWrapper<OfferDetails> wrapper = new QueryWrapper<>();
+        wrapper.eq("company" , customerId);
+        wrapper.isNull("remake");
+        Page<OfferDetails> page = offerDetailsService.page(offerPage, wrapper);
+        return Result.success(page.getRecords(),page.getTotal());
     }
     @ApiOperation("添加商品的列表-所有商品")
     @GetMapping("/crm/offer_details/listallproduct/{current}/{size}")

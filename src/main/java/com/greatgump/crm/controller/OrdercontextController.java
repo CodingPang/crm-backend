@@ -80,8 +80,7 @@ public class OrdercontextController {
         return Result.success(businessService.listTitle());
     }
 
-    @ApiOperation("订单修改")
-    @PostMapping("/crm/ordercontext/update")
+
     public Result upload03(@RequestParam(value="file",required=false) MultipartFile file,Order11 order11,String offerDetails1,String offerDetails2) throws IOException {
         List<OfferDetails> offerDetails = JSON.parseArray(offerDetails1,OfferDetails.class);
         List<OfferDetails> offerDetailsu =JSON.parseArray(offerDetails2,OfferDetails.class);
@@ -117,6 +116,41 @@ public class OrdercontextController {
         }
         offerDetailsService.updateBatchById(offerDetails);
         offerDetailsService.updateBatchById(offerDetailsu);
+        return Result.judge(flag);
+    }
+
+    @ApiOperation("订单修改")
+    @PostMapping("/crm/ordercontext/update")
+    public Result upload03(@RequestParam(value="file",required=false) MultipartFile file,Order11 order11,String offerDetails1) throws IOException {
+        List<OfferDetails> offerDetails = JSON.parseArray(offerDetails1,OfferDetails.class);
+        String filename=file.getOriginalFilename();
+        String endpoint = "oss-cn-chengdu.aliyuncs.com";
+        String accessKeyId = "LTAI5tC9j1JopSJiQnnpkgns";
+        String accessKeySecret = "olIwhVDsSpLByE8A7JkoaAdzN419Ne";
+        String bucketName = "pic28";
+        String objectName =filename;
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+        try {
+            InputStream inputStream = file.getInputStream();
+            ossClient.putObject(bucketName, objectName, inputStream);
+        } catch (Exception oe) {
+        } finally {
+            if (ossClient != null) {
+                ossClient.shutdown();
+            }
+        }
+        String url = "https://" + bucketName + "." + endpoint + "/" + objectName;
+        UploadAttachment upload = new UploadAttachment();
+        upload.setUploadLocation(url);
+        uploadAttachmentService.save(upload);
+        order11.setUploadAttachment(upload.getId());
+        String str = RandomStringUtils.randomAlphabetic(6);
+        order11.setOrderNo("CN-SC-CD"+str);
+        boolean flag = order11Service.updateById(order11);
+        for (OfferDetails offerDetail:offerDetails ) {
+            offerDetail.setRemake(order11.getId());
+        }
+        offerDetailsService.updateBatchById(offerDetails);
         return Result.judge(flag);
     }
     @ApiOperation("订单添加")
@@ -180,9 +214,10 @@ public class OrdercontextController {
 
     @ApiOperation("订单搜索")
     @PostMapping("/crm/ordercontext/list")
-    public Result<List<Order>> search(OrderSearchDto orderSearchDto){
-        Page<Order> offerListDtoPage1 = orderService.searchIneed(orderSearchDto);
-        return Result.success(offerListDtoPage1.getRecords(),offerListDtoPage1.getTotal());
+    public Result<List<Order>> search(@RequestBody OrderSearchDto orderSearchDto){
+        List<Order> offerListDtoPage1 = orderService.searchIneed(orderSearchDto);
+        Long count = orderService.searchCount(orderSearchDto);
+        return Result.success(offerListDtoPage1,count);
     }
 
     @ApiOperation("订单删除")

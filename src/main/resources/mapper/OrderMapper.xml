@@ -114,7 +114,10 @@
         FROM t_order od INNER JOIN t_user us1 ON od.sale_id = us1.id INNER JOIN t_user us2 ON od.owner_signer = us2.id,t_customer cus ,t_business bus,t_upload_attachment upl
         WHERE od.customer_id = cus.id AND od.business_id = bus.id AND od.upload_attachment_id = upl.id
         <if test="title != null and title != ''">
-            AND order_title = #{title}
+            AND order_title LIKE "%"#{title}"%"
+        </if>
+        <if test="status != null and status != ''">
+            AND oder_status = #{status}
         </if>
         <if test="start != null &amp;end != null ">
             AND order_date BETWEEN #{start} AND #{end}
@@ -125,6 +128,20 @@
     </select>
         <select id="queryOrder" resultMap="queryOrder">
         SELECT id,order_title from t_order
+    </select>
+    <select id="searchCount" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM t_order od INNER JOIN t_user us1 ON od.sale_id = us1.id INNER JOIN t_user us2 ON od.owner_signer = us2.id,t_customer cus ,t_business bus,t_upload_attachment upl
+        WHERE od.customer_id = cus.id AND od.business_id = bus.id AND od.upload_attachment_id = upl.id
+        <if test="title != null and title != ''">
+            AND order_title LIKE "%"#{title}"%"
+        </if>
+        <if test="start != null &amp;end != null ">
+            AND order_date BETWEEN #{start} AND #{end}
+        </if>
+        <if test="current != null and current != '' &amp; size != null and size != ''">
+            LIMIT ${(current-1) * size},${size}
+        </if>
     </select>
 
 </mapper>

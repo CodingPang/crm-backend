@@ -66,7 +66,7 @@ public class OrderListDto {
     private String faceSignerPhone;
 
 
-    private Date orderDate;
+    private String orderDate;
 
 
     private BigDecimal totalRes;
