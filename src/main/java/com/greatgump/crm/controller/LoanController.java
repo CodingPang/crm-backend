@@ -33,7 +33,7 @@ public class LoanController {
     @Autowired
     private BusinessService businessService;
     @Autowired
-     private OrderService orderService;
+    private OrderService orderService;
     @Autowired
     private LoanService loanService;
     @Autowired
@@ -41,27 +41,26 @@ public class LoanController {
     @Autowired
     private ApprovalStatusService approvalStatusService;
 
-  @ApiOperation("获取所有的借款信息")
-  @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
-  @GetMapping("/queryAllLoans/{current}/{size}")
-  public Result<List<LoanDto>> queryAllLoans(@PathVariable("current") Integer current,@PathVariable("size") Integer size){
+    @ApiOperation("获取所有的借款信息")
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
+    @GetMapping("/queryAllLoans/{current}/{size}")
+    public Result<List<LoanDto>> queryAllLoans(@PathVariable("current") Integer current,@PathVariable("size") Integer size){
 
-      Page<LoanDto> loanDtoPage = new Page<>(current,size);
-      Page<LoanDto> pageInfo = loanService.queryAllLoan(loanDtoPage);
-      return Result.success(pageInfo.getRecords(), pageInfo.getTotal());
+        Page<LoanDto> loanDtoPage = new Page<>(current,size);
+        Page<LoanDto> pageInfo = loanService.queryAllLoan(loanDtoPage);
+        return Result.success(pageInfo.getRecords(), pageInfo.getTotal());
 
-  }
-     @ApiOperation("借款新增")
-     @PostMapping("/insertLoan")
-     public Result insertLoan(@RequestBody AddedLoanDto addedLoanDto){
+    }
+    @ApiOperation("借款新增")
+    @PostMapping("/insertLoan")
+    public Result insertLoan(@RequestBody AddedLoanDto addedLoanDto){
 
-         int insertLoan = loanService.insertLoan(addedLoanDto);
+        int insertLoan = loanService.insertLoan(addedLoanDto);
 
-         return Result.success(insertLoan);
+        return Result.success(insertLoan);
 
 
-
-     }
+    }
     @ApiOperation("关联客户下拉框，会返回客户名称及id")
     @GetMapping("/loanCustomer")
     public Result<List<LuoDto2>> loanCustomer(){
@@ -76,7 +75,7 @@ public class LoanController {
         return Result.success(orderService.queryOrder());
     }
 
-   @ApiOperation("关联商机下拉框，会返回商机名称及id")
+    @ApiOperation("关联商机下拉框，会返回商机名称及id")
     @GetMapping("/loanBusiness")
     public Result<List<LoanBusinessDto>> loanBusiness(){
 
@@ -85,14 +84,14 @@ public class LoanController {
 
 
 
-  @ApiOperation("获取详情")
-  @GetMapping("/queryAllDetail/{id}")
-  public Result<DetailDto> queryAllDetail(@PathVariable("id")Integer id) {
-    DetailDto detailDto = loanService.queryAllDetail(id);
+    @ApiOperation("获取详情")
+    @GetMapping("/queryAllDetail/{id}")
+    public Result<DetailDto> queryAllDetail(@PathVariable("id")Integer id) {
+        DetailDto detailDto = loanService.queryAllDetail(id);
 
-      return Result.success(detailDto);
+        return Result.success(detailDto);
 
-  }
+    }
     @ApiOperation("获取编辑详情")
     @GetMapping("/queryEdit/{id}")
     public Result<EditDto> queryEdit(@PathVariable("id") Integer id) {
@@ -101,18 +100,18 @@ public class LoanController {
     }
 
 
-  @ApiOperation("借款页面修改")
-  @PutMapping("/updateLoan")
-   public Result<AddedLoanDto> updateLoan(@RequestBody AddedLoanDto addedLoanDto){
-      int updateLoan = loanService.updateLoan(addedLoanDto);
-      if (updateLoan>0){
-          return Result.success();
-      }else {
-          return Result.failed();
-      }
+    @ApiOperation("借款页面修改")
+    @PutMapping("/updateLoan")
+    public Result<AddedLoanDto> updateLoan(@RequestBody AddedLoanDto addedLoanDto){
+        int updateLoan = loanService.updateLoan(addedLoanDto);
+        if (updateLoan>0){
+            return Result.success();
+        }else {
+            return Result.failed();
+        }
 
 
-   }
+    }
     @ApiOperation("审批状态下拉框，会返回审批状态及id")
     @GetMapping("/queryApprovalStatus")
     public Result<List<ApprovalStatusDto>> queryApprovalStatus(){
@@ -122,25 +121,26 @@ public class LoanController {
 
     @ApiOperation("借款页面关键词查询")
     @PostMapping("/queryLoanDynamic")
-   public Result<List<LoanDto>>  queryLoanDynamic(@RequestBody LoanDynamicDto loanDynamicDto){
+    public Result<List<LoanDto>>  queryLoanDynamic(@RequestBody LoanDynamicDto loanDynamicDto){
 
         List<LoanDto> loanDtoPage = loanService.queryLoanDynamic(loanDynamicDto);
 
         return Result.success(loanDtoPage);
-   }
+    }
 
-  @ApiOperation("借款页面删除")
-  @DeleteMapping("/deleteLoan/{id}")
-  public Result deleteLoan(@PathVariable("id")Long id){
+    @ApiOperation("借款页面删除")
+    @DeleteMapping("/deleteLoan/{id}")
+    public Result deleteLoan(@PathVariable("id")Long id){
 
-      boolean b = loanService.deleteLoan(id);
-      return Result.judge(b);
+        boolean b = loanService.deleteLoan(id);
+
+        return Result.judge(b);
 
 
-  }
-  @ApiOperation("借款页面批量删除")
-  @DeleteMapping("/deletebatch")
-  public Result deletebatch(@RequestBody List<Long> ids){
+    }
+    @ApiOperation("借款页面批量删除")
+    @DeleteMapping("/deletebatch")
+    public Result deletebatch(@RequestBody List<Long> ids){
 
         if (ids == null || ids.size() == 0){
 
@@ -152,5 +152,5 @@ public class LoanController {
         return Result.judge(b);
 
 
-  }
+    }
 }

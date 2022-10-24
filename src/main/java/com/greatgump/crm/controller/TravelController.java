@@ -50,13 +50,13 @@ public class TravelController {
         return Result.success(pageInfo.getRecords(), pageInfo.getTotal());
     }
 
-        @ApiOperation("出差新增")
-        @PostMapping("/insertTravel")
-        public Result insertTravel(@RequestBody AddedTravelDto addedTravelDto){
+    @ApiOperation("出差新增")
+    @PostMapping("/insertTravel")
+    public Result insertTravel(@RequestBody AddedTravelDto addedTravelDto){
 
-            int insertTravel = travelService.insertTravel(addedTravelDto);
+        int insertTravel = travelService.insertTravel(addedTravelDto);
 
-            return Result.success(insertTravel);
+        return Result.success(insertTravel);
 
 
     }
@@ -76,9 +76,9 @@ public class TravelController {
     @ApiOperation("获取详情")
     @GetMapping("/queryTravelDetails/{id}")
     public Result<TravelDetailDto> queryTravelDetails(@PathVariable("id")Integer id) {
-           TravelDetailDto travelDetailDto = travelService.queryTravelDetail(id);
+        TravelDetailDto travelDetailDto = travelService.queryTravelDetail(id);
 
-         return Result.success(travelDetailDto);
+        return Result.success(travelDetailDto);
     }
 
     @ApiOperation("获取编辑详情")
@@ -100,17 +100,17 @@ public class TravelController {
         List<TravelDto> travelDtoPage = travelService.queryTravelDynamic(travelDynamicDto);
         return Result.success(travelDtoPage);
     }
-        @ApiOperation("出差页面修改")
-        @PutMapping("/updateTravel")
-        public Result<AddedTravelDto> updateTravel(@RequestBody AddedTravelDto addedTravelDto){
-            int updateTravel = travelService.updateTravel(addedTravelDto);
-            if (updateTravel>0){
-                return Result.success();
-            }else {
-                return Result.failed();
-            }
-
+    @ApiOperation("出差页面修改")
+    @PutMapping("/updateTravel")
+    public Result<AddedTravelDto> updateTravel(@RequestBody AddedTravelDto addedTravelDto){
+        int updateTravel = travelService.updateTravel(addedTravelDto);
+        if (updateTravel>0){
+            return Result.success();
+        }else {
+            return Result.failed();
         }
+
+    }
 
     @ApiOperation("出差页面删除")
     @DeleteMapping("/deleteTravel/{id}")
@@ -126,6 +126,7 @@ public class TravelController {
     public Result deletebatch(@RequestBody List<Long> ids){
 
         if (ids == null || ids.size() == 0){
+
             return Result.failed("参数为空");
         }
 

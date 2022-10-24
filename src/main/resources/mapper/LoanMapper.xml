@@ -38,18 +38,28 @@
         SET customer_id=#{customerId},loan_amount =#{loanAmount},cause=#{cause},order_id = #{orderId},business_id = #{businessId}
         WHERE id=#{id};
     </update>
-    <delete id="deleteLoan">
-        DELETE FROM t_loan
-         WHERE id=#{id}
 
-    </delete>
+    <update id="deleteLoan">
+         UPDATE t_loan SET is_delete = 1 WHERE id = #{id}
+    </update>
+
+
+       <update id="deleteBatch">
+         UPDATE t_loan SET is_delete = 1
+           <where>
+               id IN
+             <foreach item="item" collection="ids" separator="," open="(" close=")">
+                 #{item}
+             </foreach>
+         </where>
+    </update>
 
 
 
     <select id="queryAllloans" resultMap="BaseResultMap">
         SELECT tl.id, tcs.id cid,tcs.customer_name,tl.loan_amount,tl.cause,tl.approval_status,tl.appplication_time,tu.id uid,tu.username
         FROM t_customer tcs,t_loan tl,t_user tu
-        WHERE tl.customer_id = tcs.id AND tl.user_id = tu.id
+        WHERE tl.customer_id = tcs.id AND tl.user_id = tu.id AND tl.is_delete = 0
     </select>
     <resultMap id="queryAllDetailMap" type="com.greatgump.crm.dto.DetailDto">
         <id column="id" property="id" />
@@ -81,6 +91,7 @@
         <id column="id" property="id"/>
         <result column="loan_amount" property="loanAmount"/>
         <result column="cause" property="cause"/>
+
         <association property="customerId" javaType="com.greatgump.crm.entity.Customer">
             <id column="cid" property="id"/>
             <result column="customer_name" property="customerName"/>

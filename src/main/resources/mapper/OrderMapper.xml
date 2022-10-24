@@ -78,6 +78,12 @@
 
     </resultMap>
 
+    <resultMap id="queryOrder" type="com.greatgump.crm.dto.LoanOrderDto">
+        <id column="id" property="id"/>
+        <result column="order_title" property="order_title"/>
+
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, order_no, order_title, customer_id, sale_id, business_id, product_id, oder_total, oder_status, upload_attachment_id, pay_methods, order_contract, owner_signer, owner_signer_phone, face_signer, face_signer_phone, order_date, total_res, total_ticket, remark, is_delete
@@ -117,4 +123,8 @@
             LIMIT ${(current-1) * size},${size}
         </if>
     </select>
+        <select id="queryOrder" resultMap="queryOrder">
+        SELECT id,order_title from t_order
+    </select>
+
 </mapper>

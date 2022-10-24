@@ -28,7 +28,11 @@ public interface TravelService extends IService<Travel> {
     int updateTravel(AddedTravelDto addedTravelDto);
 
     List<TravelDto> queryTravelDynamic(TravelDynamicDto travelDynamicDto);
-    boolean deleteTravel(Integer id);
+
+
+    boolean deleteTravel(Long id);
+
+    boolean deleteBatch(List<Long> ids);
 
 
 
