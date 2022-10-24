@@ -104,11 +104,14 @@
         from t_order where business_id in(select id from t_business where bussiness_title=#{bussinessTitle})
     </select>
     <select id="searchIneed" resultMap="listMap">
-        SELECT od.id,od.order_no,od.order_title,od.customer_id,cus.customer_name,us1.username AS saler,bus.bussiness_title,od.product_id,od.oder_total,od.oder_status,upl.upload_location,od.pay_methods,od.order_contract,us2.username AS owner_signer,od.owner_signer_phone,od.face_signer,od.face_signer_phone,od.order_date,od.total_res,od.total_ticket
+        SELECT od.id,od.order_no,od.order_title,cus.customer_name,us1.username AS saler,bus.bussiness_title,od.product_id,od.oder_total,od.oder_status,upl.upload_location,od.pay_methods,od.order_contract,us2.username AS owner_signer,od.owner_signer_phone,od.face_signer,od.face_signer_phone,od.order_date,od.total_res,od.total_ticket
         FROM t_order od INNER JOIN t_user us1 ON od.sale_id = us1.id INNER JOIN t_user us2 ON od.owner_signer = us2.id,t_customer cus ,t_business bus,t_upload_attachment upl
         WHERE od.customer_id = cus.id AND od.business_id = bus.id AND od.upload_attachment_id = upl.id
         <if test="title != null and title != ''">
-            AND order_title = #{title}
+            AND order_title LIKE "%"#{title}"%"
+        </if>
+        <if test="status != null &amp;status != null ">
+            AND oder_status =#{status}
         </if>
         <if test="start != null &amp;end != null ">
             AND order_date BETWEEN #{start} AND #{end}

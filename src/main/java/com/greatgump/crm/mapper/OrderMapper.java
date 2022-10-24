@@ -27,5 +27,5 @@ public interface OrderMapper extends BaseMapper<Order> {
 
     Page<Order> listIneed(Page<Order> offerListDtoPage);
 
-    Page<Order> searchIneed(OrderSearchDto orderSearchDto);
+    List<Order> searchIneed(OrderSearchDto orderSearchDto);
 }
