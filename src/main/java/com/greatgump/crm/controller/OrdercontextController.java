@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.greatgump.crm.dto.LuoDto2;
-import com.greatgump.crm.dto.BusinessTitleDto;
-import com.greatgump.crm.dto.OrderSearchDto;
-import com.greatgump.crm.dto.UserDto0;
+import com.greatgump.crm.dto.*;
 import com.greatgump.crm.entity.*;
 import com.greatgump.crm.service.*;
 import com.greatgump.crm.utils.Result;
@@ -164,10 +161,9 @@ public class OrdercontextController {
     }
 
     @ApiOperation("修改关联商品按钮")
-    @PostMapping("/crm/ordercontext/getproupdate/{id}/{current}/{size}/{orderid}")
-    private Result listPro1(@PathVariable("id") int id, @PathVariable("current") int current,@PathVariable("size") int size,@PathVariable("orderid")int orderid){
-
-        return Result.success(offerDetailsService.listBycompanyUpdate(id,current,size,orderid),offerDetailsService.listBycompanyCountUpdate(id,orderid));
+    @PostMapping("/crm/ordercontext/getproupdate")
+    private Result listPro1(@RequestBody OfferDetailsUpdateListDto dto){
+        return Result.success(offerDetailsService.listBycompanyUpdate(dto),offerDetailsService.listBycompanyCountUpdate(dto));
     }
 
     @ApiOperation("预编辑")
@@ -184,14 +180,14 @@ public class OrdercontextController {
 
     @ApiOperation("订单搜索")
     @PostMapping("/crm/ordercontext/list")
-    public Result<List<Order>> search(OrderSearchDto orderSearchDto){
-        Page<Order> offerListDtoPage1 = orderService.searchIneed(orderSearchDto);
-        return Result.success(offerListDtoPage1.getRecords(),offerListDtoPage1.getTotal());
+    public Result<List<Order>> search(@RequestBody OrderSearchDto orderSearchDto){
+        List<Order> offerListDtoPage1 = orderService.searchIneed(orderSearchDto);
+        return Result.success(offerListDtoPage1);
     }
 
     @ApiOperation("订单删除")
     @DeleteMapping("/crm/ordercontext/list")
     public Result delete(Long id){
-        return Result.success(orderService.removeById(id));
+        return Result.success(order11Service.removeById(id));
     }
 }
