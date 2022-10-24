@@ -45,10 +45,10 @@ public class LoanController {
   @ApiImplicitParams(value = {@ApiImplicitParam(name = "current",value ="当前页数",required = true),@ApiImplicitParam(name = "size",value = "每页的条数",required = true)})
   @GetMapping("/queryAllLoans/{current}/{size}")
   public Result<List<LoanDto>> queryAllLoans(@PathVariable("current") Integer current,@PathVariable("size") Integer size){
+
       Page<LoanDto> loanDtoPage = new Page<>(current,size);
       Page<LoanDto> pageInfo = loanService.queryAllLoan(loanDtoPage);
       return Result.success(pageInfo.getRecords(), pageInfo.getTotal());
-
 
   }
      @ApiOperation("借款新增")
@@ -65,18 +65,21 @@ public class LoanController {
     @ApiOperation("关联客户下拉框，会返回客户名称及id")
     @GetMapping("/loanCustomer")
     public Result<List<LuoDto2>> loanCustomer(){
+
         return Result.success(customerService.queryName());
     }
 
     @ApiOperation("关联订单下拉框，会返回订单名称及id")
     @GetMapping("/loanOrder")
     public Result<List<LoanOrderDto>> loanOrder(){
+
         return Result.success(orderService.queryOrder());
     }
 
    @ApiOperation("关联商机下拉框，会返回商机名称及id")
     @GetMapping("/loanBusiness")
     public Result<List<LoanBusinessDto>> loanBusiness(){
+
         return Result.success(businessService.queryBusiness());
     }
 
@@ -113,6 +116,7 @@ public class LoanController {
     @ApiOperation("审批状态下拉框，会返回审批状态及id")
     @GetMapping("/queryApprovalStatus")
     public Result<List<ApprovalStatusDto>> queryApprovalStatus(){
+
         return Result.success(approvalStatusService.queryApprovalStatus());
     }
 
@@ -121,7 +125,7 @@ public class LoanController {
    public Result<List<LoanDto>>  queryLoanDynamic(@RequestBody LoanDynamicDto loanDynamicDto){
 
         List<LoanDto> loanDtoPage = loanService.queryLoanDynamic(loanDynamicDto);
-//        Long count = Long.valueOf(loanService.count(loanDtoPage));
+
         return Result.success(loanDtoPage);
    }
 
@@ -137,13 +141,16 @@ public class LoanController {
   @ApiOperation("借款页面批量删除")
   @DeleteMapping("/deletebatch")
   public Result deletebatch(@RequestBody List<Long> ids){
-      // 1、非空校验
-        if (ids == null || ids.size() == 0){ // 执行这里面的 return执行将此方法执行结束
+
+        if (ids == null || ids.size() == 0){
+
             return Result.failed("参数为空");
         }
 
         boolean b = loanService.deleteBatch(ids);
 
         return Result.judge(b);
+
+
   }
 }

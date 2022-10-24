@@ -20,6 +20,9 @@ public class AddedTravelDto {
     @ApiModelProperty("关联客户")
     private Integer customerId;
 
+    @ApiModelProperty("关联订单")
+    private Integer orderId;
+
     @ApiModelProperty("相关附件")
     private String relevant;
 
@@ -41,20 +44,10 @@ public class AddedTravelDto {
     @ApiModelProperty("出差原因")
     private String cause;
 
-    @ApiModelProperty("出差人员")
-    private String travelers;
-
-    @ApiModelProperty("提交时间")
-    private Date submission_time;
-
     @ApiModelProperty("审批状态（1表示已通过，2表示待审批，0表示已驳回）")
     private Integer approvalStatus;
 
-    @ApiModelProperty("审批人员")
-    private String approver;
 
-    @ApiModelProperty("审批时间")
-    private Date approval_time;
 
 
 

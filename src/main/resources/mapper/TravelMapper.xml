@@ -15,9 +15,9 @@
         <result column="is_delete" property="isDelete" />
     </resultMap>
     <insert id="insertTravel" useGeneratedKeys="true" keyProperty="id">
-  INSERT INTO t_travel (id,customer_id,travel_days,cause,address,relevant,start_time,end_time,applicant,travelers,submission_time,approval_status,approver,approval_time)
-               VALUES(#{id},#{customerId},#{travelDays},#{cause},#{address},#{relevant},#{startTime},#{endTime},#{applicant},#{travelers},#{submission_time}
-               ,#{approvalStatus},#{approver},#{approval_time})
+  INSERT INTO t_travel (id,customer_id,order_id,travel_days,cause,address,relevant,start_time,end_time,applicant,approval_status)
+               VALUES(#{id},#{customerId},#{orderId},#{travelDays},#{cause},#{address},#{relevant},#{startTime},#{endTime},#{applicant},#{approvalStatus})
+
  </insert>
 
     <update id="updateTravel">

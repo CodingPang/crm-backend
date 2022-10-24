@@ -29,8 +29,8 @@
 
     </resultMap>
     <insert id="insertLoan" useGeneratedKeys="true" keyProperty="id">
-          insert into t_loan(customer_id,order_id,loan_amount,business_id,cause,submitted,relevant,dept_id,submission_time,approval_status,approver,approval_time,appplication_time,user_id)
-        values(#{customerId},#{orderId},#{loanAmount},#{businessId},#{cause},#{submitted},#{relevant},#{deptId},#{submission_time},#{approval_status},#{approver},#{approval_time},#{appplication_time},#{userId})
+          insert into t_loan(customer_id,order_id,loan_amount,business_id,cause,relevant,approval_status,appplication_time,user_id)
+        values(#{customerId},#{orderId},#{loanAmount},#{businessId},#{cause},#{relevant},#{approval_status},#{appplication_time},#{userId})
     </insert>
 
     <update id="updateLoan">

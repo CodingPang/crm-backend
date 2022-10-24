@@ -28,7 +28,5 @@ public class LoanDynamicDto implements Serializable {
     @ApiModelProperty("结束时间")
     private Date submission_time;
 
-    private int current;
 
-    private int size;
 }
