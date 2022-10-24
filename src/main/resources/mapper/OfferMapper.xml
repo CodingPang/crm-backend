@@ -55,7 +55,7 @@
         FROM t_offer offer ,t_customer cus,t_user us,t_contact cont
         WHERE offer.customer_id = cus.id  AND offer.saler_id = us.id AND offer.contacts_id = cont.id
         <if test="customerName != null and customerName != ''">
-            AND customer_name LIKE "%"#{customerName}"%"
+            AND customer_name = #{customerName}
         </if>
         <if test="start != null &amp;end != null ">
             AND offer.creation_date BETWEEN #{start} AND #{end}

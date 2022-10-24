@@ -1,6 +1,5 @@
 package com.greatgump.crm.service.impl;
 
-import com.greatgump.crm.dto.OfferDetailsUpdateListDto;
 import com.greatgump.crm.entity.OfferDetails;
 import com.greatgump.crm.mapper.OfferDetailsMapper;
 import com.greatgump.crm.service.OfferDetailsService;
@@ -45,12 +44,12 @@ public class OfferDetailsServiceImpl extends ServiceImpl<OfferDetailsMapper, Off
     }
 
     @Override
-    public List<OfferDetails> listBycompanyUpdate(OfferDetailsUpdateListDto dto) {
-        return offerDetailsMapper.listBycompanyUpdate(dto);
+    public List<OfferDetails> listBycompanyUpdate(int id, int current, int size, int orderid) {
+        return offerDetailsMapper.listBycompanyUpdate(id,current,size,orderid);
     }
 
     @Override
-    public Long listBycompanyCountUpdate(OfferDetailsUpdateListDto dto) {
-        return offerDetailsMapper.listBycompanyCountUpdate(dto);
+    public Long listBycompanyCountUpdate(int id, int orderid) {
+        return offerDetailsMapper.listBycompanyCountUpdate(id,orderid);
     }
 }
